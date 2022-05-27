@@ -15,13 +15,6 @@ var (
 	varsFile   string
 )
 
-// type MachineConfig struct {
-// 	Controlplane struct {
-// 		Endpoint      string `yaml:"endpoint"`
-// 		ConfigPatches patch.JsonPatch `yaml:"configPatches"`
-// 	} `yaml:"controlplane"`
-// }
-
 var (
 	genconfigCmd = &cobra.Command{
 		Use:   "genconfig",
@@ -39,30 +32,13 @@ var (
 			var m config.TalhelperConfig
 
 			yaml.Unmarshal(data, &m)
-			// cpPatches, _ := json.Marshal(m.Controlplane.ConfigPatches)
-			// fmt.Println(string(cpPatches))
 
 			fmt.Println("Controlplane patches are: ", m.ControlPlane.ConfigPatches)
-
-			// patch, _ := json.Marshal(m.ControlPlane.ConfigPatches)
 
 			err = m.GenerateConfig(outDir)
 			if err != nil {
 				fmt.Println(err)
 			}
-			// marshaledCfgJson, _ := yaml.YAMLToJSON(marshaledCfg)
-			//
-			// decoded, _ := jsonpatch.DecodePatch(patch)
-			// final, _ := decoded.Apply(marshaledCfgJson)
-			// // fmt.Println(string(marshaledCfg))
-			//
-			// marshaledCfgYaml, _ := yaml.JSONToYAML(final)
-			// fmt.Println(string(marshaledCfgYaml))
-			//
-			// clientCfg, _ := generate.Talosconfig(input, generate.WithEndpointList([]string{"172.0.0.1", "172.0.0.2"}))
-			// marshaledClientCfg, _ := clientCfg.Bytes()
-			// fmt.Println(string(marshaledClientCfg))
-			// fmt.Println(out)
 		},
 	}
 )
