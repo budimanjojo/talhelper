@@ -66,7 +66,7 @@ func (config TalhelperConfig) GenerateConfig(outputDir string) error {
 			return fmt.Errorf("failed to generate config for node %q: %s", node.Hostname, err)
 		}
 
-		cfgFile := outputDir + "/" + config.ClusterName + node.Hostname + ".yaml"
+		cfgFile := outputDir + "/" + config.ClusterName + "-" + node.Hostname + ".yaml"
 
 		patchedCfgFile, err := applyPatchFromYaml(patch, marshaledCfg)
 		if err != nil {
