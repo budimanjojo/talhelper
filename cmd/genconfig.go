@@ -2,7 +2,6 @@ package cmd
 
 import (
 	"fmt"
-	"os"
 
 	"github.com/budimanjojo/talhelper/pkg/config"
 	"github.com/spf13/cobra"
@@ -32,7 +31,7 @@ var (
 			fmt.Println("genconfig called")
 			fmt.Printf("configFile is %v, outDir is %v, varsFile is %v\n", configFile, outDir, varsFile)
 
-			data, err := os.ReadFile(configFile)
+			data, err := config.DecryptYamlWithSops(configFile)
 			if err != nil {
 				fmt.Println(err)
 			}

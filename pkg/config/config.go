@@ -7,7 +7,6 @@ type TalhelperConfig struct {
 	Nodes        []nodes                `yaml:"nodes"`
 	ControlPlane controlPlane           `yaml:"controlPlane"`
 	Worker       worker                 `yaml:"worker"`
-	Sops         map[string]interface{} `yaml:"sops"`
 }
 
 type nodes struct {

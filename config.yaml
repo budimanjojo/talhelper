@@ -1,31 +1,49 @@
 clusterName: home-cluster
 talosVersion: v1.0
-endpoint: "https://192.168.200.10:6443"
-
+endpoint: https://192.168.200.10:6443
 nodes:
-  - hostname: kmaster1
-    ipAddress: 192.168.200.11
-    installDisk: /dev/sda
-    controlPlane: true
-    domain: ""
-  - hostname: kmaster2
-    domain: ""
-    ipAddress: 192.168.200.12
-    installDisk: /dev/sda
-    controlPlane: true
-  - hostname: kworker1
-    domain: ""
-    ipAddress: 192.168.200.13
-    installDisk: /dev/sdb
-    controlPlane: false
-controlplane:
-  configPatches:
-    - op: add
-      path: /machine/kubelet/extraArgs
-      value:
-        rotate-server-certificates: "true"
-
+    - hostname: kmaster1
+      ipAddress: 192.168.200.11
+      installDisk: /dev/sda
+      controlPlane: true
+      domain: ""
+    - hostname: kmaster2
+      domain: ""
+      ipAddress: 192.168.200.12
+      installDisk: /dev/sda
+      controlPlane: true
+    - hostname: kworker1
+      domain: ""
+      ipAddress: 192.168.200.13
+      installDisk: /dev/sdb
+      controlPlane: false
+controlPlane:
+    configPatches:
+        - op: add
+          path: /machine/kubelet/extraArgs
+          value:
+            rotate-server-certificates: ENC[AES256_GCM,data:7HVgRg==,iv:9YZsENN2KAinWSqhDEQPuZ0sDmrgeR8AvmvPTk3xAk8=,tag:lMKWWHwVVyzmDawmq7HNIg==,type:str]
 worker:
-  configPatches:
-    - op: remove
-      path: /machine
+    configPatches:
+        - op: remove
+          path: /machine
+sops:
+    kms: []
+    gcp_kms: []
+    azure_kv: []
+    hc_vault: []
+    age:
+        - recipient: age1zeqkpfz7e3s207ynea0z0auc0mrct0pc7w4sh6j3d0c4qac3dahqj9ufdg
+          enc: |
+            -----BEGIN AGE ENCRYPTED FILE-----
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBlSE5ielJBbTVpSmtwek1B
+            RE04aXlKYzQxWWdhczJ4aWVPNVZNbVlTVmdFCnZZQnoySHozZFFSd1VNc0RjeHJB
+            bmFQZGpCMHdBT0hLL3FUcFBmVGFqU00KLS0tIG5Xck9yZGYvZmMvbiszSm5vSEJB
+            bWlzTGhydmFBNGNUTm9sbXlJdmZsMDQK8qvid56I3exYFfrXSPGfPgvNHqQ5u+kE
+            FuUXirV0GEvTvPlf42BLPMNxwa61FrMapedIsZzZliovO0OqVhqQRA==
+            -----END AGE ENCRYPTED FILE-----
+    lastmodified: "2022-05-27T10:13:26Z"
+    mac: ENC[AES256_GCM,data:hf6K89e9j7Sop2VRsS59hfViNlTeTriFDdRVukJSVl6uzKZa/MnPvykeNx0kYBCHk307jraqiRjVzE7t5FvTeVVE2W0OtSLv+unjzm6/PaDIvwFc67skImfH53MmmEmFCEZwdL2xOlm3qB0+I5awhDM6VCmS7ShioijKC6s6whM=,iv:6xW81qdZlmaw8zEeMpgCFXvMdZrFfcUy3b10q5ICt6A=,tag:612HpqbXSP0MGNb8ovyw5A==,type:str]
+    pgp: []
+    encrypted_regex: value
+    version: 3.7.3
