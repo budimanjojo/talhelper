@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"fmt"
+	"log"
 
 	"github.com/budimanjojo/talhelper/pkg/config"
 	"github.com/spf13/cobra"
@@ -20,24 +20,21 @@ var (
 		Use:   "genconfig",
 		Short: "Generate Talos cluster config YAML file",
 		Run: func(cmd *cobra.Command, args []string) {
-			// TODO
-			fmt.Println("genconfig called")
-			fmt.Printf("configFile is %v, outDir is %v, varsFile is %v\n", configFile, outDir, varsFile)
-
 			data, err := config.DecryptYamlWithSops(configFile)
 			if err != nil {
-				fmt.Println(err)
+				log.Fatalf("failed to decrypt/read file: %s", err)
 			}
 
 			var m config.TalhelperConfig
 
-			yaml.Unmarshal(data, &m)
-
-			fmt.Println("Controlplane patches are: ", m.ControlPlane.ConfigPatches)
+			err = yaml.Unmarshal(data, &m)
+			if err != nil {
+				log.Fatalf("failed to unmarshal data: %s", err)
+			}
 
 			err = m.GenerateConfig(outDir)
 			if err != nil {
-				fmt.Println(err)
+				log.Fatalf("failed to generate talos config: %s", err)
 			}
 		},
 	}
