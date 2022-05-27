@@ -66,7 +66,8 @@ func (config TalhelperConfig) GenerateConfig(outputDir string) error {
 			return fmt.Errorf("failed to generate config for node %q: %s", node.Hostname, err)
 		}
 
-		cfgFile := outputDir + "/" + config.ClusterName + "-" + node.Hostname + ".yaml"
+		fileName := config.ClusterName + "-" + node.Hostname + ".yaml"
+		cfgFile := outputDir + "/" + fileName
 
 		patchedCfgFile, err := applyPatchFromYaml(patch, marshaledCfg)
 		if err != nil {
@@ -76,6 +77,11 @@ func (config TalhelperConfig) GenerateConfig(outputDir string) error {
 		err = dumpConfig(cfgFile, patchedCfgFile)
 		if err != nil {
 			return fmt.Errorf("failed to dump config for node %q: %s", node.Hostname, err)
+		}
+
+		err = createGitIgnore(outputDir, fileName)
+		if err != nil {
+			return fmt.Errorf("failed to create gitignore file for node %q: %s", node.Hostname, err)
 		}
 
 		fmt.Printf("generated config for %s in %s\n", node.Hostname, cfgFile)
@@ -96,9 +102,15 @@ func (config TalhelperConfig) GenerateConfig(outputDir string) error {
 		return fmt.Errorf("failed to generate client config: %s", err)
 	}
 
-	err = dumpConfig(outputDir+"/talosconfig", marshaledClientCfg)
+	fileName := "talosconfig"
+	err = dumpConfig(outputDir+"/" + fileName, marshaledClientCfg)
 	if err != nil {
 		return fmt.Errorf("failed to dump client config: %s", err)
+	}
+
+	err = createGitIgnore(outputDir, fileName)
+	if err != nil {
+		return fmt.Errorf("failed to create client config gitignore file: %s", err)
 	}
 
 	fmt.Printf("generated client config in %s\n", outputDir+"/talosconfig")
