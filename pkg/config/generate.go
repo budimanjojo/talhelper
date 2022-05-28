@@ -20,47 +20,15 @@ func (config TalhelperConfig) GenerateConfig(outputDir string) error {
 	}
 
 	for _, node := range config.Nodes {
-		var cfg *v1alpha1.Config
-		var patch []byte
-
-		switch node.ControlPlane {
-		case true:
-			cfg, err = generate.Config(machine.TypeControlPlane, input)
-			if err != nil {
-				return fmt.Errorf("failed to generate config for node %q: %s", node.Hostname, err)
-			}
-			patch, err = json.Marshal(config.ControlPlane.ConfigPatches)
-			if err != nil {
-				return fmt.Errorf("failed to decode patch for node %q: %s", node.Hostname, err)
-			}
-		case false:
-			cfg, err = generate.Config(machine.TypeWorker, input)
-			if err != nil {
-				return fmt.Errorf("failed to generate config for node %q: %s", node.Hostname, err)
-			}
-			patch, err = json.Marshal(config.ControlPlane.ConfigPatches)
-			if err != nil {
-				return fmt.Errorf("failed to decode patch for node %q: %s", node.Hostname, err)
-			}
-		}
-
-		cfg.MachineConfig.MachineInstall.InstallDisk = node.InstallDisk
-		cfg.MachineConfig.MachineNetwork.NetworkHostname = node.Hostname
-
-		marshaledCfg, err := cfg.Bytes()
-		if err != nil {
-			return fmt.Errorf("failed to generate config for node %q: %s", node.Hostname, err)
-		}
-
 		fileName := config.ClusterName + "-" + node.Hostname + ".yaml"
 		cfgFile := outputDir + "/" + fileName
 
-		patchedCfgFile, err := applyPatchFromYaml(patch, marshaledCfg)
+		patchedCfg, err := createTalosClusterConfig(node, config, input)
 		if err != nil {
-			return fmt.Errorf("failed to apply patch for node %q: %s", node.Hostname, err)
+			return fmt.Errorf("failed to create Talos cluster config: %s", err)
 		}
 
-		err = dumpConfig(cfgFile, patchedCfgFile)
+		err = dumpConfig(cfgFile, patchedCfg)
 		if err != nil {
 			return fmt.Errorf("failed to dump config for node %q: %s", node.Hostname, err)
 		}
@@ -73,19 +41,9 @@ func (config TalhelperConfig) GenerateConfig(outputDir string) error {
 		fmt.Printf("generated config for %s in %s\n", node.Hostname, cfgFile)
 	}
 
-	var endpointList []string
-	for _, node := range config.Nodes {
-		endpointList = append(endpointList, node.IPAddress)
-	}
-
-	clientCfg, err := generate.Talosconfig(input, generate.WithEndpointList(endpointList))
+	marshaledClientCfg, err := createTalosClientConfig(config, input)
 	if err != nil {
-		return fmt.Errorf("failed to generate client config: %s", err)
-	}
-
-	marshaledClientCfg, err := clientCfg.Bytes()
-	if err != nil {
-		return fmt.Errorf("failed to generate client config: %s", err)
+		return fmt.Errorf("failed to create Talos client config: %s", err)
 	}
 
 	fileName := "talosconfig"
@@ -125,8 +83,67 @@ func parseTalosInput(config TalhelperConfig) (*generate.Input, error) {
 	}
 
 	return input, nil
-
 }
+
+func createTalosClusterConfig(node nodes, config TalhelperConfig, input *generate.Input) (CfgFile []byte, err error) {
+	var cfg *v1alpha1.Config
+	var patch []byte
+
+	switch node.ControlPlane {
+	case true:
+		cfg, err = generate.Config(machine.TypeControlPlane, input)
+		if err != nil {
+			return nil, err
+		}
+		patch, err = json.Marshal(config.ControlPlane.ConfigPatches)
+		if err != nil {
+			return nil, err
+		}
+	case false:
+		cfg, err = generate.Config(machine.TypeWorker, input)
+		if err != nil {
+			return nil, err
+		}
+		patch, err = json.Marshal(config.ControlPlane.ConfigPatches)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	cfg.MachineConfig.MachineInstall.InstallDisk = node.InstallDisk
+	cfg.MachineConfig.MachineNetwork.NetworkHostname = node.Hostname
+
+	marshaledCfg, err := cfg.Bytes()
+	if err != nil {
+		return nil, err
+	}
+
+	patchedCfg, err := applyPatchFromYaml(patch, marshaledCfg)
+	if err != nil {
+		return nil, err
+	}
+	return patchedCfg, nil
+}
+
+func createTalosClientConfig(config TalhelperConfig, input *generate.Input) ([]byte, error) {
+	var endpointList []string
+	for _, node := range config.Nodes {
+		endpointList = append(endpointList, node.IPAddress)
+	}
+
+	clientCfg, err := generate.Talosconfig(input, generate.WithEndpointList(endpointList))
+	if err != nil {
+		return nil, err
+	}
+
+	marshaledClientCfg, err := clientCfg.Bytes()
+	if err != nil {
+		return nil, err
+	}
+
+	return marshaledClientCfg, nil
+}
+
 
 func dumpConfig(filePath string, marshaledCfg []byte) error {
 	dirName := filepath.Dir(filePath)
