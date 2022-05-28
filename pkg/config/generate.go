@@ -14,23 +14,9 @@ import (
 )
 
 func (config TalhelperConfig) GenerateConfig(outputDir string) error {
-	const (
-		kubernetesVersion = constants.DefaultKubernetesVersion
-	)
-
-	versionContract, err := talosconfig.ParseContractFromVersion(config.TalosVersion)
+	input, err := parseTalosInput(config)
 	if err != nil {
-		return fmt.Errorf("failed to parse version contract: %s", err)
-	}
-
-	secrets, err := generate.NewSecretsBundle(generate.NewClock(), generate.WithVersionContract(versionContract))
-	if err != nil {
-		return fmt.Errorf("failed to generate secrets bundle: %s", err)
-	}
-
-	input, err := generate.NewInput(config.ClusterName, config.Endpoint, kubernetesVersion, secrets, generate.WithVersionContract(versionContract))
-	if err != nil {
-		return fmt.Errorf("failed to generate input: %s", err)
+		return fmt.Errorf("failed to generate talos input: %s", err)
 	}
 
 	for _, node := range config.Nodes {
@@ -116,6 +102,30 @@ func (config TalhelperConfig) GenerateConfig(outputDir string) error {
 	fmt.Printf("generated client config in %s\n", outputDir+"/talosconfig")
 
 	return nil
+}
+
+func parseTalosInput(config TalhelperConfig) (*generate.Input, error) {
+	const (
+		kubernetesVersion = constants.DefaultKubernetesVersion
+	)
+
+	versionContract, err := talosconfig.ParseContractFromVersion(config.TalosVersion)
+	if err != nil {
+		return nil, err
+	}
+
+	secrets, err := generate.NewSecretsBundle(generate.NewClock(), generate.WithVersionContract(versionContract))
+	if err != nil {
+		return nil, err
+	}
+
+	input, err := generate.NewInput(config.ClusterName, config.Endpoint, kubernetesVersion, secrets, generate.WithVersionContract(versionContract))
+	if err != nil {
+		return nil, err
+	}
+
+	return input, nil
+
 }
 
 func dumpConfig(filePath string, marshaledCfg []byte) error {
