@@ -47,7 +47,7 @@ func (config TalhelperConfig) GenerateConfig(outputDir string) error {
 	}
 
 	fileName := "talosconfig"
-	err = dumpConfig(outputDir+"/" + fileName, marshaledClientCfg)
+	err = dumpConfig(outputDir+"/"+fileName, marshaledClientCfg)
 	if err != nil {
 		return fmt.Errorf("failed to dump client config: %s", err)
 	}
@@ -143,7 +143,6 @@ func createTalosClientConfig(config TalhelperConfig, input *generate.Input) ([]b
 
 	return marshaledClientCfg, nil
 }
-
 
 func dumpConfig(filePath string, marshaledCfg []byte) error {
 	dirName := filepath.Dir(filePath)
