@@ -120,9 +120,6 @@ func createTalosClusterConfig(node nodes, config TalhelperConfig, input *generat
 		return nil, err
 	}
 
-	fmt.Println(string(marshaledPatch))
-	fmt.Println("")
-
 	patchedCfg, err := applyPatchFromYaml(marshaledPatch, marshaledCfg)
 	if err != nil {
 		return nil, err
