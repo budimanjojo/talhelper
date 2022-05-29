@@ -18,15 +18,32 @@ nodes:
       installDisk: /dev/sdb
       controlPlane: false
 controlPlane:
-    configPatches:
+    patches:
         - op: add
           path: /machine/kubelet/extraArgs
           value:
-            rotate-server-certificates: ENC[AES256_GCM,data:7HVgRg==,iv:9YZsENN2KAinWSqhDEQPuZ0sDmrgeR8AvmvPTk3xAk8=,tag:lMKWWHwVVyzmDawmq7HNIg==,type:str]
+            rotate-server-certificates: "true"
+        - op: add
+          path: /cluster
+          value:
+            aaaaa: bbbbb
+        - op: add
+          path: /cluster/clustername
+          value: hommm
+    encryptedPatches:
+        - op: ENC[AES256_GCM,data:aqvvLoCq,iv:6a8GjbnStLiqHj2+UTvuiwkSZZeV7Jp2onQvtw5l/4g=,tag:PgCorMe0nCigzUSA6IAbqw==,type:str]
+          path: ENC[AES256_GCM,data:109og62rwXo=,iv:bKj9yfl6SbuziCBJX2ISiQI1HK3DBjgYyCYqpnDaK28=,tag:tiQmMeCusF9lOuyswBA8/g==,type:str]
+          value:
+            aaaaa: ENC[AES256_GCM,data:FAsaZvM=,iv:GHPx569WV3s3wGp6oWpix9lKwL3P0GqlvuvJIgzKVmU=,tag:Phm3ZwZFk3oGPqj8lJzmMw==,type:str]
 worker:
-    configPatches:
-        - op: remove
-          path: /machine
+    patches:
+        - op: add
+          path: /machine/new
+          value: from patches
+    encryptedPatches:
+        - op: ENC[AES256_GCM,data:5xMi,iv:Uqaj76bNdPTEMt8cna3wQqsi4BgjljVwEIFMfUIXsvA=,tag:O2BsG8T8gG+Sw2Yw5LLqfQ==,type:str]
+          path: ENC[AES256_GCM,data:54bUrRYrh0ANHVGC,iv:rNN6LLVVflv4PzXmSFq1HpspH/t5pv04HiojVHtoeRI=,tag:Q4ChEBsyHbTT1loGVFy5ww==,type:str]
+          value: ENC[AES256_GCM,data:y4ueTPk6gZK1F8wpi6Q1TXocxuUl,iv:u3kx5N1d4J//dTMizaSpIjq6F0vgzojZuRp1qR+akgA=,tag:T4jejHLyfHgubXc4s4FSwA==,type:str]
 sops:
     kms: []
     gcp_kms: []
@@ -36,14 +53,14 @@ sops:
         - recipient: age1zeqkpfz7e3s207ynea0z0auc0mrct0pc7w4sh6j3d0c4qac3dahqj9ufdg
           enc: |
             -----BEGIN AGE ENCRYPTED FILE-----
-            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBlSE5ielJBbTVpSmtwek1B
-            RE04aXlKYzQxWWdhczJ4aWVPNVZNbVlTVmdFCnZZQnoySHozZFFSd1VNc0RjeHJB
-            bmFQZGpCMHdBT0hLL3FUcFBmVGFqU00KLS0tIG5Xck9yZGYvZmMvbiszSm5vSEJB
-            bWlzTGhydmFBNGNUTm9sbXlJdmZsMDQK8qvid56I3exYFfrXSPGfPgvNHqQ5u+kE
-            FuUXirV0GEvTvPlf42BLPMNxwa61FrMapedIsZzZliovO0OqVhqQRA==
+            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBzaGFRdkVKa1l6Q1BnazZ2
+            Y0FFV1RncExUL2VhUHBuVGVyUm5HdG8yMHlNCm5qR0JRMXBlNDdXa1pOTjR6bjN2
+            TnlBQkVkMVNBcFZ5THJFTSsrdGNhdmMKLS0tIHYzVGd6cjgvSGhFdk5uMTg3UXVX
+            R0NPUVF3M2oyMzR4NHNMRVcvQ1BGRjAKNXHWcLGCqb6XnMUZY57OTyAq5kaYW0wM
+            fc97zk6rh/TanFRgBo296fSYtMiieNMqFUv/IayHdXJ8yFv/sDJjeA==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2022-05-27T10:13:26Z"
-    mac: ENC[AES256_GCM,data:hf6K89e9j7Sop2VRsS59hfViNlTeTriFDdRVukJSVl6uzKZa/MnPvykeNx0kYBCHk307jraqiRjVzE7t5FvTeVVE2W0OtSLv+unjzm6/PaDIvwFc67skImfH53MmmEmFCEZwdL2xOlm3qB0+I5awhDM6VCmS7ShioijKC6s6whM=,iv:6xW81qdZlmaw8zEeMpgCFXvMdZrFfcUy3b10q5ICt6A=,tag:612HpqbXSP0MGNb8ovyw5A==,type:str]
+    lastmodified: "2022-05-29T14:59:06Z"
+    mac: ENC[AES256_GCM,data:ewqN6amkTExth5IZiQK+ReBd7OTyLZgXYkhVlGGud/Lm1xTyA+d9q2DfD3QpEDQ2AXdrrITxY9FlEjjUg1bNxvbTYEXB0t8WXcdZXskgk6yvlTn2mAmHlfHzNP9rT0mKRdsr7fny6Fkk7NmfeBzgGWUlZXl36+jHwUtrF0M5nKY=,iv:uddW4p5MBRl0KMIz6BdOBigPThFiahk4DMoehrHMRqI=,tag:72KKv3PUvzlav97KN6A5xg==,type:str]
     pgp: []
-    encrypted_regex: value
+    encrypted_regex: encryptedPatches
     version: 3.7.3

@@ -33,3 +33,19 @@ func applyPatchFromYaml(patch, yaml []byte) (output []byte, err error) {
 	
 	return finalYaml, nil
 }
+
+func mergePatchSlices(patch1, patch2 []map[string]interface{}) []map[string]interface{} {
+	var result []map[string]interface{}
+
+	if patch1 == nil {
+		return patch2
+	}
+
+	if patch2 != nil {
+		for _, v := range patch2 {
+			result = append(patch1, v)
+		}
+		return result
+	}
+	return patch1
+}

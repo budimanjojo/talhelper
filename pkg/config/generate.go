@@ -87,7 +87,10 @@ func parseTalosInput(config TalhelperConfig) (*generate.Input, error) {
 
 func createTalosClusterConfig(node nodes, config TalhelperConfig, input *generate.Input) (CfgFile []byte, err error) {
 	var cfg *v1alpha1.Config
-	var patch []byte
+
+	controlPlanePatch := mergePatchSlices(config.ControlPlane.Patches, config.ControlPlane.EncryptedPatches)
+	workerPatch := mergePatchSlices(config.Worker.Patches, config.Worker.EncryptedPatches)
+	var patch []map[string]interface{}
 
 	switch node.ControlPlane {
 	case true:
@@ -95,19 +98,13 @@ func createTalosClusterConfig(node nodes, config TalhelperConfig, input *generat
 		if err != nil {
 			return nil, err
 		}
-		patch, err = json.Marshal(config.ControlPlane.ConfigPatches)
-		if err != nil {
-			return nil, err
-		}
+		patch = controlPlanePatch
 	case false:
 		cfg, err = generate.Config(machine.TypeWorker, input)
 		if err != nil {
 			return nil, err
 		}
-		patch, err = json.Marshal(config.ControlPlane.ConfigPatches)
-		if err != nil {
-			return nil, err
-		}
+		patch = workerPatch
 	}
 
 	cfg.MachineConfig.MachineInstall.InstallDisk = node.InstallDisk
@@ -118,7 +115,15 @@ func createTalosClusterConfig(node nodes, config TalhelperConfig, input *generat
 		return nil, err
 	}
 
-	patchedCfg, err := applyPatchFromYaml(patch, marshaledCfg)
+	marshaledPatch, err := json.Marshal(patch)
+	if err != nil {
+		return nil, err
+	}
+
+	fmt.Println(string(marshaledPatch))
+	fmt.Println("")
+
+	patchedCfg, err := applyPatchFromYaml(marshaledPatch, marshaledCfg)
 	if err != nil {
 		return nil, err
 	}
