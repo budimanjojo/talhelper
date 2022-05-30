@@ -113,7 +113,7 @@ Don't forget to give the project a star! Thanks again!
 
 ## License
 
-Distributed under the BSD-3 License. See `LICENSE.txt` for more information.
+Distributed under the BSD-3 License. See [LICENSE](./LICENSE) for more information.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
