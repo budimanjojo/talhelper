@@ -1,10 +1,28 @@
 package config
 
 import (
+	"fmt"
 	"os"
 
 	ignore "github.com/sabhiram/go-gitignore"
 )
+
+func (config TalhelperConfig) GenerateGitignore(outputDir string) error {
+	for _, node := range config.Nodes {
+		fileName := config.ClusterName + "-" + node.Hostname + ".yaml"
+		err := createGitIgnore(outputDir, fileName)
+		if err != nil {
+			return err
+		}
+	}
+	fileName := "talosconfig"
+	err := createGitIgnore(outputDir, fileName)
+	if err != nil {
+		return err
+	}
+	fmt.Printf("generated .gitignore file in %s/.gitignore\n", outputDir)
+	return nil
+}
 
 func createGitIgnore(path, line string) error {
 	ignorefPath := path + "/.gitignore"
