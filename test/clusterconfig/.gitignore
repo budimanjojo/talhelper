@@ -1,0 +1,4 @@
+home-cluster-kmaster1.yaml
+home-cluster-kmaster2.yaml
+home-cluster-kworker1.yaml
+talosconfig
