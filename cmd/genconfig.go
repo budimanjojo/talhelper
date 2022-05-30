@@ -10,9 +10,9 @@ import (
 )
 
 var (
-	outDir     string
-	configFile string
-	varsFile   string
+	outDir      string
+	configFile  string
+	noGitignore bool
 )
 
 var (
@@ -36,6 +36,13 @@ var (
 			if err != nil {
 				log.Fatalf("failed to generate talos config: %s", err)
 			}
+
+			if !noGitignore {
+				err = m.GenerateGitignore(outDir)
+				if err != nil {
+					log.Fatalf("failed to generate gitignore file: %s", err)
+				}
+			}
 		},
 	}
 )
@@ -45,5 +52,5 @@ func init() {
 
 	genconfigCmd.Flags().StringVarP(&outDir, "out-dir", "o", "./clusterconfig", "Directory where to dump the generated files")
 	genconfigCmd.Flags().StringVarP(&configFile, "config-file", "c", "config.yaml", "File containing configurations for nodes")
-	genconfigCmd.Flags().StringVarP(&varsFile, "vars-file", "f", "vars.yaml", "File containing variables to load")
+	genconfigCmd.Flags().BoolVar(&noGitignore, "no-gitignore", false, "Create/update gitignore file too")
 }

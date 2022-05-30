@@ -33,11 +33,6 @@ func (config TalhelperConfig) GenerateConfig(outputDir string) error {
 			return fmt.Errorf("failed to dump config for node %q: %s", node.Hostname, err)
 		}
 
-		err = createGitIgnore(outputDir, fileName)
-		if err != nil {
-			return fmt.Errorf("failed to create gitignore file for node %q: %s", node.Hostname, err)
-		}
-
 		fmt.Printf("generated config for %s in %s\n", node.Hostname, cfgFile)
 	}
 
@@ -52,13 +47,25 @@ func (config TalhelperConfig) GenerateConfig(outputDir string) error {
 		return fmt.Errorf("failed to dump client config: %s", err)
 	}
 
-	err = createGitIgnore(outputDir, fileName)
-	if err != nil {
-		return fmt.Errorf("failed to create client config gitignore file: %s", err)
-	}
-
 	fmt.Printf("generated client config in %s\n", outputDir+"/talosconfig")
 
+	return nil
+}
+
+func (config TalhelperConfig) GenerateGitignore(outputDir string) error {
+	for _, node := range config.Nodes {
+		fileName := config.ClusterName + "-" + node.Hostname + ".yaml"
+		err := createGitIgnore(outputDir, fileName)
+		if err != nil {
+			return err
+		}
+	}
+	fileName := "talosconfig"
+	err := createGitIgnore(outputDir, fileName)
+	if err != nil {
+		return err
+	}
+	fmt.Printf("generated .gitignore file in %s/.gitignore\n", outputDir)
 	return nil
 }
 
