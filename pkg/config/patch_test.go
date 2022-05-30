@@ -1,7 +1,6 @@
 package config
 
 import (
-	"fmt"
 	"reflect"
 	"testing"
 
@@ -9,7 +8,6 @@ import (
 )
 
 func TestMergePatchSlices(t *testing.T) {
-	// expected := map{[op:add path:/a/b value:c]} map[op:remove path:/a/b]}]
 	var test []map[string]interface{}
 	map1 := map[string]interface{}{"op": "add", "path": "/a/b", "value": "c"}
 	map2 := map[string]interface{}{"op": "remove", "path": "/a/b"}
@@ -50,8 +48,6 @@ func TestApplyPatchFromYaml(t *testing.T) {
 `
 
 	result, _ := applyPatchFromYaml([]byte(patch), []byte(file))
-	fmt.Println(expected)
-	fmt.Println(string(result))
 	if expected != string(result) {
 		t.Errorf("got %s, want %s", expected, string(result))
 
