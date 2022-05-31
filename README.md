@@ -43,6 +43,8 @@ Inspired by a python script written by [@bjw-s](https://github.com/bjw-s) [here]
 
 This tool will:
 * Read and decrypt(with [SOPS](https://github.com/mozilla/sops), if needed) your `talconfig.yaml`
+* Read and decrypt(with [SOPS](https://github.com/mozilla/sops), if needed) your `talenv.yaml`
+* Do [envsubst](https://linux.die.net/man/1/envsubst) if needed
 * Generate Talos cluster and config yaml files for you based on your `talconfig.yaml`
 * Generate `.gitignore` file so you don't commit your secret to the public
 
@@ -79,6 +81,7 @@ Available Commands:
 
 Flags:
   -c, --config-file string   File containing configurations for nodes (default "talconfig.yaml")
+  -e, --env-file string      File containing env variables for config file (default "talenv.yaml")
   -h, --help                 help for genconfig
       --no-gitignore         Create/update gitignore file too
   -o, --out-dir string       Directory where to dump the generated files (default "./clusterconfig")

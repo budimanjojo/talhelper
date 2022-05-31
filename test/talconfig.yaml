@@ -2,7 +2,7 @@ clusterName: home-cluster
 talosVersion: v1.0
 endpoint: https://192.168.200.10:6443
 nodes:
-    - hostname: kmaster1
+    - hostname: ${hostname1}
       ipAddress: 192.168.200.11
       installDisk: /dev/sda
       controlPlane: true
@@ -59,8 +59,8 @@ sops:
             R0NPUVF3M2oyMzR4NHNMRVcvQ1BGRjAKNXHWcLGCqb6XnMUZY57OTyAq5kaYW0wM
             fc97zk6rh/TanFRgBo296fSYtMiieNMqFUv/IayHdXJ8yFv/sDJjeA==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2022-05-29T14:59:06Z"
-    mac: ENC[AES256_GCM,data:ewqN6amkTExth5IZiQK+ReBd7OTyLZgXYkhVlGGud/Lm1xTyA+d9q2DfD3QpEDQ2AXdrrITxY9FlEjjUg1bNxvbTYEXB0t8WXcdZXskgk6yvlTn2mAmHlfHzNP9rT0mKRdsr7fny6Fkk7NmfeBzgGWUlZXl36+jHwUtrF0M5nKY=,iv:uddW4p5MBRl0KMIz6BdOBigPThFiahk4DMoehrHMRqI=,tag:72KKv3PUvzlav97KN6A5xg==,type:str]
+    lastmodified: "2022-05-31T08:50:51Z"
+    mac: ENC[AES256_GCM,data:x1I5YOIJT+AdV+sZuTkz3sh7Hvf4DRPo+HRkGxos6Af+++qf8c3RUD+w1At40rryZ7bs40bud+hhGU4FHMgxoozVp5ZYygx5897USbw9Ulwc66Z6Eo8fRBw4j5iLrAHfOluQizwicfq4eRK6SqDg1NEDwUNAAQ6tyfz/way3kB8=,iv:4Zr2o49KnaN1n13rd6T/42IniaKOi8z9IY/fO8AS6tg=,tag:3/CI424ZTpG2MvQgUVrgjg==,type:str]
     pgp: []
     encrypted_regex: encryptedPatches
     version: 3.7.3

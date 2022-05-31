@@ -1,7 +1,9 @@
 package cmd
 
 import (
+	"errors"
 	"log"
+	"os"
 
 	"github.com/budimanjojo/talhelper/pkg/config"
 	"github.com/spf13/cobra"
@@ -13,6 +15,7 @@ var (
 	outDir      string
 	configFile  string
 	noGitignore bool
+	envFile     string
 )
 
 var (
@@ -20,14 +23,27 @@ var (
 		Use:   "genconfig",
 		Short: "Generate Talos cluster config YAML file",
 		Run: func(cmd *cobra.Command, args []string) {
-			data, err := config.DecryptYamlWithSops(configFile)
+			cf, err := config.DecryptYamlWithSops(configFile)
+			cfFile := &cf
 			if err != nil {
 				log.Fatalf("failed to decrypt/read file: %s", err)
 			}
 
+			if _, err := os.Stat(envFile); !errors.Is(err, os.ErrNotExist) {
+				env, err := config.DecryptYamlWithSops(envFile)
+				if err != nil {
+					log.Fatalf("failed to decrypt/read env file: %s", err)
+				}
+
+				*cfFile, err = config.SubstituteEnvFromYaml(env, cf)
+				if err != nil {
+					log.Fatalf("failed to substite env: %s", err)
+				}
+			}
+
 			var m config.TalhelperConfig
 
-			err = yaml.Unmarshal(data, &m)
+			err = yaml.Unmarshal(*cfFile, &m)
 			if err != nil {
 				log.Fatalf("failed to unmarshal data: %s", err)
 			}
@@ -52,5 +68,6 @@ func init() {
 
 	genconfigCmd.Flags().StringVarP(&outDir, "out-dir", "o", "./clusterconfig", "Directory where to dump the generated files")
 	genconfigCmd.Flags().StringVarP(&configFile, "config-file", "c", "talconfig.yaml", "File containing configurations for nodes")
+	genconfigCmd.Flags().StringVarP(&envFile, "env-file", "e", "talenv.yaml", "File containing env variables for config file")
 	genconfigCmd.Flags().BoolVar(&noGitignore, "no-gitignore", false, "Create/update gitignore file too")
 }
