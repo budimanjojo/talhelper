@@ -5,6 +5,30 @@ import (
 	yamljson "sigs.k8s.io/yaml"
 )
 
+func applyInlinePatchFromYaml(patch, yaml []byte) (output []byte, err error) {
+	jsonPatch, err := yamljson.YAMLToJSON(patch)
+	if err != nil {
+		return nil, err
+	}
+
+	jsonFile, err := yamljson.YAMLToJSON(yaml)
+	if err != nil {
+		return nil, err
+	}
+
+	finalJson, err := jsonpatch.MergePatch(jsonFile, jsonPatch)
+	if err != nil {
+		return nil, err
+	}
+
+	finalYaml, err := yamljson.JSONToYAML(finalJson)
+	if err != nil {
+		return nil, err
+	}
+	
+	return finalYaml, nil
+}
+
 func applyPatchFromYaml(patch, yaml []byte) (output []byte, err error) {
 	jsonPatch, err := yamljson.YAMLToJSON(patch)
 	if err != nil {

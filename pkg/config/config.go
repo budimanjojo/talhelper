@@ -20,9 +20,11 @@ type nodes struct {
 type controlPlane struct {
 	Patches []map[string]interface{} `yaml:"patches,omitempty"`
 	EncryptedPatches []map[string]interface{} `yaml:"encryptedPatches,omitempty"`
+	InlinePatch map[string]interface{} `yaml:"inlinePatches,omitempty"`
 }
 
 type worker struct {
 	Patches []map[string]interface{} `yaml:"patches,omitempty"`
 	EncryptedPatches []map[string]interface{} `yaml:"encryptedPatches,omitempty"`
+	InlinePatch map[string]interface{} `yaml:"inlinePatches,omitempty"`
 }

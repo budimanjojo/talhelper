@@ -35,6 +35,9 @@ controlPlane:
           path: ENC[AES256_GCM,data:109og62rwXo=,iv:bKj9yfl6SbuziCBJX2ISiQI1HK3DBjgYyCYqpnDaK28=,tag:tiQmMeCusF9lOuyswBA8/g==,type:str]
           value:
             aaaaa: ENC[AES256_GCM,data:FAsaZvM=,iv:GHPx569WV3s3wGp6oWpix9lKwL3P0GqlvuvJIgzKVmU=,tag:Phm3ZwZFk3oGPqj8lJzmMw==,type:str]
+    inlinePatches:
+        cluster:
+            secret: ${cluster_secret}
 worker:
     patches:
         - op: add
@@ -59,8 +62,8 @@ sops:
             R0NPUVF3M2oyMzR4NHNMRVcvQ1BGRjAKNXHWcLGCqb6XnMUZY57OTyAq5kaYW0wM
             fc97zk6rh/TanFRgBo296fSYtMiieNMqFUv/IayHdXJ8yFv/sDJjeA==
             -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2022-05-31T08:50:51Z"
-    mac: ENC[AES256_GCM,data:x1I5YOIJT+AdV+sZuTkz3sh7Hvf4DRPo+HRkGxos6Af+++qf8c3RUD+w1At40rryZ7bs40bud+hhGU4FHMgxoozVp5ZYygx5897USbw9Ulwc66Z6Eo8fRBw4j5iLrAHfOluQizwicfq4eRK6SqDg1NEDwUNAAQ6tyfz/way3kB8=,iv:4Zr2o49KnaN1n13rd6T/42IniaKOi8z9IY/fO8AS6tg=,tag:3/CI424ZTpG2MvQgUVrgjg==,type:str]
+    lastmodified: "2022-05-31T16:24:37Z"
+    mac: ENC[AES256_GCM,data:jvbkE8nqOHbg6KuM5xzqgJMKbOKKsgEHv6ZBm4xpp1aHDG5IPlD/CUXbOPEimfdlNTA2J3PKHAAOelbMNu5RLmV6jF0nS5ACBgnYdsV62y9ifEcJW4AuXsq9qHH6C8yywOCZ/hWBhqYsMBx4eURA0bAIwpCzvVJT3ZgsIsIaAao=,iv:DB7P6CzoeyCrgj1MF8LSLBFJ8j+luXCKLX5UF3HrlpQ=,tag:wlHG8/ff+O+M/EiaLEY+2w==,type:str]
     pgp: []
     encrypted_regex: encryptedPatches
     version: 3.7.3
