@@ -5,7 +5,7 @@ import (
 	yamljson "sigs.k8s.io/yaml"
 )
 
-func applyInlinePatchFromYaml(patch, yaml []byte) (output []byte, err error) {
+func ApplyInlinePatchFromYaml(patch, yaml []byte) (output []byte, err error) {
 	jsonPatch, err := yamljson.YAMLToJSON(patch)
 	if err != nil {
 		return nil, err

@@ -80,7 +80,7 @@ func createTalosClusterConfig(node nodes, config TalhelperConfig, input *generat
 			return nil, err
 		}
 
-		finalCfg, err := applyInlinePatchFromYaml(marshaledIPatch, patchedCfg)
+		finalCfg, err := ApplyInlinePatchFromYaml(marshaledIPatch, patchedCfg)
 		if err != nil {
 			return nil, err
 		}
