@@ -96,6 +96,7 @@ Usage:
 Flags:
   -c, --config-file string   File containing configurations for talhelper (default "talconfig.yaml")
   -h, --help                 help for gensecret
+  -p, --patch-configfile     Whether to generate inline patches into config file
 ```
 <p align="right">(<a href="#top">back to top</a>)</p>
 
