@@ -67,7 +67,7 @@ func init() {
 	rootCmd.AddCommand(genconfigCmd)
 
 	genconfigCmd.Flags().StringVarP(&outDir, "out-dir", "o", "./clusterconfig", "Directory where to dump the generated files")
-	genconfigCmd.Flags().StringVarP(&configFile, "config-file", "c", "talconfig.yaml", "File containing configurations for nodes")
+	genconfigCmd.Flags().StringVarP(&configFile, "config-file", "c", "talconfig.yaml", "File containing configurations for talhelper")
 	genconfigCmd.Flags().StringVarP(&envFile, "env-file", "e", "talenv.yaml", "File containing env variables for config file")
 	genconfigCmd.Flags().BoolVar(&noGitignore, "no-gitignore", false, "Create/update gitignore file too")
 }

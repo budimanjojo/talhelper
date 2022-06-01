@@ -7,7 +7,7 @@ import (
 )
 
 func (config TalhelperConfig) GenerateConfig(outputDir string) error {
-	input, err := parseTalosInput(config)
+	input, err := ParseTalosInput(config)
 	if err != nil {
 		return fmt.Errorf("failed to generate talos input: %s", err)
 	}

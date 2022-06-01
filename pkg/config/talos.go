@@ -10,7 +10,7 @@ import (
 	"github.com/talos-systems/talos/pkg/machinery/constants"
 )
 
-func parseTalosInput(config TalhelperConfig) (*generate.Input, error) {
+func ParseTalosInput(config TalhelperConfig) (*generate.Input, error) {
 	const (
 		kubernetesVersion = constants.DefaultKubernetesVersion
 	)
