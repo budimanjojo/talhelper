@@ -18,7 +18,7 @@ nodes:
       installDisk: /dev/sdb
       controlPlane: false
 controlPlane:
-    patches:
+    configPatches:
         - op: add
           path: /machine/kubelet/extraArgs
           value:
@@ -30,40 +30,15 @@ controlPlane:
         - op: add
           path: /cluster/clustername
           value: hommm
-    encryptedPatches:
-        - op: ENC[AES256_GCM,data:aqvvLoCq,iv:6a8GjbnStLiqHj2+UTvuiwkSZZeV7Jp2onQvtw5l/4g=,tag:PgCorMe0nCigzUSA6IAbqw==,type:str]
-          path: ENC[AES256_GCM,data:109og62rwXo=,iv:bKj9yfl6SbuziCBJX2ISiQI1HK3DBjgYyCYqpnDaK28=,tag:tiQmMeCusF9lOuyswBA8/g==,type:str]
-          value:
-            aaaaa: ENC[AES256_GCM,data:FAsaZvM=,iv:GHPx569WV3s3wGp6oWpix9lKwL3P0GqlvuvJIgzKVmU=,tag:Phm3ZwZFk3oGPqj8lJzmMw==,type:str]
     inlinePatches:
         cluster:
             secret: ${cluster_secret}
 worker:
-    patches:
+    configPatches:
         - op: add
           path: /machine/new
           value: from patches
     encryptedPatches:
-        - op: ENC[AES256_GCM,data:5xMi,iv:Uqaj76bNdPTEMt8cna3wQqsi4BgjljVwEIFMfUIXsvA=,tag:O2BsG8T8gG+Sw2Yw5LLqfQ==,type:str]
-          path: ENC[AES256_GCM,data:54bUrRYrh0ANHVGC,iv:rNN6LLVVflv4PzXmSFq1HpspH/t5pv04HiojVHtoeRI=,tag:Q4ChEBsyHbTT1loGVFy5ww==,type:str]
-          value: ENC[AES256_GCM,data:y4ueTPk6gZK1F8wpi6Q1TXocxuUl,iv:u3kx5N1d4J//dTMizaSpIjq6F0vgzojZuRp1qR+akgA=,tag:T4jejHLyfHgubXc4s4FSwA==,type:str]
-sops:
-    kms: []
-    gcp_kms: []
-    azure_kv: []
-    hc_vault: []
-    age:
-        - recipient: age1zeqkpfz7e3s207ynea0z0auc0mrct0pc7w4sh6j3d0c4qac3dahqj9ufdg
-          enc: |
-            -----BEGIN AGE ENCRYPTED FILE-----
-            YWdlLWVuY3J5cHRpb24ub3JnL3YxCi0+IFgyNTUxOSBzaGFRdkVKa1l6Q1BnazZ2
-            Y0FFV1RncExUL2VhUHBuVGVyUm5HdG8yMHlNCm5qR0JRMXBlNDdXa1pOTjR6bjN2
-            TnlBQkVkMVNBcFZ5THJFTSsrdGNhdmMKLS0tIHYzVGd6cjgvSGhFdk5uMTg3UXVX
-            R0NPUVF3M2oyMzR4NHNMRVcvQ1BGRjAKNXHWcLGCqb6XnMUZY57OTyAq5kaYW0wM
-            fc97zk6rh/TanFRgBo296fSYtMiieNMqFUv/IayHdXJ8yFv/sDJjeA==
-            -----END AGE ENCRYPTED FILE-----
-    lastmodified: "2022-05-31T16:24:37Z"
-    mac: ENC[AES256_GCM,data:jvbkE8nqOHbg6KuM5xzqgJMKbOKKsgEHv6ZBm4xpp1aHDG5IPlD/CUXbOPEimfdlNTA2J3PKHAAOelbMNu5RLmV6jF0nS5ACBgnYdsV62y9ifEcJW4AuXsq9qHH6C8yywOCZ/hWBhqYsMBx4eURA0bAIwpCzvVJT3ZgsIsIaAao=,iv:DB7P6CzoeyCrgj1MF8LSLBFJ8j+luXCKLX5UF3HrlpQ=,tag:wlHG8/ff+O+M/EiaLEY+2w==,type:str]
-    pgp: []
-    encrypted_regex: encryptedPatches
-    version: 3.7.3
+        - op: add
+          path: /machine/new
+          value: from encryptedpatches

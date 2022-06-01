@@ -23,7 +23,7 @@ var (
 		Use:   "genconfig",
 		Short: "Generate Talos cluster config YAML file",
 		Run: func(cmd *cobra.Command, args []string) {
-			cf, err := config.DecryptYamlWithSops(configFile)
+			cf, err := os.ReadFile(configFile)
 			cfFile := &cf
 			if err != nil {
 				log.Fatalf("failed to decrypt/read file: %s", err)

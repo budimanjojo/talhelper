@@ -36,8 +36,6 @@ func ParseTalosInput(config TalhelperConfig) (*generate.Input, error) {
 func createTalosClusterConfig(node nodes, config TalhelperConfig, input *generate.Input) (CfgFile []byte, err error) {
 	var cfg *v1alpha1.Config
 
-	controlPlanePatch := mergePatchSlices(config.ControlPlane.Patches, config.ControlPlane.EncryptedPatches)
-	workerPatch := mergePatchSlices(config.Worker.Patches, config.Worker.EncryptedPatches)
 	var patch []map[string]interface{}
 	var iPatch map[string]interface{}
 
@@ -47,14 +45,14 @@ func createTalosClusterConfig(node nodes, config TalhelperConfig, input *generat
 		if err != nil {
 			return nil, err
 		}
-		patch = controlPlanePatch
+		patch = config.ControlPlane.ConfigPatches
 		iPatch = config.ControlPlane.InlinePatch
 	case false:
 		cfg, err = generate.Config(machine.TypeWorker, input)
 		if err != nil {
 			return nil, err
 		}
-		patch = workerPatch
+		patch = config.Worker.ConfigPatches
 		iPatch = config.Worker.InlinePatch
 	}
 
