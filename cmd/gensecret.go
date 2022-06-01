@@ -9,7 +9,6 @@ import (
 	"sigs.k8s.io/yaml"
 )
 
-// gensecretCmd represents the gensecret command
 var gensecretCmd = &cobra.Command{
 	Use:   "gensecret",
 	Short: "Generate Talos cluster secrets",
@@ -39,4 +38,5 @@ func init() {
 	rootCmd.AddCommand(gensecretCmd)
 
 	gensecretCmd.Flags().StringVarP(&configFile, "config-file", "c", "talconfig.yaml", "File containing configurations for talhelper")
+	gensecretCmd.Flags().BoolVarP(&patchConfig, "patch-configfile", "p", false, "Whether to generate inline patches into config file")
 }

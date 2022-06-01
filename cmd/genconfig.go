@@ -12,13 +12,6 @@ import (
 )
 
 var (
-	outDir      string
-	configFile  string
-	noGitignore bool
-	envFile     string
-)
-
-var (
 	genconfigCmd = &cobra.Command{
 		Use:   "genconfig",
 		Short: "Generate Talos cluster config YAML file",
