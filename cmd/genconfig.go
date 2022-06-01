@@ -5,6 +5,7 @@ import (
 	"log"
 	"os"
 
+	"github.com/a8m/envsubst"
 	"github.com/budimanjojo/talhelper/pkg/config"
 	"github.com/spf13/cobra"
 
@@ -33,6 +34,8 @@ var (
 					log.Fatalf("failed to substite env: %s", err)
 				}
 			}
+
+			envsubst.Bytes(*cfFile)
 
 			var m config.TalhelperConfig
 
