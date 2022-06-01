@@ -45,7 +45,7 @@ func TestApplyInlinePatchFromYaml(t *testing.T) {
   c: original
 `
 
-	result, _ := applyInlinePatchFromYaml([]byte(patch), []byte(file))
+	result, _ := ApplyInlinePatchFromYaml([]byte(patch), []byte(file))
 	if expected != string(result) {
 		t.Errorf("got %s, want %s", string(result), expected)
 
