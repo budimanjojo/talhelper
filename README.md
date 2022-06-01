@@ -42,8 +42,8 @@ The main reason of this tool is to help creating Talos cluster in GitOps way.
 Inspired by a python script written by [@bjw-s](https://github.com/bjw-s) [here](https://github.com/bjw-s/home-ops/blob/main/infrastructure/talos/buildClusterConfig.py).
 
 This tool will:
-* Read and decrypt(with [SOPS](https://github.com/mozilla/sops), if needed) your `talconfig.yaml`
-* Read and decrypt(with [SOPS](https://github.com/mozilla/sops), if needed) your `talenv.yaml`
+* Read your `talconfig.yaml`
+* Read and decrypt your `talenv.yaml` with [SOPS](https://github.com/mozilla/sops)
 * Do [envsubst](https://linux.die.net/man/1/envsubst) if needed
 * Generate Talos cluster and config yaml files for you based on your `talconfig.yaml`
 * Generate `.gitignore` file so you don't commit your secret to the public
@@ -56,8 +56,9 @@ Any input and suggestion will be highly appreciated.
 ## Getting Started
 
 1. Create a `talconfig.yaml`, an example [template](./test/talconfig.yaml) is provided.
-2. Optionally encrypt your `talconfig.yaml` with [SOPS](https://github.com/mozilla/sops), an example [.sops.yaml](./test/.sops.yaml) is provided.
-3. Run `talhelper genconfig` and the output files will be in `./clusterconfig` by default.
+2. Run `talhelper gensecret --patch-configfile > talenv.yaml` (`--patch-configfile` will add inlinePatches inside your `talconfig.yaml`)
+3. Encrypt the secret with SOPS: `sops -e -i talenv.yaml`
+4. Run `talhelper genconfig` and the output files will be in `./clusterconfig` by default.
 
 To get help, run `talhelper <subcommand> --help`
 
@@ -73,6 +74,7 @@ TBD
 Available Commands:
   completion  Generate the autocompletion script for the specified shell
   genconfig   Generate Talos cluster config YAML file
+  gensecret   Generate Talos cluster secrets
   help        Help about any command
 ```
 
@@ -87,6 +89,14 @@ Flags:
   -o, --out-dir string       Directory where to dump the generated files (default "./clusterconfig")
 ```
 
+```
+Usage:
+  talhelper gensecret [flags]
+
+Flags:
+  -c, --config-file string   File containing configurations for talhelper (default "talconfig.yaml")
+  -h, --help                 help for gensecret
+```
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Roadmap
