@@ -35,7 +35,10 @@ var (
 				}
 			}
 
-			envsubst.Bytes(*cfFile)
+			_, err = envsubst.Bytes(*cfFile)
+			if err != nil {
+				log.Fatalf("failed to substite env: %s", err)
+			}
 
 			var m config.TalhelperConfig
 

@@ -37,8 +37,5 @@ func DecryptYamlWithSops(filePath string) ([]byte, error) {
 }
 
 func isSopsEncrypted(data sopsFile) bool {
-	if len(data.Sops) != 0 {
-		return true
-	}
-	return false
+	return len(data.Sops) != 0
 }

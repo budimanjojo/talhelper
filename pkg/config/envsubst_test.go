@@ -44,7 +44,11 @@ default: default value
 		"default": "default value",
 	}
 
-	loadEnv([]byte(file))
+	err := loadEnv([]byte(file))
+	if err != nil {
+		t.Fatal(err)
+	}
+
 	for k, v := range expected {
 		if result, _ := os.LookupEnv(k); result != v {
 			t.Errorf("got %s, want %s", result, v)

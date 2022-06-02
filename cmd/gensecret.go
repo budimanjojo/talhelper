@@ -34,7 +34,10 @@ var gensecretCmd = &cobra.Command{
 		secret.PrintSortedSecrets(input)
 
 		if patchConfig {
-			secret.GenerateSecret(m, configFile)
+			err := secret.GenerateSecret(m, configFile)
+			if err != nil {
+				log.Fatalf("failed to generate secret in config file: %s", err)
+			}
 		}
 	},
 }

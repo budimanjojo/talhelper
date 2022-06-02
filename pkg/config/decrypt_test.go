@@ -39,8 +39,16 @@ sops:
   encrypted_regex: encryptedPatches
   version: 3.7.3`
 
-	yaml.Unmarshal([]byte(data1), &m1)
+	err := yaml.Unmarshal([]byte(data1), &m1)
+	if err != nil {
+		t.Fatal(err)
+	}
+
 	yaml.Unmarshal([]byte(data2), &m2)
+	if err != nil {
+		t.Fatal(err)
+	}
+
 	ans1 := isSopsEncrypted(m1)
 	ans2 := isSopsEncrypted(m2)
 	if ans1 != false || ans2 != true {
