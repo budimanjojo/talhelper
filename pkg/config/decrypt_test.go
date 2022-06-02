@@ -44,7 +44,7 @@ sops:
 		t.Fatal(err)
 	}
 
-	yaml.Unmarshal([]byte(data2), &m2)
+	err = yaml.Unmarshal([]byte(data2), &m2)
 	if err != nil {
 		t.Fatal(err)
 	}
