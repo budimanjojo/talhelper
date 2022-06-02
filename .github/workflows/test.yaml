@@ -18,5 +18,6 @@ jobs:
         with:
           go-version: 1.17
       - uses: actions/checkout@v3
-      - run: go build
+      - run: go build -o /usr/local/bin/talhelper
       - run: go test -v ./... -race -covermode=atomic
+      - run: talhelper
