@@ -20,7 +20,27 @@ talhelper is a tool to help you create a Talos cluster.
 Currently there is only one usage, which is creating a cluster config YAML file.
 
 Workflow:
-	taloshelper genconfig --config-file config.yaml --out-dir ./clusterconfig --vars-file vars.yaml
+	Create talconfig.yaml file defining your nodes information like so:
+	----------------------------------------
+	clustername: mycluster
+	talosVersion: v1.0
+	endpoint: https://192.168.200.10:6443
+	nodes:
+	  - hostname: master1
+	    ipAddress: 192.168.200.11
+		installDisk: /dev/sdb
+		controlPlane: true
+	  - hostname: worker1
+	    ipAddress: 192.168.200.21
+		installDisk: /dev/nvme1
+		controlPlane: false
+	----------------------------------------
+
+	Then run these commands:
+	> talhelper gensecret --patch-configfile > talenv.yaml
+	> taloshelper genconfig"
+
+	The generated yaml files will be in ./clusterconfig directory
 `)
 
 var rootCmd = &cobra.Command{
