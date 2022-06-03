@@ -88,6 +88,7 @@ Flags:
   -h, --help                 help for genconfig
       --no-gitignore         Create/update gitignore file too
   -o, --out-dir string       Directory where to dump the generated files (default "./clusterconfig")
+  -m, --talos-mode string    Talos runtime mode to validate generated config (default "metal")
 ```
 
 ```
