@@ -28,6 +28,9 @@ func ValidateConfig(cfgFile string) error {
 	}
 
 	mode, err := parseMode()
+	if err != nil {
+		return err
+	}
 
 	opts := []config.ValidationOption{config.WithLocal()}
 
