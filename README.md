@@ -67,7 +67,9 @@ To get help, run `talhelper <subcommand> --help`
 
 You can download the archives from [release](https://github.com/budimanjojo/talhelper/releases/latest) page.
 Or you can install it using this one liner, using tool from [jpillora](https://github.com/jpillora/installer):
-`curl https://i.jpillora.com/budimanjojo/talhelper! | sudo bash`
+```
+curl https://i.jpillora.com/budimanjojo/talhelper! | sudo bash
+```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
