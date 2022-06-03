@@ -1,12 +1,13 @@
 package config
 
 type TalhelperConfig struct {
-	ClusterName  string                 `yaml:"clusterName"`
-	TalosVersion string                 `yaml:"talosVersion"`
-	Endpoint     string                 `yaml:"endpoint"`
-	Nodes        []nodes                `yaml:"nodes"`
-	ControlPlane controlPlane           `yaml:"controlPlane"`
-	Worker       worker                 `yaml:"worker"`
+	ClusterName       string       `yaml:"clusterName"`
+	TalosVersion      string       `yaml:"talosVersion"`
+	KubernetesVersion string       `yaml:"KubernetesVersion"`
+	Endpoint          string       `yaml:"endpoint"`
+	Nodes             []nodes      `yaml:"nodes"`
+	ControlPlane      controlPlane `yaml:"controlPlane"`
+	Worker            worker       `yaml:"worker"`
 }
 
 type nodes struct {
@@ -19,10 +20,10 @@ type nodes struct {
 
 type controlPlane struct {
 	ConfigPatches []map[string]interface{} `yaml:"patches,omitempty"`
-	InlinePatch map[string]interface{} `yaml:"inlinePatches,omitempty"`
+	InlinePatch   map[string]interface{}   `yaml:"inlinePatches,omitempty"`
 }
 
 type worker struct {
 	ConfigPatches []map[string]interface{} `yaml:"patches,omitempty"`
-	InlinePatch map[string]interface{} `yaml:"inlinePatches,omitempty"`
+	InlinePatch   map[string]interface{}   `yaml:"inlinePatches,omitempty"`
 }
