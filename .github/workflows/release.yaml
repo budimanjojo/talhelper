@@ -12,5 +12,7 @@ jobs:
         with:
           fetch-depth: 0
       - uses: goreleaser/goreleaser-action@v3
+        with:
+          args: release --rm-dist
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
