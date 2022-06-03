@@ -47,7 +47,7 @@ var (
 				log.Fatalf("failed to unmarshal data: %s", err)
 			}
 
-			err = m.GenerateConfig(outDir)
+			err = m.GenerateConfig(outDir, talosMode)
 			if err != nil {
 				log.Fatalf("failed to generate talos config: %s", err)
 			}
@@ -68,5 +68,6 @@ func init() {
 	genconfigCmd.Flags().StringVarP(&outDir, "out-dir", "o", "./clusterconfig", "Directory where to dump the generated files")
 	genconfigCmd.Flags().StringVarP(&configFile, "config-file", "c", "talconfig.yaml", "File containing configurations for talhelper")
 	genconfigCmd.Flags().StringVarP(&envFile, "env-file", "e", "talenv.yaml", "File containing env variables for config file")
+	genconfigCmd.Flags().StringVarP(&talosMode, "talos-mode", "m", "metal", "Talos runtime mode to validate generated config")
 	genconfigCmd.Flags().BoolVar(&noGitignore, "no-gitignore", false, "Create/update gitignore file too")
 }

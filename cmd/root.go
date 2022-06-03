@@ -9,6 +9,7 @@ import (
 var (
 	outDir      string
 	configFile  string
+	talosMode   string
 	noGitignore bool
 	envFile     string
 	patchConfig bool
@@ -44,10 +45,10 @@ Workflow:
 `)
 
 var rootCmd = &cobra.Command{
-	Use: "talhelper",
-	Short: "A tool to help with creating Talos cluster",
-	Long: rootLongHelp,
-	SilenceUsage: true,
+	Use:           "talhelper",
+	Short:         "A tool to help with creating Talos cluster",
+	Long:          rootLongHelp,
+	SilenceUsage:  true,
 	SilenceErrors: true,
 }
 

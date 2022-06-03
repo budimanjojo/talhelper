@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 )
 
-func (config TalhelperConfig) GenerateConfig(outputDir string) error {
+func (config TalhelperConfig) GenerateConfig(outputDir, mode string) error {
 	input, err := ParseTalosInput(config)
 	if err != nil {
 		return fmt.Errorf("failed to generate talos input: %s", err)
@@ -21,7 +21,7 @@ func (config TalhelperConfig) GenerateConfig(outputDir string) error {
 			return fmt.Errorf("failed to create Talos cluster config: %s", err)
 		}
 
-		err = validateConfig(patchedCfg)
+		err = validateConfig(patchedCfg, mode)
 		if err != nil {
 			return fmt.Errorf("failed to verify config for node %q: %s", node.Hostname, err)
 		}
