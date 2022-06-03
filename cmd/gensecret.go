@@ -10,11 +10,17 @@ import (
 	"sigs.k8s.io/yaml"
 )
 
+var (
+	gensecretPatchCfg bool
+	gensecretCfgFile string
+)
+
+
 var gensecretCmd = &cobra.Command{
 	Use:   "gensecret",
 	Short: "Generate Talos cluster secrets",
 	Run: func(cmd *cobra.Command, args []string) {
-		cf, err := os.ReadFile(configFile)
+		cf, err := os.ReadFile(gensecretCfgFile)
 		if err != nil {
 			log.Fatalf("failed to decrypt/read file: %s", err)
 		}
@@ -33,8 +39,8 @@ var gensecretCmd = &cobra.Command{
 
 		secret.PrintSortedSecrets(input)
 
-		if patchConfig {
-			err := secret.GenerateSecret(m, configFile)
+		if gensecretPatchCfg {
+			err := secret.GenerateSecret(m, gensecretCfgFile)
 			if err != nil {
 				log.Fatalf("failed to generate secret in config file: %s", err)
 			}
@@ -45,6 +51,6 @@ var gensecretCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(gensecretCmd)
 
-	gensecretCmd.Flags().StringVarP(&configFile, "config-file", "c", "talconfig.yaml", "File containing configurations for talhelper")
-	gensecretCmd.Flags().BoolVarP(&patchConfig, "patch-configfile", "p", false, "Whether to generate inline patches into config file")
+	gensecretCmd.Flags().StringVarP(&gensecretCfgFile, "config-file", "c", "talconfig.yaml", "File containing configurations for talhelper")
+	gensecretCmd.Flags().BoolVarP(&gensecretPatchCfg, "patch-configfile", "p", false, "Whether to generate inline patches into config file")
 }

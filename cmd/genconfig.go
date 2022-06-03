@@ -13,18 +13,26 @@ import (
 )
 
 var (
+	genconfigOutDir      string
+	genconfigCfgFile  string
+	genconfigTalosMode   string
+	genconfigNoGitignore bool
+	genconfigEnvFile     string
+)
+
+var (
 	genconfigCmd = &cobra.Command{
 		Use:   "genconfig",
 		Short: "Generate Talos cluster config YAML file",
 		Run: func(cmd *cobra.Command, args []string) {
-			cf, err := os.ReadFile(configFile)
+			cf, err := os.ReadFile(genconfigCfgFile)
 			cfFile := &cf
 			if err != nil {
 				log.Fatalf("failed to decrypt/read file: %s", err)
 			}
 
-			if _, err := os.Stat(envFile); !errors.Is(err, os.ErrNotExist) {
-				env, err := config.DecryptYamlWithSops(envFile)
+			if _, err := os.Stat(genconfigEnvFile); !errors.Is(err, os.ErrNotExist) {
+				env, err := config.DecryptYamlWithSops(genconfigEnvFile)
 				if err != nil {
 					log.Fatalf("failed to decrypt/read env file: %s", err)
 				}
@@ -47,13 +55,13 @@ var (
 				log.Fatalf("failed to unmarshal data: %s", err)
 			}
 
-			err = m.GenerateConfig(outDir, talosMode)
+			err = m.GenerateConfig(genconfigOutDir, genconfigTalosMode)
 			if err != nil {
 				log.Fatalf("failed to generate talos config: %s", err)
 			}
 
-			if !noGitignore {
-				err = m.GenerateGitignore(outDir)
+			if !genconfigNoGitignore {
+				err = m.GenerateGitignore(genconfigOutDir)
 				if err != nil {
 					log.Fatalf("failed to generate gitignore file: %s", err)
 				}
@@ -65,9 +73,9 @@ var (
 func init() {
 	rootCmd.AddCommand(genconfigCmd)
 
-	genconfigCmd.Flags().StringVarP(&outDir, "out-dir", "o", "./clusterconfig", "Directory where to dump the generated files")
-	genconfigCmd.Flags().StringVarP(&configFile, "config-file", "c", "talconfig.yaml", "File containing configurations for talhelper")
-	genconfigCmd.Flags().StringVarP(&envFile, "env-file", "e", "talenv.yaml", "File containing env variables for config file")
-	genconfigCmd.Flags().StringVarP(&talosMode, "talos-mode", "m", "metal", "Talos runtime mode to validate generated config")
-	genconfigCmd.Flags().BoolVar(&noGitignore, "no-gitignore", false, "Create/update gitignore file too")
+	genconfigCmd.Flags().StringVarP(&genconfigOutDir, "out-dir", "o", "./clusterconfig", "Directory where to dump the generated files")
+	genconfigCmd.Flags().StringVarP(&genconfigCfgFile, "config-file", "c", "talconfig.yaml", "File containing configurations for talhelper")
+	genconfigCmd.Flags().StringVarP(&genconfigEnvFile, "env-file", "e", "talenv.yaml", "File containing env variables for config file")
+	genconfigCmd.Flags().StringVarP(&genconfigTalosMode, "talos-mode", "m", "metal", "Talos runtime mode to validate generated config")
+	genconfigCmd.Flags().BoolVar(&genconfigNoGitignore, "no-gitignore", false, "Create/update gitignore file too")
 }

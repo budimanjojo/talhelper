@@ -6,15 +6,6 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var (
-	outDir      string
-	configFile  string
-	talosMode   string
-	noGitignore bool
-	envFile     string
-	patchConfig bool
-)
-
 var rootLongHelp = strings.TrimSpace(`
 talhelper is a tool to help you create a Talos cluster.
 
