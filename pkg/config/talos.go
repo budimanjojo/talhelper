@@ -2,7 +2,6 @@ package config
 
 import (
 	"encoding/json"
-	"fmt"
 
 	talosconfig "github.com/talos-systems/talos/pkg/machinery/config"
 	"github.com/talos-systems/talos/pkg/machinery/config/types/v1alpha1"
@@ -17,8 +16,6 @@ func ParseTalosInput(config TalhelperConfig) (*generate.Input, error) {
 	if kubernetesVersion == "" {
 		kubernetesVersion = constants.DefaultKubernetesVersion
 	}
-
-	fmt.Println(kubernetesVersion)
 
 	versionContract, err := talosconfig.ParseContractFromVersion(config.TalosVersion)
 	if err != nil {
