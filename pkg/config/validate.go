@@ -21,8 +21,8 @@ func parseMode() (mode, error) {
 	return 1, nil
 }
 
-func validateConfig(cfgFile string) error {
-	cfg, err := configloader.NewFromFile(cfgFile)
+func validateConfig(cfgFile []byte) error {
+	cfg, err := configloader.NewFromBytes(cfgFile)
 	if err != nil {
 		return err
 	}

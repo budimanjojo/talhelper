@@ -45,8 +45,8 @@ This tool will:
 * Read your `talconfig.yaml`
 * Read and decrypt your `talenv.yaml` with [SOPS](https://github.com/mozilla/sops)
 * Do [envsubst](https://linux.die.net/man/1/envsubst) if needed
+* Validate config file is good for talosctl
 * Generate Talos cluster and config yaml files for you based on your `talconfig.yaml`
-* Validate generated yaml files
 * Generate `.gitignore` file so you don't commit your secret to the public
 
 This tool is actually my first time programming something other than shell script.
