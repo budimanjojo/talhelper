@@ -2,43 +2,36 @@ clusterName: home-cluster
 talosVersion: v1.0
 endpoint: https://192.168.200.10:6443
 nodes:
-    - hostname: ${hostname1}
-      ipAddress: 192.168.200.11
-      installDisk: /dev/sda
-      controlPlane: true
-      domain: ""
-    - hostname: kmaster2
-      domain: ""
-      ipAddress: 192.168.200.12
-      installDisk: /dev/sda
-      controlPlane: true
-    - hostname: kworker1
-      domain: ""
-      ipAddress: 192.168.200.13
-      installDisk: /dev/sdb
-      controlPlane: false
+  - hostname: kmaster1
+    ipAddress: 192.168.200.11
+    installDisk: /dev/sda
+    controlPlane: true
+    domain: ""
+  - hostname: kmaster2
+    domain: ""
+    ipAddress: 192.168.200.12
+    installDisk: /dev/sda
+    controlPlane: true
+  - hostname: kworker1
+    domain: ""
+    ipAddress: 192.168.200.13
+    installDisk: /dev/sdb
+    controlPlane: false
 controlPlane:
-    configPatches:
-        - op: add
-          path: /machine/kubelet/extraArgs
-          value:
-            rotate-server-certificates: "true"
-        - op: add
-          path: /cluster
-          value:
-            aaaaa: bbbbb
-        - op: add
-          path: /cluster/clustername
-          value: hommm
-    inlinePatches:
-        cluster:
-            secret: ${cluster_secret}
+  configPatches:
+    - op: add
+      path: /machine/kubelet/extraArgs
+      value:
+        rotate-server-certificates: "true"
+        feature-gates: GracefulNodeShutdown=true,MixedProtocolLBService=true
+    - op: add
+      path: /machine/install/extraKernelArgs
+      value:
+        - "talos.logging.kernel=udp://10.45.0.2:6050/"
 worker:
-    configPatches:
-        - op: add
-          path: /machine/new
-          value: from patches
-    encryptedPatches:
-        - op: add
-          path: /machine/new
-          value: from encryptedpatches
+  configPatches:
+    - op: add
+      path: /machine/kubelet/extraArgs
+      value:
+        rotate-server-certificates: "true"
+        feature-gates: GracefulNodeShutdown=true,MixedProtocolLBService=true
