@@ -6,6 +6,8 @@ import (
 	"github.com/spf13/cobra"
 )
 
+var version string
+
 var rootLongHelp = strings.TrimSpace(`
 talhelper is a tool to help you create a Talos cluster.
 
@@ -41,6 +43,7 @@ var rootCmd = &cobra.Command{
 	Long:          rootLongHelp,
 	SilenceUsage:  true,
 	SilenceErrors: true,
+	Version:       version,
 }
 
 func Execute() error {
