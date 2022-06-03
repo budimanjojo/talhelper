@@ -59,7 +59,12 @@ func createTalosClusterConfig(node nodes, config TalhelperConfig, input *generat
 	}
 
 	cfg.MachineConfig.MachineInstall.InstallDisk = node.InstallDisk
-	cfg.MachineConfig.MachineNetwork.NetworkHostname = node.Hostname
+
+	if node.Domain == "" {
+		cfg.MachineConfig.MachineNetwork.NetworkHostname = node.Hostname
+	} else {
+		cfg.MachineConfig.MachineNetwork.NetworkHostname = node.Hostname + "." + node.Domain
+	}
 
 	marshaledCfg, err := cfg.Bytes()
 	if err != nil {
