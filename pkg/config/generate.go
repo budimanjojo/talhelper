@@ -26,7 +26,7 @@ func (config TalhelperConfig) GenerateConfig(outputDir string) error {
 			return fmt.Errorf("failed to dump config for node %q: %s", node.Hostname, err)
 		}
 
-		err = ValidateConfig(cfgFile)
+		err = validateConfig(cfgFile)
 		if err != nil {
 			return fmt.Errorf("failed to verify config for node %q: %s", node.Hostname, err)
 		}
