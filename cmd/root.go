@@ -32,7 +32,7 @@ Workflow:
   
   Then run these commands:
   > talhelper gensecret --patch-configfile > talenv.yaml
-  > taloshelper genconfig"
+  > talhelper genconfig"
   
   The generated yaml files will be in ./clusterconfig directory
 `)
