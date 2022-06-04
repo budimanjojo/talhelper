@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"os"
 	"path/filepath"
+
+	"sigs.k8s.io/yaml"
 )
 
 func (config TalhelperConfig) GenerateConfig(outputDir, mode string) error {
@@ -19,6 +21,23 @@ func (config TalhelperConfig) GenerateConfig(outputDir, mode string) error {
 		patchedCfg, err := createTalosClusterConfig(node, config, input)
 		if err != nil {
 			return fmt.Errorf("failed to create Talos cluster config: %s", err)
+		}
+
+		if node.InlinePatch != nil {
+			iPatchedCfg, err := yaml.Marshal(node.InlinePatch)
+			if err != nil {
+				return fmt.Errorf("failed to marshal node inline patch for node %q: %s", node.Hostname, err)
+			}
+
+			iPatchedCfg, err = yaml.JSONToYAML(iPatchedCfg)
+			if err != nil {
+				return fmt.Errorf("failed to marshal node inline patch for node %q: %s", node.Hostname, err)
+			}
+
+			patchedCfg, err = ApplyInlinePatchFromYaml(iPatchedCfg, patchedCfg)
+			if err != nil {
+				return fmt.Errorf("failed to apply node patch for node %q: %s", node.Hostname, err)
+			}
 		}
 
 		err = validateConfig(patchedCfg, mode)

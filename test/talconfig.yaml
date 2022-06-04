@@ -8,6 +8,13 @@ nodes:
     installDisk: /dev/sda
     controlPlane: true
     domain: ""
+    inlinePatch:
+      machine:
+        network:
+          interfaces:
+            - interface: eth0
+              addresses:
+                - 192.168.200.11/24
   - hostname: kmaster2
     domain: ""
     ipAddress: 192.168.200.12
