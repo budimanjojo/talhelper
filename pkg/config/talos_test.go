@@ -54,7 +54,6 @@ endpoint: https://1.1.1.1:6443`)
 
 func TestCreateTalosClusterConfig(t *testing.T) {
 	data := []byte(`clusterName: test
-talosVersion: v1.0
 endpoint: https://1.1.1.1:6443
 nodes:
   - hostname: node1

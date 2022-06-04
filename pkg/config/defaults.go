@@ -1,0 +1,21 @@
+package config
+
+import "github.com/talos-systems/talos/pkg/machinery/constants"
+
+var (
+	latestTalosVersion = "v1.0.5"
+)
+
+func (c TalhelperConfig) k8sVersion() string {
+	if c.KubernetesVersion == "" {
+		return constants.DefaultKubernetesVersion
+	}
+	return c.KubernetesVersion
+}
+
+func (c TalhelperConfig) talosVersion() string {
+	if c.TalosVersion == "" {
+		return latestTalosVersion
+	}
+	return c.TalosVersion
+}

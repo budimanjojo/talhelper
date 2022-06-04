@@ -7,17 +7,12 @@ import (
 	"github.com/talos-systems/talos/pkg/machinery/config/types/v1alpha1"
 	"github.com/talos-systems/talos/pkg/machinery/config/types/v1alpha1/generate"
 	"github.com/talos-systems/talos/pkg/machinery/config/types/v1alpha1/machine"
-	"github.com/talos-systems/talos/pkg/machinery/constants"
 )
 
 func ParseTalosInput(config TalhelperConfig) (*generate.Input, error) {
-	kubernetesVersion := config.KubernetesVersion
+	kubernetesVersion := config.k8sVersion()
 
-	if kubernetesVersion == "" {
-		kubernetesVersion = constants.DefaultKubernetesVersion
-	}
-
-	versionContract, err := talosconfig.ParseContractFromVersion(config.TalosVersion)
+	versionContract, err := talosconfig.ParseContractFromVersion(config.talosVersion())
 	if err != nil {
 		return nil, err
 	}
