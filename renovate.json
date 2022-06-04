@@ -1,5 +1,13 @@
 {
   "extends": [
     "config:base"
+  ],
+  "regexManagers": [
+    {
+      "fileMatch": ["pkg/config/defaults.go$"],
+      "matchStrings": [
+        "\\/\\/ renovate: depName=(?<depName>.*) datasource=(?<datasource>.*)\\n\\blatestTalosVersion = \"(?<currentValue>v[\\d+\\.]+)\""
+      ]
+    }
   ]
 }

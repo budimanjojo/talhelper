@@ -3,6 +3,7 @@ package config
 import "github.com/talos-systems/talos/pkg/machinery/constants"
 
 var (
+	// renovate: depName=talos-system/talos datasource=github-releases
 	latestTalosVersion = "v1.0.5"
 )
 
