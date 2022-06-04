@@ -29,11 +29,6 @@ func (config TalhelperConfig) GenerateConfig(outputDir, mode string) error {
 				return fmt.Errorf("failed to marshal node inline patch for node %q: %s", node.Hostname, err)
 			}
 
-			iPatchedCfg, err = yaml.JSONToYAML(iPatchedCfg)
-			if err != nil {
-				return fmt.Errorf("failed to marshal node inline patch for node %q: %s", node.Hostname, err)
-			}
-
 			patchedCfg, err = ApplyInlinePatchFromYaml(iPatchedCfg, patchedCfg)
 			if err != nil {
 				return fmt.Errorf("failed to apply node patch for node %q: %s", node.Hostname, err)
