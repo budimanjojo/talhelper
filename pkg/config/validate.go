@@ -33,7 +33,7 @@ func parseMode(s string) (mod mode, err error) {
 }
 
 func validateConfig(cfgFile []byte, mode string) error {
-	cfg, err := configloader.NewFromBytes(cfgFile)
+	cfg, err := parseTalosConfig(cfgFile)
 	if err != nil {
 		return err
 	}
@@ -54,4 +54,8 @@ func validateConfig(cfgFile []byte, mode string) error {
 	}
 
 	return nil
+}
+
+func parseTalosConfig(cfgFile []byte) (config.Provider, error) {
+	return configloader.NewFromBytes(cfgFile)
 }

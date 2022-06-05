@@ -5,10 +5,12 @@ import (
 	"os"
 	"path/filepath"
 
+	talosconfig "github.com/talos-systems/talos/pkg/machinery/config"
 	"sigs.k8s.io/yaml"
 )
 
 func (config TalhelperConfig) GenerateConfig(outputDir, mode string) error {
+	var cfgDump talosconfig.Provider
 	input, err := ParseTalosInput(config)
 	if err != nil {
 		return fmt.Errorf("failed to generate talos input: %s", err)
@@ -35,6 +37,11 @@ func (config TalhelperConfig) GenerateConfig(outputDir, mode string) error {
 			}
 		}
 
+		cfgDump, err = parseTalosConfig(patchedCfg)
+		if err != nil {
+			return fmt.Errorf("failed to dump config for node %q: %s", node.Hostname, err)
+		}
+
 		err = validateConfig(patchedCfg, mode)
 		if err != nil {
 			return fmt.Errorf("failed to verify config for node %q: %s", node.Hostname, err)
@@ -48,7 +55,9 @@ func (config TalhelperConfig) GenerateConfig(outputDir, mode string) error {
 		fmt.Printf("generated config for %s in %s\n", node.Hostname, cfgFile)
 	}
 
-	marshaledClientCfg, err := createTalosClientConfig(config, input)
+	machineCert := cfgDump.Machine().Security().CA().Crt
+
+	marshaledClientCfg, err := createTalosClientConfig(config, input, machineCert)
 	if err != nil {
 		return fmt.Errorf("failed to create Talos client config: %s", err)
 	}
