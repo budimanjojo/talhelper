@@ -25,8 +25,6 @@ func PrintSortedSecrets(input *generate.Input) {
 }
 func getSecrets(input *generate.Input) map[string]string {
 	secrets := map[string]string{
-		"adminCert": getAdminCert(input, "cert"),
-		"adminCertKey": getAdminCert(input, "key"),
 		"etcdCert": getEtcdCert(input, "cert"),
 		"etcdCertKey": getEtcdCert(input, "key"),
 		"k8sServiceAccountKey": getK8sServiceAccountKey(input),
@@ -43,17 +41,6 @@ func getSecrets(input *generate.Input) map[string]string {
 	}
 
 	return secrets
-}
-
-func getAdminCert(input *generate.Input, kind string) string {
-	var adminCert string
-	switch kind {
-	case "cert":
-		adminCert = base64.StdEncoding.EncodeToString(input.Certs.Admin.Crt)
-	case "key":
-		adminCert = base64.StdEncoding.EncodeToString(input.Certs.Admin.Key)
-	}
-	return adminCert
 }
 
 func getMachineCert(input *generate.Input, kind string) string {

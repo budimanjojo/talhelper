@@ -1,9 +1,7 @@
 package config
 
 import (
-	"encoding/base64"
 	"encoding/json"
-	"os"
 
 	talosconfig "github.com/talos-systems/talos/pkg/machinery/config"
 	"github.com/talos-systems/talos/pkg/machinery/config/types/v1alpha1"
@@ -94,24 +92,14 @@ func createTalosClusterConfig(node nodes, config TalhelperConfig, input *generat
 	return patchedCfg, nil
 }
 
-func createTalosClientConfig(config TalhelperConfig, input *generate.Input) ([]byte, error) {
+func createTalosClientConfig(config TalhelperConfig, input *generate.Input, cert []byte) ([]byte, error) {
 	var endpointList []string
 	for _, node := range config.Nodes {
 		endpointList = append(endpointList, node.IPAddress)
 	}
 
 	// make sure ca in talosconfig match machine.ca.crt in machine config
-	if os.Getenv("machineCert") != "" {
-		input.Certs.OS.Crt, _ = base64.StdEncoding.DecodeString(os.Getenv("machineCert"))
-	}
-
-	if os.Getenv("adminCert") != "" {
-		input.Certs.Admin.Crt, _ = base64.StdEncoding.DecodeString(os.Getenv("adminCert"))
-	}
-
-	if os.Getenv("adminCertKey") != "" {
-		input.Certs.Admin.Key, _ = base64.StdEncoding.DecodeString(os.Getenv("adminCertKey"))
-	}
+	input.Certs.OS.Crt = cert
 
 	clientCfg, err := generate.Talosconfig(input, generate.WithEndpointList(endpointList))
 	if err != nil {
