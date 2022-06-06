@@ -55,7 +55,7 @@ func (config TalhelperConfig) GenerateConfig(outputDir, mode string) error {
 		fmt.Printf("generated config for %s in %s\n", node.Hostname, cfgFile)
 	}
 
-	machineCert := cfgDump.Machine().Security().CA().Crt
+	machineCert := cfgDump.Machine().Security().CA()
 
 	marshaledClientCfg, err := createTalosClientConfig(config, input, machineCert)
 	if err != nil {

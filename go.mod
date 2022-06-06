@@ -8,6 +8,7 @@ require (
 	github.com/joho/godotenv v1.4.0
 	github.com/sabhiram/go-gitignore v0.0.0-20210923224102-525f6e181f06
 	github.com/spf13/cobra v1.4.0
+	github.com/talos-systems/crypto v0.3.5
 	github.com/talos-systems/talos/pkg/machinery v1.0.5
 	go.mozilla.org/sops/v3 v3.7.3
 	sigs.k8s.io/yaml v1.3.0
@@ -93,7 +94,6 @@ require (
 	github.com/ryanuber/go-glob v1.0.0 // indirect
 	github.com/sirupsen/logrus v1.8.1 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
-	github.com/talos-systems/crypto v0.3.5 // indirect
 	github.com/talos-systems/go-blockdevice v0.3.1 // indirect
 	github.com/talos-systems/go-debug v0.2.1 // indirect
 	github.com/talos-systems/net v0.3.2 // indirect
