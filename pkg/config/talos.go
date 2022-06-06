@@ -104,14 +104,16 @@ func createTalosClientConfig(config TalhelperConfig, input *generate.Input, mach
 	}
 
 	// make sure ca in talosconfig match machine.ca.crt in machine config
-	input.Certs.OS = machineCert
+	if string(input.Certs.OS.Crt) != string(machineCert.Crt) {
+		input.Certs.OS = machineCert
 
-	adminCert, err := generate.NewAdminCertificateAndKey(time.Now(), input.Certs.OS, options.Roles, 87600*time.Hour)
-	if err != nil {
-		return nil, err
+		adminCert, err := generate.NewAdminCertificateAndKey(time.Now(), input.Certs.OS, options.Roles, 87600*time.Hour)
+		if err != nil {
+			return nil, err
+		}
+
+		input.Certs.Admin = adminCert
 	}
-
-	input.Certs.Admin = adminCert
 
 	clientCfg, err := generate.Talosconfig(input, generate.WithEndpointList(endpointList))
 	if err != nil {
