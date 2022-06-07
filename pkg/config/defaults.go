@@ -4,7 +4,7 @@ import "github.com/talos-systems/talos/pkg/machinery/constants"
 
 var (
 	// renovate: depName=siderolabs/talos datasource=github-releases
-	latestTalosVersion = "v1.0.5"
+	latestTalosVersion = "v1.0.6"
 )
 
 func (c TalhelperConfig) k8sVersion() string {
