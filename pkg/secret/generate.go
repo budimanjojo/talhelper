@@ -4,9 +4,11 @@ import (
 	"os"
 
 	talconfig "github.com/budimanjojo/talhelper/pkg/config"
+	"github.com/talos-systems/talos/pkg/machinery/config"
+	"github.com/talos-systems/talos/pkg/machinery/config/types/v1alpha1/generate"
 )
 
-func GenerateSecret(config talconfig.TalhelperConfig, configFile string) error {
+func PatchTalconfig(config talconfig.TalhelperConfig, configFile string) error {
 	cf, err := os.ReadFile(configFile)
 	if err != nil {
 		return err
@@ -23,4 +25,12 @@ func GenerateSecret(config talconfig.TalhelperConfig, configFile string) error {
 	}
 
 	return nil
+}
+
+func NewSecretFromCfg(clock generate.Clock, talosCfg config.Provider) *generate.SecretsBundle {
+	return generate.NewSecretsBundleFromConfig(clock, talosCfg)
+}
+
+func NewSecretBundle(clock generate.Clock) (*generate.SecretsBundle, error) {
+	return generate.NewSecretsBundle(clock)
 }

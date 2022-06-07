@@ -41,9 +41,12 @@
 The main reason of this tool is to help creating Talos cluster in GitOps way.
 Inspired by a python script written by [@bjw-s](https://github.com/bjw-s) [here](https://github.com/bjw-s/home-ops/blob/main/infrastructure/talos/buildClusterConfig.py).
 
+You can use this tool to generate Talos config file with `talhelper genconfig` command.
+You can also use this tool to generate Talos secrets with `talhelper gensecret` command.
+
 This tool will:
 * Read your `talconfig.yaml`
-* Read and decrypt your `talenv.yaml` with [SOPS](https://github.com/mozilla/sops)
+f Read and decrypt your `talenv.yaml` with [SOPS](https://github.com/mozilla/sops)
 * Do [envsubst](https://linux.die.net/man/1/envsubst) if needed
 * Validate config file is good for talosctl
 * Generate Talos cluster and config yaml files for you based on your `talconfig.yaml`
@@ -56,10 +59,18 @@ Any input and suggestion will be highly appreciated.
 
 ## Getting Started
 
+Scenario 1 (You already have your talos config but not GitOps it yet):
+1. Create a `talconfig.yaml` based on your current cluster, an example [template](./test/talconfig.yaml) is provided.
+2. Run `talhelper gensecret -f <your-taloscfg.yaml> --patch-configfile > talenv.yaml`. This will create a `talenv.yaml` file with all your current cluster secrets and patch your `talconfig.yaml` to link to those secrets.
+3. Encrypt the secret with SOPS: `sops -e -i talenv.yaml`.
+4. Commit your `talconfig.yaml` and `talenv.yaml` in Git repository.
+
+Scenario 2 (You want talhelper to create from scratch):
 1. Create a `talconfig.yaml`, an example [template](./test/talconfig.yaml) is provided.
 2. Run `talhelper gensecret --patch-configfile > talenv.yaml` (`--patch-configfile` will add inlinePatches inside your `talconfig.yaml`)
 3. Encrypt the secret with SOPS: `sops -e -i talenv.yaml`
 4. Run `talhelper genconfig` and the output files will be in `./clusterconfig` by default.
+5. Commit your `talconfig.yaml` and `talenv.yaml` in Git repository.
 
 To get help, run `talhelper <subcommand> --help`
 

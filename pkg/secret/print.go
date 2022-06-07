@@ -8,8 +8,8 @@ import (
 	"github.com/talos-systems/talos/pkg/machinery/config/types/v1alpha1/generate"
 )
 
-func PrintSortedSecrets(input *generate.Input) {
-	unsorted := getSecrets(input)
+func PrintSortedSecrets(secret *generate.SecretsBundle) {
+	unsorted := getSecrets(secret)
 
 	sorted := make([]string, 0, len(unsorted))
 
@@ -23,91 +23,92 @@ func PrintSortedSecrets(input *generate.Input) {
 		fmt.Printf("%s: %s\n", k, unsorted[k])
 	}
 }
-func getSecrets(input *generate.Input) map[string]string {
+
+func getSecrets(secret *generate.SecretsBundle) map[string]string {
 	secrets := map[string]string{
-		"etcdCert": getEtcdCert(input, "cert"),
-		"etcdCertKey": getEtcdCert(input, "key"),
-		"k8sServiceAccountKey": getK8sServiceAccountKey(input),
-		"k8sAggregatorCert": getK8sAggregatorCert(input, "cert"),
-		"k8sAggregatorCertKey": getK8sAggregatorCert(input, "key"),
-		"clusterToken": getClusterToken(input),
-		"aescbcEncryptionKey": getAescbcEncryptionKey(input),
-		"clusterSecret": getClusterSecret(input),
-		"machineToken": getMachineToken(input),
-		"machineCert": getMachineCert(input, "cert"),
-		"machineCertKey": getMachineCert(input, "key"),
-		"clusterCert": getClusterCert(input, "cert"),
-		"clusterCertKey": getClusterCert(input, "key"),
+		"etcdCert": getEtcdCert(secret, "cert"),
+		"etcdCertKey": getEtcdCert(secret, "key"),
+		"k8sServiceAccountKey": getK8sServiceAccountKey(secret),
+		"k8sAggregatorCert": getK8sAggregatorCert(secret, "cert"),
+		"k8sAggregatorCertKey": getK8sAggregatorCert(secret, "key"),
+		"clusterToken": getClusterToken(secret),
+		"aescbcEncryptionKey": getAescbcEncryptionKey(secret),
+		"clusterSecret": getClusterSecret(secret),
+		"machineToken": getMachineToken(secret),
+		"machineCert": getMachineCert(secret, "cert"),
+		"machineCertKey": getMachineCert(secret, "key"),
+		"clusterCert": getClusterCert(secret, "cert"),
+		"clusterCertKey": getClusterCert(secret, "key"),
 	}
 
 	return secrets
 }
 
-func getMachineCert(input *generate.Input, kind string) string {
-	var machineCert string
+func getEtcdCert(secret *generate.SecretsBundle, kind string) string {
+	var etcdCert string
 	switch kind {
 	case "cert":
-		machineCert = base64.StdEncoding.EncodeToString(input.Certs.OS.Crt)
+		etcdCert = base64.StdEncoding.EncodeToString(secret.Certs.Etcd.Crt)
 	case "key":
-		machineCert = base64.StdEncoding.EncodeToString(input.Certs.OS.Key)
+		etcdCert = base64.StdEncoding.EncodeToString(secret.Certs.Etcd.Key)
 	}
-	return machineCert
+	return etcdCert
 }
 
-func getK8sAggregatorCert(input *generate.Input, kind string) string {
+func getK8sServiceAccountKey(secret *generate.SecretsBundle) string {
+	etcdCert := base64.StdEncoding.EncodeToString(secret.Certs.K8sServiceAccount.Key)
+	return etcdCert
+}
+
+func getK8sAggregatorCert(secret *generate.SecretsBundle, kind string) string {
 	var aggregatorCert string
 	switch kind {
 	case "cert":
-		aggregatorCert = base64.StdEncoding.EncodeToString(input.Certs.K8sAggregator.Crt)
+		aggregatorCert = base64.StdEncoding.EncodeToString(secret.Certs.K8sAggregator.Crt)
 	case "key":
-		aggregatorCert = base64.StdEncoding.EncodeToString(input.Certs.K8sAggregator.Key)
+		aggregatorCert = base64.StdEncoding.EncodeToString(secret.Certs.K8sAggregator.Key)
 	}
 	return aggregatorCert
 }
 
-func getEtcdCert(input *generate.Input, kind string) string {
-	var etcdCert string
-	switch kind {
-	case "cert":
-		etcdCert = base64.StdEncoding.EncodeToString(input.Certs.Etcd.Crt)
-	case "key":
-		etcdCert = base64.StdEncoding.EncodeToString(input.Certs.Etcd.Key)
-	}
-	return etcdCert
+func getClusterToken(secret *generate.SecretsBundle) string {
+	token := secret.Secrets.BootstrapToken
+	return token
 }
 
-func getClusterCert(input *generate.Input, kind string) string {
+func getAescbcEncryptionKey(secret *generate.SecretsBundle) string {
+	key := secret.Secrets.AESCBCEncryptionSecret
+	return key
+}
+
+func getClusterSecret(secret *generate.SecretsBundle) string {
+	key := secret.Cluster.Secret
+	return key
+}
+
+func getMachineToken(secret *generate.SecretsBundle) string {
+	token := secret.TrustdInfo.Token
+	return token
+}
+
+func getMachineCert(secret *generate.SecretsBundle, kind string) string {
+	var machineCert string
+	switch kind {
+	case "cert":
+		machineCert = base64.StdEncoding.EncodeToString(secret.Certs.OS.Crt)
+	case "key":
+		machineCert = base64.StdEncoding.EncodeToString(secret.Certs.OS.Key)
+	}
+	return machineCert
+}
+
+func getClusterCert(secret *generate.SecretsBundle, kind string) string {
 	var clusterCert string
 	switch kind {
 	case "cert":
-		clusterCert = base64.StdEncoding.EncodeToString(input.Certs.K8s.Crt)
+		clusterCert = base64.StdEncoding.EncodeToString(secret.Certs.K8s.Crt)
 	case "key":
-		clusterCert = base64.StdEncoding.EncodeToString(input.Certs.K8s.Key)
+		clusterCert = base64.StdEncoding.EncodeToString(secret.Certs.K8s.Key)
 	}
 	return clusterCert
-}
-
-func getK8sServiceAccountKey(input *generate.Input) string {
-	etcdCert := base64.StdEncoding.EncodeToString(input.Certs.K8sServiceAccount.Key)
-	return etcdCert
-}
-
-func getClusterToken(input *generate.Input) string {
-	token := input.Secrets.BootstrapToken
-	return token
-}
-
-func getAescbcEncryptionKey(input *generate.Input) string {
-	key := input.Secrets.AESCBCEncryptionSecret
-	return key
-}
-
-func getClusterSecret(input *generate.Input) string {
-	key := input.ClusterSecret
-	return key
-}
-
-func getMachineToken(input *generate.Input) string {
-	token := input.TrustdInfo.Token
-	return token
 }
