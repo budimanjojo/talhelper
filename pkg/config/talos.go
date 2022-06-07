@@ -25,7 +25,15 @@ func ParseTalosInput(config TalhelperConfig) (*generate.Input, error) {
 		return nil, err
 	}
 
-	input, err := generate.NewInput(config.ClusterName, config.Endpoint, kubernetesVersion, secrets, generate.WithVersionContract(versionContract))
+	opts := []generate.GenOption{}
+
+	opts = append(opts, generate.WithVersionContract(versionContract))
+
+	if config.CNIConfig.Name != "" {
+		opts = append(opts, generate.WithClusterCNIConfig(&v1alpha1.CNIConfig{CNIName: config.CNIConfig.Name, CNIUrls: config.CNIConfig.Urls}))
+	}
+
+	input, err := generate.NewInput(config.ClusterName, config.Endpoint, kubernetesVersion, secrets, opts[:]...)
 	if err != nil {
 		return nil, err
 	}
@@ -107,7 +115,7 @@ func createTalosClientConfig(config TalhelperConfig, input *generate.Input, mach
 	if string(input.Certs.OS.Crt) != string(machineCert.Crt) {
 		input.Certs.OS = machineCert
 
-		adminCert, err := generate.NewAdminCertificateAndKey(time.Now(), input.Certs.OS, options.Roles, 87600*time.Hour)
+		adminCert, err := generate.NewAdminCertificateAndKey(time.Now(), machineCert, options.Roles, 87600*time.Hour)
 		if err != nil {
 			return nil, err
 		}

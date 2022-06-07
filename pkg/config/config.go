@@ -6,6 +6,7 @@ type TalhelperConfig struct {
 	KubernetesVersion string       `yaml:"KubernetesVersion"`
 	Endpoint          string       `yaml:"endpoint"`
 	Nodes             []nodes      `yaml:"nodes"`
+	CNIConfig         cniConfig    `yaml:"cniConfig"`
 	ControlPlane      controlPlane `yaml:"controlPlane"`
 	Worker            worker       `yaml:"worker"`
 }
@@ -17,6 +18,11 @@ type nodes struct {
 	ControlPlane bool                   `yaml:"controlPlane"`
 	InstallDisk  string                 `yaml:"installDisk"`
 	InlinePatch  map[string]interface{} `yaml:"inlinePatch"`
+}
+
+type cniConfig struct {
+	Name string   `yaml:"name"`
+	Urls []string `yaml:"urls"`
 }
 
 type controlPlane struct {
