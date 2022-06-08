@@ -11,7 +11,7 @@ require (
 	github.com/talos-systems/crypto v0.3.5
 	github.com/talos-systems/talos/pkg/machinery v1.0.6
 	go.mozilla.org/sops/v3 v3.7.3
-	gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b
+	gopkg.in/yaml.v3 v3.0.1
 	sigs.k8s.io/yaml v1.3.0
 )
 
