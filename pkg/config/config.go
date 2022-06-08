@@ -2,11 +2,11 @@ package config
 
 type TalhelperConfig struct {
 	ClusterName       string       `yaml:"clusterName"`
-	TalosVersion      string       `yaml:"talosVersion"`
-	KubernetesVersion string       `yaml:"kubernetesVersion"`
+	TalosVersion      string       `yaml:"talosVersion,omitempty"`
+	KubernetesVersion string       `yaml:"kubernetesVersion,omitempty"`
 	Endpoint          string       `yaml:"endpoint"`
 	Nodes             []nodes      `yaml:"nodes"`
-	CNIConfig         cniConfig    `yaml:"cniConfig"`
+	CNIConfig         cniConfig    `yaml:"cniConfig,omitempty"`
 	ControlPlane      controlPlane `yaml:"controlPlane,omitempty"`
 	Worker            worker       `yaml:"worker,omitempty"`
 }
@@ -17,12 +17,12 @@ type nodes struct {
 	IPAddress    string                 `yaml:"ipAddress"`
 	ControlPlane bool                   `yaml:"controlPlane"`
 	InstallDisk  string                 `yaml:"installDisk"`
-	InlinePatch  map[string]interface{} `yaml:"inlinePatch"`
+	InlinePatch  map[string]interface{} `yaml:"inlinePatch,omitempty"`
 }
 
 type cniConfig struct {
 	Name string   `yaml:"name"`
-	Urls []string `yaml:"urls"`
+	Urls []string `yaml:"urls,omitempty"`
 }
 
 type controlPlane struct {
