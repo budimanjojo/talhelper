@@ -1,6 +1,6 @@
 clusterName: home-cluster
 talosVersion: v1.0
-kubernetesVersion: 1.23.6
+kubernetesVersion: v1.23.6
 cniConfig:
   name: flannel
   urls: []
