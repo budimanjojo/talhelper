@@ -3,7 +3,7 @@ package config
 type TalhelperConfig struct {
 	ClusterName       string       `yaml:"clusterName"`
 	TalosVersion      string       `yaml:"talosVersion"`
-	KubernetesVersion string       `yaml:"KubernetesVersion"`
+	KubernetesVersion string       `yaml:"kubernetesVersion"`
 	Endpoint          string       `yaml:"endpoint"`
 	Nodes             []nodes      `yaml:"nodes"`
 	CNIConfig         cniConfig    `yaml:"cniConfig"`
