@@ -47,24 +47,27 @@ func createTalosClusterConfig(node nodes, config TalhelperConfig, input *generat
 	var patch []map[string]interface{}
 	var iPatch map[string]interface{}
 
+	nodeInput := input
+	if node.InstallDisk != "" {
+		nodeInput.InstallDisk = node.InstallDisk
+	}
+
 	switch node.ControlPlane {
 	case true:
-		cfg, err = generate.Config(machine.TypeControlPlane, input)
+		cfg, err = generate.Config(machine.TypeControlPlane, nodeInput)
 		if err != nil {
 			return nil, err
 		}
 		patch = config.ControlPlane.ConfigPatches
 		iPatch = config.ControlPlane.InlinePatch
 	case false:
-		cfg, err = generate.Config(machine.TypeWorker, input)
+		cfg, err = generate.Config(machine.TypeWorker, nodeInput)
 		if err != nil {
 			return nil, err
 		}
 		patch = config.Worker.ConfigPatches
 		iPatch = config.Worker.InlinePatch
 	}
-
-	cfg.MachineConfig.MachineInstall.InstallDisk = node.InstallDisk
 
 	if node.Domain == "" {
 		cfg.MachineConfig.MachineNetwork.NetworkHostname = node.Hostname
