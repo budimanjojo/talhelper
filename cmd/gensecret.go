@@ -34,7 +34,7 @@ var gensecretCmd = &cobra.Command{
 		default:
 			cfg, err := configloader.NewFromFile(gensecretFromCfg)
 			if err != nil {
-				log.Fatalf("failed to load Talos config file: %s", err)
+				log.Fatalf("failed to load Talos cluster node config file: %s", err)
 			}
 
 			s = secret.NewSecretFromCfg(generate.NewClock(), cfg)
@@ -67,6 +67,6 @@ func init() {
 	rootCmd.AddCommand(gensecretCmd)
 
 	gensecretCmd.Flags().StringVarP(&gensecretCfgFile, "config-file", "c", "talconfig.yaml", "File containing configurations for talhelper")
-	gensecretCmd.Flags().StringVarP(&gensecretFromCfg, "from-configfile", "f", "", "Talos config file to generate secret from")
+	gensecretCmd.Flags().StringVarP(&gensecretFromCfg, "from-configfile", "f", "", "Talos cluster node configuration file to generate secret from")
 	gensecretCmd.Flags().BoolVarP(&gensecretPatchCfg, "patch-configfile", "p", false, "Whether to generate inline patches into config file")
 }

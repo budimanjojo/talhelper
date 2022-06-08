@@ -46,7 +46,7 @@ You can also use this tool to generate Talos secrets with `talhelper gensecret` 
 
 This tool will:
 * Read your `talconfig.yaml`
-f Read and decrypt your `talenv.yaml` with [SOPS](https://github.com/mozilla/sops)
+* Read and decrypt your `talenv.yaml` with [SOPS](https://github.com/mozilla/sops)
 * Do [envsubst](https://linux.die.net/man/1/envsubst) if needed
 * Validate config file is good for talosctl
 * Generate Talos cluster and config yaml files for you based on your `talconfig.yaml`
@@ -111,19 +111,18 @@ Usage:
   talhelper gensecret [flags]
 
 Flags:
-  -c, --config-file string   File containing configurations for talhelper (default "talconfig.yaml")
-  -h, --help                 help for gensecret
-  -p, --patch-configfile     Whether to generate inline patches into config file
+  -c, --config-file string       File containing configurations for talhelper (default "talconfig.yaml")
+  -f, --from-configfile string   Talos cluster node configuration file to generate secret from
+  -h, --help                     help for gensecret
+  -p, --patch-configfile         Whether to generate inline patches into config file
 ```
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Roadmap
 
 - [ ] Add tests
-- [ ] Add release workflows
+- [v] Add release workflows
 - [ ] More useful features
-
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
