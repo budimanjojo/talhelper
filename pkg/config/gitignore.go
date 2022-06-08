@@ -31,6 +31,7 @@ func createGitIgnore(path, line string) error {
 	if err != nil {
 		return err
 	}
+	defer file.Close()
 
 	ignoreObject, err := ignore.CompileIgnoreFile(ignorefPath)
 	if err != nil {
