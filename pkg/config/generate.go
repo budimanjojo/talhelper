@@ -26,14 +26,26 @@ func (config TalhelperConfig) GenerateConfig(outputDir, mode string) error {
 		}
 
 		if node.InlinePatch != nil {
-			iPatchedCfg, err := yaml.Marshal(node.InlinePatch)
+			iPatch, err := yaml.Marshal(node.InlinePatch)
 			if err != nil {
 				return fmt.Errorf("failed to marshal node inline patch for node %q: %s", node.Hostname, err)
 			}
 
-			patchedCfg, err = ApplyInlinePatchFromYaml(iPatchedCfg, patchedCfg)
+			patchedCfg, err = ApplyInlinePatchFromYaml(iPatch, patchedCfg)
 			if err != nil {
 				return fmt.Errorf("failed to apply node patch for node %q: %s", node.Hostname, err)
+			}
+		}
+
+		if len(node.ConfigPatches) != 0 {
+			nodePatches, err := yaml.Marshal(node.ConfigPatches)
+			if err != nil {
+				return fmt.Errorf("failed to marshal node configPatches for node %q: %s", node.Hostname, err)
+			}
+
+			patchedCfg, err = applyPatchFromYaml(nodePatches, patchedCfg)
+			if err != nil {
+				return fmt.Errorf("failed to apply node configPatches for node %q: %s", node.Hostname, err)
 			}
 		}
 

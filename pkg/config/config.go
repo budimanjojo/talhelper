@@ -12,12 +12,13 @@ type TalhelperConfig struct {
 }
 
 type nodes struct {
-	Hostname     string                 `yaml:"hostname"`
-	Domain       string                 `yaml:"domain"`
-	IPAddress    string                 `yaml:"ipAddress"`
-	ControlPlane bool                   `yaml:"controlPlane"`
-	InstallDisk  string                 `yaml:"installDisk"`
-	InlinePatch  map[string]interface{} `yaml:"inlinePatch,omitempty"`
+	Hostname      string                   `yaml:"hostname"`
+	Domain        string                   `yaml:"domain"`
+	IPAddress     string                   `yaml:"ipAddress"`
+	ControlPlane  bool                     `yaml:"controlPlane"`
+	InstallDisk   string                   `yaml:"installDisk"`
+	ConfigPatches []map[string]interface{} `yaml:"configPatches,omitempty"`
+	InlinePatch   map[string]interface{}   `yaml:"inlinePatch,omitempty"`
 }
 
 type cniConfig struct {

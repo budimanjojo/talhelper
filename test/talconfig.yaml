@@ -18,6 +18,13 @@ nodes:
             - interface: eth0
               addresses:
                 - 192.168.200.11/24
+    configPatches:
+      - op: add
+        path: /cluster/apiServer/certSANs
+        value:
+          - 192.168.200.10
+          - kmaster1
+          - home-cluster.cluster.local
   - hostname: kmaster2
     domain: ""
     ipAddress: 192.168.200.12
