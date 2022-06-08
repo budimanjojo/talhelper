@@ -55,7 +55,7 @@ var gensecretCmd = &cobra.Command{
 				log.Fatalf("failed to unmarshal config file: %s", err)
 			}
 
-			err = secret.PatchTalconfig(m, gensecretCfgFile)
+			err = secret.PatchTalconfig(gensecretCfgFile)
 			if err != nil {
 				log.Fatalf("failed to patch config file %s: %s", genconfigCfgFile, err)
 			}

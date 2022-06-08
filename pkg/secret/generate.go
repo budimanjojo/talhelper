@@ -8,7 +8,7 @@ import (
 	"github.com/talos-systems/talos/pkg/machinery/config/types/v1alpha1/generate"
 )
 
-func PatchTalconfig(config talconfig.TalhelperConfig, configFile string) error {
+func PatchTalconfig(configFile string) error {
 	cf, err := os.ReadFile(configFile)
 	if err != nil {
 		return err
