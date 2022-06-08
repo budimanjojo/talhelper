@@ -7,8 +7,8 @@ type TalhelperConfig struct {
 	Endpoint          string       `yaml:"endpoint"`
 	Nodes             []nodes      `yaml:"nodes"`
 	CNIConfig         cniConfig    `yaml:"cniConfig"`
-	ControlPlane      controlPlane `yaml:"controlPlane"`
-	Worker            worker       `yaml:"worker"`
+	ControlPlane      controlPlane `yaml:"controlPlane,omitempty"`
+	Worker            worker       `yaml:"worker,omitempty"`
 }
 
 type nodes struct {
@@ -26,11 +26,11 @@ type cniConfig struct {
 }
 
 type controlPlane struct {
-	ConfigPatches []map[string]interface{} `yaml:"patches,omitempty"`
-	InlinePatch   map[string]interface{}   `yaml:"inlinePatches,omitempty"`
+	ConfigPatches []map[string]interface{} `yaml:"configPatches,omitempty"`
+	InlinePatch   map[string]interface{}   `yaml:"inlinePatch,omitempty"`
 }
 
 type worker struct {
-	ConfigPatches []map[string]interface{} `yaml:"patches,omitempty"`
-	InlinePatch   map[string]interface{}   `yaml:"inlinePatches,omitempty"`
+	ConfigPatches []map[string]interface{} `yaml:"configPatches,omitempty"`
+	InlinePatch   map[string]interface{}   `yaml:"inlinePatch,omitempty"`
 }
