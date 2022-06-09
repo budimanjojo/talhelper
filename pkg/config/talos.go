@@ -1,16 +1,36 @@
 package config
 
 import (
+	"bytes"
 	"encoding/json"
 	"time"
 
 	"github.com/talos-systems/crypto/x509"
+	"gopkg.in/yaml.v3"
 
 	talosconfig "github.com/talos-systems/talos/pkg/machinery/config"
 	"github.com/talos-systems/talos/pkg/machinery/config/types/v1alpha1"
 	"github.com/talos-systems/talos/pkg/machinery/config/types/v1alpha1/generate"
 	"github.com/talos-systems/talos/pkg/machinery/config/types/v1alpha1/machine"
 )
+
+func reEncodeTalosNodeConfig(cfgFile []byte, cfg *v1alpha1.Config) ([]byte, error) {
+	err := yaml.Unmarshal(cfgFile, &cfg)
+	if err != nil {
+		return nil, err
+	}
+
+	buf := new(bytes.Buffer)
+	encoder := yaml.NewEncoder(buf)
+	encoder.SetIndent(2)
+
+	err = encoder.Encode(cfg)
+	if err != nil {
+		return nil, err
+	}
+
+	return buf.Bytes(), nil
+}
 
 func ParseTalosInput(config TalhelperConfig) (*generate.Input, error) {
 	kubernetesVersion := config.k8sVersion()

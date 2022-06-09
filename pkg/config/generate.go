@@ -6,6 +6,7 @@ import (
 	"path/filepath"
 
 	talosconfig "github.com/talos-systems/talos/pkg/machinery/config"
+	"github.com/talos-systems/talos/pkg/machinery/config/types/v1alpha1"
 	"sigs.k8s.io/yaml"
 )
 
@@ -59,7 +60,14 @@ func (config TalhelperConfig) GenerateConfig(outputDir, mode string) error {
 			return fmt.Errorf("failed to verify config for node %q: %s", node.Hostname, err)
 		}
 
-		err = dumpConfig(cfgFile, patchedCfg)
+		// Reencode so the formatting stays
+		var m *v1alpha1.Config
+		finalCfg, err := reEncodeTalosNodeConfig(patchedCfg, m)
+		if err != nil {
+			return fmt.Errorf("failed to reencode final node config for node %q: %s", node.Hostname, err)
+		}
+
+		err = dumpConfig(cfgFile, finalCfg)
 		if err != nil {
 			return fmt.Errorf("failed to dump config for node %q: %s", node.Hostname, err)
 		}
