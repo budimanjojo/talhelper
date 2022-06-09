@@ -28,3 +28,7 @@ func (c TalhelperConfig) talosVersion() string {
 	}
 	return c.TalosVersion
 }
+
+func (c TalhelperConfig) installerURL() string {
+	return "ghcr.io/siderolabs/installer:" + c.talosVersion()
+}

@@ -28,6 +28,7 @@ func ParseTalosInput(config TalhelperConfig) (*generate.Input, error) {
 	opts := []generate.GenOption{}
 
 	opts = append(opts, generate.WithVersionContract(versionContract))
+	opts = append(opts, generate.WithInstallImage(config.installerURL()))
 
 	if config.CNIConfig.Name != "" {
 		opts = append(opts, generate.WithClusterCNIConfig(&v1alpha1.CNIConfig{CNIName: config.CNIConfig.Name, CNIUrls: config.CNIConfig.Urls}))
