@@ -112,7 +112,9 @@ func createTalosClientConfig(config TalhelperConfig, input *generate.Input, mach
 
 	var endpointList []string
 	for _, node := range config.Nodes {
-		endpointList = append(endpointList, node.IPAddress)
+		if node.ControlPlane {
+			endpointList = append(endpointList, node.IPAddress)
+		}
 	}
 
 	// make sure ca in talosconfig match machine.ca.crt in machine config
