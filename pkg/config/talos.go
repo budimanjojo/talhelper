@@ -34,6 +34,10 @@ func ParseTalosInput(config TalhelperConfig) (*generate.Input, error) {
 		opts = append(opts, generate.WithClusterCNIConfig(&v1alpha1.CNIConfig{CNIName: config.CNIConfig.Name, CNIUrls: config.CNIConfig.Urls}))
 	}
 
+	if config.Domain != "" {
+		opts = append(opts, generate.WithDNSDomain(config.Domain))
+	}
+
 	input, err := generate.NewInput(config.ClusterName, config.Endpoint, kubernetesVersion, secrets, opts[:]...)
 	if err != nil {
 		return nil, err
@@ -70,11 +74,7 @@ func createTalosClusterConfig(node nodes, config TalhelperConfig, input *generat
 		iPatch = config.Worker.InlinePatch
 	}
 
-	if node.Domain == "" {
-		cfg.MachineConfig.MachineNetwork.NetworkHostname = node.Hostname
-	} else {
-		cfg.MachineConfig.MachineNetwork.NetworkHostname = node.Hostname + "." + node.Domain
-	}
+	cfg.MachineConfig.MachineNetwork.NetworkHostname = node.Hostname
 
 	marshaledCfg, err := cfg.Bytes()
 	if err != nil {

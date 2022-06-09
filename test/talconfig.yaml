@@ -5,12 +5,12 @@ cniConfig:
   name: flannel
   urls: []
 endpoint: https://192.168.200.10:6443
+domain: cluster.localaaa
 nodes:
   - hostname: kmaster1
     ipAddress: 192.168.200.11
     installDisk: /dev/sda
     controlPlane: true
-    domain: ""
     inlinePatch:
       machine:
         network:
@@ -26,12 +26,10 @@ nodes:
           - kmaster1
           - home-cluster.cluster.local
   - hostname: kmaster2
-    domain: ""
     ipAddress: 192.168.200.12
     installDisk: /dev/sda
     controlPlane: true
   - hostname: kworker1
-    domain: ""
     ipAddress: 192.168.200.13
     installDisk: /dev/sdb
     controlPlane: false

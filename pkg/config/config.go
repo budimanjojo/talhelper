@@ -5,6 +5,7 @@ type TalhelperConfig struct {
 	TalosVersion      string       `yaml:"talosVersion,omitempty"`
 	KubernetesVersion string       `yaml:"kubernetesVersion,omitempty"`
 	Endpoint          string       `yaml:"endpoint"`
+	Domain            string       `yaml:"domain"`
 	Nodes             []nodes      `yaml:"nodes"`
 	CNIConfig         cniConfig    `yaml:"cniConfig,omitempty"`
 	ControlPlane      controlPlane `yaml:"controlPlane,omitempty"`
@@ -13,7 +14,6 @@ type TalhelperConfig struct {
 
 type nodes struct {
 	Hostname      string                   `yaml:"hostname"`
-	Domain        string                   `yaml:"domain"`
 	IPAddress     string                   `yaml:"ipAddress"`
 	ControlPlane  bool                     `yaml:"controlPlane"`
 	InstallDisk   string                   `yaml:"installDisk"`
