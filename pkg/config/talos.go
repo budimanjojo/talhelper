@@ -50,6 +50,10 @@ func ParseTalosInput(config TalhelperConfig) (*generate.Input, error) {
 	opts = append(opts, generate.WithVersionContract(versionContract))
 	opts = append(opts, generate.WithInstallImage(config.installerURL()))
 
+	if config.AllowSchedulingOnMasters {
+		opts = append(opts, generate.WithAllowSchedulingOnMasters(config.AllowSchedulingOnMasters))
+	}
+
 	if config.CNIConfig.Name != "" {
 		opts = append(opts, generate.WithClusterCNIConfig(&v1alpha1.CNIConfig{CNIName: config.CNIConfig.Name, CNIUrls: config.CNIConfig.Urls}))
 	}
