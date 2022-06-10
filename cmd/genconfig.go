@@ -36,7 +36,10 @@ var (
 						log.Fatalf("failed to decrypt/read env file %s: %s", file, err)
 					}
 
-					config.LoadEnv(env)
+					err = config.LoadEnv(env)
+					if err != nil {
+						log.Fatalf("failed to load env variables from file %s: %s", file, err)
+					}
 				}
 			}
 
