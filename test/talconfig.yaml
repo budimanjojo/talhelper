@@ -30,6 +30,14 @@ nodes:
     ipAddress: 192.168.200.12
     installDisk: /dev/sda
     controlPlane: true
+    networkInterfaces:
+      - interface: eth0
+        dhcp: true
+        ignore: false
+      - interface: eth1
+        addresses:
+          - 192.168.200.12/24
+        mtu: 1500
   - hostname: kworker1
     ipAddress: 192.168.200.13
     installDisk: /dev/sdb

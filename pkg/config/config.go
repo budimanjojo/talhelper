@@ -14,12 +14,13 @@ type TalhelperConfig struct {
 }
 
 type nodes struct {
-	Hostname      string                   `yaml:"hostname"`
-	IPAddress     string                   `yaml:"ipAddress"`
-	ControlPlane  bool                     `yaml:"controlPlane"`
-	InstallDisk   string                   `yaml:"installDisk"`
-	ConfigPatches []map[string]interface{} `yaml:"configPatches,omitempty"`
-	InlinePatch   map[string]interface{}   `yaml:"inlinePatch,omitempty"`
+	Hostname          string                   `yaml:"hostname"`
+	IPAddress         string                   `yaml:"ipAddress"`
+	ControlPlane      bool                     `yaml:"controlPlane"`
+	InstallDisk       string                   `yaml:"installDisk"`
+	NetworkInterfaces []network                `yaml:"networkInterfaces,omitempty"`
+	ConfigPatches     []map[string]interface{} `yaml:"configPatches,omitempty"`
+	InlinePatch       map[string]interface{}   `yaml:"inlinePatch,omitempty"`
 }
 
 type cniConfig struct {
@@ -35,4 +36,12 @@ type controlPlane struct {
 type worker struct {
 	ConfigPatches []map[string]interface{} `yaml:"configPatches,omitempty"`
 	InlinePatch   map[string]interface{}   `yaml:"inlinePatch,omitempty"`
+}
+
+type network struct {
+	Interface string   `yaml:"interface,omitempty"`
+	Addresses []string `yaml:"addresses,omitempty"`
+	MTU       int      `yaml:"mtu,omitempty"`
+	DHCP      bool     `yaml:"dhcp,omitempty"`
+	Ignore    bool     `yaml:"ignore,omitempty"`
 }
