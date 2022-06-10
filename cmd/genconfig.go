@@ -5,7 +5,6 @@ import (
 	"log"
 	"os"
 
-	"github.com/a8m/envsubst"
 	"github.com/budimanjojo/talhelper/pkg/config"
 	"github.com/spf13/cobra"
 
@@ -14,10 +13,10 @@ import (
 
 var (
 	genconfigOutDir      string
-	genconfigCfgFile  string
+	genconfigCfgFile     string
 	genconfigTalosMode   string
 	genconfigNoGitignore bool
-	genconfigEnvFile     string
+	genconfigEnvFile     []string
 )
 
 var (
@@ -29,28 +28,26 @@ var (
 			if err != nil {
 				log.Fatalf("failed to read config file: %s", err)
 			}
-			cfFile := &cf
 
-			if _, err := os.Stat(genconfigEnvFile); !errors.Is(err, os.ErrNotExist) {
-				env, err := config.DecryptYamlWithSops(genconfigEnvFile)
-				if err != nil {
-					log.Fatalf("failed to decrypt/read env file: %s", err)
-				}
+			for _, file := range genconfigEnvFile {
+				if _, err := os.Stat(file); !errors.Is(err, os.ErrNotExist) {
+					env, err := config.DecryptYamlWithSops(file)
+					if err != nil {
+						log.Fatalf("failed to decrypt/read env file %s: %s", file, err)
+					}
 
-				*cfFile, err = config.SubstituteEnvFromYaml(env, cf)
-				if err != nil {
-					log.Fatalf("failed to substite env: %s", err)
+					config.LoadEnv(env)
 				}
 			}
 
-			_, err = envsubst.Bytes(*cfFile)
+			cfFile, err := config.SubstituteEnvFromYaml(cf)
 			if err != nil {
-				log.Fatalf("failed to substite env: %s", err)
+				log.Fatalf("failed to substitute env: %s", err)
 			}
 
 			var m config.TalhelperConfig
 
-			err = yaml.Unmarshal(*cfFile, &m)
+			err = yaml.Unmarshal(cfFile, &m)
 			if err != nil {
 				log.Fatalf("failed to unmarshal data: %s", err)
 			}
@@ -75,7 +72,7 @@ func init() {
 
 	genconfigCmd.Flags().StringVarP(&genconfigOutDir, "out-dir", "o", "./clusterconfig", "Directory where to dump the generated files")
 	genconfigCmd.Flags().StringVarP(&genconfigCfgFile, "config-file", "c", "talconfig.yaml", "File containing configurations for talhelper")
-	genconfigCmd.Flags().StringVarP(&genconfigEnvFile, "env-file", "e", "talenv.yaml", "File containing env variables for config file")
+	genconfigCmd.Flags().StringSliceVarP(&genconfigEnvFile, "env-file", "e", []string{"talenv.yaml", "talenv.sops.yaml", "talenv.yml", "talenv.sops.yml"}, "List of files containing env variables for config file")
 	genconfigCmd.Flags().StringVarP(&genconfigTalosMode, "talos-mode", "m", "metal", "Talos runtime mode to validate generated config")
 	genconfigCmd.Flags().BoolVar(&genconfigNoGitignore, "no-gitignore", false, "Create/update gitignore file too")
 }

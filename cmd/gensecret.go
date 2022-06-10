@@ -14,10 +14,9 @@ import (
 
 var (
 	gensecretPatchCfg bool
-	gensecretFromCfg string
-	gensecretCfgFile string
+	gensecretFromCfg  string
+	gensecretCfgFile  string
 )
-
 
 var gensecretCmd = &cobra.Command{
 	Use:   "gensecret",

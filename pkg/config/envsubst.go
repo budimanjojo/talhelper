@@ -7,26 +7,23 @@ import (
 	"github.com/joho/godotenv"
 )
 
-func loadEnv(file []byte) error {
+func LoadEnv(file []byte) error {
 	mFile, err := godotenv.Unmarshal(string(file))
 	if err != nil {
 		return nil
 	}
+
 	for k, v := range mFile {
 		os.Setenv(k, v)
 	}
 	return nil
 }
 
-func SubstituteEnvFromYaml(env, file []byte) ([]byte, error) {
-	err := loadEnv(env)
-	if err != nil {
-		return nil, err
-	}
-
+func SubstituteEnvFromYaml(file []byte) ([]byte, error) {
 	data, err := envsubst.BytesRestricted(file, true, true)
 	if err != nil {
 		return nil, err
 	}
+
 	return data, nil
 }

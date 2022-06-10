@@ -46,7 +46,7 @@ You can also use this tool to generate Talos secrets with `talhelper gensecret` 
 
 This tool will:
 * Read your `talconfig.yaml`
-* Read and decrypt your `talenv.yaml` with [SOPS](https://github.com/mozilla/sops)
+* Read and decrypt your `talenv.yaml` or `talenv.sops.yaml` with [SOPS](https://github.com/mozilla/sops)
 * Do [envsubst](https://linux.die.net/man/1/envsubst) if needed
 * Validate config file is good for talosctl
 * Generate Talos cluster and config yaml files for you based on your `talconfig.yaml`
@@ -67,10 +67,10 @@ Scenario 1 (You already have your talos config but not GitOps it yet):
 
 Scenario 2 (You want talhelper to create from scratch):
 1. Create a `talconfig.yaml`, an example [template](./test/talconfig.yaml) is provided.
-2. Run `talhelper gensecret --patch-configfile > talenv.yaml` (`--patch-configfile` will add inlinePatches inside your `talconfig.yaml`)
-3. Encrypt the secret with SOPS: `sops -e -i talenv.yaml`
+2. Run `talhelper gensecret --patch-configfile > talenv.sops.yaml` (`--patch-configfile` will add inlinePatches inside your `talconfig.yaml`)
+3. Encrypt the secret with SOPS: `sops -e -i talenv.sops.yaml`
 4. Run `talhelper genconfig` and the output files will be in `./clusterconfig` by default.
-5. Commit your `talconfig.yaml` and `talenv.yaml` in Git repository.
+5. Commit your `talconfig.yaml` and `talenv.sops.yaml` in Git repository.
 
 To get help, run `talhelper <subcommand> --help`
 

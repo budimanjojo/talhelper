@@ -24,7 +24,12 @@ c: "123"
 d: default value
 `
 
-	result, _ := SubstituteEnvFromYaml([]byte(env), []byte(file))
+	err := LoadEnv([]byte(env))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	result, _ := SubstituteEnvFromYaml([]byte(file))
 	if expected != string(result) {
 		t.Errorf("got %s, want %s", string(result), expected)
 
@@ -44,7 +49,7 @@ default: default value
 		"default": "default value",
 	}
 
-	err := loadEnv([]byte(file))
+	err := LoadEnv([]byte(file))
 	if err != nil {
 		t.Fatal(err)
 	}
