@@ -30,7 +30,7 @@ var (
 			}
 
 			for _, file := range genconfigEnvFile {
-				if _, err := os.Stat(file); errors.Is(err, os.ErrExist) {
+				if _, err := os.Stat(file); err == nil {
 					env, err := config.DecryptYamlWithSops(file)
 					if err != nil {
 						log.Fatalf("failed to decrypt/read env file %s: %s", file, err)
@@ -40,6 +40,10 @@ var (
 					if err != nil {
 						log.Fatalf("failed to load env variables from file %s: %s", file, err)
 					}
+				} else if errors.Is(err, os.ErrNotExist) {
+					continue
+				} else {
+					log.Fatalf("failed to stat env file %s: %s ", file, err)
 				}
 			}
 
