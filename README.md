@@ -76,7 +76,8 @@ To get help, run `talhelper <subcommand> --help`
 
 ### Installation
 
-You can download the archives from [release](https://github.com/budimanjojo/talhelper/releases/latest) page.
+[Recommended Way] You can install `talhelper` using [aqua](https://aquaproj.github.io/).
+You can also download the archives from [release](https://github.com/budimanjojo/talhelper/releases/latest) page.
 Or you can install it using this one liner, using tool from [jpillora](https://github.com/jpillora/installer):
 ```
 curl https://i.jpillora.com/budimanjojo/talhelper! | sudo bash
@@ -99,7 +100,7 @@ Available Commands:
 
 Flags:
   -c, --config-file string   File containing configurations for nodes (default "talconfig.yaml")
-  -e, --env-file string      File containing env variables for config file (default "talenv.yaml")
+  -e, --env-file strings     List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
   -h, --help                 help for genconfig
       --no-gitignore         Create/update gitignore file too
   -o, --out-dir string       Directory where to dump the generated files (default "./clusterconfig")
@@ -121,7 +122,7 @@ Flags:
 ## Roadmap
 
 - [ ] Add tests
-- [v] Add release workflows
+- [x] Add release workflows
 - [ ] More useful features
 
 <p align="right">(<a href="#top">back to top</a>)</p>
