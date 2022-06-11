@@ -4,10 +4,10 @@ type TalhelperConfig struct {
 	ClusterName              string       `yaml:"clusterName"`
 	TalosVersion             string       `yaml:"talosVersion,omitempty"`
 	KubernetesVersion        string       `yaml:"kubernetesVersion,omitempty"`
-	AllowSchedulingOnMasters bool         `yaml:"AllowSchedulingOnMasters,omitempty"`
-	CNIConfig                cniConfig    `yaml:"cniConfig,omitempty"`
 	Endpoint                 string       `yaml:"endpoint"`
 	Domain                   string       `yaml:"domain"`
+	AllowSchedulingOnMasters bool         `yaml:"AllowSchedulingOnMasters,omitempty"`
+	CNIConfig                cniConfig    `yaml:"cniConfig,omitempty"`
 	Nodes                    []nodes      `yaml:"nodes"`
 	ControlPlane             controlPlane `yaml:"controlPlane,omitempty"`
 	Worker                   worker       `yaml:"worker,omitempty"`
