@@ -100,6 +100,10 @@ func createTalosClusterConfig(node nodes, config TalhelperConfig, input *generat
 
 	cfg.MachineConfig.MachineNetwork.NetworkHostname = node.Hostname
 
+	if len(node.Nameservers) != 0 {
+		cfg.MachineConfig.MachineNetwork.NameServers = node.Nameservers
+	}
+
 	if len(node.NetworkInterfaces) != 0 {
 		iface := make([]v1alpha1.Device, len(node.NetworkInterfaces))
 		for k, v := range node.NetworkInterfaces {

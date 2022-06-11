@@ -12,6 +12,9 @@ nodes:
     ipAddress: 192.168.200.11
     installDisk: /dev/sda
     controlPlane: true
+    nameservers:
+      - 1.1.1.1
+      - 8.8.8.8
     inlinePatch:
       machine:
         network:

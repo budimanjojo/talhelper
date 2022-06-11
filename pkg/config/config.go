@@ -18,6 +18,7 @@ type nodes struct {
 	IPAddress         string                   `yaml:"ipAddress"`
 	ControlPlane      bool                     `yaml:"controlPlane"`
 	InstallDisk       string                   `yaml:"installDisk"`
+	Nameservers       []string                 `yaml:"nameservers,omitempty"`
 	NetworkInterfaces []network                `yaml:"networkInterfaces,omitempty"`
 	ConfigPatches     []map[string]interface{} `yaml:"configPatches,omitempty"`
 	InlinePatch       map[string]interface{}   `yaml:"inlinePatch,omitempty"`
