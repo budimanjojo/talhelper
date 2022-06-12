@@ -9,7 +9,7 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/talos-systems/talos/pkg/machinery/config/configloader"
 	"github.com/talos-systems/talos/pkg/machinery/config/types/v1alpha1/generate"
-	"sigs.k8s.io/yaml"
+	"gopkg.in/yaml.v3"
 )
 
 var (
