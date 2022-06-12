@@ -7,8 +7,7 @@ import (
 
 	"github.com/budimanjojo/talhelper/pkg/config"
 	"github.com/spf13/cobra"
-
-	"sigs.k8s.io/yaml"
+	"gopkg.in/yaml.v3"
 )
 
 var (
