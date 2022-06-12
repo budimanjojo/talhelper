@@ -2,6 +2,10 @@ package config
 
 import (
 	"strings"
+	"net"
+
+	tnet "github.com/talos-systems/net"
+	"github.com/talos-systems/talos/pkg/machinery/constants"
 )
 
 var (
@@ -25,6 +29,28 @@ func (c TalhelperConfig) talosVersion() string {
 		return "v" + c.TalosVersion
 	}
 	return c.TalosVersion
+}
+
+func (c TalhelperConfig) clusterPodNets() []string {
+	if len(c.ClusterPodNets) == 0 {
+		if tnet.IsIPv6(net.ParseIP(c.Endpoint)) {
+			c.ClusterPodNets = []string{constants.DefaultIPv6PodNet}
+		} else {
+			c.ClusterPodNets = []string{constants.DefaultIPv4PodNet}
+		}
+	}
+	return c.ClusterPodNets
+}
+
+func (c TalhelperConfig) clusterSvcNets() []string {
+	if len(c.ClusterSvcNets) == 0 {
+		if tnet.IsIPv6(net.ParseIP(c.Endpoint)) {
+			c.ClusterSvcNets = []string{constants.DefaultIPv6ServiceNet}
+		} else {
+			c.ClusterSvcNets = []string{constants.DefaultIPv4ServiceNet}
+		}
+	}
+	return c.ClusterSvcNets
 }
 
 func (c TalhelperConfig) installerURL() string {

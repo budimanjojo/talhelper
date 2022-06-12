@@ -67,6 +67,9 @@ func ParseTalosInput(config TalhelperConfig) (*generate.Input, error) {
 		return nil, err
 	}
 
+	input.PodNet = config.clusterPodNets()
+	input.ServiceNet = config.clusterSvcNets()
+
 	return input, nil
 }
 

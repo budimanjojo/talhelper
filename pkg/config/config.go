@@ -7,6 +7,8 @@ type TalhelperConfig struct {
 	Endpoint                 string       `yaml:"endpoint"`
 	Domain                   string       `yaml:"domain,omitempty"`
 	AllowSchedulingOnMasters bool         `yaml:"AllowSchedulingOnMasters,omitempty"`
+	ClusterPodNets           []string     `yaml:"clusterPodNets,omitempty"`
+	ClusterSvcNets           []string     `yaml:"clusterServiceNets,omitempty"`
 	CNIConfig                cniConfig    `yaml:"cniConfig,omitempty"`
 	Nodes                    []nodes      `yaml:"nodes"`
 	ControlPlane             controlPlane `yaml:"controlPlane,omitempty"`

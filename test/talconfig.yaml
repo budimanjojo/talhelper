@@ -7,6 +7,10 @@ cniConfig:
 endpoint: https://192.168.200.10:6443
 allowSchedulingOnMasters: true
 domain: cluster.localaaa
+clusterPodNets:
+  - 10.244.0.0/16
+clusterSvcNets:
+  - 10.96.0.0/12
 nodes:
   - hostname: kmaster1
     ipAddress: 192.168.200.11

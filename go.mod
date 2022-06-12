@@ -9,6 +9,7 @@ require (
 	github.com/sabhiram/go-gitignore v0.0.0-20210923224102-525f6e181f06
 	github.com/spf13/cobra v1.4.0
 	github.com/talos-systems/crypto v0.3.5
+	github.com/talos-systems/net v0.3.2
 	github.com/talos-systems/talos/pkg/machinery v1.0.6
 	go.mozilla.org/sops/v3 v3.7.3
 	gopkg.in/yaml.v3 v3.0.1
@@ -97,7 +98,6 @@ require (
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/talos-systems/go-blockdevice v0.3.1 // indirect
 	github.com/talos-systems/go-debug v0.2.1 // indirect
-	github.com/talos-systems/net v0.3.2 // indirect
 	go.mozilla.org/gopgagent v0.0.0-20170926210634-4d7ea76ff71a // indirect
 	go.opencensus.io v0.23.0 // indirect
 	go.uber.org/atomic v1.9.0 // indirect
