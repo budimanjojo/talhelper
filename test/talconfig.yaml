@@ -26,6 +26,9 @@ nodes:
             - interface: eth0
               addresses:
                 - 192.168.200.11/24
+              routes:
+                - gateway: 192.168.200.1
+                  network: 0.0.0.0/0
     configPatches:
       - op: add
         path: /cluster/apiServer/certSANs

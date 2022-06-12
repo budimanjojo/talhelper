@@ -47,4 +47,12 @@ type network struct {
 	MTU       int      `yaml:"mtu,omitempty"`
 	DHCP      bool     `yaml:"dhcp,omitempty"`
 	Ignore    bool     `yaml:"ignore,omitempty"`
+	Routes    []route  `yaml:"routes,omitempty"`
+}
+
+type route struct {
+	Network string `yaml:"network,omitempty"`
+	Gateway string `yaml:"gateway,omitempty"`
+	Source  string `yaml:"source,omitempty"`
+	Metric  uint32 `yaml:"metric,omitempty"`
 }
