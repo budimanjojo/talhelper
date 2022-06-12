@@ -2,8 +2,6 @@ package config
 
 import (
 	"strings"
-
-	"github.com/talos-systems/talos/pkg/machinery/constants"
 )
 
 var (
@@ -13,7 +11,7 @@ var (
 
 func (c TalhelperConfig) k8sVersion() string {
 	if c.KubernetesVersion == "" {
-		return constants.DefaultKubernetesVersion
+		return ""
 	}
 	return strings.TrimPrefix(c.KubernetesVersion, "v")
 }
