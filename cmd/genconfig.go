@@ -6,6 +6,7 @@ import (
 	"os"
 
 	"github.com/budimanjojo/talhelper/pkg/config"
+	"github.com/budimanjojo/talhelper/pkg/decrypt"
 	"github.com/budimanjojo/talhelper/pkg/generate"
 
 	"github.com/spf13/cobra"
@@ -32,7 +33,7 @@ var (
 
 			for _, file := range genconfigEnvFile {
 				if _, err := os.Stat(file); err == nil {
-					env, err := config.DecryptYamlWithSops(file)
+					env, err := decrypt.DecryptYamlWithSops(file)
 					if err != nil {
 						log.Fatalf("failed to decrypt/read env file %s: %s", file, err)
 					}

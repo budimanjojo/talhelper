@@ -1,4 +1,4 @@
-package config
+package decrypt
 
 import (
 	"testing"
@@ -7,8 +7,8 @@ import (
 )
 
 func TestIsSopsEncrypted(t *testing.T) {
-	var m1 sopsFile
-	var m2 sopsFile
+	var m1 *sopsFile
+	var m2 *sopsFile
 	var data1 = `
 this:
   is:

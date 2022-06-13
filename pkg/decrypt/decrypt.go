@@ -1,7 +1,6 @@
-package config
+package decrypt
 
 import (
-	"fmt"
 	"os"
 
 	"go.mozilla.org/sops/v3/decrypt"
@@ -15,20 +14,20 @@ type sopsFile struct {
 func DecryptYamlWithSops(filePath string) ([]byte, error) {
 	data, err := os.ReadFile(filePath)
 	if err != nil {
-		return nil, fmt.Errorf("failed to open file: %s", err)
+		return nil, err
 	}
 
-	var m sopsFile
+	var m *sopsFile
 
 	err = yaml.Unmarshal(data, &m)
 	if err != nil {
-		return nil, fmt.Errorf("failed to unmarshalfile: %s", err)
+		return nil, err
 	}
 
 	if isSopsEncrypted(m) {
 		decrypted, err := decrypt.Data(data, "yaml")
 		if err != nil {
-			return nil, fmt.Errorf("failed to decrypt encrypted file: %s", err)
+			return nil, err
 		}
 		return decrypted, nil
 	}
@@ -36,6 +35,6 @@ func DecryptYamlWithSops(filePath string) ([]byte, error) {
 	return data, nil
 }
 
-func isSopsEncrypted(data sopsFile) bool {
+func isSopsEncrypted(data *sopsFile) bool {
 	return len(data.Sops) != 0
 }
