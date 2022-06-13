@@ -1,13 +1,11 @@
 package secret
 
 import (
-	"bytes"
 	"os"
 
 	talconfig "github.com/budimanjojo/talhelper/pkg/config"
 	"github.com/talos-systems/talos/pkg/machinery/config"
 	"github.com/talos-systems/talos/pkg/machinery/config/types/v1alpha1/generate"
-	"gopkg.in/yaml.v3"
 )
 
 func PatchTalconfig(configFile string) error {
@@ -23,19 +21,12 @@ func PatchTalconfig(configFile string) error {
 
 	// Reencode so the formatting stays
 	var m talconfig.TalhelperConfig
-	err = yaml.Unmarshal(yamlCfg, &m)
-	if err != nil {
-		return err
-	}
-	buf := new(bytes.Buffer)
-	encoder := yaml.NewEncoder(buf)
-	encoder.SetIndent(2)
-	err = encoder.Encode(m)
+	cfg, err := m.Encode(yamlCfg)
 	if err != nil {
 		return err
 	}
 
-	err = os.WriteFile(configFile, buf.Bytes(), 0700)
+	err = os.WriteFile(configFile, cfg, 0700)
 	if err != nil {
 		return err
 	}
