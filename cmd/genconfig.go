@@ -6,6 +6,8 @@ import (
 	"os"
 
 	"github.com/budimanjojo/talhelper/pkg/config"
+	"github.com/budimanjojo/talhelper/pkg/generate"
+
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v3"
 )
@@ -58,7 +60,7 @@ var (
 				log.Fatalf("failed to unmarshal data: %s", err)
 			}
 
-			err = m.GenerateConfig(genconfigOutDir, genconfigTalosMode)
+			err = generate.GenerateConfig(&m, genconfigOutDir, genconfigTalosMode)
 			if err != nil {
 				log.Fatalf("failed to generate talos config: %s", err)
 			}

@@ -33,9 +33,9 @@ func reEncodeTalosNodeConfig(cfgFile []byte, cfg *v1alpha1.Config) ([]byte, erro
 }
 
 func ParseTalosInput(config TalhelperConfig) (*generate.Input, error) {
-	kubernetesVersion := config.k8sVersion()
+	kubernetesVersion := config.GetK8sVersion()
 
-	versionContract, err := talosconfig.ParseContractFromVersion(config.talosVersion())
+	versionContract, err := talosconfig.ParseContractFromVersion(config.GetTalosVersion())
 	if err != nil {
 		return nil, err
 	}
@@ -48,7 +48,7 @@ func ParseTalosInput(config TalhelperConfig) (*generate.Input, error) {
 	opts := []generate.GenOption{}
 
 	opts = append(opts, generate.WithVersionContract(versionContract))
-	opts = append(opts, generate.WithInstallImage(config.installerURL()))
+	opts = append(opts, generate.WithInstallImage(config.GetInstallerURL()))
 
 	if config.AllowSchedulingOnMasters {
 		opts = append(opts, generate.WithAllowSchedulingOnMasters(config.AllowSchedulingOnMasters))
@@ -67,13 +67,13 @@ func ParseTalosInput(config TalhelperConfig) (*generate.Input, error) {
 		return nil, err
 	}
 
-	input.PodNet = config.clusterPodNets()
-	input.ServiceNet = config.clusterSvcNets()
+	input.PodNet = config.GetClusterPodNets()
+	input.ServiceNet = config.GetClusterSvcNets()
 
 	return input, nil
 }
 
-func createTalosClusterConfig(node nodes, config TalhelperConfig, input *generate.Input) (CfgFile []byte, err error) {
+func createTalosClusterConfig(node Nodes, config TalhelperConfig, input *generate.Input) (CfgFile []byte, err error) {
 	var cfg *v1alpha1.Config
 
 	var patch []map[string]interface{}
