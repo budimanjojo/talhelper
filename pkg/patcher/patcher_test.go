@@ -1,7 +1,9 @@
-package config
+package patcher
 
 import (
 	"testing"
+
+	"gopkg.in/yaml.v3"
 )
 
 func TestApplyPatchFromYaml(t *testing.T) {
@@ -17,15 +19,17 @@ func TestApplyPatchFromYaml(t *testing.T) {
 	expected := `a:
   b: added
 `
+	var m []map[interface{}]interface{}
+	yaml.Unmarshal([]byte(patch), &m)
 
-	result, _ := applyPatchFromYaml([]byte(patch), []byte(file))
+	result, _ := YAMLPatcher(m, []byte(file))
 	if expected != string(result) {
 		t.Errorf("got %s, want %s", string(result), expected)
 
 	}
 }
 
-func TestApplyInlinePatchFromYaml(t *testing.T) {
+func TestYAMLInlinePatcher(t *testing.T) {
 	patch := `a:
   b:
     c: added
@@ -44,8 +48,10 @@ func TestApplyInlinePatchFromYaml(t *testing.T) {
     d: added
   c: original
 `
+	var m map[interface{}]interface{}
+	yaml.Unmarshal([]byte(patch), &m)
 
-	result, _ := ApplyInlinePatchFromYaml([]byte(patch), []byte(file))
+	result, _ := YAMLInlinePatcher(m, []byte(file))
 	if expected != string(result) {
 		t.Errorf("got %s, want %s", string(result), expected)
 
