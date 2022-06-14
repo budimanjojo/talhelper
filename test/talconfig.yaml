@@ -1,34 +1,36 @@
 clusterName: home-cluster
-talosVersion: v1.0
+talosVersion: v1.0.6
 kubernetesVersion: v1.23.6
-cniConfig:
-  name: flannel
-  urls: []
 endpoint: https://192.168.200.10:6443
+domain: home-cluster.local
 allowSchedulingOnMasters: true
-domain: cluster.localaaa
 clusterPodNets:
   - 10.244.0.0/16
 clusterSvcNets:
   - 10.96.0.0/12
+cniConfig:
+  name: custom
+  urls:
+    - https://raw.githubusercontent.com/bjw-s/home-ops/main/infrastructure/talos/cluster-0/cni/install.yaml
 nodes:
   - hostname: kmaster1
     ipAddress: 192.168.200.11
-    installDisk: /dev/sda
     controlPlane: true
+    installDisk: /dev/sda
     nameservers:
       - 1.1.1.1
       - 8.8.8.8
-    inlinePatch:
-      machine:
-        network:
-          interfaces:
-            - interface: eth0
-              addresses:
-                - 192.168.200.11/24
-              routes:
-                - gateway: 192.168.200.1
-                  network: 0.0.0.0/0
+    networkInterfaces:
+      - interface: eth0
+        addresses:
+          - 192.168.200.12/24
+        mtu: 1500
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 192.168.200.1
+      - interface: eth1
+        dhcp: true
+        ignore: true
     configPatches:
       - op: add
         path: /cluster/apiServer/certSANs
@@ -36,37 +38,70 @@ nodes:
           - 192.168.200.10
           - kmaster1
           - home-cluster.cluster.local
-  - hostname: kmaster2
-    ipAddress: 192.168.200.12
-    installDisk: /dev/sda
-    controlPlane: true
-    networkInterfaces:
-      - interface: eth0
-        dhcp: true
-        ignore: false
-      - interface: eth1
-        addresses:
-          - 192.168.200.12/24
-        mtu: 1500
   - hostname: kworker1
     ipAddress: 192.168.200.13
-    installDisk: /dev/sdb
     controlPlane: false
+    installDisk: /dev/sdb
+    inlinePatch:
+      machine:
+        network:
+          interfaces:
+            - addresses:
+                - 192.168.200.11/24
+              interface: eth1
+              routes:
+                - gateway: 192.168.200.1
+                  network: 0.0.0.0/0
 controlPlane:
   configPatches:
     - op: add
       path: /machine/kubelet/extraArgs
       value:
-        rotate-server-certificates: "true"
         feature-gates: GracefulNodeShutdown=true,MixedProtocolLBService=true
+        rotate-server-certificates: "true"
     - op: add
       path: /machine/install/extraKernelArgs
       value:
-        - "talos.logging.kernel=udp://10.45.0.2:6050/"
+        - talos.logging.kernel=udp://10.45.0.2:6050/
+  inlinePatch:
+    cluster:
+      aescbcEncryptionSecret: ${aescbcEncryptionKey}
+      aggregatorCA:
+        crt: ${k8sAggregatorCert}
+        key: ${k8sAggregatorCertKey}
+      ca:
+        crt: ${clusterCert}
+        key: ${clusterCertKey}
+      etcd:
+        ca:
+          crt: ${etcdCert}
+          key: ${etcdCertKey}
+      secret: ${clusterSecret}
+      serviceAccount:
+        key: ${k8sServiceAccountKey}
+      token: ${clusterToken}
+    machine:
+      ca:
+        crt: ${machineCert}
+        key: ${machineCertKey}
+      token: ${machineToken}
 worker:
   configPatches:
     - op: add
       path: /machine/kubelet/extraArgs
       value:
-        rotate-server-certificates: "true"
         feature-gates: GracefulNodeShutdown=true,MixedProtocolLBService=true
+        rotate-server-certificates: "true"
+  inlinePatch:
+    cluster:
+      aescbcEncryptionSecret: ${aescbcEncryptionKey}
+      ca:
+        crt: ${clusterCert}
+        key: ${clusterCertKey}
+      secret: ${clusterSecret}
+      token: ${clusterToken}
+    machine:
+      ca:
+        crt: ${machineCert}
+        key: ${machineCertKey}
+      token: ${machineToken}
