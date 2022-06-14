@@ -43,11 +43,6 @@ func GenerateConfig(c *config.TalhelperConfig, outDir, mode string) error {
 			}
 		}
 
-		cfgDump, err = talos.LoadTalosConfig(cfg)
-		if err != nil {
-			return nil
-		}
-
 		if node.ControlPlane {
 			cfg, err = patcher.YAMLInlinePatcher(c.ControlPlane.InlinePatch, cfg)
 			if err != nil {
@@ -66,6 +61,11 @@ func GenerateConfig(c *config.TalhelperConfig, outDir, mode string) error {
 			if err != nil {
 				return err
 			}
+		}
+
+		cfgDump, err = talos.LoadTalosConfig(cfg)
+		if err != nil {
+			return nil
 		}
 
 		var m v1alpha1.Config
