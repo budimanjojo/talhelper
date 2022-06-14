@@ -24,7 +24,7 @@ func DecryptYamlWithSops(filePath string) ([]byte, error) {
 		return nil, err
 	}
 
-	if isSopsEncrypted(m) {
+	if m.isEncrypted() {
 		decrypted, err := decrypt.Data(data, "yaml")
 		if err != nil {
 			return nil, err
@@ -35,6 +35,6 @@ func DecryptYamlWithSops(filePath string) ([]byte, error) {
 	return data, nil
 }
 
-func isSopsEncrypted(data *sopsFile) bool {
-	return len(data.Sops) != 0
+func (s *sopsFile) isEncrypted() bool {
+	return len(s.Sops) != 0
 }

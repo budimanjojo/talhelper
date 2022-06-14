@@ -49,8 +49,8 @@ sops:
 		t.Fatal(err)
 	}
 
-	ans1 := isSopsEncrypted(m1)
-	ans2 := isSopsEncrypted(m2)
+	ans1 := m1.isEncrypted()
+	ans2 := m2.isEncrypted()
 	if ans1 != false || ans2 != true {
 		t.Errorf("got %t %t, want false true", ans1, ans2)
 	}
