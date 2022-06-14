@@ -20,9 +20,15 @@ func TestApplyPatchFromYaml(t *testing.T) {
   b: added
 `
 	var m []map[interface{}]interface{}
-	yaml.Unmarshal([]byte(patch), &m)
+	err := yaml.Unmarshal([]byte(patch), &m)
+	if err != nil {
+		t.Fatal(err)
+	} 
 
-	result, _ := YAMLPatcher(m, []byte(file))
+	result, err := YAMLPatcher(m, []byte(file))
+	if err != nil {
+		t.Fatal(err)
+	}
 	if expected != string(result) {
 		t.Errorf("got %s, want %s", string(result), expected)
 
@@ -49,9 +55,15 @@ func TestYAMLInlinePatcher(t *testing.T) {
   c: original
 `
 	var m map[interface{}]interface{}
-	yaml.Unmarshal([]byte(patch), &m)
+	err := yaml.Unmarshal([]byte(patch), &m)
+	if err != nil {
+		t.Fatal(err)
+	}
 
-	result, _ := YAMLInlinePatcher(m, []byte(file))
+	result, err := YAMLInlinePatcher(m, []byte(file))
+	if err != nil {
+		t.Fatal(err)
+	}
 	if expected != string(result) {
 		t.Errorf("got %s, want %s", string(result), expected)
 
