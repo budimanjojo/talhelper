@@ -15,7 +15,7 @@ func NewClusterInput(c *config.TalhelperConfig) (*generate.Input, error) {
 		return nil, err
 	}
 
-	secrets, err := generate.NewSecretsBundle(generate.NewClock(), generate.WithVersionContract(versionContract))
+	secrets, err := NewSecretBundle(generate.NewClock(), generate.WithVersionContract(versionContract))
 	if err != nil {
 		return nil, err
 	}

@@ -6,6 +6,7 @@ import (
 
 	"github.com/budimanjojo/talhelper/pkg/config"
 	"github.com/budimanjojo/talhelper/pkg/secret"
+	"github.com/budimanjojo/talhelper/pkg/talos"
 	"github.com/spf13/cobra"
 	"github.com/talos-systems/talos/pkg/machinery/config/configloader"
 	"github.com/talos-systems/talos/pkg/machinery/config/types/v1alpha1/generate"
@@ -26,7 +27,7 @@ var gensecretCmd = &cobra.Command{
 		var err error
 		switch gensecretFromCfg {
 		case "":
-			s, err = secret.NewSecretBundle(generate.NewClock())
+			s, err = talos.NewSecretBundle(generate.NewClock())
 			if err != nil {
 				log.Fatalf("failed to generate secret bundle: %s", err)
 			}
@@ -36,7 +37,7 @@ var gensecretCmd = &cobra.Command{
 				log.Fatalf("failed to load Talos cluster node config file: %s", err)
 			}
 
-			s = secret.NewSecretFromCfg(generate.NewClock(), cfg)
+			s = talos.NewSecretFromCfg(generate.NewClock(), cfg)
 		}
 
 		secret.PrintSortedSecrets(s)
