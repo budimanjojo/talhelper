@@ -20,10 +20,9 @@ func TestApplyPatchFromYaml(t *testing.T) {
   b: added
 `
 	var m []map[interface{}]interface{}
-	err := yaml.Unmarshal([]byte(patch), &m)
-	if err != nil {
+	if err := yaml.Unmarshal([]byte(patch), &m); err != nil {
 		t.Fatal(err)
-	} 
+	}
 
 	result, err := YAMLPatcher(m, []byte(file))
 	if err != nil {
@@ -55,8 +54,7 @@ func TestYAMLInlinePatcher(t *testing.T) {
   c: original
 `
 	var m map[interface{}]interface{}
-	err := yaml.Unmarshal([]byte(patch), &m)
-	if err != nil {
+	if err := yaml.Unmarshal([]byte(patch), &m); err != nil {
 		t.Fatal(err)
 	}
 
