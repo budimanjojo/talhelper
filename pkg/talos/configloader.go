@@ -5,6 +5,10 @@ import (
 	"github.com/talos-systems/talos/pkg/machinery/config/configloader"
 )
 
+func LoadTalosConfigFromFile(cfgFile string) (config.Provider, error) {
+	return configloader.NewFromFile(cfgFile)
+}
+
 func LoadTalosConfig(cfgFile []byte) (config.Provider, error) {
 	return configloader.NewFromBytes(cfgFile)
 }
