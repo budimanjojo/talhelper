@@ -44,7 +44,7 @@ var gensecretCmd = &cobra.Command{
 		if gensecretPatchCfg {
 			cf, err := os.ReadFile(gensecretCfgFile)
 			if err != nil {
-				log.Fatalf("failed to read file %s: %s", genconfigCfgFile, err)
+				log.Fatalf("failed to read file %s: %s", gensecretCfgFile, err)
 			}
 
 			var m config.TalhelperConfig
@@ -54,9 +54,19 @@ var gensecretCmd = &cobra.Command{
 				log.Fatalf("failed to unmarshal config file: %s", err)
 			}
 
-			err = secret.PatchTalconfig(gensecretCfgFile)
+			cfg, err := m.ApplyInlinePatch([]byte(secret.SecretPatch))
 			if err != nil {
-				log.Fatalf("failed to patch config file %s: %s", genconfigCfgFile, err)
+				log.Fatalf("failed to patch config file %s: %s", gensecretCfgFile, err)
+			}
+
+			cfg, err = m.Encode(cfg)
+			if err != nil {
+				log.Fatalf("failed to encode config file %s: %s", gensecretCfgFile, err)
+			}
+
+			err = os.WriteFile(gensecretCfgFile, cfg, 0700)
+			if err != nil {
+				log.Fatalf("failed to write config file %s: %s", gensecretCfgFile, err)
 			}
 		}
 	},

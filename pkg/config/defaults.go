@@ -13,14 +13,14 @@ var (
 	latestTalosVersion = "v1.0.6"
 )
 
-func (c TalhelperConfig) GetK8sVersion() string {
+func (c *TalhelperConfig) GetK8sVersion() string {
 	if c.KubernetesVersion == "" {
 		return ""
 	}
 	return strings.TrimPrefix(c.KubernetesVersion, "v")
 }
 
-func (c TalhelperConfig) GetTalosVersion() string {
+func (c *TalhelperConfig) GetTalosVersion() string {
 	if c.TalosVersion == "" {
 		return latestTalosVersion
 	}
@@ -31,7 +31,7 @@ func (c TalhelperConfig) GetTalosVersion() string {
 	return c.TalosVersion
 }
 
-func (c TalhelperConfig) GetClusterPodNets() []string {
+func (c *TalhelperConfig) GetClusterPodNets() []string {
 	if len(c.ClusterPodNets) == 0 {
 		if tnet.IsIPv6(net.ParseIP(c.Endpoint)) {
 			c.ClusterPodNets = []string{constants.DefaultIPv6PodNet}
@@ -42,7 +42,7 @@ func (c TalhelperConfig) GetClusterPodNets() []string {
 	return c.ClusterPodNets
 }
 
-func (c TalhelperConfig) GetClusterSvcNets() []string {
+func (c *TalhelperConfig) GetClusterSvcNets() []string {
 	if len(c.ClusterSvcNets) == 0 {
 		if tnet.IsIPv6(net.ParseIP(c.Endpoint)) {
 			c.ClusterSvcNets = []string{constants.DefaultIPv6ServiceNet}
@@ -53,6 +53,6 @@ func (c TalhelperConfig) GetClusterSvcNets() []string {
 	return c.ClusterSvcNets
 }
 
-func (c TalhelperConfig) GetInstallerURL() string {
+func (c *TalhelperConfig) GetInstallerURL() string {
 	return "ghcr.io/siderolabs/installer:" + c.GetTalosVersion()
 }

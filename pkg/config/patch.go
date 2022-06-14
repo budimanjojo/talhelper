@@ -1,59 +1,26 @@
 package config
 
 import (
-	jsonpatch "github.com/evanphx/json-patch"
-	yamljson "sigs.k8s.io/yaml"
+	"github.com/budimanjojo/talhelper/pkg/patcher"
+	"gopkg.in/yaml.v3"
 )
 
-func ApplyInlinePatchFromYaml(patch, yaml []byte) (output []byte, err error) {
-	jsonPatch, err := yamljson.YAMLToJSON(patch)
+func (c *TalhelperConfig) ApplyInlinePatch(patch []byte) ([]byte, error) {
+	cfg, err := yaml.Marshal(c)
 	if err != nil {
 		return nil, err
 	}
 
-	jsonFile, err := yamljson.YAMLToJSON(yaml)
+	cfg, err = patcher.JSON7396FromYAML(patch, cfg)
 	if err != nil {
 		return nil, err
 	}
 
-	finalJson, err := jsonpatch.MergePatch(jsonFile, jsonPatch)
+	var m TalhelperConfig
+	cfg, err = m.Encode(cfg)
 	if err != nil {
 		return nil, err
 	}
 
-	finalYaml, err := yamljson.JSONToYAML(finalJson)
-	if err != nil {
-		return nil, err
-	}
-	
-	return finalYaml, nil
-}
-
-func applyPatchFromYaml(patch, yaml []byte) (output []byte, err error) {
-	jsonPatch, err := yamljson.YAMLToJSON(patch)
-	if err != nil {
-		return nil, err
-	}
-
-	jsonFile, err := yamljson.YAMLToJSON(yaml)
-	if err != nil {
-		return nil, err
-	}
-
-	decodedPatch, err := jsonpatch.DecodePatch(jsonPatch)
-	if err != nil {
-		return nil, err
-	}
-
-	finalJson, err := decodedPatch.Apply(jsonFile)
-	if err != nil {
-		return nil, err
-	}
-
-	finalYaml, err := yamljson.JSONToYAML(finalJson)
-	if err != nil {
-		return nil, err
-	}
-	
-	return finalYaml, nil
+	return cfg, nil
 }

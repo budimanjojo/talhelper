@@ -1,6 +1,6 @@
 package secret
 
-const secretPatch = `controlPlane:
+const SecretPatch = `controlPlane:
   inlinePatch:
     cluster:
       aescbcEncryptionSecret: ${aescbcEncryptionKey}
