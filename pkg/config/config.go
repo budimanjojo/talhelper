@@ -6,7 +6,7 @@ type TalhelperConfig struct {
 	KubernetesVersion        string       `yaml:"kubernetesVersion,omitempty"`
 	Endpoint                 string       `yaml:"endpoint"`
 	Domain                   string       `yaml:"domain,omitempty"`
-	AllowSchedulingOnMasters bool         `yaml:"AllowSchedulingOnMasters,omitempty"`
+	AllowSchedulingOnMasters bool         `yaml:"allowSchedulingOnMasters,omitempty"`
 	ClusterPodNets           []string     `yaml:"clusterPodNets,omitempty"`
 	ClusterSvcNets           []string     `yaml:"clusterSvcNets,omitempty"`
 	CNIConfig                cniConfig    `yaml:"cniConfig,omitempty"`
