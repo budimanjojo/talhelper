@@ -42,10 +42,3 @@ type worker struct {
 	ConfigPatches []map[string]interface{} `yaml:"configPatches,omitempty"`
 	InlinePatch   map[string]interface{}   `yaml:"inlinePatch,omitempty"`
 }
-
-type route struct {
-	Network string `yaml:"network,omitempty"`
-	Gateway string `yaml:"gateway,omitempty"`
-	Source  string `yaml:"source,omitempty"`
-	Metric  uint32 `yaml:"metric,omitempty"`
-}
