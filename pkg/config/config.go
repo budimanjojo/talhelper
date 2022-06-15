@@ -1,5 +1,7 @@
 package config
 
+import "github.com/talos-systems/talos/pkg/machinery/config/types/v1alpha1"
+
 type TalhelperConfig struct {
 	ClusterName              string       `yaml:"clusterName"`
 	TalosVersion             string       `yaml:"talosVersion,omitempty"`
@@ -21,7 +23,7 @@ type Nodes struct {
 	ControlPlane      bool                     `yaml:"controlPlane"`
 	InstallDisk       string                   `yaml:"installDisk"`
 	Nameservers       []string                 `yaml:"nameservers,omitempty"`
-	NetworkInterfaces []network                `yaml:"networkInterfaces,omitempty"`
+	NetworkInterfaces []*v1alpha1.Device       `yaml:"networkInterfaces,omitempty"`
 	ConfigPatches     []map[string]interface{} `yaml:"configPatches,omitempty"`
 	InlinePatch       map[string]interface{}   `yaml:"inlinePatch,omitempty"`
 }
@@ -39,15 +41,6 @@ type controlPlane struct {
 type worker struct {
 	ConfigPatches []map[string]interface{} `yaml:"configPatches,omitempty"`
 	InlinePatch   map[string]interface{}   `yaml:"inlinePatch,omitempty"`
-}
-
-type network struct {
-	Interface string   `yaml:"interface,omitempty"`
-	Addresses []string `yaml:"addresses,omitempty"`
-	MTU       int      `yaml:"mtu,omitempty"`
-	DHCP      bool     `yaml:"dhcp,omitempty"`
-	Ignore    bool     `yaml:"ignore,omitempty"`
-	Routes    []route  `yaml:"routes,omitempty"`
 }
 
 type route struct {
