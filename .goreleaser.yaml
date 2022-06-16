@@ -13,13 +13,32 @@ builds:
 archives:
   - name_template: "{{.ProjectName}}_{{.Os}}_{{.Arch}}"
 checksum:
-  name_template: 'checksums.txt'
+  name_template: "checksums.txt"
 snapshot:
   name_template: "{{ incpatch .Version }}-next"
 changelog:
   sort: asc
   filters:
     exclude:
-      - '^docs'
-      - '^test'
-      - '^chore'
+      - "^docs"
+      - "^test"
+      - "^chore"
+
+aurs:
+  - name: talhelper-bin
+    homepage: "https://github.com/budimanjojo/talhelper"
+    description: "A tool to help creating Talos cluster in GitOps way."
+    maintainers:
+      - Budiman Jojo <budimanjojo at gmail dot com>
+    license: "BSD-3-Clause"
+    skip_upload: "auto"
+    private_key: "{{ .Env.AUR_KEY }}"
+    git_url: "ssh://aur@aur.archlinux.org/talhelper-bin.git"
+    package: |-
+      # bin
+      install -Dm755 "./{{ .ProjectName }}" "${pkgdir}/usr/bin/{{ .ProjectName }}"
+      # license
+      install -Dm644 "./LICENSE" "${pkgdir}/usr/share/licenses/{{ .ProjectName }}/LICENSE"
+    commit_author:
+      name: goreleaserbot
+      email: bot@goreleaser.com
