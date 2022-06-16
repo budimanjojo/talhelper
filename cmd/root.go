@@ -22,19 +22,19 @@ Workflow:
   nodes:
     - hostname: master1
       ipAddress: 192.168.200.11
-  	installDisk: /dev/sdb
-  	controlPlane: true
+      installDisk: /dev/sdb
+      controlPlane: true
     - hostname: worker1
       ipAddress: 192.168.200.21
-  	installDisk: /dev/nvme1
-  	controlPlane: false
+      installDisk: /dev/nvme1
+      controlPlane: false
   ----------------------------------------
-  
+
   Then run these commands:
   > talhelper gensecret --patch-configfile > talenv.sops.yaml
   > sops -e -i talenv.sops.yaml
   > talhelper genconfig"
-  
+
   The generated yaml files will be in ./clusterconfig directory
 `)
 
