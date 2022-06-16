@@ -1,9 +1,10 @@
 <div align="center">
   <h3 align="center">Talhelper</h3>
 
-  ![GitHub release (release name instead of tag name)](https://img.shields.io/github/v/release/budimanjojo/talhelper?include_prereleases)
-  ![GitHub issues](https://img.shields.io/github/issues/budimanjojo/talhelper)
-  ![GitHub](https://img.shields.io/github/license/budimanjojo/talhelper)
+  [![GitHub release (release name instead of tag name)](https://img.shields.io/github/v/release/budimanjojo/talhelper?include_prereleases)](https://github.com/budimanjojo/talhelper/releases)
+  [![GitHub issues](https://img.shields.io/github/issues/budimanjojo/talhelper)](https://github.com/budimanjojo/talhelper/issues)
+  [![License](https://img.shields.io/github/license/budimanjojo/talhelper)](https://github.com/budimanjojo/talhelper/blob/master/LICENSE)
+  [![AUR link](https://img.shields.io/aur/version/talhelper-bin)](https://aur.archlinux.org/packages/talhelper-bin)
 
   <p align="center">
     A helper tool to help creating Talos cluster in your GitOps repository.
@@ -76,13 +77,14 @@ To get help, run `talhelper <subcommand> --help`
 
 ### Installation
 
-[Recommended Way] You can install `talhelper` using [aqua](https://aquaproj.github.io/).
-You can also download the archives from [release](https://github.com/budimanjojo/talhelper/releases/latest) page.
-Or you can install it using this one liner, using tool from [jpillora](https://github.com/jpillora/installer):
-```
-curl https://i.jpillora.com/budimanjojo/talhelper! | sudo bash
-```
-
+There are several ways to install `talhelper`:
+- Using [aqua](https://aquaproj.github.io/).
+- Download the archives from [release](https://github.com/budimanjojo/talhelper/releases/latest) page.
+- From [AUR](https://aur.archlinux.org/packages/talhelper-bin) for Arch Linux users.
+- Install it using this one liner, using tool from [jpillora](https://github.com/jpillora/installer):
+  ```
+  curl https://i.jpillora.com/budimanjojo/talhelper! | sudo bash
+  ```
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Usage
