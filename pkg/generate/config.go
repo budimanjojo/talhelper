@@ -65,13 +65,13 @@ func GenerateConfig(c *config.TalhelperConfig, outDir, mode string) error {
 
 		cfgDump, err = talos.LoadTalosConfig(cfg)
 		if err != nil {
-			return nil
+			return err
 		}
 
 		var m v1alpha1.Config
 		cfg, err = talos.ReEncodeTalosConfig(cfg, &m)
 		if err != nil {
-			return nil
+			return err
 		}
 
 		err = dumpFile(cfgFile, cfg)
@@ -86,7 +86,7 @@ func GenerateConfig(c *config.TalhelperConfig, outDir, mode string) error {
 
 	clientCfg, err := talos.GenerateClientConfigBytes(c, input, machineCert)
 	if err != nil {
-		return nil
+		return err
 	}
 
 	fileName := "talosconfig"
