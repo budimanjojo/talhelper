@@ -9,7 +9,7 @@ require (
 	github.com/gookit/validate v1.4.1
 	github.com/joho/godotenv v1.4.0
 	github.com/sabhiram/go-gitignore v0.0.0-20210923224102-525f6e181f06
-	github.com/spf13/cobra v1.4.0
+	github.com/spf13/cobra v1.5.0
 	github.com/talos-systems/crypto v0.3.5
 	github.com/talos-systems/net v0.3.2
 	github.com/talos-systems/talos/pkg/machinery v1.0.6
