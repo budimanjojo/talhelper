@@ -9,15 +9,17 @@ import (
 )
 
 var (
-	validateTHCfgFile string
-)
-
-var (
 	validateTHCmd = &cobra.Command{
 		Use:   "talconfig [file]",
 		Short: "Check the validity of talhelper config file",
 		Run: func(cmd *cobra.Command, args []string) {
-			found, err := validate.ValidateFromFile(validateTHCfgFile)
+			cfg := "talconfig.yaml"
+
+			if len(args) > 0 {
+				cfg = args[0]
+			}
+
+			found, err := validate.ValidateFromFile(cfg)
 			if err != nil {
 				log.Fatalf("failed to validate talhelper config file: %s", err)
 			}
@@ -36,5 +38,4 @@ var (
 func init() {
 	validateCmd.AddCommand(validateTHCmd)
 
-	validateTHCmd.Flags().StringVarP(&validateTHCfgFile, "config-file", "c", "talconfig.yaml", "Talhelper config file to validate")
 }
