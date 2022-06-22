@@ -2,6 +2,7 @@ package talos
 
 import (
 	"fmt"
+	"io/ioutil"
 
 	"github.com/talos-systems/talos/pkg/machinery/config"
 )
@@ -31,6 +32,14 @@ func parseMode(s string) (mod mode, err error) {
 	return mod, nil
 }
 
+func ValidateConfigFromFile(path, mode string) error {
+	output, err := ioutil.ReadFile(path)
+	if err != nil {
+		return err
+	}
+
+	return ValidateConfigFromBytes(output, mode)
+}
 
 func ValidateConfigFromBytes(cfgFile []byte, mode string) error {
 	cfg, err := LoadTalosConfig(cfgFile)
