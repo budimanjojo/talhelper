@@ -63,6 +63,11 @@ func GenerateConfig(c *config.TalhelperConfig, outDir, mode string) error {
 			}
 		}
 
+		err = talos.ValidateConfigFromBytes(cfg, mode)
+		if err != nil {
+			return err
+		}
+
 		cfgDump, err = talos.LoadTalosConfig(cfg)
 		if err != nil {
 			return err
