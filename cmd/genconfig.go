@@ -2,10 +2,12 @@ package cmd
 
 import (
 	"errors"
+	"fmt"
 	"log"
 	"os"
 
 	"github.com/budimanjojo/talhelper/pkg/config"
+	"github.com/budimanjojo/talhelper/pkg/config/validate"
 	"github.com/budimanjojo/talhelper/pkg/decrypt"
 	"github.com/budimanjojo/talhelper/pkg/generate"
 
@@ -52,6 +54,18 @@ var (
 			cfFile, err := config.SubstituteEnvFromYaml(cf)
 			if err != nil {
 				log.Fatalf("failed to substitute env: %s", err)
+			}
+
+			prob, err := validate.ValidateFromByte(cfFile)
+			if err != nil {
+				log.Fatalf("failed to validate talhelper config file: %s", err)
+			}
+			if prob != nil {
+				fmt.Println("There are issues with your talhelper config file:")
+				for _, v := range prob {
+					fmt.Printf("- " + v.One() + "\n")
+				}
+				os.Exit(1)
 			}
 
 			var m config.TalhelperConfig
