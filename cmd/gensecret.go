@@ -16,6 +16,7 @@ var (
 var gensecretCmd = &cobra.Command{
 	Use:   "gensecret",
 	Short: "Generate Talos cluster secrets",
+	Args: cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
 		err := generate.GenerateOutput(gensecretFromCfg)
 		if err != nil {

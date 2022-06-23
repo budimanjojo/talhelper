@@ -12,6 +12,7 @@ var (
 	validateTHCmd = &cobra.Command{
 		Use:   "talconfig [file]",
 		Short: "Check the validity of talhelper config file",
+		Args: cobra.MaximumNArgs(1),
 		Run: func(cmd *cobra.Command, args []string) {
 			cfg := "talconfig.yaml"
 
