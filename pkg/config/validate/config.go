@@ -33,7 +33,7 @@ type CNIConfig struct {
 type Node struct {
 	Hostname          string   `validate:"required"`
 	IPAddress         string   `validate:"required|isIP"`
-	ControlPlane      string   `validate:"required|isBool"`
+	ControlPlane      string   `validate:"isBool"`
 	InstallDisk       string   `validate:"required"`
 	Nameservers       []string `validate:"isIPList"`
 	NetworkInterfaces []*NetworkInterface
