@@ -31,11 +31,12 @@ type CNIConfig struct {
 }
 
 type Node struct {
-	Hostname          string   `validate:"required"`
-	IPAddress         string   `validate:"required|isIP"`
-	ControlPlane      string   `validate:"isBool"`
-	InstallDisk       string   `validate:"required"`
-	Nameservers       []string `validate:"isIPList"`
+	Hostname          string                   `validate:"required"`
+	IPAddress         string                   `validate:"required|isIP"`
+	ControlPlane      string                   `validate:"isBool"`
+	InstallDisk       string                   `validate:"required"`
+	Nameservers       []string                 `validate:"isIPList"`
+	ConfigPatches     []map[string]interface{} `validate:"isRFC6902List"`
 	NetworkInterfaces []*NetworkInterface
 }
 
