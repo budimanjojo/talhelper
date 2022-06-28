@@ -6,7 +6,7 @@ require (
 	github.com/a8m/envsubst v1.3.0
 	github.com/evanphx/json-patch v5.6.0+incompatible
 	github.com/ghodss/yaml v1.0.0
-	github.com/gookit/validate v1.4.1
+	github.com/gookit/validate v1.4.2
 	github.com/joho/godotenv v1.4.0
 	github.com/sabhiram/go-gitignore v0.0.0-20210923224102-525f6e181f06
 	github.com/spf13/cobra v1.5.0
@@ -50,7 +50,7 @@ require (
 	github.com/google/go-cmp v0.5.7 // indirect
 	github.com/googleapis/gax-go/v2 v2.2.0 // indirect
 	github.com/gookit/filter v1.1.2 // indirect
-	github.com/gookit/goutil v0.5.1 // indirect
+	github.com/gookit/goutil v0.5.5 // indirect
 	github.com/goware/prefixer v0.0.0-20160118172347-395022866408 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-cleanhttp v0.5.2 // indirect
