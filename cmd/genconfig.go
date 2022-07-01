@@ -26,7 +26,7 @@ var (
 var (
 	genconfigCmd = &cobra.Command{
 		Use:   "genconfig",
-		Short: "Generate Talos cluster config YAML file",
+		Short: "Generate Talos cluster config YAML files",
 		Args: cobra.NoArgs,
 		Run: func(cmd *cobra.Command, args []string) {
 			cf, err := os.ReadFile(genconfigCfgFile)

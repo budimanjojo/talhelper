@@ -30,7 +30,6 @@
       </ul>
     </li>
     <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
     <li><a href="#contributing">Contributing</a></li>
     <li><a href="#license">License</a></li>
     <li><a href="#acknowledgments">Acknowledgments</a></li>
@@ -40,7 +39,7 @@
 ## About The Project
 
 The main reason of this tool is to help creating Talos cluster in GitOps way.
-Inspired by a python script written by [@bjw-s](https://github.com/bjw-s) [here](https://github.com/bjw-s/home-ops/blob/main/infrastructure/talos/buildClusterConfig.py).
+Inspired by a python script written by [@bjw-s](https://github.com/bjw-s).
 
 You can use this tool to generate Talos config file with `talhelper genconfig` command.
 You can also use this tool to generate Talos secrets with `talhelper gensecret` command.
@@ -53,7 +52,7 @@ This tool will:
 * Generate Talos cluster and config yaml files for you based on your `talconfig.yaml`
 * Generate `.gitignore` file so you don't commit your secret to the public
 
-This tool is actually my first time programming something other than shell script.
+This tool is my first time programming something other than shell script.
 Any input and suggestion will be highly appreciated.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
@@ -62,14 +61,15 @@ Any input and suggestion will be highly appreciated.
 
 Scenario 1 (You already have your talos config but not GitOps it yet):
 1. Create a `talconfig.yaml` based on your current cluster, an example [template](./test/talconfig.yaml) is provided.
-2. Run `talhelper gensecret -f <your-taloscfg.yaml> --patch-configfile > talenv.yaml`. This will create a `talenv.yaml` file with all your current cluster secrets and patch your `talconfig.yaml` to link to those secrets.
+2. Run `talhelper gensecret -f <your-talos-controlplane.yaml> --patch-configfile > talenv.yaml`. This will create a `talenv.yaml` file with all your current cluster secrets and patch your `talconfig.yaml` to get values from it.
 3. Encrypt the secret with SOPS: `sops -e -i talenv.yaml`.
-4. Commit your `talconfig.yaml` and `talenv.yaml` in Git repository.
+4. Run `talhelper genconfig` and the output files will be in `./clusterconfig` by default. Make sure the generated files are identical with your current machine config files.
+5. Commit your `talconfig.yaml` and `talenv.yaml` in Git repository.
 
 Scenario 2 (You want talhelper to create from scratch):
 1. Create a `talconfig.yaml`, an example [template](./test/talconfig.yaml) is provided.
-2. Run `talhelper gensecret --patch-configfile > talenv.sops.yaml` (`--patch-configfile` will add inlinePatches inside your `talconfig.yaml`)
-3. Encrypt the secret with SOPS: `sops -e -i talenv.sops.yaml`
+2. Run `talhelper gensecret --patch-configfile > talenv.sops.yaml`.
+3. Encrypt the secret with SOPS: `sops -e -i talenv.sops.yaml`.
 4. Run `talhelper genconfig` and the output files will be in `./clusterconfig` by default.
 5. Commit your `talconfig.yaml` and `talenv.sops.yaml` in Git repository.
 
@@ -92,9 +92,10 @@ There are several ways to install `talhelper`:
 ```
 Available Commands:
   completion  Generate the autocompletion script for the specified shell
-  genconfig   Generate Talos cluster config YAML file
+  genconfig   Generate Talos cluster config YAML files
   gensecret   Generate Talos cluster secrets
   help        Help about any command
+  validate    Validate the correctness of talconfig or talos node config
 ```
 
 ```
@@ -119,13 +120,23 @@ Flags:
   -h, --help                     help for gensecret
   -p, --patch-configfile         Whether to generate inline patches into config file
 ```
-<p align="right">(<a href="#top">back to top</a>)</p>
 
-## Roadmap
+```
+Usage:
+  talhelper validate nodeconfig [file] [flags]
 
-- [ ] Add tests
-- [x] Add release workflows
-- [ ] More useful features
+Flags:
+  -h, --help          help for nodeconfig
+  -m, --mode string   Talos runtime mode to validate with (default "metal")
+```
+
+```
+Usage:
+  talhelper validate talconfig [file] [flags]
+
+Flags:
+  -h, --help   help for talconfig
+```
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
