@@ -27,7 +27,7 @@ type Config struct {
 
 type CNIConfig struct {
 	Name string   `validate:"isCNIName|requiredWith:CniConfig"`
-	Urls []string `validate:"isURLList|requiredIf:CniConfig.Name,custom,custom"`
+	Urls []string `validate:"isURLList|requiredIf:CniConfig.Name,custom"`
 }
 
 type Node struct {
