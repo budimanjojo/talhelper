@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"sort"
 
+	"github.com/fatih/color"
 	"github.com/talos-systems/talos/pkg/machinery/config/types/v1alpha1/generate"
 )
 
@@ -20,7 +21,7 @@ func PrintSortedSecrets(secret *generate.SecretsBundle) {
 	sort.Strings(sorted)
 
 	for _, k := range sorted {
-		fmt.Printf("%s: %s\n", k, unsorted[k])
+		fmt.Printf("%s%s %s\n", color.BlueString(k), color.BlueString(":"), unsorted[k])
 	}
 }
 
