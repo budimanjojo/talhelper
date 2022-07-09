@@ -10,6 +10,7 @@ import (
 	"github.com/budimanjojo/talhelper/pkg/config/validate"
 	"github.com/budimanjojo/talhelper/pkg/decrypt"
 	"github.com/budimanjojo/talhelper/pkg/generate"
+	"github.com/fatih/color"
 
 	"github.com/spf13/cobra"
 	"gopkg.in/yaml.v3"
@@ -62,7 +63,7 @@ var (
 				log.Fatalf("failed to validate talhelper config file: %s", err)
 			}
 			if prob != nil {
-				fmt.Println("There are issues with your talhelper config file:")
+				color.Red("There are issues with your talhelper config file:")
 				for _, v := range prob {
 					fmt.Printf("- " + v.One() + "\n")
 				}
