@@ -52,7 +52,7 @@ func ValidateConfigFromBytes(cfgFile []byte, mode string) error {
 		return err
 	}
 
-	opts := []config.ValidationOption{config.WithLocal()}
+	opts := []config.ValidationOption{config.WithLocal(), config.WithStrict()}
 
 	warnings, err := cfg.Validate(m, opts...)
 	for _, w := range warnings {
