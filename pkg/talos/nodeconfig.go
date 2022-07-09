@@ -49,6 +49,10 @@ func applyNodeOverride(node *config.Nodes, cfg *v1alpha1.Config) (*v1alpha1.Conf
 		cfg.MachineConfig.MachineNetwork.NameServers = node.Nameservers
 	}
 
+	if node.DisableSearchDomain {
+		cfg.MachineConfig.MachineNetwork.NetworkDisableSearchDomain = node.DisableSearchDomain
+	}
+
 	if len(node.NetworkInterfaces) != 0 {
 		cfg.MachineConfig.MachineNetwork.NetworkInterfaces = node.NetworkInterfaces
 	}
@@ -64,4 +68,3 @@ func patchNodeInput(node *config.Nodes, input *generate.Input) (*generate.Input,
 
 	return nodeInput, nil
 }
-

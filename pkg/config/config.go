@@ -18,14 +18,15 @@ type TalhelperConfig struct {
 }
 
 type Nodes struct {
-	Hostname          string                   `yaml:"hostname"`
-	IPAddress         string                   `yaml:"ipAddress"`
-	ControlPlane      bool                     `yaml:"controlPlane"`
-	InstallDisk       string                   `yaml:"installDisk"`
-	Nameservers       []string                 `yaml:"nameservers,omitempty"`
-	NetworkInterfaces []*v1alpha1.Device       `yaml:"networkInterfaces,omitempty"`
-	ConfigPatches     []map[string]interface{} `yaml:"configPatches,omitempty"`
-	InlinePatch       map[string]interface{}   `yaml:"inlinePatch,omitempty"`
+	Hostname            string                   `yaml:"hostname"`
+	IPAddress           string                   `yaml:"ipAddress"`
+	ControlPlane        bool                     `yaml:"controlPlane"`
+	InstallDisk         string                   `yaml:"installDisk"`
+	DisableSearchDomain bool                     `yaml:"disableSearchDomain,omitempty"`
+	Nameservers         []string                 `yaml:"nameservers,omitempty"`
+	NetworkInterfaces   []*v1alpha1.Device       `yaml:"networkInterfaces,omitempty"`
+	ConfigPatches       []map[string]interface{} `yaml:"configPatches,omitempty"`
+	InlinePatch         map[string]interface{}   `yaml:"inlinePatch,omitempty"`
 }
 
 type cniConfig struct {

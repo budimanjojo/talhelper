@@ -16,6 +16,7 @@ nodes:
   - hostname: master1
     ipAddress: 1.2.3.4.5
     installDisk: /dev/sda
+    disableSearchDomain: truea
     nameservers:
       - 8.8.8.8
     networkInterfaces:
@@ -45,6 +46,7 @@ nodes:
 		"Nodes.0.IPAddress": true,
 		"Nodes.0.ControlPlane": false,
 		"Nodes.0.InstallDisk": false,
+		"Nodes.0.DisableSearchDomain": true,
 		"Nodes.0.Nameservers": false,
 		"Nodes.0.NetworkInterfaces.0.Interface": true,
 		"Nodes.0.NetworkInterfaces.0.Addresses": true,
