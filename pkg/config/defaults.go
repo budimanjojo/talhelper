@@ -10,7 +10,7 @@ import (
 
 var (
 	// renovate: depName=siderolabs/talos datasource=github-releases
-	latestTalosVersion = "v1.1.0"
+	latestTalosVersion = "v1.1.1"
 )
 
 func (c *TalhelperConfig) GetK8sVersion() string {
