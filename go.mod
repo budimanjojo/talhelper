@@ -5,6 +5,7 @@ go 1.18
 require (
 	github.com/a8m/envsubst v1.3.0
 	github.com/evanphx/json-patch v5.6.0+incompatible
+	github.com/fatih/color v1.13.0
 	github.com/ghodss/yaml v1.0.0
 	github.com/gookit/validate v1.4.2
 	github.com/joho/godotenv v1.4.0
@@ -42,7 +43,6 @@ require (
 	github.com/containernetworking/cni v1.1.0 // indirect
 	github.com/dimchansky/utfbom v1.1.1 // indirect
 	github.com/dustin/go-humanize v1.0.0 // indirect
-	github.com/fatih/color v1.13.0 // indirect
 	github.com/golang-jwt/jwt/v4 v4.3.0 // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/golang/protobuf v1.5.2 // indirect
@@ -99,7 +99,7 @@ require (
 	github.com/siderolabs/go-pointer v1.0.0 // indirect
 	github.com/sirupsen/logrus v1.8.1 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
-	github.com/talos-systems/go-blockdevice v0.3.2 // indirect
+	github.com/talos-systems/go-blockdevice v0.3.3 // indirect
 	github.com/talos-systems/go-debug v0.2.1 // indirect
 	go.mozilla.org/gopgagent v0.0.0-20170926210634-4d7ea76ff71a // indirect
 	go.opencensus.io v0.23.0 // indirect
