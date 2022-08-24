@@ -1,4 +1,8 @@
 {
+  "platform": "github",
+  "username": "budimanjojo-bot[bot]",
+  "repositories": ["budimanjojo/talhelper"],
+  "gitAuthor": "budimanjojo-bot <111944664+budimanjojo-bot[bot]@users.noreply.github.com>",
   "extends": [
     "config:base"
   ],
