@@ -3,18 +3,19 @@ package config
 import "github.com/talos-systems/talos/pkg/machinery/config/types/v1alpha1"
 
 type TalhelperConfig struct {
-	ClusterName              string       `yaml:"clusterName"`
-	TalosVersion             string       `yaml:"talosVersion,omitempty"`
-	KubernetesVersion        string       `yaml:"kubernetesVersion,omitempty"`
-	Endpoint                 string       `yaml:"endpoint"`
-	Domain                   string       `yaml:"domain,omitempty"`
-	AllowSchedulingOnMasters bool         `yaml:"allowSchedulingOnMasters,omitempty"`
-	ClusterPodNets           []string     `yaml:"clusterPodNets,omitempty"`
-	ClusterSvcNets           []string     `yaml:"clusterSvcNets,omitempty"`
-	CNIConfig                cniConfig    `yaml:"cniConfig,omitempty"`
-	Nodes                    []Nodes      `yaml:"nodes"`
-	ControlPlane             controlPlane `yaml:"controlPlane,omitempty"`
-	Worker                   worker       `yaml:"worker,omitempty"`
+	ClusterName                    string       `yaml:"clusterName"`
+	TalosVersion                   string       `yaml:"talosVersion,omitempty"`
+	KubernetesVersion              string       `yaml:"kubernetesVersion,omitempty"`
+	Endpoint                       string       `yaml:"endpoint"`
+	Domain                         string       `yaml:"domain,omitempty"`
+	AllowSchedulingOnMasters       bool         `yaml:"allowSchedulingOnMasters,omitempty"`
+	AllowSchedulingOnControlPlanes bool         `yaml:"allowSchedulingOnControlPlanes,omitempty"`
+	ClusterPodNets                 []string     `yaml:"clusterPodNets,omitempty"`
+	ClusterSvcNets                 []string     `yaml:"clusterSvcNets,omitempty"`
+	CNIConfig                      cniConfig    `yaml:"cniConfig,omitempty"`
+	Nodes                          []Nodes      `yaml:"nodes"`
+	ControlPlane                   controlPlane `yaml:"controlPlane,omitempty"`
+	Worker                         worker       `yaml:"worker,omitempty"`
 }
 
 type Nodes struct {

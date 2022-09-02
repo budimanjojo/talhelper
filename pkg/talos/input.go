@@ -39,8 +39,8 @@ func parseOptions(c *config.TalhelperConfig, vc *tconfig.VersionContract) []gene
 	opts = append(opts, generate.WithVersionContract(vc))
 	opts = append(opts, generate.WithInstallImage(c.GetInstallerURL()))
 
-	if c.AllowSchedulingOnMasters {
-		opts = append(opts, generate.WithAllowSchedulingOnMasters(c.AllowSchedulingOnMasters))
+	if c.AllowSchedulingOnMasters || c.AllowSchedulingOnControlPlanes {
+		opts = append(opts, generate.WithAllowSchedulingOnControlPlanes(true))
 	}
 
 	if c.CNIConfig.Name != "" {

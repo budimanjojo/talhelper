@@ -7,17 +7,18 @@ import (
 )
 
 type Config struct {
-	ClusterName              string   `validate:"required"`
-	TalosVersion             string   `validate:"isVersion"`
-	KubernetesVersion        string   `validate:"isVersion"`
-	Endpoint                 string   `validate:"isTalosEndpoint"`
-	Domain                   string   `validate:"isDomain"`
-	AllowSchedulingOnMasters string   `validate:"isBool"`
-	ClusterPodNets           []string `validate:"isCIDRList"`
-	ClusterSvcNets           []string `validate:"isCIDRList"`
-	CniConfig                *CNIConfig
-	Nodes                    []*Node
-	ControlPlane             struct {
+	ClusterName                    string   `validate:"required"`
+	TalosVersion                   string   `validate:"isVersion"`
+	KubernetesVersion              string   `validate:"isVersion"`
+	Endpoint                       string   `validate:"isTalosEndpoint"`
+	Domain                         string   `validate:"isDomain"`
+	AllowSchedulingOnMasters       string   `validate:"isBool"`
+	AllowSchedulingOnControlPlanes string   `validate:"isBool"`
+	ClusterPodNets                 []string `validate:"isCIDRList"`
+	ClusterSvcNets                 []string `validate:"isCIDRList"`
+	CniConfig                      *CNIConfig
+	Nodes                          []*Node
+	ControlPlane                   struct {
 		ConfigPatches []map[string]interface{} `validate:"isRFC6902List"`
 	}
 	Worker struct {

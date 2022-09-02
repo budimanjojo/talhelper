@@ -50,7 +50,7 @@ func applyNodeOverride(node *config.Nodes, cfg *v1alpha1.Config) (*v1alpha1.Conf
 	}
 
 	if node.DisableSearchDomain {
-		cfg.MachineConfig.MachineNetwork.NetworkDisableSearchDomain = node.DisableSearchDomain
+		cfg.MachineConfig.MachineNetwork.NetworkDisableSearchDomain = &node.DisableSearchDomain
 	}
 
 	if len(node.NetworkInterfaces) != 0 {
