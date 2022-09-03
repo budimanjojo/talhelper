@@ -1,6 +1,8 @@
 package talos
 
 import (
+	"os"
+
 	"github.com/budimanjojo/talhelper/pkg/config"
 	tconfig "github.com/talos-systems/talos/pkg/machinery/config"
 	"github.com/talos-systems/talos/pkg/machinery/config/types/v1alpha1"
@@ -19,6 +21,7 @@ func NewClusterInput(c *config.TalhelperConfig, secretFile string) (*generate.In
 
 	if secretFile != "" {
 		secrets, err = NewSecretBundle(generate.NewClock(), generate.WithVersionContract(versionContract), generate.WithSecrets(secretFile))
+		err = os.Remove(secretFile)
 	} else {
 		secrets, err = NewSecretBundle(generate.NewClock(), generate.WithVersionContract(versionContract))
 	}
