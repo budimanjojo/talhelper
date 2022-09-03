@@ -21,7 +21,7 @@ func PrintSecretBundle(secret *generate.SecretsBundle) error {
 		return err
 	}
 
-	fmt.Printf(buf.String())
+	fmt.Print(buf.String())
 	return nil
 }
 
