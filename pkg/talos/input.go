@@ -21,12 +21,19 @@ func NewClusterInput(c *config.TalhelperConfig, secretFile string) (*generate.In
 
 	if secretFile != "" {
 		secrets, err = NewSecretBundle(generate.NewClock(), generate.WithVersionContract(versionContract), generate.WithSecrets(secretFile))
+		if err != nil {
+			return nil, err
+		}
+
 		err = os.Remove(secretFile)
+		if err != nil {
+			return nil, err
+		}
 	} else {
 		secrets, err = NewSecretBundle(generate.NewClock(), generate.WithVersionContract(versionContract))
-	}
-	if err != nil {
-		return nil, err
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	opts := parseOptions(c, versionContract)
