@@ -85,7 +85,10 @@ var (
 					if err != nil {
 						log.Fatalf("failed to decrypt/read secret file %s: %s", file, err)
 					}
-					os.WriteFile("/tmp/talsecret.yaml", secret, 0600)
+					err = os.WriteFile("/tmp/talsecret.yaml", secret, 0600)
+					if err != nil {
+						log.Fatalf("failed to write temp file to /tmp directory: %s", err)
+					}
 					secretFile = "/tmp/talsecret.yaml"
 				} else if errors.Is(err, os.ErrNotExist) {
 					continue
