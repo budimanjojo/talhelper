@@ -29,7 +29,7 @@ var (
 	genconfigCmd = &cobra.Command{
 		Use:   "genconfig",
 		Short: "Generate Talos cluster config YAML files",
-		Args: cobra.NoArgs,
+		Args:  cobra.NoArgs,
 		Run: func(cmd *cobra.Command, args []string) {
 			cf, err := os.ReadFile(genconfigCfgFile)
 			if err != nil {
@@ -78,7 +78,7 @@ var (
 				log.Fatalf("failed to unmarshal data: %s", err)
 			}
 
-			err = generate.GenerateConfig(&m, genconfigOutDir, genconfigTalosMode)
+			var secretFile string
 			for _, file := range genconfigSecretFile {
 				if _, err := os.Stat(file); err == nil {
 					secret, err := decrypt.DecryptYamlWithSops(file)

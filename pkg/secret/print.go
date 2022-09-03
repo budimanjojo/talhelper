@@ -43,19 +43,19 @@ func PrintSortedSecrets(secret *generate.SecretsBundle) {
 
 func getSecrets(secret *generate.SecretsBundle) map[string]string {
 	secrets := map[string]string{
-		"etcdCert": getEtcdCert(secret, "cert"),
-		"etcdCertKey": getEtcdCert(secret, "key"),
+		"etcdCert":             getEtcdCert(secret, "cert"),
+		"etcdCertKey":          getEtcdCert(secret, "key"),
 		"k8sServiceAccountKey": getK8sServiceAccountKey(secret),
-		"k8sAggregatorCert": getK8sAggregatorCert(secret, "cert"),
+		"k8sAggregatorCert":    getK8sAggregatorCert(secret, "cert"),
 		"k8sAggregatorCertKey": getK8sAggregatorCert(secret, "key"),
-		"clusterToken": getClusterToken(secret),
-		"aescbcEncryptionKey": getAescbcEncryptionKey(secret),
-		"clusterSecret": getClusterSecret(secret),
-		"machineToken": getMachineToken(secret),
-		"machineCert": getMachineCert(secret, "cert"),
-		"machineCertKey": getMachineCert(secret, "key"),
-		"clusterCert": getClusterCert(secret, "cert"),
-		"clusterCertKey": getClusterCert(secret, "key"),
+		"clusterToken":         getClusterToken(secret),
+		"aescbcEncryptionKey":  getAescbcEncryptionKey(secret),
+		"clusterSecret":        getClusterSecret(secret),
+		"machineToken":         getMachineToken(secret),
+		"machineCert":          getMachineCert(secret, "cert"),
+		"machineCertKey":       getMachineCert(secret, "key"),
+		"clusterCert":          getClusterCert(secret, "cert"),
+		"clusterCertKey":       getClusterCert(secret, "key"),
 	}
 
 	return secrets
