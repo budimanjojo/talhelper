@@ -7,7 +7,7 @@ import (
 	"github.com/talos-systems/talos/pkg/machinery/config/types/v1alpha1/generate"
 )
 
-func NewClusterInput(c *config.TalhelperConfig) (*generate.Input, error) {
+func NewClusterInput(c *config.TalhelperConfig, secretFile string) (*generate.Input, error) {
 	kubernetesVersion := c.GetK8sVersion()
 
 	versionContract, err := tconfig.ParseContractFromVersion(c.GetTalosVersion())
@@ -15,7 +15,13 @@ func NewClusterInput(c *config.TalhelperConfig) (*generate.Input, error) {
 		return nil, err
 	}
 
-	secrets, err := NewSecretBundle(generate.NewClock(), generate.WithVersionContract(versionContract))
+	var secrets *generate.SecretsBundle
+
+	if secretFile != "" {
+		secrets, err = NewSecretBundle(generate.NewClock(), generate.WithVersionContract(versionContract), generate.WithSecrets(secretFile))
+	} else {
+		secrets, err = NewSecretBundle(generate.NewClock(), generate.WithVersionContract(versionContract))
+	}
 	if err != nil {
 		return nil, err
 	}

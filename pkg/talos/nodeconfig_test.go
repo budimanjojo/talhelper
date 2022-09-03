@@ -24,7 +24,7 @@ nodes:
 		t.Fatal(err)
 	}
 
-	input, err := NewClusterInput(&m)
+	input, err := NewClusterInput(&m, "")
 	if err != nil {
 		t.Fatal(err)
 	}
