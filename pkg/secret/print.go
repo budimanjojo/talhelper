@@ -1,13 +1,29 @@
 package secret
 
 import (
+	"bytes"
 	"encoding/base64"
 	"fmt"
 	"sort"
 
 	"github.com/fatih/color"
 	"github.com/talos-systems/talos/pkg/machinery/config/types/v1alpha1/generate"
+	"gopkg.in/yaml.v3"
 )
+
+func PrintSecretBundle(secret *generate.SecretsBundle) error {
+	buf := new(bytes.Buffer)
+	encoder := yaml.NewEncoder(buf)
+	encoder.SetIndent(2)
+
+	err := encoder.Encode(secret)
+	if err != nil {
+		return err
+	}
+
+	fmt.Printf(buf.String())
+	return nil
+}
 
 func PrintSortedSecrets(secret *generate.SecretsBundle) {
 	unsorted := getSecrets(secret)
