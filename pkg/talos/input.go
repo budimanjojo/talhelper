@@ -1,13 +1,15 @@
 package talos
 
 import (
+	"os"
+
 	"github.com/budimanjojo/talhelper/pkg/config"
 	tconfig "github.com/talos-systems/talos/pkg/machinery/config"
 	"github.com/talos-systems/talos/pkg/machinery/config/types/v1alpha1"
 	"github.com/talos-systems/talos/pkg/machinery/config/types/v1alpha1/generate"
 )
 
-func NewClusterInput(c *config.TalhelperConfig) (*generate.Input, error) {
+func NewClusterInput(c *config.TalhelperConfig, secretFile string) (*generate.Input, error) {
 	kubernetesVersion := c.GetK8sVersion()
 
 	versionContract, err := tconfig.ParseContractFromVersion(c.GetTalosVersion())
@@ -15,9 +17,23 @@ func NewClusterInput(c *config.TalhelperConfig) (*generate.Input, error) {
 		return nil, err
 	}
 
-	secrets, err := NewSecretBundle(generate.NewClock(), generate.WithVersionContract(versionContract))
-	if err != nil {
-		return nil, err
+	var secrets *generate.SecretsBundle
+
+	if secretFile != "" {
+		secrets, err = NewSecretBundle(generate.NewClock(), generate.WithVersionContract(versionContract), generate.WithSecrets(secretFile))
+		if err != nil {
+			return nil, err
+		}
+
+		err = os.Remove(secretFile)
+		if err != nil {
+			return nil, err
+		}
+	} else {
+		secrets, err = NewSecretBundle(generate.NewClock(), generate.WithVersionContract(versionContract))
+		if err != nil {
+			return nil, err
+		}
 	}
 
 	opts := parseOptions(c, versionContract)

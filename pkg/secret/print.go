@@ -1,13 +1,29 @@
 package secret
 
 import (
+	"bytes"
 	"encoding/base64"
 	"fmt"
 	"sort"
 
 	"github.com/fatih/color"
 	"github.com/talos-systems/talos/pkg/machinery/config/types/v1alpha1/generate"
+	"gopkg.in/yaml.v3"
 )
+
+func PrintSecretBundle(secret *generate.SecretsBundle) error {
+	buf := new(bytes.Buffer)
+	encoder := yaml.NewEncoder(buf)
+	encoder.SetIndent(2)
+
+	err := encoder.Encode(secret)
+	if err != nil {
+		return err
+	}
+
+	fmt.Print(buf.String())
+	return nil
+}
 
 func PrintSortedSecrets(secret *generate.SecretsBundle) {
 	unsorted := getSecrets(secret)
@@ -27,19 +43,19 @@ func PrintSortedSecrets(secret *generate.SecretsBundle) {
 
 func getSecrets(secret *generate.SecretsBundle) map[string]string {
 	secrets := map[string]string{
-		"etcdCert": getEtcdCert(secret, "cert"),
-		"etcdCertKey": getEtcdCert(secret, "key"),
+		"etcdCert":             getEtcdCert(secret, "cert"),
+		"etcdCertKey":          getEtcdCert(secret, "key"),
 		"k8sServiceAccountKey": getK8sServiceAccountKey(secret),
-		"k8sAggregatorCert": getK8sAggregatorCert(secret, "cert"),
+		"k8sAggregatorCert":    getK8sAggregatorCert(secret, "cert"),
 		"k8sAggregatorCertKey": getK8sAggregatorCert(secret, "key"),
-		"clusterToken": getClusterToken(secret),
-		"aescbcEncryptionKey": getAescbcEncryptionKey(secret),
-		"clusterSecret": getClusterSecret(secret),
-		"machineToken": getMachineToken(secret),
-		"machineCert": getMachineCert(secret, "cert"),
-		"machineCertKey": getMachineCert(secret, "key"),
-		"clusterCert": getClusterCert(secret, "cert"),
-		"clusterCertKey": getClusterCert(secret, "key"),
+		"clusterToken":         getClusterToken(secret),
+		"aescbcEncryptionKey":  getAescbcEncryptionKey(secret),
+		"clusterSecret":        getClusterSecret(secret),
+		"machineToken":         getMachineToken(secret),
+		"machineCert":          getMachineCert(secret, "cert"),
+		"machineCertKey":       getMachineCert(secret, "key"),
+		"clusterCert":          getClusterCert(secret, "cert"),
+		"clusterCertKey":       getClusterCert(secret, "key"),
 	}
 
 	return secrets

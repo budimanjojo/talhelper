@@ -22,13 +22,14 @@ var (
 	genconfigTalosMode   string
 	genconfigNoGitignore bool
 	genconfigEnvFile     []string
+	genconfigSecretFile  []string
 )
 
 var (
 	genconfigCmd = &cobra.Command{
 		Use:   "genconfig",
 		Short: "Generate Talos cluster config YAML files",
-		Args: cobra.NoArgs,
+		Args:  cobra.NoArgs,
 		Run: func(cmd *cobra.Command, args []string) {
 			cf, err := os.ReadFile(genconfigCfgFile)
 			if err != nil {
@@ -77,7 +78,26 @@ var (
 				log.Fatalf("failed to unmarshal data: %s", err)
 			}
 
-			err = generate.GenerateConfig(&m, genconfigOutDir, genconfigTalosMode)
+			var secretFile string
+			for _, file := range genconfigSecretFile {
+				if _, err := os.Stat(file); err == nil {
+					secret, err := decrypt.DecryptYamlWithSops(file)
+					if err != nil {
+						log.Fatalf("failed to decrypt/read secret file %s: %s", file, err)
+					}
+					err = os.WriteFile("/tmp/talsecret.yaml", secret, 0600)
+					if err != nil {
+						log.Fatalf("failed to write temp file to /tmp directory: %s", err)
+					}
+					secretFile = "/tmp/talsecret.yaml"
+				} else if errors.Is(err, os.ErrNotExist) {
+					continue
+				} else {
+					log.Fatalf("failed to stat secret file %s: %s ", file, err)
+				}
+			}
+
+			err = generate.GenerateConfig(&m, genconfigOutDir, secretFile, genconfigTalosMode)
 			if err != nil {
 				log.Fatalf("failed to generate talos config: %s", err)
 			}
@@ -98,6 +118,7 @@ func init() {
 	genconfigCmd.Flags().StringVarP(&genconfigOutDir, "out-dir", "o", "./clusterconfig", "Directory where to dump the generated files")
 	genconfigCmd.Flags().StringVarP(&genconfigCfgFile, "config-file", "c", "talconfig.yaml", "File containing configurations for talhelper")
 	genconfigCmd.Flags().StringSliceVarP(&genconfigEnvFile, "env-file", "e", []string{"talenv.yaml", "talenv.sops.yaml", "talenv.yml", "talenv.sops.yml"}, "List of files containing env variables for config file")
+	genconfigCmd.Flags().StringSliceVarP(&genconfigSecretFile, "secret-file", "s", []string{"talsecret.yaml", "talsecret.sops.yaml", "talsecret.yml", "talsecret.sops.yml"}, "List of files containing secrets for the cluster")
 	genconfigCmd.Flags().StringVarP(&genconfigTalosMode, "talos-mode", "m", "metal", "Talos runtime mode to validate generated config")
 	genconfigCmd.Flags().BoolVar(&genconfigNoGitignore, "no-gitignore", false, "Create/update gitignore file too")
 }

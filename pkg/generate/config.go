@@ -12,10 +12,10 @@ import (
 	"github.com/talos-systems/talos/pkg/machinery/config/types/v1alpha1"
 )
 
-func GenerateConfig(c *config.TalhelperConfig, outDir, mode string) error {
+func GenerateConfig(c *config.TalhelperConfig, outDir, secretFile, mode string) error {
 	var cfg []byte
 	var cfgDump tconfig.Provider
-	input, err := talos.NewClusterInput(c)
+	input, err := talos.NewClusterInput(c, secretFile)
 	if err != nil {
 		return err
 	}
