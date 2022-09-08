@@ -3,7 +3,7 @@ package talos
 import (
 	"time"
 
-	"github.com/siderolabs/crypto/x509"
+	"github.com/talos-systems/crypto/x509"
 
 	"github.com/budimanjojo/talhelper/pkg/config"
 	"github.com/talos-systems/talos/pkg/machinery/config/types/v1alpha1/generate"
