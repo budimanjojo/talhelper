@@ -81,15 +81,7 @@ var (
 			var secretFile string
 			for _, file := range genconfigSecretFile {
 				if _, err := os.Stat(file); err == nil {
-					secret, err := decrypt.DecryptYamlWithSops(file)
-					if err != nil {
-						log.Fatalf("failed to decrypt/read secret file %s: %s", file, err)
-					}
-					err = os.WriteFile("/tmp/talsecret.yaml", secret, 0600)
-					if err != nil {
-						log.Fatalf("failed to write temp file to /tmp directory: %s", err)
-					}
-					secretFile = "/tmp/talsecret.yaml"
+					secretFile = file
 				} else if errors.Is(err, os.ErrNotExist) {
 					continue
 				} else {

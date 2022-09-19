@@ -1,12 +1,12 @@
 package talos
 
 import (
-	"os"
-
 	"github.com/budimanjojo/talhelper/pkg/config"
+	"github.com/budimanjojo/talhelper/pkg/decrypt"
 	tconfig "github.com/talos-systems/talos/pkg/machinery/config"
 	"github.com/talos-systems/talos/pkg/machinery/config/types/v1alpha1"
 	"github.com/talos-systems/talos/pkg/machinery/config/types/v1alpha1/generate"
+	"gopkg.in/yaml.v3"
 )
 
 func NewClusterInput(c *config.TalhelperConfig, secretFile string) (*generate.Input, error) {
@@ -20,15 +20,16 @@ func NewClusterInput(c *config.TalhelperConfig, secretFile string) (*generate.In
 	var secrets *generate.SecretsBundle
 
 	if secretFile != "" {
-		secrets, err = NewSecretBundle(generate.NewClock(), generate.WithVersionContract(versionContract), generate.WithSecrets(secretFile))
+		decrypted, err := decrypt.DecryptYamlWithSops(secretFile)
 		if err != nil {
 			return nil, err
 		}
 
-		err = os.Remove(secretFile)
+		err = yaml.Unmarshal(decrypted, &secrets)
 		if err != nil {
 			return nil, err
 		}
+		secrets.Clock = generate.NewClock()
 	} else {
 		secrets, err = NewSecretBundle(generate.NewClock(), generate.WithVersionContract(versionContract))
 		if err != nil {
