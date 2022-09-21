@@ -15,8 +15,12 @@ cniConfig:
 nodes:
   - hostname: kmaster1
     ipAddress: 192.168.200.11
+    installDiskSelector:
+      size: 4GB
+      model: WDC*
+      name: /sys/block/sda/device/name
+      busPath: /pci0000:00/0000:00:17.0/ata1/host0/target0:0:0/0:0:0:0
     controlPlane: true
-    installDisk: /dev/sda
     disableSearchDomain: true
     nameservers:
       - 1.1.1.1

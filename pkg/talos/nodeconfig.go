@@ -57,6 +57,10 @@ func applyNodeOverride(node *config.Nodes, cfg *v1alpha1.Config) (*v1alpha1.Conf
 		cfg.MachineConfig.MachineNetwork.NetworkInterfaces = node.NetworkInterfaces
 	}
 
+	if node.InstallDiskSelector != nil {
+		cfg.MachineConfig.MachineInstall.InstallDiskSelector = node.InstallDiskSelector
+	}
+
 	return cfg
 }
 

@@ -35,11 +35,23 @@ type Node struct {
 	Hostname            string                   `validate:"required"`
 	IPAddress           string                   `validate:"isIP"`
 	ControlPlane        string                   `validate:"isBool"`
-	InstallDisk         string                   `validate:"required"`
+	InstallDisk         string                   `validate:"requiredWithout:Nodes.InstallDiskSelector"`
+	InstallDiskSelector *InstallDiskSelector
 	DisableSearchDomain string                   `validate:"isBool"`
 	Nameservers         []string                 `validate:"isIPList"`
 	ConfigPatches       []map[string]interface{} `validate:"isRFC6902List"`
 	NetworkInterfaces   []*NetworkInterface
+}
+
+type InstallDiskSelector struct {
+	Size     string `validate:"required_with:Nodes.InstallDiskSelector"`
+	Name     string
+	Model    string
+	Modalias string
+	UUID     string
+	WWID     string
+	Type     string
+	BusPath  string
 }
 
 type NetworkInterface struct {
