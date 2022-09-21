@@ -43,7 +43,7 @@ nodes:
 		"CniConfig.Name": true,
 		"AllowSchedulingOnMasters": true,
 		"Nodes.0.Hostname": false,
-		"Nodes.0.IPAddress": true,
+		"Nodes.0.IPAddress": false,
 		"Nodes.0.ControlPlane": false,
 		"Nodes.0.InstallDisk": false,
 		"Nodes.0.DisableSearchDomain": true,
