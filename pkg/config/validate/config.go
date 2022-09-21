@@ -36,11 +36,11 @@ type Node struct {
 	IPAddress           string                   `validate:"required|isDomainOrIP"`
 	ControlPlane        string                   `validate:"isBool"`
 	InstallDisk         string                   `validate:"requiredWithout:Nodes.InstallDiskSelector"`
-	InstallDiskSelector *InstallDiskSelector
 	DisableSearchDomain string                   `validate:"isBool"`
 	Nameservers         []string                 `validate:"isIPList"`
 	ConfigPatches       []map[string]interface{} `validate:"isRFC6902List"`
 	NetworkInterfaces   []*NetworkInterface
+	InstallDiskSelector *InstallDiskSelector
 }
 
 type InstallDiskSelector struct {
@@ -160,6 +160,6 @@ func (c Config) Messages() map[string]string {
 		"isBool":                    "{field} is not a valid boolean (true or false)",
 		"isInt":                     "{field} is not a valid integer",
 		"isUint":                    "{field} is not a valid unsigned integer",
-		"isDomainOrIP":				 "{field} is not a valid domain or IP address",
+		"isDomainOrIP":              "{field} is not a valid domain or IP address",
 	}
 }
