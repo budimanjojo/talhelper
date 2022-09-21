@@ -117,7 +117,6 @@ Usage:
   talhelper gensecret [flags]
 
 Flags:
-  -c, --config-file string       File containing configurations for talhelper (default "talconfig.yaml")
   -f, --from-configfile string   Talos cluster node configuration file to generate secret from
   -h, --help                     help for gensecret
 ```

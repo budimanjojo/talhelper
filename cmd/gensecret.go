@@ -9,7 +9,6 @@ import (
 
 var (
 	gensecretFromCfg  string
-	gensecretCfgFile  string
 )
 
 var gensecretCmd = &cobra.Command{
@@ -27,6 +26,5 @@ var gensecretCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(gensecretCmd)
 
-	gensecretCmd.Flags().StringVarP(&gensecretCfgFile, "config-file", "c", "talconfig.yaml", "File containing configurations for talhelper")
 	gensecretCmd.Flags().StringVarP(&gensecretFromCfg, "from-configfile", "f", "", "Talos cluster node configuration file to generate secret from")
 }
