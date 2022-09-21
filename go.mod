@@ -13,7 +13,7 @@ require (
 	github.com/spf13/cobra v1.5.0
 	github.com/talos-systems/crypto v0.3.7
 	github.com/talos-systems/net v0.3.2
-	github.com/talos-systems/talos/pkg/machinery v1.2.2
+	github.com/talos-systems/talos/pkg/machinery v1.2.3
 	go.mozilla.org/sops/v3 v3.7.3
 	gopkg.in/yaml.v3 v3.0.1
 	sigs.k8s.io/yaml v1.3.0
@@ -107,7 +107,7 @@ require (
 	go4.org/intern v0.0.0-20220617035311-6925f38cc365 // indirect
 	go4.org/unsafe/assume-no-moving-gc v0.0.0-20220617031537-928513b29760 // indirect
 	golang.org/x/crypto v0.0.0-20220411220226-7b82a4e95df4 // indirect
-	golang.org/x/net v0.0.0-20220809184613-07c6da5e1ced // indirect
+	golang.org/x/net v0.0.0-20220812174116-3211cb980234 // indirect
 	golang.org/x/oauth2 v0.0.0-20220411215720-9780585627b5 // indirect
 	golang.org/x/sync v0.0.0-20220722155255-886fb9371eb4 // indirect
 	golang.org/x/sys v0.0.0-20220811171246-fbc7d0a398ab // indirect
