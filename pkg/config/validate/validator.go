@@ -85,3 +85,11 @@ func (c Config) IsDomain(domain string) bool {
 	}
 	return regexp.MustCompile(`^([a-zA-Z0-9_]{1}[a-zA-Z0-9_-]{0,62}){1}(\.[a-zA-Z0-9_]{1}[a-zA-Z0-9_-]{0,62})*[\._]?$`).MatchString(domain)
 }
+
+func (c Config) IsDomainOrIP(domainIP string) bool {
+	if c.IsDomain(domainIP) || validate.IsIP(domainIP) {
+		return true
+	}
+
+	return false
+}

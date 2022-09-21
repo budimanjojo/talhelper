@@ -33,7 +33,7 @@ type CNIConfig struct {
 
 type Node struct {
 	Hostname            string                   `validate:"required"`
-	IPAddress           string                   `validate:"isIP"`
+	IPAddress           string                   `validate:"required|isDomainOrIP"`
 	ControlPlane        string                   `validate:"isBool"`
 	InstallDisk         string                   `validate:"requiredWithout:Nodes.InstallDiskSelector"`
 	InstallDiskSelector *InstallDiskSelector
@@ -160,5 +160,6 @@ func (c Config) Messages() map[string]string {
 		"isBool":                    "{field} is not a valid boolean (true or false)",
 		"isInt":                     "{field} is not a valid integer",
 		"isUint":                    "{field} is not a valid unsigned integer",
+		"isDomainOrIP":				 "{field} is not a valid domain or IP address",
 	}
 }
