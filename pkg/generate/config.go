@@ -43,6 +43,13 @@ func GenerateConfig(c *config.TalhelperConfig, outDir, secretFile, mode string) 
 			}
 		}
 
+		if len(node.Patches) != 0 {
+			cfg, err = patcher.PatchesPatcher(node.Patches, cfg)
+			if err != nil {
+				return err
+			}
+		}
+
 		if node.ControlPlane {
 			cfg, err = patcher.YAMLInlinePatcher(c.ControlPlane.InlinePatch, cfg)
 			if err != nil {
@@ -52,12 +59,20 @@ func GenerateConfig(c *config.TalhelperConfig, outDir, secretFile, mode string) 
 			if err != nil {
 				return err
 			}
+			cfg, err = patcher.PatchesPatcher(c.ControlPlane.Patches, cfg)
+			if err != nil {
+				return err
+			}
 		} else {
 			cfg, err = patcher.YAMLInlinePatcher(c.Worker.InlinePatch, cfg)
 			if err != nil {
 				return err
 			}
 			cfg, err = patcher.YAMLPatcher(c.Worker.ConfigPatches, cfg)
+			if err != nil {
+				return err
+			}
+			cfg, err = patcher.PatchesPatcher(c.Worker.Patches, cfg)
 			if err != nil {
 				return err
 			}

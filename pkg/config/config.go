@@ -29,6 +29,7 @@ type Nodes struct {
 	NetworkInterfaces   []*v1alpha1.Device            `yaml:"networkInterfaces,omitempty"`
 	ConfigPatches       []map[string]interface{}      `yaml:"configPatches,omitempty"`
 	InlinePatch         map[string]interface{}        `yaml:"inlinePatch,omitempty"`
+	Patches             []string                      `yaml:"patches,omitempty"`
 }
 
 type cniConfig struct {
@@ -39,9 +40,11 @@ type cniConfig struct {
 type controlPlane struct {
 	ConfigPatches []map[string]interface{} `yaml:"configPatches,omitempty"`
 	InlinePatch   map[string]interface{}   `yaml:"inlinePatch,omitempty"`
+	Patches       []string                 `yaml:"patches,omitempty"`
 }
 
 type worker struct {
 	ConfigPatches []map[string]interface{} `yaml:"configPatches,omitempty"`
 	InlinePatch   map[string]interface{}   `yaml:"inlinePatch,omitempty"`
+	Patches       []string                 `yaml:"patches,omitempty"`
 }
