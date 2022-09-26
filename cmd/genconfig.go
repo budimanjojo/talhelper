@@ -10,6 +10,7 @@ import (
 	"github.com/budimanjojo/talhelper/pkg/config/validate"
 	"github.com/budimanjojo/talhelper/pkg/decrypt"
 	"github.com/budimanjojo/talhelper/pkg/generate"
+	"github.com/budimanjojo/talhelper/pkg/substitute"
 	"github.com/fatih/color"
 
 	"github.com/spf13/cobra"
@@ -43,7 +44,7 @@ var (
 						log.Fatalf("failed to decrypt/read env file %s: %s", file, err)
 					}
 
-					err = config.LoadEnv(env)
+					err = substitute.LoadEnv(env)
 					if err != nil {
 						log.Fatalf("failed to load env variables from file %s: %s", file, err)
 					}
@@ -54,7 +55,7 @@ var (
 				}
 			}
 
-			cfFile, err := config.SubstituteEnvFromYaml(cf)
+			cfFile, err := substitute.SubstituteEnvFromYaml(cf)
 			if err != nil {
 				log.Fatalf("failed to substitute env: %s", err)
 			}
