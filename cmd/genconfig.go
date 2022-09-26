@@ -55,7 +55,7 @@ var (
 				}
 			}
 
-			cfFile, err := substitute.SubstituteEnvFromYaml(cf)
+			cfFile, err := substitute.SubstituteEnvFromByte(cf)
 			if err != nil {
 				log.Fatalf("failed to substitute env: %s", err)
 			}

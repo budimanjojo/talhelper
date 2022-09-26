@@ -29,7 +29,7 @@ d: default value
 		t.Fatal(err)
 	}
 
-	result, _ := SubstituteEnvFromYaml([]byte(file))
+	result, _ := SubstituteEnvFromByte([]byte(file))
 	if expected != string(result) {
 		t.Errorf("got %s, want %s", string(result), expected)
 

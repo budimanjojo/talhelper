@@ -20,7 +20,7 @@ func LoadEnv(file []byte) error {
 	return nil
 }
 
-func SubstituteEnvFromYaml(file []byte) ([]byte, error) {
+func SubstituteEnvFromByte(file []byte) ([]byte, error) {
 	filtered := stripYamlComment(file)
 	data, err := envsubst.BytesRestricted(filtered, true, true)
 	if err != nil {

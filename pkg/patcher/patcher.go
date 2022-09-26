@@ -53,7 +53,7 @@ func PatchesPatcher(patches []string, target []byte) ([]byte, error) {
 				return nil, err
 			}
 
-			p, err := substitute.SubstituteEnvFromYaml(contents)
+			p, err := substitute.SubstituteEnvFromByte(contents)
 			if err != nil {
 				return nil, err
 			}
