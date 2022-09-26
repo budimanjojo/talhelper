@@ -36,42 +36,43 @@ nodes:
       - interface: eth1
         dhcp: true
         ignore: true
-    configPatches:
-      - op: add
-        path: /cluster/apiServer/certSANs
-        value:
-          - 192.168.200.10
-          - kmaster1
-          - home-cluster.cluster.local
+    patches:
+      - |-
+        - op: add
+          path: /cluster/apiServer/certSANs
+          value:
+            - 192.168.200.10
+            - kmaster1
+            - home-cluster.cluster.local
   - hostname: kworker1
     ipAddress: 192.168.200.13
     controlPlane: false
     installDisk: /dev/sdb
-    inlinePatch:
-      machine:
-        network:
-          interfaces:
-            - addresses:
-                - 192.168.200.11/24
-              interface: eth1
-              routes:
-                - gateway: 192.168.200.1
-                  network: 0.0.0.0/0
+    patches:
+      - |-
+        machine:
+          network:
+            interfaces:
+              - addresses:
+                  - 192.168.200.11/24
+                interface: eth1
+                routes:
+                  - gateway: 192.168.200.1
+                  - network: 0.0.0.0/0
 controlPlane:
-  configPatches:
-    - op: add
-      path: /machine/kubelet/extraArgs
-      value:
-        feature-gates: GracefulNodeShutdown=true,MixedProtocolLBService=true
-        rotate-server-certificates: "true"
-    - op: add
-      path: /machine/install/extraKernelArgs
-      value:
-        - talos.logging.kernel=udp://10.45.0.2:6050/
+  patches:
+    - |-
+      - op: add
+        path: /machine/kubelet/extraArgs
+        value:
+          feature-gates: GracefulNodeShutdown=true,MixedProtocolLBService=true
+          rotate-server-certificates: "true"
+    - "@./extraKernelArgs-patch.yaml"
 worker:
-  configPatches:
-    - op: add
-      path: /machine/kubelet/extraArgs
-      value:
-        feature-gates: GracefulNodeShutdown=true,MixedProtocolLBService=true
-        rotate-server-certificates: "true"
+  patches:
+    - |-
+      - op: add
+        path: /machine/kubelet/extraArgs
+        value:
+          feature-gates: GracefulNodeShutdown=false,MixedProtocolLBService=false
+          rotate-server-certificates: "true"
