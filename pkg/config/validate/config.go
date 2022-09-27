@@ -44,7 +44,7 @@ type Node struct {
 }
 
 type InstallDiskSelector struct {
-	Size     string `validate:"required_with:Nodes.InstallDiskSelector"`
+	Size     string
 	Name     string
 	Model    string
 	Modalias string
