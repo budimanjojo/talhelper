@@ -32,7 +32,7 @@ func (c Config) IsRFC6902List(input []map[string]interface{}) bool {
 }
 
 func (c Config) IsVersion(version string) bool {
-	if match, _ := regexp.MatchString(`^v?(\d+\.)(\d+\.)(\d+)$`, version); match {
+	if match, _ := regexp.MatchString(`^v?(\d+\.)(\d+\.)(\d+)(-alpha\.\d+)?$`, version); match {
 		return true
 	}
 	return false
