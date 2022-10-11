@@ -550,6 +550,8 @@ github.com/talos-systems/net v0.3.2 h1:IMseRyuha8fNsv/3FbQPRE9hLVRBEFR+9sxcoETQ5
 github.com/talos-systems/net v0.3.2/go.mod h1:zhcGixNJz9dgwFiUwc7gkkAqdVqXagU1SNNoIVXYKGo=
 github.com/talos-systems/talos/pkg/machinery v1.2.3 h1:fMj1Srjm6HEZrL5vONTKkL8Qh9urWcW7W9Oc92c9z2k=
 github.com/talos-systems/talos/pkg/machinery v1.2.3/go.mod h1:bMaqe3cZ95419vkUt+zQQXXvgVcW7saTi80RsWyIC2M=
+github.com/talos-systems/talos/pkg/machinery v1.2.5 h1:cccQLWqb7kKp2UNDEwHGlJ6OkCBRq04/pj20HsQOxAU=
+github.com/talos-systems/talos/pkg/machinery v1.2.5/go.mod h1:bMaqe3cZ95419vkUt+zQQXXvgVcW7saTi80RsWyIC2M=
 github.com/tv42/httpunix v0.0.0-20150427012821-b75d8614f926/go.mod h1:9ESjWnEqriFuLhtthL60Sar/7RFoluCcXsuvEwTV5KM=
 github.com/urfave/cli v1.22.1/go.mod h1:Gos4lmkARVdJ6EkW0WaNv/tZAAMe9V7XWyB60NtXRu0=
 github.com/vishvananda/netlink v1.1.0/go.mod h1:cTgwzPIzzgDAYoQrMm0EdrjRUBkTqKYppBueQtXaqoE=
