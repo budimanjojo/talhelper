@@ -13,7 +13,7 @@ require (
 	github.com/spf13/cobra v1.6.0
 	github.com/talos-systems/crypto v0.3.7
 	github.com/talos-systems/net v0.3.2
-	github.com/talos-systems/talos/pkg/machinery v1.2.3
+	github.com/talos-systems/talos/pkg/machinery v1.2.5
 	go.mozilla.org/sops/v3 v3.7.3
 	gopkg.in/yaml.v3 v3.0.1
 	sigs.k8s.io/yaml v1.3.0
