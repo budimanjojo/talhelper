@@ -13,7 +13,7 @@ require (
 	github.com/spf13/cobra v1.6.1
 	github.com/talos-systems/crypto v0.3.7
 	github.com/talos-systems/net v0.3.2
-	github.com/talos-systems/talos/pkg/machinery v1.2.5
+	github.com/talos-systems/talos/pkg/machinery v1.2.6
 	go.mozilla.org/sops/v3 v3.7.3
 	gopkg.in/yaml.v3 v3.0.1
 	sigs.k8s.io/yaml v1.3.0
@@ -33,12 +33,13 @@ require (
 	github.com/Azure/go-autorest/autorest/validation v0.3.1 // indirect
 	github.com/Azure/go-autorest/logger v0.2.1 // indirect
 	github.com/Azure/go-autorest/tracing v0.6.0 // indirect
-	github.com/ProtonMail/go-crypto v0.0.0-20220407094043-a94812496cf5 // indirect
+	github.com/ProtonMail/go-crypto v0.0.0-20220930113650-c6815a8c17ad // indirect
 	github.com/armon/go-metrics v0.3.10 // indirect
 	github.com/armon/go-radix v1.0.0 // indirect
 	github.com/aws/aws-sdk-go v1.43.43 // indirect
 	github.com/blang/semver v3.5.1+incompatible // indirect
 	github.com/cenkalti/backoff/v3 v3.2.2 // indirect
+	github.com/cloudflare/circl v1.1.0 // indirect
 	github.com/containerd/go-cni v1.1.7 // indirect
 	github.com/containernetworking/cni v1.1.2 // indirect
 	github.com/dimchansky/utfbom v1.1.1 // indirect
@@ -107,17 +108,17 @@ require (
 	go4.org/intern v0.0.0-20220617035311-6925f38cc365 // indirect
 	go4.org/unsafe/assume-no-moving-gc v0.0.0-20220617031537-928513b29760 // indirect
 	golang.org/x/crypto v0.0.0-20220411220226-7b82a4e95df4 // indirect
-	golang.org/x/net v0.0.0-20220812174116-3211cb980234 // indirect
+	golang.org/x/net v0.0.0-20220909164309-bea034e7d591 // indirect
 	golang.org/x/oauth2 v0.0.0-20220411215720-9780585627b5 // indirect
 	golang.org/x/sync v0.0.0-20220722155255-886fb9371eb4 // indirect
 	golang.org/x/sys v0.0.0-20220811171246-fbc7d0a398ab // indirect
 	golang.org/x/term v0.0.0-20210927222741-03fcf44c2211 // indirect
-	golang.org/x/text v0.3.7 // indirect
+	golang.org/x/text v0.3.8 // indirect
 	golang.org/x/time v0.0.0-20220224211638-0e9765cccd65 // indirect
 	google.golang.org/api v0.74.0 // indirect
 	google.golang.org/appengine v1.6.7 // indirect
-	google.golang.org/genproto v0.0.0-20220812140447-cec7f5303424 // indirect
-	google.golang.org/grpc v1.48.0 // indirect
+	google.golang.org/genproto v0.0.0-20221014213838-99cd37c6964a // indirect
+	google.golang.org/grpc v1.50.1 // indirect
 	google.golang.org/protobuf v1.28.1 // indirect
 	gopkg.in/ini.v1 v1.66.4 // indirect
 	gopkg.in/square/go-jose.v2 v2.6.0 // indirect
