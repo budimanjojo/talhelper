@@ -12,7 +12,7 @@ require (
 	github.com/sabhiram/go-gitignore v0.0.0-20210923224102-525f6e181f06
 	github.com/spf13/cobra v1.6.1
 	github.com/talos-systems/crypto v0.3.7
-	github.com/talos-systems/net v0.3.2
+	github.com/talos-systems/net v0.3.3
 	github.com/talos-systems/talos/pkg/machinery v1.2.6
 	go.mozilla.org/sops/v3 v3.7.3
 	gopkg.in/yaml.v3 v3.0.1
