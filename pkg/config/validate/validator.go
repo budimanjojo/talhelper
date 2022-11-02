@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/gookit/validate"
-	"github.com/talos-systems/net"
+	"github.com/siderolabs/net"
 )
 
 func (c Config) IsRFC6902List(input []map[string]interface{}) bool {

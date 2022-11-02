@@ -4,7 +4,7 @@ import (
 	"strings"
 	"net"
 
-	tnet "github.com/talos-systems/net"
+	tnet "github.com/siderolabs/net"
 	"github.com/talos-systems/talos/pkg/machinery/constants"
 )
 
