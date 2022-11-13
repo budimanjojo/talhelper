@@ -1,10 +1,9 @@
 package config
 
 import (
+	"net/netip"
 	"strings"
-	"net"
 
-	tnet "github.com/siderolabs/net"
 	"github.com/talos-systems/talos/pkg/machinery/constants"
 )
 
@@ -33,7 +32,7 @@ func (c *TalhelperConfig) GetTalosVersion() string {
 
 func (c *TalhelperConfig) GetClusterPodNets() []string {
 	if len(c.ClusterPodNets) == 0 {
-		if tnet.IsIPv6(net.ParseIP(c.Endpoint)) {
+		if endpointisIPv6(c.Endpoint) {
 			c.ClusterPodNets = []string{constants.DefaultIPv6PodNet}
 		} else {
 			c.ClusterPodNets = []string{constants.DefaultIPv4PodNet}
@@ -44,7 +43,7 @@ func (c *TalhelperConfig) GetClusterPodNets() []string {
 
 func (c *TalhelperConfig) GetClusterSvcNets() []string {
 	if len(c.ClusterSvcNets) == 0 {
-		if tnet.IsIPv6(net.ParseIP(c.Endpoint)) {
+		if endpointisIPv6(c.Endpoint) {
 			c.ClusterSvcNets = []string{constants.DefaultIPv6ServiceNet}
 		} else {
 			c.ClusterSvcNets = []string{constants.DefaultIPv4ServiceNet}
@@ -55,4 +54,12 @@ func (c *TalhelperConfig) GetClusterSvcNets() []string {
 
 func (c *TalhelperConfig) GetInstallerURL() string {
 	return "ghcr.io/siderolabs/installer:" + c.GetTalosVersion()
+}
+
+func endpointisIPv6(ep string) bool {
+	addr, err := netip.ParseAddr(ep)
+	if err == nil && addr.Is6() {
+		return true
+	}
+	return false
 }
