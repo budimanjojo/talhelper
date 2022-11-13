@@ -46,6 +46,8 @@ func NewClusterInput(c *config.TalhelperConfig, secretFile string) (*generate.In
 
 	input.PodNet = c.GetClusterPodNets()
 	input.ServiceNet = c.GetClusterSvcNets()
+	input.AdditionalMachineCertSANs = c.AdditionalMachineCertSans
+	input.AdditionalSubjectAltNames = c.AdditionalApiServerCertSans
 
 	return input, nil
 }

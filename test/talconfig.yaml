@@ -4,6 +4,10 @@ kubernetesVersion: v1.23.6
 endpoint: https://192.168.200.10:6443
 domain: home-cluster.local
 allowSchedulingOnMasters: true
+additionalMachineCertSans:
+  - 192.168.200.10
+additionalApiServerCertSans:
+  - home-cluster.local
 clusterPodNets:
   - 10.244.0.0/16
 clusterSvcNets:
@@ -36,14 +40,6 @@ nodes:
       - interface: eth1
         dhcp: true
         ignore: true
-    patches:
-      - |-
-        - op: add
-          path: /cluster/apiServer/certSANs
-          value:
-            - 192.168.200.10
-            - kmaster1
-            - home-cluster.cluster.local
   - hostname: kworker1
     ipAddress: 192.168.200.13
     controlPlane: false

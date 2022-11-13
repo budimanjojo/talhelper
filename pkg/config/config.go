@@ -10,6 +10,8 @@ type TalhelperConfig struct {
 	Domain                         string       `yaml:"domain,omitempty"`
 	AllowSchedulingOnMasters       bool         `yaml:"allowSchedulingOnMasters,omitempty"`
 	AllowSchedulingOnControlPlanes bool         `yaml:"allowSchedulingOnControlPlanes,omitempty"`
+	AdditionalMachineCertSans      []string     `yaml:"additionalMachineCertSans,omitempty"`
+	AdditionalApiServerCertSans    []string     `yaml:"additionalApiServerCertSans,omitempty"`
 	ClusterPodNets                 []string     `yaml:"clusterPodNets,omitempty"`
 	ClusterSvcNets                 []string     `yaml:"clusterSvcNets,omitempty"`
 	CNIConfig                      cniConfig    `yaml:"cniConfig,omitempty"`
