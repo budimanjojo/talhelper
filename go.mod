@@ -13,7 +13,7 @@ require (
 	github.com/siderolabs/net v0.4.0
 	github.com/spf13/cobra v1.6.1
 	github.com/talos-systems/crypto v0.3.7
-	github.com/talos-systems/talos/pkg/machinery v1.2.6
+	github.com/talos-systems/talos/pkg/machinery v1.2.7
 	go.mozilla.org/sops/v3 v3.7.3
 	gopkg.in/yaml.v3 v3.0.1
 	sigs.k8s.io/yaml v1.3.0
