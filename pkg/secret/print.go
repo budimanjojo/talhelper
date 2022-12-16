@@ -7,7 +7,7 @@ import (
 	"sort"
 
 	"github.com/fatih/color"
-	"github.com/talos-systems/talos/pkg/machinery/config/types/v1alpha1/generate"
+	"github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1/generate"
 	"gopkg.in/yaml.v3"
 )
 

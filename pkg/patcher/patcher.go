@@ -5,7 +5,7 @@ import (
 	"strings"
 
 	"github.com/budimanjojo/talhelper/pkg/substitute"
-	"github.com/talos-systems/talos/pkg/machinery/config/configpatcher"
+	"github.com/siderolabs/talos/pkg/machinery/config/configpatcher"
 	"gopkg.in/yaml.v3"
 )
 

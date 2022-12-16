@@ -3,7 +3,7 @@ package talos
 import (
 	"bytes"
 
-	"github.com/talos-systems/talos/pkg/machinery/config/types/v1alpha1"
+	"github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1"
 	"gopkg.in/yaml.v3"
 )
 

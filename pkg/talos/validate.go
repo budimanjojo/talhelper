@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 
-	"github.com/talos-systems/talos/pkg/machinery/config"
+	"github.com/siderolabs/talos/pkg/machinery/config"
 )
 
 type mode int

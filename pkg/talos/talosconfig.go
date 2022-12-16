@@ -3,10 +3,10 @@ package talos
 import (
 	"time"
 
-	"github.com/talos-systems/crypto/x509"
+	"github.com/siderolabs/crypto/x509"
 
 	"github.com/budimanjojo/talhelper/pkg/config"
-	"github.com/talos-systems/talos/pkg/machinery/config/types/v1alpha1/generate"
+	"github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1/generate"
 )
 
 func GenerateClientConfigBytes(c *config.TalhelperConfig, input *generate.Input, machineCert *x509.PEMEncodedCertificateAndKey) ([]byte, error) {

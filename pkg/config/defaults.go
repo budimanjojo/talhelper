@@ -4,7 +4,7 @@ import (
 	"net/netip"
 	"strings"
 
-	"github.com/talos-systems/talos/pkg/machinery/constants"
+	"github.com/siderolabs/talos/pkg/machinery/constants"
 )
 
 var (

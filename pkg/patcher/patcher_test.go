@@ -4,7 +4,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/talos-systems/talos/pkg/machinery/config/configloader"
+	"github.com/siderolabs/talos/pkg/machinery/config/configloader"
 	"gopkg.in/yaml.v3"
 )
 

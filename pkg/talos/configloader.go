@@ -1,8 +1,8 @@
 package talos
 
 import (
-	"github.com/talos-systems/talos/pkg/machinery/config"
-	"github.com/talos-systems/talos/pkg/machinery/config/configloader"
+	"github.com/siderolabs/talos/pkg/machinery/config"
+	"github.com/siderolabs/talos/pkg/machinery/config/configloader"
 )
 
 func LoadTalosConfigFromFile(cfgFile string) (config.Provider, error) {

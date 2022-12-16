@@ -3,7 +3,7 @@ package generate
 import (
 	"github.com/budimanjojo/talhelper/pkg/secret"
 	"github.com/budimanjojo/talhelper/pkg/talos"
-	"github.com/talos-systems/talos/pkg/machinery/config/types/v1alpha1/generate"
+	"github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1/generate"
 )
 
 func GenerateOutput(cfg string) error {

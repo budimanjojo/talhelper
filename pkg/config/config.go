@@ -1,6 +1,6 @@
 package config
 
-import "github.com/talos-systems/talos/pkg/machinery/config/types/v1alpha1"
+import "github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1"
 
 type TalhelperConfig struct {
 	ClusterName                    string       `yaml:"clusterName"`
