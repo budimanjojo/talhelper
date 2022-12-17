@@ -41,6 +41,12 @@ type Node struct {
 	ConfigPatches       []map[string]interface{} `validate:"isRFC6902List"`
 	NetworkInterfaces   []*NetworkInterface
 	InstallDiskSelector *InstallDiskSelector
+	KernelModules       []*KernelModule
+}
+
+type KernelModule struct {
+	Name       string
+	Parameters []string
 }
 
 type InstallDiskSelector struct {

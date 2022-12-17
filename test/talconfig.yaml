@@ -26,6 +26,10 @@ nodes:
       busPath: /pci0000:00/0000:00:17.0/ata1/host0/target0:0:0/0:0:0:0
     controlPlane: true
     disableSearchDomain: true
+    kernelModules:
+      - name: br_netfilter
+        parameters:
+          - nf_conntrack_max=131072
     nameservers:
       - 1.1.1.1
       - 8.8.8.8

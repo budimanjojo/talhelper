@@ -1,6 +1,7 @@
 package talos
 
 import (
+
 	"github.com/budimanjojo/talhelper/pkg/config"
 	"github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1"
 	"github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1/generate"
@@ -36,13 +37,12 @@ func generateNodeConfig(node *config.Nodes, input *generate.Input) (*v1alpha1.Co
 			return nil, err
 		}
 	}
-
 	cfg := applyNodeOverride(node, c)
 
 	return cfg, nil
 }
 
-func applyNodeOverride(node *config.Nodes, cfg *v1alpha1.Config) (*v1alpha1.Config) {
+func applyNodeOverride(node *config.Nodes, cfg *v1alpha1.Config) *v1alpha1.Config {
 	cfg.MachineConfig.MachineNetwork.NetworkHostname = node.Hostname
 
 	if len(node.Nameservers) != 0 {
@@ -59,6 +59,11 @@ func applyNodeOverride(node *config.Nodes, cfg *v1alpha1.Config) (*v1alpha1.Conf
 
 	if node.InstallDiskSelector != nil {
 		cfg.MachineConfig.MachineInstall.InstallDiskSelector = node.InstallDiskSelector
+	}
+
+	if len(node.KernelModules) != 0 {
+		cfg.MachineConfig.MachineKernel = &v1alpha1.KernelConfig{}
+		cfg.MachineConfig.MachineKernel.KernelModules = node.KernelModules
 	}
 
 	return cfg
