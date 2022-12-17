@@ -25,6 +25,9 @@ nodes:
       name: /sys/block/sda/device/name
       busPath: /pci0000:00/0000:00:17.0/ata1/host0/target0:0:0/0:0:0:0
     controlPlane: true
+    nodeLabels:
+      rack: rack1a
+      zone: us-east-1a
     disableSearchDomain: true
     kernelModules:
       - name: br_netfilter

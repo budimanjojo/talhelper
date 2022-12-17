@@ -66,6 +66,10 @@ func applyNodeOverride(node *config.Nodes, cfg *v1alpha1.Config) *v1alpha1.Confi
 		cfg.MachineConfig.MachineKernel.KernelModules = node.KernelModules
 	}
 
+	if node.NodeLabels != nil {
+		cfg.MachineConfig.MachineNodeLabels = node.NodeLabels
+	}
+
 	return cfg
 }
 

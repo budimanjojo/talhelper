@@ -24,6 +24,7 @@ type Nodes struct {
 	Hostname            string                         `yaml:"hostname"`
 	IPAddress           string                         `yaml:"ipAddress,omitempty"`
 	ControlPlane        bool                           `yaml:"controlPlane"`
+	NodeLabels          map[string]string              `yaml:"nodeLabels"`
 	InstallDisk         string                         `yaml:"installDisk,omitempty"`
 	InstallDiskSelector *v1alpha1.InstallDiskSelector  `yaml:"installDiskSelector,omitempty"`
 	DisableSearchDomain bool                           `yaml:"disableSearchDomain,omitempty"`

@@ -42,6 +42,7 @@ type Node struct {
 	NetworkInterfaces   []*NetworkInterface
 	InstallDiskSelector *InstallDiskSelector
 	KernelModules       []*KernelModule
+	NodeLabels          map[string]string
 }
 
 type KernelModule struct {
