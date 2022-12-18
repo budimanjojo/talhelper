@@ -6,7 +6,7 @@ import (
 	"github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1/generate"
 )
 
-func GenerateOutput(cfg string) error {
+func GenerateSecret(cfg string) error {
 	var s *generate.SecretsBundle
 	var err error
 	switch cfg {

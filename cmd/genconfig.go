@@ -32,35 +32,35 @@ var (
 		Short: "Generate Talos cluster config YAML files",
 		Args:  cobra.NoArgs,
 		Run: func(cmd *cobra.Command, args []string) {
-			cf, err := os.ReadFile(genconfigCfgFile)
+			talCfg, err := os.ReadFile(genconfigCfgFile)
 			if err != nil {
 				log.Fatalf("failed to read config file: %s", err)
 			}
 
-			for _, file := range genconfigEnvFile {
-				if _, err := os.Stat(file); err == nil {
-					env, err := decrypt.DecryptYamlWithSops(file)
+			for _, talEnv := range genconfigEnvFile {
+				if _, err := os.Stat(talEnv); err == nil {
+					env, err := decrypt.DecryptYamlWithSops(talEnv)
 					if err != nil {
-						log.Fatalf("failed to decrypt/read env file %s: %s", file, err)
+						log.Fatalf("failed to decrypt/read env file %s: %s", talEnv, err)
 					}
 
 					err = substitute.LoadEnv(env)
 					if err != nil {
-						log.Fatalf("failed to load env variables from file %s: %s", file, err)
+						log.Fatalf("failed to load env variables from file %s: %s", talEnv, err)
 					}
 				} else if errors.Is(err, os.ErrNotExist) {
 					continue
 				} else {
-					log.Fatalf("failed to stat env file %s: %s ", file, err)
+					log.Fatalf("failed to stat env file %s: %s ", talEnv, err)
 				}
 			}
 
-			cfFile, err := substitute.SubstituteEnvFromByte(cf)
+			talCfg, err = substitute.SubstituteEnvFromByte(talCfg)
 			if err != nil {
 				log.Fatalf("failed to substitute env: %s", err)
 			}
 
-			prob, err := validate.ValidateFromByte(cfFile)
+			prob, err := validate.ValidateFromByte(talCfg)
 			if err != nil {
 				log.Fatalf("failed to validate talhelper config file: %s", err)
 			}
@@ -74,7 +74,7 @@ var (
 
 			var m config.TalhelperConfig
 
-			err = yaml.Unmarshal(cfFile, &m)
+			err = yaml.Unmarshal(talCfg, &m)
 			if err != nil {
 				log.Fatalf("failed to unmarshal data: %s", err)
 			}

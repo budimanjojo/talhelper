@@ -16,7 +16,7 @@ var gensecretCmd = &cobra.Command{
 	Short: "Generate Talos cluster secrets",
 	Args: cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
-		err := generate.GenerateOutput(gensecretFromCfg)
+		err := generate.GenerateSecret(gensecretFromCfg)
 		if err != nil {
 			log.Fatalf("failed to generate secret bundle: %s", err)
 		}
