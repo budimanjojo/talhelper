@@ -31,9 +31,9 @@ Workflow:
   ----------------------------------------
 
   Then run these commands:
-  > talhelper gensecret --patch-configfile > talenv.sops.yaml
-  > sops -e -i talenv.sops.yaml
-  > talhelper genconfig"
+  > talhelper gensecret > talsecret.sops.yaml
+  > sops -e -i talsecret.sops.yaml
+  > talhelper genconfig
 
   The generated yaml files will be in ./clusterconfig directory
 `)
