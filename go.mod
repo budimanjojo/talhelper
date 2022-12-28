@@ -7,7 +7,7 @@ require (
 	github.com/evanphx/json-patch v5.6.0+incompatible
 	github.com/fatih/color v1.13.0
 	github.com/ghodss/yaml v1.0.0
-	github.com/gookit/validate v1.4.5
+	github.com/gookit/validate v1.4.6
 	github.com/joho/godotenv v1.4.0
 	github.com/sabhiram/go-gitignore v0.0.0-20210923224102-525f6e181f06
 	github.com/siderolabs/crypto v0.4.0
