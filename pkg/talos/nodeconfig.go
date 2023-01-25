@@ -37,6 +37,12 @@ func generateNodeConfig(node *config.Nodes, input *generate.Input) (*v1alpha1.Co
 			return nil, err
 		}
 	}
+
+	// https://github.com/budimanjojo/talhelper/issues/81
+	if input.VersionContract.SecretboxEncryptionSupported() && input.Secrets.AESCBCEncryptionSecret != "" {
+		c.ClusterConfig.ClusterAESCBCEncryptionSecret = input.Secrets.AESCBCEncryptionSecret
+	}
+
 	cfg := applyNodeOverride(node, c)
 
 	return cfg, nil
