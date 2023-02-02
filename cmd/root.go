@@ -36,6 +36,10 @@ Workflow:
   > talhelper genconfig
 
   The generated yaml files will be in ./clusterconfig directory
+
+  WARNING! Please don't push the generated files into your public git repository.
+  By default talhelper will create a ".gitignore" file to ignore the generated files for you unless you use "--no-gitignore" flag.
+  The generated files contain unencrypted secrets and you don't want people to get a hand of them.
 `)
 
 var rootCmd = &cobra.Command{

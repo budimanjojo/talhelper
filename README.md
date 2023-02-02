@@ -58,6 +58,14 @@ Any input and suggestion will be highly appreciated.
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+## WARNING
+
+**Please don't push the generated files into your public git repository.
+By default `talhelper` will create a `.gitignore` file to ignore the generated files for you unless you use `--no-gitignore` flag.
+The generated files contain unencrypted secrets and you don't want people to get a hand of them.**
+
+<p align="right">(<a href="#top">back to top</a>)</p>
+
 ## Getting Started
 
 Scenario 1 (You already have your talos config but not GitOps it yet):
