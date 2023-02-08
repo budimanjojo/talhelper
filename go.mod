@@ -3,7 +3,7 @@ module github.com/budimanjojo/talhelper
 go 1.19
 
 require (
-	github.com/a8m/envsubst v1.3.0
+	github.com/a8m/envsubst v1.4.1
 	github.com/evanphx/json-patch v5.6.0+incompatible
 	github.com/fatih/color v1.14.1
 	github.com/ghodss/yaml v1.0.0
