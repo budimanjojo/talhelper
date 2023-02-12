@@ -1,8 +1,6 @@
 package validate
 
 import (
-	"time"
-
 	"github.com/gookit/validate"
 )
 
@@ -147,7 +145,7 @@ type Wireguard struct {
 type Peer struct {
 	PublicKey                   string
 	Endpoint                    string
-	PersistentKeepAliveInterval time.Duration
+	PersistentKeepaliveInterval string
 	AllowedIPs                  []string
 }
 
