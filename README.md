@@ -88,6 +88,7 @@ To get help, run `talhelper <subcommand> --help`
 
 There are several ways to install `talhelper`:
 - Using [aqua](https://aquaproj.github.io/).
+- Using [asdf](https://asdf-vm.com/), you can do `asdf install talhelper latest` (thanks to `bjw-s`)
 - Using [Nix Flakes](https://nixos.wiki/wiki/Flakes), the package is available at `packages.<system>.default` in the output of this flake.
 - Download the archives from [release](https://github.com/budimanjojo/talhelper/releases/latest) page.
 - From [AUR](https://aur.archlinux.org/packages/talhelper-bin) for Arch Linux users.
