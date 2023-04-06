@@ -48,7 +48,7 @@ nodes:
 		"Nodes.0.InstallDisk": false,
 		"Nodes.0.DisableSearchDomain": true,
 		"Nodes.0.Nameservers": false,
-		"Nodes.0.NetworkInterfaces.0.Interface": true,
+		"Nodes.0.NetworkInterfaces": true,
 		"Nodes.0.NetworkInterfaces.0.Addresses": true,
 		"Nodes.0.NetworkInterfaces.0.Mtu": true,
 		"Nodes.0.NetworkInterfaces.0.Routes.0.Gateway": true,

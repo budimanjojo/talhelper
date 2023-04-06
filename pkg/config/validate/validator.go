@@ -93,3 +93,14 @@ func (c Config) IsDomainOrIP(domainIP string) bool {
 
 	return false
 }
+
+func (c Config) IsValidNetworkInterfaces(ifaces []*NetworkInterface) bool {
+	for _, iface := range ifaces {
+		if iface.Interface == "" && iface.DeviceSelector == nil {
+			return false
+		} else if iface.Interface != "" && iface.DeviceSelector != nil {
+			return false
+		}
+	}
+	return true
+}

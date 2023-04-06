@@ -37,7 +37,7 @@ type Node struct {
 	DisableSearchDomain string                   `validate:"isBool"`
 	Nameservers         []string                 `validate:"isIPList"`
 	ConfigPatches       []map[string]interface{} `validate:"isRFC6902List"`
-	NetworkInterfaces   []*NetworkInterface
+	NetworkInterfaces   []*NetworkInterface      `validate:"isValidNetworkInterfaces"`
 	InstallDiskSelector *InstallDiskSelector
 	KernelModules       []*KernelModule
 	NodeLabels          map[string]string
@@ -60,9 +60,9 @@ type InstallDiskSelector struct {
 }
 
 type NetworkInterface struct {
-	Interface      string                 `validate:"requiredWithout:Nodes.[].NetworkInterfaces.DeviceSelector"`
-	DeviceSelector *NetworkDeviceSelector `validate:"requiredWithout:Nodes.[].NetworkInterfaces.Interface"`
-	Addresses      []string               `validate:"isCIDRList"`
+	Interface      string
+	DeviceSelector *NetworkDeviceSelector
+	Addresses      []string `validate:"isCIDRList"`
 	Routes         []Route
 	Bond           *Bond
 	Vlans          []*Vlan
@@ -174,5 +174,6 @@ func (c Config) Messages() map[string]string {
 		"isInt":                     "{field} is not a valid integer",
 		"isUint":                    "{field} is not a valid unsigned integer",
 		"isDomainOrIP":              "{field} is not a valid domain or IP address",
+		"isValidNetworkInterfaces":  "{field} requires one of `interface` and `deviceSelector` to be set",
 	}
 }
