@@ -53,9 +53,15 @@ nodes:
               allowedIPs:
                 - 192.168.1.0/24
               persistentKeepaliveInterval: 10s
-      - interface: eth1
-        dhcp: true
-        ignore: true
+      - deviceSelector:
+          hardwareAddr: 00:30:93:12:31:78
+          driver: atlantic
+        addresses:
+          - 10.0.0.10/24
+        mtu: 9000
+        routes:
+          - network: 0.0.0.0/0
+            gateway: 10.0.0.1
   - hostname: kworker1
     ipAddress: 192.168.200.13
     controlPlane: false

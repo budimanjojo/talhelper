@@ -60,18 +60,26 @@ type InstallDiskSelector struct {
 }
 
 type NetworkInterface struct {
-	Interface   string   `validate:"required_with:Nodes.NetworkInterfaces"`
-	Addresses   []string `validate:"isCIDRList"`
-	Routes      []Route
-	Bond        *Bond
-	Vlans       []*Vlan
-	Mtu         string `validate:"isIntString"`
-	Dhcp        string `validate:"isBool"`
-	Ignore      string `validate:"isBool"`
-	Dummy       string `validate:"isBool"`
-	DhcpOptions *DhcpOption
-	Wireguard   *Wireguard
-	Vip         *Vip
+	Interface      string                 `validate:"requiredWithout:Nodes.[].NetworkInterfaces.DeviceSelector"`
+	DeviceSelector *NetworkDeviceSelector `validate:"requiredWithout:Nodes.[].NetworkInterfaces.Interface"`
+	Addresses      []string               `validate:"isCIDRList"`
+	Routes         []Route
+	Bond           *Bond
+	Vlans          []*Vlan
+	Mtu            string `validate:"isIntString"`
+	Dhcp           string `validate:"isBool"`
+	Ignore         string `validate:"isBool"`
+	Dummy          string `validate:"isBool"`
+	DhcpOptions    *DhcpOption
+	Wireguard      *Wireguard
+	Vip            *Vip
+}
+
+type NetworkDeviceSelector struct {
+	BusPath      string
+	HardwareAddr string
+	PciID        string
+	Driver       string
 }
 
 type Route struct {
