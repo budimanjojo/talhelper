@@ -88,8 +88,7 @@ func GenerateConfig(c *config.TalhelperConfig, outDir, secretFile, mode string) 
 			return err
 		}
 
-		var m v1alpha1.Config
-		cfg, err = talos.ReEncodeTalosConfig(cfg, &m)
+		cfg, err = talos.ReEncodeTalosConfig(cfg)
 		if err != nil {
 			return err
 		}

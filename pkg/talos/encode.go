@@ -7,7 +7,8 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-func ReEncodeTalosConfig(f []byte, c *v1alpha1.Config) ([]byte, error) {
+func ReEncodeTalosConfig(f []byte) ([]byte, error) {
+	var c *v1alpha1.Config
 	err := yaml.Unmarshal(f, &c)
 	if err != nil {
 		return nil, err
