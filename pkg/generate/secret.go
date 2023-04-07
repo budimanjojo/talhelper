@@ -6,6 +6,8 @@ import (
 	"github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1/generate"
 )
 
+// GenerateSecret generates `SecretsBundle` in the specified path.
+// It returns an error, if any.
 func GenerateSecret(cfg string) error {
 	var s *generate.SecretsBundle
 	var err error
@@ -20,7 +22,7 @@ func GenerateSecret(cfg string) error {
 		if err != nil {
 			return err
 		}
-		s = talos.NewSecretFromCfg(generate.NewClock(), cfg)
+		s = talos.NewSecretBundleFromCfg(generate.NewClock(), cfg)
 	}
 
 	err = secret.PrintSecretBundle(s)

@@ -11,6 +11,8 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
+// PrintSecretBundle prints the generated `SecretsBundle` into the terminal.
+// It returns an error, if any.
 func PrintSecretBundle(secret *generate.SecretsBundle) error {
 	buf := new(bytes.Buffer)
 	encoder := yaml.NewEncoder(buf)
@@ -25,6 +27,7 @@ func PrintSecretBundle(secret *generate.SecretsBundle) error {
 	return nil
 }
 
+// PrintSortedSecrets takes a `SecretsBundle`, sorts them and prints them out.
 func PrintSortedSecrets(secret *generate.SecretsBundle) {
 	unsorted := getSecrets(secret)
 
@@ -41,6 +44,7 @@ func PrintSortedSecrets(secret *generate.SecretsBundle) {
 	}
 }
 
+// getSecrets takes a `SecretsBundle` and returns `map[string]string` of them.
 func getSecrets(secret *generate.SecretsBundle) map[string]string {
 	secrets := map[string]string{
 		"etcdCert":             getEtcdCert(secret, "cert"),
@@ -61,6 +65,8 @@ func getSecrets(secret *generate.SecretsBundle) map[string]string {
 	return secrets
 }
 
+// getEtcdCert takes a `SecretsBundle` and returns value of the specified
+// etcd `key` or `cert` key.
 func getEtcdCert(secret *generate.SecretsBundle, kind string) string {
 	var etcdCert string
 	switch kind {
@@ -72,11 +78,15 @@ func getEtcdCert(secret *generate.SecretsBundle, kind string) string {
 	return etcdCert
 }
 
+// getK8sServiceAccountKey takes a `SecretsBundle` and returns value of the
+// service account key.
 func getK8sServiceAccountKey(secret *generate.SecretsBundle) string {
 	svcAccountKey := base64.StdEncoding.EncodeToString(secret.Certs.K8sServiceAccount.Key)
 	return svcAccountKey
 }
 
+// getK8sAggregatorCert takes a `SecretsBundle` and returns value of the specified
+// k8s aggregator `key` or `cert` key.
 func getK8sAggregatorCert(secret *generate.SecretsBundle, kind string) string {
 	var aggregatorCert string
 	switch kind {
@@ -88,26 +98,32 @@ func getK8sAggregatorCert(secret *generate.SecretsBundle, kind string) string {
 	return aggregatorCert
 }
 
+// getClusterToken takes a `SecretsBundle` and returns value of the cluster token.
 func getClusterToken(secret *generate.SecretsBundle) string {
 	token := secret.Secrets.BootstrapToken
 	return token
 }
 
+// getAescbcEncryptionKey takes a `SecretsBundle` and returns value of the Aescbc encryption key.
 func getAescbcEncryptionKey(secret *generate.SecretsBundle) string {
 	key := secret.Secrets.AESCBCEncryptionSecret
 	return key
 }
 
+// getClusterSecret takes a `SecretsBundle` and returns value of the cluster secret key.
 func getClusterSecret(secret *generate.SecretsBundle) string {
 	key := secret.Cluster.Secret
 	return key
 }
 
+// getMachineToken takes a `SecretsBundle` and returns value of the machine token key.
 func getMachineToken(secret *generate.SecretsBundle) string {
 	token := secret.TrustdInfo.Token
 	return token
 }
 
+// getMachineCert takes a `SecretsBundle` and returns value of the specified
+// machine `key` or `cert` key.
 func getMachineCert(secret *generate.SecretsBundle, kind string) string {
 	var machineCert string
 	switch kind {
@@ -119,6 +135,8 @@ func getMachineCert(secret *generate.SecretsBundle, kind string) string {
 	return machineCert
 }
 
+// getClusterCert takes a `SecretsBundle` and returns value of the specified
+// cluster `key` or `cert` key.
 func getClusterCert(secret *generate.SecretsBundle, kind string) string {
 	var clusterCert string
 	switch kind {

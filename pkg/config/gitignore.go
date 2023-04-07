@@ -7,6 +7,8 @@ import (
 	ignore "github.com/sabhiram/go-gitignore"
 )
 
+// GenerateGitignore generates `.gitignore` file in the specified path.
+// It returns an error, if any.
 func (config *TalhelperConfig) GenerateGitignore(outputDir string) error {
 	for _, node := range config.Nodes {
 		fileName := config.ClusterName + "-" + node.Hostname + ".yaml"

@@ -9,6 +9,8 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
+// YAMLInlinePatcher applies JSON7396 patches into target and returns it.
+// It also returns an error, if any.
 func YAMLInlinePatcher(patch interface{}, target []byte) ([]byte, error) {
 	p, err := yaml.Marshal(patch)
 	if err != nil {
@@ -23,6 +25,8 @@ func YAMLInlinePatcher(patch interface{}, target []byte) ([]byte, error) {
 	return out, nil
 }
 
+// YAMLPatcher applies JSON6902 patches into target and returns it.
+// It also returns an error, if any.
 func YAMLPatcher(patch interface{}, target []byte) ([]byte, error) {
 	p, err := yaml.Marshal(patch)
 	if err != nil {
@@ -37,6 +41,8 @@ func YAMLPatcher(patch interface{}, target []byte) ([]byte, error) {
 	return out, nil
 }
 
+// PatchesPatcher applies JSON6902 or StrategicMergePatch patches into target and
+// returns it. It also returns an error, if any.
 func PatchesPatcher(patches []string, target []byte) ([]byte, error) {
 	var (
 		contents    []byte

@@ -157,6 +157,7 @@ type Peer struct {
 	AllowedIPs                  []string
 }
 
+// Messages returns `map[string]string` of validation error messages.
 func (c Config) Messages() map[string]string {
 	return validate.MS{
 		"required":                  "{field} is required",

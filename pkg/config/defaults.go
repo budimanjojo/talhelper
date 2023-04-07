@@ -12,6 +12,7 @@ var (
 	latestTalosVersion = "v1.3.7"
 )
 
+// GetK8sVersion returns Kubernetes version string without `v` prefix.
 func (c *TalhelperConfig) GetK8sVersion() string {
 	if c.KubernetesVersion == "" {
 		return ""
@@ -19,6 +20,7 @@ func (c *TalhelperConfig) GetK8sVersion() string {
 	return strings.TrimPrefix(c.KubernetesVersion, "v")
 }
 
+// GetTalosVersion returns Talos version string prefixed with `v`.
 func (c *TalhelperConfig) GetTalosVersion() string {
 	if c.TalosVersion == "" {
 		return latestTalosVersion
@@ -30,6 +32,7 @@ func (c *TalhelperConfig) GetTalosVersion() string {
 	return c.TalosVersion
 }
 
+// GetClusterPodNets returns `ClusterPodNets` strings.
 func (c *TalhelperConfig) GetClusterPodNets() []string {
 	if len(c.ClusterPodNets) == 0 {
 		if endpointisIPv6(c.Endpoint) {
@@ -41,6 +44,7 @@ func (c *TalhelperConfig) GetClusterPodNets() []string {
 	return c.ClusterPodNets
 }
 
+// GetClusterSvcNets returns `ClusterSvcNets` strings.
 func (c *TalhelperConfig) GetClusterSvcNets() []string {
 	if len(c.ClusterSvcNets) == 0 {
 		if endpointisIPv6(c.Endpoint) {
@@ -52,10 +56,12 @@ func (c *TalhelperConfig) GetClusterSvcNets() []string {
 	return c.ClusterSvcNets
 }
 
+// GetInstallerURL returns installer URL string.
 func (c *TalhelperConfig) GetInstallerURL() string {
 	return "ghcr.io/siderolabs/installer:" + c.GetTalosVersion()
 }
 
+// endpointisIPv6 returns true if string is IPv6 address.
 func endpointisIPv6(ep string) bool {
 	addr, err := netip.ParseAddr(ep)
 	if err == nil && addr.Is6() {

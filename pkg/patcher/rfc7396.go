@@ -5,10 +5,15 @@ import (
 	yamljson "sigs.k8s.io/yaml"
 )
 
+// JSON7396FromYAML applies JSON7396 patch into target yaml bytes.
+// It also returns an error, if any.
 func JSON7396FromYAML(patch, target []byte) ([]byte, error) {
 	return json7396(patch, target, true, true, true)
 }
 
+// json7396 applies JSON7396 patch into target bytes.
+// Supports `yaml` or `json` for `target`, `patch`, and returned bytes.
+// It also returns an error, if any.
 func json7396(patch, target []byte, isPatchYAML, isTargetYAML, returnYAML bool) ([]byte, error) {
 	var err error
 	if isPatchYAML {

@@ -7,6 +7,8 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
+// ReEncodeTalosConfig takes `yaml` encoded bytes and re-encodes it back to
+// 2 indentation `yaml` bytes. It also returns an error, if any.
 func ReEncodeTalosConfig(f []byte) ([]byte, error) {
 	var c *v1alpha1.Config
 	err := yaml.Unmarshal(f, &c)

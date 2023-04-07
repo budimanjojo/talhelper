@@ -9,6 +9,8 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
+// NewClusterInput takes `Talhelper` config and path to encrypted `secretFile` and
+// returns Talos `generate.Input`. It also returns an error, if any. 
 func NewClusterInput(c *config.TalhelperConfig, secretFile string) (*generate.Input, error) {
 	kubernetesVersion := c.GetK8sVersion()
 
@@ -52,10 +54,12 @@ func NewClusterInput(c *config.TalhelperConfig, secretFile string) (*generate.In
 	return input, nil
 }
 
-func parseOptions(c *config.TalhelperConfig, vc *tconfig.VersionContract) []generate.GenOption {
+// parseOptions takes `TalhelperConfig` and returns slice of Talos `generate.GenOption`
+// compatible with the specified `versionContract`.
+func parseOptions(c *config.TalhelperConfig, versionContract *tconfig.VersionContract) []generate.GenOption {
 	opts := []generate.GenOption{}
 
-	opts = append(opts, generate.WithVersionContract(vc))
+	opts = append(opts, generate.WithVersionContract(versionContract))
 	opts = append(opts, generate.WithInstallImage(c.GetInstallerURL()))
 
 	if c.AllowSchedulingOnMasters || c.AllowSchedulingOnControlPlanes {

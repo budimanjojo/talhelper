@@ -11,6 +11,9 @@ import (
 	tconfig "github.com/siderolabs/talos/pkg/machinery/config"
 )
 
+// GenerateConfig takes `TalhelperConfig` and path to encrypted `secretFile` and generates
+// Talos `machineconfig` files and a `talosconfig` file in `outDir`.
+// It returns an error, if any.
 func GenerateConfig(c *config.TalhelperConfig, outDir, secretFile, mode string) error {
 	var cfg []byte
 	var cfgDump tconfig.Provider
@@ -118,6 +121,8 @@ func GenerateConfig(c *config.TalhelperConfig, outDir, secretFile, mode string) 
 	return nil
 }
 
+// dumpFile creates file in `path` and dumps the content of bytes into
+// the path. It returns an error, if any.
 func dumpFile(path string, file []byte) error {
 	dirName := filepath.Dir(path)
 

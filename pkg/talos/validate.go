@@ -17,6 +17,8 @@ func (m mode) RequiresInstall() bool {
 	return m == 2
 }
 
+// parseMode takes string and convert it to `mode`.
+// It also returns an error, if any.
 func parseMode(s string) (mod mode, err error) {
 	switch s {
 	case "cloud":
@@ -32,6 +34,8 @@ func parseMode(s string) (mod mode, err error) {
 	return mod, nil
 }
 
+// ValidateConfigFromFile returns an error if file path is not a valid
+// Talos configuration for the specified `mode`.
 func ValidateConfigFromFile(path, mode string) error {
 	output, err := ioutil.ReadFile(path)
 	if err != nil {
@@ -41,6 +45,8 @@ func ValidateConfigFromFile(path, mode string) error {
 	return ValidateConfigFromBytes(output, mode)
 }
 
+// ValidateConfigFromBytes returns an error if `cfgFile` is not a valid
+// Talos configuration for the specified `mode`.
 func ValidateConfigFromBytes(cfgFile []byte, mode string) error {
 	cfg, err := LoadTalosConfig(cfgFile)
 	if err != nil {
