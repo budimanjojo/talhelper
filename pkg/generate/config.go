@@ -9,7 +9,6 @@ import (
 	"github.com/budimanjojo/talhelper/pkg/patcher"
 	"github.com/budimanjojo/talhelper/pkg/talos"
 	tconfig "github.com/siderolabs/talos/pkg/machinery/config"
-	"github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1"
 )
 
 func GenerateConfig(c *config.TalhelperConfig, outDir, secretFile, mode string) error {
