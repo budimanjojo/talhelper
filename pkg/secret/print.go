@@ -73,8 +73,8 @@ func getEtcdCert(secret *generate.SecretsBundle, kind string) string {
 }
 
 func getK8sServiceAccountKey(secret *generate.SecretsBundle) string {
-	etcdCert := base64.StdEncoding.EncodeToString(secret.Certs.K8sServiceAccount.Key)
-	return etcdCert
+	svcAccountKey := base64.StdEncoding.EncodeToString(secret.Certs.K8sServiceAccount.Key)
+	return svcAccountKey
 }
 
 func getK8sAggregatorCert(secret *generate.SecretsBundle, kind string) string {
