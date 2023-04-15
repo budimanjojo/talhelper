@@ -6,8 +6,8 @@ import (
 
 type Config struct {
 	ClusterName                    string   `validate:"required"`
-	TalosVersion                   string   `validate:"isVersion"`
-	KubernetesVersion              string   `validate:"isVersion"`
+	TalosVersion                   string   `validate:"isSemVer"`
+	KubernetesVersion              string   `validate:"isSemVer"`
 	Endpoint                       string   `validate:"isTalosEndpoint"`
 	Domain                         string   `validate:"isDomain"`
 	AllowSchedulingOnMasters       string   `validate:"isBool"`

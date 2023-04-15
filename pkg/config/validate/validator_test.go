@@ -27,19 +27,19 @@ func TestIsRFC6902List(t *testing.T) {
 	}
 }
 
-func TestIsVersion(t *testing.T) {
+func TestIsSemVer(t *testing.T) {
 	c := Config{}
 	data := map[string]bool{
-		"v1.2.3-4":  false,
-		"1.2.3-444": false,
+		"v1.2.3-4":  true,
+		"1.2.3-444": true,
 		"v12.3":     false,
 		"v1.2.3.4":  false,
 		"v1.2.3":    true,
 	}
 
 	for k, v := range data {
-		if c.IsVersion(k) != v {
-			t.Errorf("%s: got %t, want %t", k, c.IsVersion(k), v)
+		if c.IsSemVer(k) != v {
+			t.Errorf("%s: got %t, want %t", k, c.IsSemVer(k), v)
 		}
 	}
 }

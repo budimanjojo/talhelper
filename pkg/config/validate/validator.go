@@ -32,9 +32,11 @@ func (c Config) IsRFC6902List(input []map[string]interface{}) bool {
 	return true
 }
 
-// IsVersion returns true if `version` is a valid version.
-func (c Config) IsVersion(version string) bool {
-	if match, _ := regexp.MatchString(`^v?(\d+\.)(\d+\.)(\d+)(-alpha\.\d+)?$`, version); match {
+// IsSemVer returns true if `version` is a valid semantic version.
+func (c Config) IsSemVer(version string) bool {
+	stripped := strings.TrimPrefix(version, "v")
+	re := `^(?P<major>0|[1-9]\d*)\.(?P<minor>0|[1-9]\d*)\.(?P<patch>0|[1-9]\d*)(?:-(?P<prerelease>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))?(?:\+(?P<buildmetadata>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$`
+	if match, _ := regexp.MatchString(re, stripped); match {
 		return true
 	}
 	return false
