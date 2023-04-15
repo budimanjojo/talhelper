@@ -51,3 +51,17 @@ aurs:
     commit_author:
       name: goreleaserbot
       email: bot@goreleaser.com
+
+scoop:
+  url_template: 'https://github.com/budimanjojo/talhelper/releases/download/{{ .Tag }}/{{ .ArtifactName }}'
+  bucket:
+    owner: budimanjojo
+    name: talhelper
+    branch: master
+    pull_request:
+      enabled: false
+  commit_msg_template: "Scoop update for {{ .ProjectName }} version {{ .Tag }}"
+  homepage: "https://github.com/budimanjojo/talhelper"
+  description: "A tool to help creating Talos kubernetes cluster"
+  license: BSD-3
+  depends: ["sops"]
