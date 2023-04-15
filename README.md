@@ -96,6 +96,11 @@ There are several ways to install `talhelper`:
   ```
   curl https://i.jpillora.com/budimanjojo/talhelper! | sudo bash
   ```
+- On Windows, using [scoop](https://scoop.sh/):
+  ```
+  scoop bucket add budimanjojo https://github.com/budimanjojo/talhelper.git
+  scoop install talhelper
+  ```  
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 ## Usage
