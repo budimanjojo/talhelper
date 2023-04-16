@@ -51,7 +51,7 @@ func (c Config) IsSupportedK8sVersion(version string) bool {
 	var talosVersionInfo *machine.VersionInfo
 
 	// stop here if `c.TalosVersion` is not right
-	if c.IsSemVer(c.TalosVersion) == false {
+	if !c.IsSemVer(c.TalosVersion) {
 		return false
 	}
 
