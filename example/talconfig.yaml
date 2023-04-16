@@ -38,6 +38,9 @@ nodes:
       - 8.8.8.8
     networkInterfaces:
       - interface: eth0
+        bond:
+          deviceSelectors:
+            - hardwareAddr: '00:50:56:*'
         addresses:
           - 192.168.200.12/24
         mtu: 1500

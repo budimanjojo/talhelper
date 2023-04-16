@@ -102,7 +102,6 @@ machine:
       - 10.1.2.3/24
       dhcp: false
       interface: eth0
-      mtu: 0
   token: ""
   type: ""
 version: v1alpha1
