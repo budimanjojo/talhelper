@@ -27,6 +27,24 @@ func TestIsRFC6902List(t *testing.T) {
 	}
 }
 
+func TestIsSupportedK8sVersion(t *testing.T) {
+	c := &Config{
+		TalosVersion: "v1.3.7",
+	}
+	data := map[string]bool{
+		"v1.23.0":  false,
+		"v1.24.0":  true,
+		"v1.25.1":  true,
+		"v1.26.99": false,
+	}
+
+	for k, v := range data {
+		if c.IsSupportedK8sVersion(k) != v {
+			t.Errorf("%s: got %t, want %t", k, c.IsSupportedK8sVersion(k), v)
+		}
+	}
+}
+
 func TestIsSemVer(t *testing.T) {
 	c := Config{}
 	data := map[string]bool{
@@ -47,10 +65,10 @@ func TestIsSemVer(t *testing.T) {
 func TestIsCNIName(t *testing.T) {
 	c := Config{}
 	data := map[string]bool{
-		"none": true,
-		"flannel": true,
-		"custom": true,
-		"nonea": false,
+		"none":     true,
+		"flannel":  true,
+		"custom":   true,
+		"nonea":    false,
 		"aflannel": false,
 	}
 
@@ -66,7 +84,7 @@ func TestIsCIDRList(t *testing.T) {
 	data1 := []string{"0.0.0.0/0", "1.2.3.4/24"}
 	data2 := []string{"0.0.0.0/0", "1.2.3.4"}
 
-	if ! c.IsCIDRList(data1) {
+	if !c.IsCIDRList(data1) {
 		t.Errorf("got %t, want true", c.IsCIDRList(data1))
 	}
 
@@ -80,7 +98,7 @@ func TestIsIPList(t *testing.T) {
 	data1 := []string{"0.0.0.0", "1.2.3.4"}
 	data2 := []string{"0.0.0.0.0", "1.2.3.4"}
 
-	if ! c.IsIPList(data1) {
+	if !c.IsIPList(data1) {
 		t.Errorf("got %t, want true", c.IsIPList(data1))
 	}
 
@@ -94,7 +112,7 @@ func TestIsURLList(t *testing.T) {
 	data1 := []string{"https://www.www/path", "www.www/path", "www/path/file.ext"}
 	data2 := []string{"htt_://www/path", "www.www/path"}
 
-	if ! c.IsURLList(data1) {
+	if !c.IsURLList(data1) {
 		t.Errorf("got %t, want true", c.IsURLList(data1))
 	}
 
@@ -106,8 +124,8 @@ func TestIsURLList(t *testing.T) {
 func TestIsTalosEndpoint(t *testing.T) {
 	c := Config{}
 	data := map[string]bool{
-		"1.1.1.1:443": false,
-		"http://hostname": true,
+		"1.1.1.1:443":          false,
+		"http://hostname":      true,
 		"http://hostname:6443": true,
 		"https://1.1.1.1:6443": true,
 	}
@@ -124,8 +142,8 @@ func TestIsDomain(t *testing.T) {
 	data := map[string]bool{
 		"adomain,test": false,
 		"adomain.test": true,
-		"adomain": true,
-		"adomain?": false,
+		"adomain":      true,
+		"adomain?":     false,
 	}
 
 	for k, v := range data {

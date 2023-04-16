@@ -7,7 +7,7 @@ import (
 type Config struct {
 	ClusterName                    string   `validate:"required"`
 	TalosVersion                   string   `validate:"isSemVer"`
-	KubernetesVersion              string   `validate:"isSemVer"`
+	KubernetesVersion              string   `validate:"isSupportedK8sVersion"`
 	Endpoint                       string   `validate:"isTalosEndpoint"`
 	Domain                         string   `validate:"isDomain"`
 	AllowSchedulingOnMasters       string   `validate:"isBool"`
@@ -176,5 +176,6 @@ func (c Config) Messages() map[string]string {
 		"isUint":                    "{field} is not a valid unsigned integer",
 		"isDomainOrIP":              "{field} is not a valid domain or IP address",
 		"isValidNetworkInterfaces":  "{field} requires one of `interface` and `deviceSelector` to be set",
+		"isSupportedK8sVersion":     "{field} is not supported by the specified Talos version",
 	}
 }

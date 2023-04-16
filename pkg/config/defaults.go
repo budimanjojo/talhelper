@@ -9,7 +9,7 @@ import (
 
 var (
 	// renovate: depName=siderolabs/talos datasource=github-releases
-	latestTalosVersion = "v1.3.7"
+	LatestTalosVersion = "v1.3.7"
 )
 
 // GetK8sVersion returns Kubernetes version string without `v` prefix.
@@ -23,7 +23,7 @@ func (c *TalhelperConfig) GetK8sVersion() string {
 // GetTalosVersion returns Talos version string prefixed with `v`.
 func (c *TalhelperConfig) GetTalosVersion() string {
 	if c.TalosVersion == "" {
-		return latestTalosVersion
+		return LatestTalosVersion
 	}
 
 	if !strings.HasPrefix(c.TalosVersion, "v") {

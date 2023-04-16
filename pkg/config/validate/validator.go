@@ -4,8 +4,11 @@ import (
 	"regexp"
 	"strings"
 
+	"github.com/budimanjojo/talhelper/pkg/config"
 	"github.com/gookit/validate"
 	"github.com/siderolabs/net"
+	"github.com/siderolabs/talos/pkg/machinery/api/machine"
+	"github.com/siderolabs/talos/pkg/machinery/compatibility"
 )
 
 // IsRFC6902List returns true if `input` is list of RFC6902 JSON patch.
@@ -40,6 +43,39 @@ func (c Config) IsSemVer(version string) bool {
 		return true
 	}
 	return false
+}
+
+// IsSupportedK8sVersion returns true if Kubernetes `version` is supported by
+// `c.TalosVersion`.
+func (c Config) IsSupportedK8sVersion(version string) bool {
+	var talosVersionInfo *machine.VersionInfo
+
+	// stop here if `c.TalosVersion` is not right
+	if c.IsSemVer(c.TalosVersion) == false {
+		return false
+	}
+
+	if c.TalosVersion == "" {
+		talosVersionInfo = &machine.VersionInfo{
+			Tag: config.LatestTalosVersion,
+		}
+	} else {
+		talosVersionInfo = &machine.VersionInfo{
+			Tag: c.TalosVersion,
+		}
+	}
+
+	talosVersion, _ := compatibility.ParseTalosVersion(talosVersionInfo)
+
+	kubernetesVersion, err := compatibility.ParseKubernetesVersion(strings.TrimPrefix(version, "v"))
+	if err != nil {
+		return false
+	}
+
+	if err := kubernetesVersion.SupportedWith(talosVersion); err != nil {
+		return false
+	}
+	return true
 }
 
 // IsCNIName returns true if `cni` is a supported Talos CNI name.
