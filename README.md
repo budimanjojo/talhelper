@@ -24,6 +24,7 @@
       <a href="#about-the-project">About The Project</a>
     </li>
     <li>
+      <a href="#supported-talos-versions">Supported Talos Versions</a>
       <a href="#getting-started">Getting Started</a>
       <ul>
         <li><a href="#installation">Installation</a></li>
@@ -65,6 +66,13 @@ By default `talhelper` will create a `.gitignore` file to ignore the generated f
 The generated files contain unencrypted secrets and you don't want people to get a hand of them.**
 
 <p align="right">(<a href="#top">back to top</a>)</p>
+
+## Supported Talos Versions
+
+Currently, the supported major and minor Talos versions are:
+- `v1.2`
+- `v1.3`
+- `v1.4`
 
 ## Getting Started
 

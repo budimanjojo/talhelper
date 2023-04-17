@@ -9,6 +9,7 @@ import (
 	"github.com/siderolabs/net"
 	"github.com/siderolabs/talos/pkg/machinery/api/machine"
 	"github.com/siderolabs/talos/pkg/machinery/compatibility"
+	"golang.org/x/mod/semver"
 )
 
 // IsRFC6902List returns true if `input` is list of RFC6902 JSON patch.
@@ -43,6 +44,25 @@ func (c Config) IsSemVer(version string) bool {
 		return true
 	}
 	return false
+}
+
+// IsSupportedTalosVersion returns true if `version` is supported Talos version.
+func (c Config) IsSupportedTalosVersion(version string) bool {
+	if !strings.HasPrefix(version, "v") {
+		version = "v" + version
+	}
+	majorMinor := semver.MajorMinor(version)
+
+	switch majorMinor {
+	case "v1.2":
+		return true
+	case "v1.3":
+		return true
+	case "v1.4":
+		return true
+	default:
+		return false
+	}
 }
 
 // IsSupportedK8sVersion returns true if Kubernetes `version` is supported by

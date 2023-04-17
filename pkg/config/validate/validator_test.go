@@ -27,6 +27,26 @@ func TestIsRFC6902List(t *testing.T) {
 	}
 }
 
+func TestIsSupportedTalosVersion(t *testing.T) {
+	c := &Config{}
+	data := map[string]bool{
+		"1.2.0":          true,
+		"v1.2":           true,
+		"v1.3.99":        true,
+		"v1.4.1-beta.0":  true,
+		"v1.4.0-alpha.4": true,
+		"1.1":            false,
+		"V1.2":           false,
+		"v12.3":          false,
+		"v1.2.3.4":       false,
+	}
+	for k, v := range data {
+		if c.IsSupportedTalosVersion(k) != v {
+			t.Errorf("%s: got %t, want %t", k, c.IsSupportedTalosVersion(k), v)
+		}
+	}
+}
+
 func TestIsSupportedK8sVersion(t *testing.T) {
 	c := &Config{
 		TalosVersion: "v1.3.7",
