@@ -15,7 +15,7 @@ require (
 	github.com/siderolabs/talos/pkg/machinery v1.4.0-beta.1
 	github.com/spf13/cobra v1.7.0
 	go.mozilla.org/sops/v3 v3.7.3
-	golang.org/x/mod v0.8.0
+	golang.org/x/mod v0.10.0
 	gopkg.in/yaml.v3 v3.0.1
 	sigs.k8s.io/yaml v1.3.0
 )
