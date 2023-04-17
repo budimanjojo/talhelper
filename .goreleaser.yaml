@@ -29,9 +29,9 @@ changelog:
   sort: asc
   filters:
     exclude:
+      - '^Merge pull request #\d+ from'
       - "^docs"
       - "^test"
-      - "^chore"
 
 aurs:
   - name: talhelper-bin
