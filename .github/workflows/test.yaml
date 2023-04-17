@@ -5,9 +5,17 @@ on:
       - master
     tags:
       - "*"
+    paths:
+      - 'main.go'
+      - 'pkg/**'
+      - 'cmd/**'
   pull_request:
     branches:
       - master
+    paths:
+      - 'main.go'
+      - 'pkg/**'
+      - 'cmd/**'
 permissions:
   contents: read
 jobs:
