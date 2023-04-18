@@ -422,6 +422,8 @@ github.com/siderolabs/net v0.4.0/go.mod h1:/ibG+Hm9HU27agp5r9Q3eZicEfjquzNzQNux5
 github.com/siderolabs/protoenc v0.2.0 h1:QFxWIAo//12+/bm27GNYoK/TpQGTYsRrrZCu9jSghvU=
 github.com/siderolabs/talos/pkg/machinery v1.4.0-beta.1 h1:mSb0/mIAbKxOGkdfAo5kv5l3QYzeL1eaAlnDOXDzCUM=
 github.com/siderolabs/talos/pkg/machinery v1.4.0-beta.1/go.mod h1:6xBiNySzTjbqAnnlX35jyZ6OM6t/5aB9SPP7R+xRf5U=
+github.com/siderolabs/talos/pkg/machinery v1.4.0 h1:JD7M7csZm4qH0Bt4Bn5o5e53IQ6ZNVTW7v2dL/6JCKY=
+github.com/siderolabs/talos/pkg/machinery v1.4.0/go.mod h1:6xBiNySzTjbqAnnlX35jyZ6OM6t/5aB9SPP7R+xRf5U=
 github.com/sirupsen/logrus v1.2.0/go.mod h1:LxeOpSwHxABJmUn/MG1IvRgCAasNZTLOkJPxbbu5VWo=
 github.com/sirupsen/logrus v1.4.2/go.mod h1:tLMulIdttU9McNUspp0xgXVQah82FyeX6MwdIuYE2rE=
 github.com/sirupsen/logrus v1.8.1 h1:dJKuHgqk1NNQlqoA6BTlM1Wf9DOH3NBjQyu0h9+AZZE=
