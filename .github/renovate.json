@@ -10,7 +10,7 @@
     {
       "fileMatch": ["pkg/config/defaults.go$"],
       "matchStrings": [
-        "\\/\\/ renovate: depName=(?<depName>.*) datasource=(?<datasource>.*)\\n\\slatestTalosVersion = \"(?<currentValue>v[\\d+\\.]+)\""
+        "\\/\\/ renovate: depName=(?<depName>.*) datasource=(?<datasource>.*)\\n\\sLatestTalosVersion = \"(?<currentValue>v[\\d+\\.]+)\""
       ]
     }
   ]
