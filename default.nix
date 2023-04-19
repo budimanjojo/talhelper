@@ -15,6 +15,8 @@ buildGoModule rec {
 
   ldflags = [ "-s -w -X github.com/budimanjojo/talhelper/cmd.version=v${version}" ];
 
+  doCheck = false; # no tests
+
   nativeBuildInputs = [ installShellFiles ];
 
   doInstallCheck = true;
