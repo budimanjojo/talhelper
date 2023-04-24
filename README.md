@@ -94,7 +94,7 @@ Currently, the supported major and minor Talos versions are:
 
 To get help, run `talhelper <subcommand> --help`
 
-**Alternative scenario 2 thanks to @truxnell (You don't use `sops` but another secret manager like `doppler` that can inject environment variable to the shell):**
+**Alternative scenario 2 thanks to [@truxnell](https://github.com/truxnell) (You don't use `sops` but another secret manager like `doppler` that can inject environment variable to the shell):**
 1. Create a `talconfig.yaml` that has inline patch for secrets with placeholder values like this:
    ```
    controlPlane:
