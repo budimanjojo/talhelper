@@ -94,6 +94,17 @@ Scenario 2 (You want talhelper to create from scratch):
 
 To get help, run `talhelper <subcommand> --help`
 
+Alternative scenario 2 thanks to @truxnell (You don't use `sops` but another secret manager like `doppler` that can inject environment variable to the shell):
+1. Create a `talconfig.yaml` that has inline patch for secrets with placeholder values like this:
+   ```
+   controlPlane:
+     inlinePatch:
+       cluster:
+         aescbcEncryptionSecret: ${AESCBCENCYPTIONKEY}
+   ```
+2. Create a project in `doppler`, i.e "talhelper". In that project, create a config i.e `env` that stores key and value of the secret like `AESCBCENCYPTIONKEY: <secret>`.
+3. Run `doppler` CLI command that sets environment and run the command: `doppler run -p talhelper -c env talhelper genconfig`.
+
 ### Installation
 
 There are several ways to install `talhelper`:
