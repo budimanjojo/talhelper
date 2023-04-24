@@ -78,14 +78,14 @@ Currently, the supported major and minor Talos versions are:
 
 ## Getting Started
 
-Scenario 1 (You already have your talos config but not GitOps it yet):
+**Scenario 1 (You already have your talos config but not GitOps it yet):**
 1. Create a `talconfig.yaml` based on your current cluster, an example [template](./example/talconfig.yaml) is provided.
 2. Run `talhelper gensecret -f <your-talos-controlplane.yaml> > talsecret.sops.yaml`. This will create a `talsecret.sops.yaml` file with all your current cluster secrets.
 3. Encrypt the secret with SOPS: `sops -e -i talsecret.sops.yaml`.
 4. Run `talhelper genconfig` and the output files will be in `./clusterconfig` by default. Make sure the generated files are identical with your current machine config files.
 5. Commit your `talconfig.yaml` and `talsecret.sops.yaml` in Git repository.
 
-Scenario 2 (You want talhelper to create from scratch):
+**Scenario 2 (You want talhelper to create from scratch):**
 1. Create a `talconfig.yaml`, an example [template](./example/talconfig.yaml) is provided.
 2. Run `talhelper gensecret > talsecret.sops.yaml`.
 3. Encrypt the secret with SOPS: `sops -e -i talsecret.sops.yaml`.
@@ -94,7 +94,7 @@ Scenario 2 (You want talhelper to create from scratch):
 
 To get help, run `talhelper <subcommand> --help`
 
-Alternative scenario 2 thanks to @truxnell (You don't use `sops` but another secret manager like `doppler` that can inject environment variable to the shell):
+**Alternative scenario 2 thanks to @truxnell (You don't use `sops` but another secret manager like `doppler` that can inject environment variable to the shell):**
 1. Create a `talconfig.yaml` that has inline patch for secrets with placeholder values like this:
    ```
    controlPlane:
