@@ -4,6 +4,7 @@ import "github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1"
 
 type TalhelperConfig struct {
 	ClusterName                    string       `yaml:"clusterName"`
+	TalosImageURL                  string       `yaml:"talosImageURL"`
 	TalosVersion                   string       `yaml:"talosVersion,omitempty"`
 	KubernetesVersion              string       `yaml:"kubernetesVersion,omitempty"`
 	Endpoint                       string       `yaml:"endpoint"`
