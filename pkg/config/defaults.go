@@ -9,7 +9,7 @@ import (
 
 var (
 	// renovate: depName=siderolabs/talos datasource=github-releases
-	LatestTalosVersion = "v1.4.1"
+	LatestTalosVersion = "v1.4.2"
 )
 
 // GetK8sVersion returns Kubernetes version string without `v` prefix.
