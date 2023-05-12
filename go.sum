@@ -430,6 +430,8 @@ github.com/siderolabs/talos/pkg/machinery v1.4.1 h1:7oz3W4zPyRUXULqJH0h/4stOFX6Q
 github.com/siderolabs/talos/pkg/machinery v1.4.1/go.mod h1:KNt2f/Vi7/W7H8HW5azuJlOnXvyiqRbJe6iytYkIdvE=
 github.com/siderolabs/talos/pkg/machinery v1.4.2 h1:8vVi3wD+EzNaGu/qVzUx4iPM4d2RtVMOhCObOL8NNTc=
 github.com/siderolabs/talos/pkg/machinery v1.4.2/go.mod h1:KNt2f/Vi7/W7H8HW5azuJlOnXvyiqRbJe6iytYkIdvE=
+github.com/siderolabs/talos/pkg/machinery v1.4.4 h1:OcfrGmzip4kPDF7A4dccI1RFg3MACqgxHYYPTdSzzC8=
+github.com/siderolabs/talos/pkg/machinery v1.4.4/go.mod h1:KNt2f/Vi7/W7H8HW5azuJlOnXvyiqRbJe6iytYkIdvE=
 github.com/sirupsen/logrus v1.2.0/go.mod h1:LxeOpSwHxABJmUn/MG1IvRgCAasNZTLOkJPxbbu5VWo=
 github.com/sirupsen/logrus v1.4.2/go.mod h1:tLMulIdttU9McNUspp0xgXVQah82FyeX6MwdIuYE2rE=
 github.com/sirupsen/logrus v1.8.1 h1:dJKuHgqk1NNQlqoA6BTlM1Wf9DOH3NBjQyu0h9+AZZE=
