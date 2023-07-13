@@ -33,6 +33,10 @@ nodes:
       - name: br_netfilter
         parameters:
           - nf_conntrack_max=131072
+    machineDisks:
+      - device: /dev/disk/by-id/ata-CT500MX500SSD1_2149E5EC1D9D
+        partitions:
+          - mountpoint: /var/mnt/sata
     nameservers:
       - 1.1.1.1
       - 8.8.8.8
@@ -40,7 +44,7 @@ nodes:
       - interface: eth0
         bond:
           deviceSelectors:
-            - hardwareAddr: '00:50:56:*'
+            - hardwareAddr: "00:50:56:*"
         addresses:
           - 192.168.200.12/24
         mtu: 1500

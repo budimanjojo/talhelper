@@ -1,7 +1,6 @@
 package talos
 
 import (
-
 	"github.com/budimanjojo/talhelper/pkg/config"
 	"github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1"
 	"github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1/generate"
@@ -83,6 +82,10 @@ func patchNodeInput(node *config.Nodes, input *generate.Input) (*generate.Input,
 	nodeInput := input
 	if node.InstallDisk != "" {
 		nodeInput.InstallDisk = node.InstallDisk
+	}
+
+	if len(node.MachineDisks) > 0 {
+		nodeInput.MachineDisks = node.MachineDisks
 	}
 
 	return nodeInput, nil
