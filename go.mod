@@ -10,7 +10,7 @@ require (
 	github.com/gookit/validate v1.4.6
 	github.com/joho/godotenv v1.5.1
 	github.com/sabhiram/go-gitignore v0.0.0-20210923224102-525f6e181f06
-	github.com/siderolabs/crypto v0.4.0
+	github.com/siderolabs/crypto v0.4.1
 	github.com/siderolabs/net v0.4.0
 	github.com/siderolabs/talos/pkg/machinery v1.4.6
 	github.com/spf13/cobra v1.7.0
