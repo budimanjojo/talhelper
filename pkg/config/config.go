@@ -28,6 +28,7 @@ type Nodes struct {
 	NodeLabels          map[string]string              `yaml:"nodeLabels"`
 	InstallDisk         string                         `yaml:"installDisk,omitempty"`
 	InstallDiskSelector *v1alpha1.InstallDiskSelector  `yaml:"installDiskSelector,omitempty"`
+	MachineDisks        []*v1alpha1.MachineDisk        `yaml:"machineDisks,omitempty"`
 	DisableSearchDomain bool                           `yaml:"disableSearchDomain,omitempty"`
 	KernelModules       []*v1alpha1.KernelModuleConfig `yaml:"kernelModules,omitempty"`
 	Nameservers         []string                       `yaml:"nameservers,omitempty"`
