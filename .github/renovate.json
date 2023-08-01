@@ -13,5 +13,11 @@
         "\\/\\/ renovate: depName=(?<depName>.*) datasource=(?<datasource>.*)\\n\\sLatestTalosVersion = \"(?<currentValue>v[\\d+\\.]+)\""
       ]
     }
+  ],
+  "packageRules": [
+    {
+      "matchPackageNames": ["github.com/siderolabs/talos/pkg/machinery"],
+      "ignoreUnstable": false
+    }
   ]
 }
