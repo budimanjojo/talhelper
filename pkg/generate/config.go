@@ -8,7 +8,6 @@ import (
 	"github.com/budimanjojo/talhelper/pkg/config"
 	"github.com/budimanjojo/talhelper/pkg/patcher"
 	"github.com/budimanjojo/talhelper/pkg/talos"
-	tconfig "github.com/siderolabs/talos/pkg/machinery/config"
 )
 
 // GenerateConfig takes `TalhelperConfig` and path to encrypted `secretFile` and generates
@@ -16,7 +15,6 @@ import (
 // It returns an error, if any.
 func GenerateConfig(c *config.TalhelperConfig, outDir, secretFile, mode string) error {
 	var cfg []byte
-	var cfgDump tconfig.Provider
 	input, err := talos.NewClusterInput(c, secretFile)
 	if err != nil {
 		return err
@@ -85,11 +83,6 @@ func GenerateConfig(c *config.TalhelperConfig, outDir, secretFile, mode string) 
 			return err
 		}
 
-		cfgDump, err = talos.LoadTalosConfig(cfg)
-		if err != nil {
-			return err
-		}
-
 		cfg, err = talos.ReEncodeTalosConfig(cfg)
 		if err != nil {
 			return err
@@ -103,9 +96,7 @@ func GenerateConfig(c *config.TalhelperConfig, outDir, secretFile, mode string) 
 		fmt.Printf("generated config for %s in %s\n", node.Hostname, cfgFile)
 	}
 
-	machineCert := cfgDump.Machine().Security().CA()
-
-	clientCfg, err := talos.GenerateClientConfigBytes(c, input, machineCert)
+	clientCfg, err := talos.GenerateClientConfigBytes(c, input)
 	if err != nil {
 		return err
 	}
