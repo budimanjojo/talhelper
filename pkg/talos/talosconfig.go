@@ -6,11 +6,12 @@ import (
 	"github.com/siderolabs/crypto/x509"
 
 	"github.com/budimanjojo/talhelper/pkg/config"
-	"github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1/generate"
+	"github.com/siderolabs/talos/pkg/machinery/config/generate"
+	"github.com/siderolabs/talos/pkg/machinery/config/generate/secrets"
 )
 
 func GenerateClientConfigBytes(c *config.TalhelperConfig, input *generate.Input, machineCert *x509.PEMEncodedCertificateAndKey) ([]byte, error) {
-	options := generate.DefaultGenOptions()
+	options := generate.DefaultOptions()
 
 	var endpoints []string
 	for _, node := range c.Nodes {
@@ -18,20 +19,21 @@ func GenerateClientConfigBytes(c *config.TalhelperConfig, input *generate.Input,
 			endpoints = append(endpoints, node.IPAddress)
 		}
 	}
+	input.Options.EndpointList = endpoints
 
 	// make sure ca in talosconfig match machine.ca.crt in machine config
-	if string(input.Certs.OS.Crt) != string(machineCert.Crt) {
-		input.Certs.OS = machineCert
+	if string(input.Options.SecretsBundle.Certs.OS.Crt) != string(machineCert.Crt) {
+		input.Options.SecretsBundle.Certs.OS = machineCert
 
-		adminCert, err := generate.NewAdminCertificateAndKey(time.Now(), machineCert, options.Roles, 87600*time.Hour)
+		adminCert, err := secrets.NewAdminCertificateAndKey(time.Now(), machineCert, options.Roles, 87600*time.Hour)
 		if err != nil {
 			return nil, err
 		}
 
-		input.Certs.Admin = adminCert
+		input.Options.SecretsBundle.Certs.Admin = adminCert
 	}
 
-	cfg, err := generate.Talosconfig(input, generate.WithEndpointList(endpoints))
+	cfg, err := input.Talosconfig()
 	if err != nil {
 		return nil, err
 	}

@@ -2,15 +2,15 @@ package talos
 
 import (
 	"github.com/siderolabs/talos/pkg/machinery/config"
-	"github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1/generate"
+	"github.com/siderolabs/talos/pkg/machinery/config/generate/secrets"
 )
 
 // NewSecretsBundleFromConfig creates secrets bundle using existing config.
-func NewSecretBundleFromCfg(clock generate.Clock, cfg config.Provider) *generate.SecretsBundle {
-	return generate.NewSecretsBundleFromConfig(clock, cfg)
+func NewSecretBundleFromCfg(clock secrets.Clock, cfg config.Provider) *secrets.Bundle {
+	return secrets.NewBundleFromConfig(clock, cfg)
 }
 
 // NewSecretsBundle creates secrets bundle generating all secrets or reading from the input options if provided
-func NewSecretBundle(clock generate.Clock, opts ...generate.GenOption) (*generate.SecretsBundle, error) {
-	return generate.NewSecretsBundle(clock, opts...)
+func NewSecretBundle(clock secrets.Clock, vc config.VersionContract) (*secrets.Bundle, error) {
+	return secrets.NewBundle(clock, &vc)
 }

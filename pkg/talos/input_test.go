@@ -35,12 +35,12 @@ endpoint: https://1.1.1.1:6443`)
 		t.Errorf("got %s, want %s", result.ClusterName, expectedClusterName)
 	}
 
-	if result.VersionContract.Major != expectedTalosMajVersion {
-		t.Errorf("got %d, want %d", result.VersionContract.Major, expectedTalosMajVersion)
+	if result.Options.VersionContract.Major != expectedTalosMajVersion {
+		t.Errorf("got %d, want %d", result.Options.VersionContract.Major, expectedTalosMajVersion)
 	}
 
-	if result.VersionContract.Minor != expectedTalosMinVersion {
-		t.Errorf("got %d, want %d", result.VersionContract.Minor, expectedTalosMinVersion)
+	if result.Options.VersionContract.Minor != expectedTalosMinVersion {
+		t.Errorf("got %d, want %d", result.Options.VersionContract.Minor, expectedTalosMinVersion)
 	}
 
 	if result.KubernetesVersion != expectedK8sVersion {

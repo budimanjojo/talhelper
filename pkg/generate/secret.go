@@ -3,6 +3,7 @@ package generate
 import (
 	"github.com/budimanjojo/talhelper/pkg/secret"
 	"github.com/budimanjojo/talhelper/pkg/talos"
+	"github.com/siderolabs/talos/pkg/machinery/config"
 	"github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1/generate"
 )
 
@@ -13,7 +14,7 @@ func GenerateSecret(cfg string) error {
 	var err error
 	switch cfg {
 	case "":
-		s, err = talos.NewSecretBundle(generate.NewClock())
+		s, err = talos.NewSecretBundle(generate.NewClock(), *config.TalosVersionCurrent)
 		if err != nil {
 			return err
 		}

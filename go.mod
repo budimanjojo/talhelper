@@ -103,7 +103,6 @@ require (
 	github.com/ryanuber/go-glob v1.0.0 // indirect
 	github.com/siderolabs/gen v0.4.5 // indirect
 	github.com/siderolabs/go-blockdevice v0.4.6 // indirect
-	github.com/siderolabs/go-debug v0.2.2 // indirect
 	github.com/siderolabs/go-pointer v1.0.0 // indirect
 	github.com/sirupsen/logrus v1.8.1 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect

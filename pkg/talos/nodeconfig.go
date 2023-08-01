@@ -3,8 +3,9 @@ package talos
 import (
 	"github.com/budimanjojo/talhelper/pkg/config"
 	"github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1"
-	"github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1/generate"
-	"github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1/machine"
+	taloscfg "github.com/siderolabs/talos/pkg/machinery/config"
+	"github.com/siderolabs/talos/pkg/machinery/config/generate"
+	"github.com/siderolabs/talos/pkg/machinery/config/machine"
 )
 
 func GenerateNodeConfigBytes(node *config.Nodes, input *generate.Input) ([]byte, error) {
@@ -12,11 +13,11 @@ func GenerateNodeConfigBytes(node *config.Nodes, input *generate.Input) ([]byte,
 	if err != nil {
 		return nil, err
 	}
-	return cfg.EncodeBytes()
+	return cfg.Bytes()
 }
 
-func generateNodeConfig(node *config.Nodes, input *generate.Input) (*v1alpha1.Config, error) {
-	var c *v1alpha1.Config
+func generateNodeConfig(node *config.Nodes, input *generate.Input) (taloscfg.Provider, error) {
+	var c taloscfg.Provider
 	var err error
 
 	nodeInput, err := patchNodeInput(node, input)
@@ -26,66 +27,66 @@ func generateNodeConfig(node *config.Nodes, input *generate.Input) (*v1alpha1.Co
 
 	switch node.ControlPlane {
 	case true:
-		c, err = generate.Config(machine.TypeControlPlane, nodeInput)
+		c, err = nodeInput.Config(machine.TypeControlPlane)
 		if err != nil {
 			return nil, err
 		}
 	case false:
-		c, err = generate.Config(machine.TypeWorker, nodeInput)
+		c, err = nodeInput.Config(machine.TypeWorker)
 		if err != nil {
 			return nil, err
 		}
 	}
 
 	// https://github.com/budimanjojo/talhelper/issues/81
-	if input.VersionContract.SecretboxEncryptionSupported() && input.Secrets.AESCBCEncryptionSecret != "" {
-		c.ClusterConfig.ClusterAESCBCEncryptionSecret = input.Secrets.AESCBCEncryptionSecret
+	if input.Options.VersionContract.SecretboxEncryptionSupported() && input.Options.SecretsBundle.Secrets.AESCBCEncryptionSecret != "" {
+		c.RawV1Alpha1().ClusterConfig.ClusterAESCBCEncryptionSecret = input.Options.SecretsBundle.Secrets.AESCBCEncryptionSecret
 	}
 
 	cfg := applyNodeOverride(node, c)
 
-	return cfg, nil
+	return *cfg, nil
 }
 
-func applyNodeOverride(node *config.Nodes, cfg *v1alpha1.Config) *v1alpha1.Config {
-	cfg.MachineConfig.MachineNetwork.NetworkHostname = node.Hostname
+func applyNodeOverride(node *config.Nodes, cfg taloscfg.Provider) *taloscfg.Provider {
+	cfg.RawV1Alpha1().MachineConfig.MachineNetwork.NetworkHostname = node.Hostname
 
 	if len(node.Nameservers) != 0 {
-		cfg.MachineConfig.MachineNetwork.NameServers = node.Nameservers
+		cfg.RawV1Alpha1().MachineConfig.MachineNetwork.NameServers = node.Nameservers
 	}
 
 	if node.DisableSearchDomain {
-		cfg.MachineConfig.MachineNetwork.NetworkDisableSearchDomain = &node.DisableSearchDomain
+		cfg.RawV1Alpha1().MachineConfig.MachineNetwork.NetworkDisableSearchDomain = &node.DisableSearchDomain
 	}
 
 	if len(node.NetworkInterfaces) != 0 {
-		cfg.MachineConfig.MachineNetwork.NetworkInterfaces = node.NetworkInterfaces
+		cfg.RawV1Alpha1().MachineConfig.MachineNetwork.NetworkInterfaces = node.NetworkInterfaces
 	}
 
 	if node.InstallDiskSelector != nil {
-		cfg.MachineConfig.MachineInstall.InstallDiskSelector = node.InstallDiskSelector
+		cfg.RawV1Alpha1().MachineConfig.MachineInstall.InstallDiskSelector = node.InstallDiskSelector
 	}
 
 	if len(node.KernelModules) != 0 {
-		cfg.MachineConfig.MachineKernel = &v1alpha1.KernelConfig{}
-		cfg.MachineConfig.MachineKernel.KernelModules = node.KernelModules
+		cfg.RawV1Alpha1().MachineConfig.MachineKernel = &v1alpha1.KernelConfig{}
+		cfg.RawV1Alpha1().MachineConfig.MachineKernel.KernelModules = node.KernelModules
 	}
 
 	if node.NodeLabels != nil {
-		cfg.MachineConfig.MachineNodeLabels = node.NodeLabels
+		cfg.RawV1Alpha1().MachineConfig.MachineNodeLabels = node.NodeLabels
 	}
 
-	return cfg
+	return &cfg
 }
 
 func patchNodeInput(node *config.Nodes, input *generate.Input) (*generate.Input, error) {
 	nodeInput := input
 	if node.InstallDisk != "" {
-		nodeInput.InstallDisk = node.InstallDisk
+		nodeInput.Options.InstallDisk = node.InstallDisk
 	}
 
 	if len(node.MachineDisks) > 0 {
-		nodeInput.MachineDisks = node.MachineDisks
+		nodeInput.Options.MachineDisks = node.MachineDisks
 	}
 
 	return nodeInput, nil

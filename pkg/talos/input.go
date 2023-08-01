@@ -5,7 +5,8 @@ import (
 	"github.com/budimanjojo/talhelper/pkg/decrypt"
 	tconfig "github.com/siderolabs/talos/pkg/machinery/config"
 	"github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1"
-	"github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1/generate"
+	"github.com/siderolabs/talos/pkg/machinery/config/generate"
+	"github.com/siderolabs/talos/pkg/machinery/config/generate/secrets"
 	"gopkg.in/yaml.v3"
 )
 
@@ -19,7 +20,7 @@ func NewClusterInput(c *config.TalhelperConfig, secretFile string) (*generate.In
 		return nil, err
 	}
 
-	var secrets *generate.SecretsBundle
+	var sb *secrets.Bundle
 
 	if secretFile != "" {
 		decrypted, err := decrypt.DecryptYamlWithSops(secretFile)
@@ -27,21 +28,21 @@ func NewClusterInput(c *config.TalhelperConfig, secretFile string) (*generate.In
 			return nil, err
 		}
 
-		err = yaml.Unmarshal(decrypted, &secrets)
+		err = yaml.Unmarshal(decrypted, &sb)
 		if err != nil {
 			return nil, err
 		}
-		secrets.Clock = generate.NewClock()
+		sb.Clock = secrets.NewClock()
 	} else {
-		secrets, err = NewSecretBundle(generate.NewClock(), generate.WithVersionContract(versionContract))
+		sb, err = NewSecretBundle(secrets.NewClock(), *versionContract)
 		if err != nil {
 			return nil, err
 		}
 	}
 
-	opts := parseOptions(c, versionContract)
+	opts := parseOptions(c, versionContract, sb)
 
-	input, err := generate.NewInput(c.ClusterName, c.Endpoint, kubernetesVersion, secrets, opts...)
+	input, err := generate.NewInput(c.ClusterName, c.Endpoint, kubernetesVersion, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -56,10 +57,11 @@ func NewClusterInput(c *config.TalhelperConfig, secretFile string) (*generate.In
 
 // parseOptions takes `TalhelperConfig` and returns slice of Talos `generate.GenOption`
 // compatible with the specified `versionContract`.
-func parseOptions(c *config.TalhelperConfig, versionContract *tconfig.VersionContract) []generate.GenOption {
-	opts := []generate.GenOption{}
+func parseOptions(c *config.TalhelperConfig, versionContract *tconfig.VersionContract, sb *secrets.Bundle) []generate.Option {
+	opts := []generate.Option{}
 
 	opts = append(opts, generate.WithVersionContract(versionContract))
+	opts = append(opts, generate.WithSecretsBundle(sb))
 	opts = append(opts, generate.WithInstallImage(c.GetInstallerURL()))
 
 	if c.AllowSchedulingOnMasters || c.AllowSchedulingOnControlPlanes {

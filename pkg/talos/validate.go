@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"io/ioutil"
 
-	"github.com/siderolabs/talos/pkg/machinery/config"
+	"github.com/siderolabs/talos/pkg/machinery/config/validation"
 )
 
 type mode int
@@ -58,9 +58,7 @@ func ValidateConfigFromBytes(cfgFile []byte, mode string) error {
 		return err
 	}
 
-	opts := []config.ValidationOption{config.WithLocal(), config.WithStrict()}
-
-	warnings, err := cfg.Validate(m, opts...)
+	warnings, err := cfg.Validate(m, validation.WithLocal(), validation.WithStrict())
 	for _, w := range warnings {
 		fmt.Printf("%s\n", w)
 	}
