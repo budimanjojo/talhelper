@@ -191,6 +191,7 @@ github.com/googleapis/enterprise-certificate-proxy v0.2.3 h1:yk9/cqRKtT9wXZSsRH9
 github.com/googleapis/enterprise-certificate-proxy v0.2.3/go.mod h1:AwSRAtLfXpU5Nm3pW+v7rGDHp09LsPtGY9MduiEsR9k=
 github.com/googleapis/gax-go/v2 v2.7.1 h1:gF4c0zjUP2H/s/hEGyLA3I0fA2ZWjzYiONAD6cvPr8A=
 github.com/googleapis/gax-go/v2 v2.7.1/go.mod h1:4orTrqY6hXxxaUL4LHIPl6lGo8vAE38/qKbhSAKP6QI=
+github.com/googleapis/go-type-adapters v1.0.0/go.mod h1:zHW75FOG2aur7gAO2B+MLby+cLsWGBF62rFAi7WjWO4=
 github.com/gookit/color v1.5.4 h1:FZmqs7XOyGgCAxmWyPslpiok1k05wmY3SJTytgvYFs0=
 github.com/gookit/filter v1.2.0 h1:r7E01dHVkysb5WgzooiGsfblHGShEZCeGcyYM+5IpYU=
 github.com/gookit/filter v1.2.0/go.mod h1:bXs9RcB4Blxwny970opiwABeIEqQ/gzOMmHBhKwBdms=
@@ -420,6 +421,8 @@ github.com/siderolabs/net v0.4.0/go.mod h1:/ibG+Hm9HU27agp5r9Q3eZicEfjquzNzQNux5
 github.com/siderolabs/protoenc v0.2.0 h1:QFxWIAo//12+/bm27GNYoK/TpQGTYsRrrZCu9jSghvU=
 github.com/siderolabs/talos/pkg/machinery v1.4.0-beta.1 h1:mSb0/mIAbKxOGkdfAo5kv5l3QYzeL1eaAlnDOXDzCUM=
 github.com/siderolabs/talos/pkg/machinery v1.4.0-beta.1/go.mod h1:6xBiNySzTjbqAnnlX35jyZ6OM6t/5aB9SPP7R+xRf5U=
+github.com/siderolabs/talos/pkg/machinery v1.4.7 h1:R4PlXWFZRIUA964rX0oMoW2pfnupWHWPs6Eh7aJLXMw=
+github.com/siderolabs/talos/pkg/machinery v1.4.7/go.mod h1:l+3Akw0tz/k/IMbqQS+cdQaqVSitIIJf04+N9ahGn+E=
 github.com/sirupsen/logrus v1.2.0/go.mod h1:LxeOpSwHxABJmUn/MG1IvRgCAasNZTLOkJPxbbu5VWo=
 github.com/sirupsen/logrus v1.4.2/go.mod h1:tLMulIdttU9McNUspp0xgXVQah82FyeX6MwdIuYE2rE=
 github.com/sirupsen/logrus v1.8.1 h1:dJKuHgqk1NNQlqoA6BTlM1Wf9DOH3NBjQyu0h9+AZZE=
