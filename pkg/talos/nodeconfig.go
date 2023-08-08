@@ -20,19 +20,14 @@ func generateNodeConfig(node *config.Nodes, input *generate.Input) (taloscfg.Pro
 	var c taloscfg.Provider
 	var err error
 
-	nodeInput, err := patchNodeInput(node, input)
-	if err != nil {
-		return nil, err
-	}
-
 	switch node.ControlPlane {
 	case true:
-		c, err = nodeInput.Config(machine.TypeControlPlane)
+		c, err = input.Config(machine.TypeControlPlane)
 		if err != nil {
 			return nil, err
 		}
 	case false:
-		c, err = nodeInput.Config(machine.TypeWorker)
+		c, err = input.Config(machine.TypeWorker)
 		if err != nil {
 			return nil, err
 		}
@@ -63,8 +58,16 @@ func applyNodeOverride(node *config.Nodes, cfg taloscfg.Provider) *taloscfg.Prov
 		cfg.RawV1Alpha1().MachineConfig.MachineNetwork.NetworkInterfaces = node.NetworkInterfaces
 	}
 
+	if node.InstallDisk != "" {
+		cfg.RawV1Alpha1().MachineConfig.MachineInstall.InstallDisk = node.InstallDisk
+	}
+
 	if node.InstallDiskSelector != nil {
 		cfg.RawV1Alpha1().MachineConfig.MachineInstall.InstallDiskSelector = node.InstallDiskSelector
+	}
+
+	if len(node.MachineDisks) != 0 {
+		cfg.RawV1Alpha1().MachineConfig.MachineDisks = node.MachineDisks
 	}
 
 	if len(node.KernelModules) != 0 {
@@ -77,17 +80,4 @@ func applyNodeOverride(node *config.Nodes, cfg taloscfg.Provider) *taloscfg.Prov
 	}
 
 	return &cfg
-}
-
-func patchNodeInput(node *config.Nodes, input *generate.Input) (*generate.Input, error) {
-	nodeInput := input
-	if node.InstallDisk != "" {
-		nodeInput.Options.InstallDisk = node.InstallDisk
-	}
-
-	if len(node.MachineDisks) > 0 {
-		nodeInput.Options.MachineDisks = node.MachineDisks
-	}
-
-	return nodeInput, nil
 }
