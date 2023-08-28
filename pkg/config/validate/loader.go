@@ -1,7 +1,7 @@
 package validate
 
 import (
-	"io/ioutil"
+	"os"
 
 	"github.com/ghodss/yaml"
 )
@@ -23,9 +23,9 @@ func NewFromFile(path string) (c Config, err error) {
 	return newConfig(source)
 }
 
-// fromFile is a wrapper for `ioutil.ReadFile`.
+// fromFile is a wrapper for `os.ReadFile`.
 func fromFile(path string) ([]byte, error) {
-	return ioutil.ReadFile(path)
+	return os.ReadFile(path)
 }
 
 // newConfig takes bytes and convert it into Talhelper config.

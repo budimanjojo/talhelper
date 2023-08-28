@@ -2,7 +2,7 @@ package talos
 
 import (
 	"fmt"
-	"io/ioutil"
+	"os"
 
 	"github.com/siderolabs/talos/pkg/machinery/config/validation"
 )
@@ -37,7 +37,7 @@ func parseMode(s string) (mod mode, err error) {
 // ValidateConfigFromFile returns an error if file path is not a valid
 // Talos configuration for the specified `mode`.
 func ValidateConfigFromFile(path, mode string) error {
-	output, err := ioutil.ReadFile(path)
+	output, err := os.ReadFile(path)
 	if err != nil {
 		return err
 	}

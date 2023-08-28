@@ -1,7 +1,7 @@
 package validate
 
 import (
-	"io/ioutil"
+	"os"
 
 	validator "github.com/gookit/validate"
 )
@@ -15,7 +15,7 @@ func ValidateFromByte(source []byte) (validator.Errors, error){
 // ValidateFromFile reads yaml file path and validates the data.
 // It returns all the incorrect values and an error, if any.
 func ValidateFromFile(path string) (validator.Errors, error) {
-	byte, err := ioutil.ReadFile(path)
+	byte, err := os.ReadFile(path)
 	if err != nil {
 		return nil, err
 	}
