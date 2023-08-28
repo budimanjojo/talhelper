@@ -1,3 +1,4 @@
+---
 project_name: talhelper
 builds:
   - env:
@@ -48,6 +49,10 @@ aurs:
       install -Dm755 "./{{ .ProjectName }}" "${pkgdir}/usr/bin/{{ .ProjectName }}"
       # license
       install -Dm644 "./LICENSE" "${pkgdir}/usr/share/licenses/{{ .ProjectName }}/LICENSE"
+      # completions
+      "${pkgdir}/usr/bin/{{ .ProjectName }}" completion bash | install -Dm644 /dev/stdin "${pkgdir}/usr/share/bash-completion/completions/{{ .ProjectName }}"
+      "${pkgdir}/usr/bin/{{ .ProjectName }}" completion fish | install -Dm644 /dev/stdin "${pkgdir}/usr/share/fish/completions/{{ .ProjectName }}.fish"
+      "${pkgdir}/usr/bin/{{ .ProjectName }}" completion zsh | install -Dm644 /dev/stdin "${pkgdir}/usr/share/zsh/site-functions/_{{ .ProjectName }}"
     commit_author:
       name: goreleaserbot
       email: bot@goreleaser.com
