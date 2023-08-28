@@ -62,6 +62,8 @@ func (c Config) IsSupportedTalosVersion(version string) bool {
 		return true
 	case "v1.5":
 		return true
+	case "v1.6":
+		return true
 	default:
 		return false
 	}
