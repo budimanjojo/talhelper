@@ -1,11 +1,10 @@
 {
-  "platform": "github",
-  "username": "budimanjojo-bot[bot]",
-  "repositories": ["budimanjojo/talhelper"],
-  "gitAuthor": "budimanjojo-bot <111944664+budimanjojo-bot[bot]@users.noreply.github.com>",
   "extends": [
-    "config:base"
+    "github>budimanjojo/renovate-config:default.json5"
   ],
+  "username": "budimanjojo-bot[bot]",
+  "gitAuthor": "budimanjojo-bot <111944664+budimanjojo-bot[bot]@users.noreply.github.com>",
+  "repositories": ["budimanjojo/talhelper"],
   "regexManagers": [
     {
       "fileMatch": ["pkg/config/defaults.go$"],
