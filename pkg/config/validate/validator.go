@@ -110,6 +110,14 @@ func (c Config) IsCNIName(cni string) bool {
 	return false
 }
 
+// IsValidFileOperation returns true if `op` is a correct `machineFile` operation
+func (c Config) IsValidFileOperation(op string) bool {
+	if match, _ := regexp.MatchString(`^create$|^append$|^overwrite$`, op); match {
+		return true
+	}
+	return false
+}
+
 // IsCIDRList returns true if `nets` is list of CIDR addresses.
 func (c Config) IsCIDRList(nets []string) bool {
 	for _, net := range nets {

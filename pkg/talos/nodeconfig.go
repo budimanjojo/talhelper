@@ -46,7 +46,7 @@ func generateNodeConfig(node *config.Nodes, input *generate.Input) (taloscfg.Pro
 func applyNodeOverride(node *config.Nodes, cfg taloscfg.Provider) *taloscfg.Provider {
 	cfg.RawV1Alpha1().MachineConfig.MachineNetwork.NetworkHostname = node.Hostname
 
-	if len(node.Nameservers) != 0 {
+	if len(node.Nameservers) > 0 {
 		cfg.RawV1Alpha1().MachineConfig.MachineNetwork.NameServers = node.Nameservers
 	}
 
@@ -54,7 +54,7 @@ func applyNodeOverride(node *config.Nodes, cfg taloscfg.Provider) *taloscfg.Prov
 		cfg.RawV1Alpha1().MachineConfig.MachineNetwork.NetworkDisableSearchDomain = &node.DisableSearchDomain
 	}
 
-	if len(node.NetworkInterfaces) != 0 {
+	if len(node.NetworkInterfaces) > 0 {
 		cfg.RawV1Alpha1().MachineConfig.MachineNetwork.NetworkInterfaces = node.NetworkInterfaces
 	}
 
@@ -66,17 +66,25 @@ func applyNodeOverride(node *config.Nodes, cfg taloscfg.Provider) *taloscfg.Prov
 		cfg.RawV1Alpha1().MachineConfig.MachineInstall.InstallDiskSelector = node.InstallDiskSelector
 	}
 
-	if len(node.MachineDisks) != 0 {
+	if len(node.MachineDisks) > 0 {
 		cfg.RawV1Alpha1().MachineConfig.MachineDisks = node.MachineDisks
 	}
 
-	if len(node.KernelModules) != 0 {
+	if len(node.KernelModules) > 0 {
 		cfg.RawV1Alpha1().MachineConfig.MachineKernel = &v1alpha1.KernelConfig{}
 		cfg.RawV1Alpha1().MachineConfig.MachineKernel.KernelModules = node.KernelModules
 	}
 
 	if node.NodeLabels != nil {
 		cfg.RawV1Alpha1().MachineConfig.MachineNodeLabels = node.NodeLabels
+	}
+
+	if len(node.Extensions) > 0 {
+		cfg.RawV1Alpha1().MachineConfig.MachineInstall.InstallExtensions = node.Extensions
+	}
+
+	if len(node.MachineFiles) > 0 {
+		cfg.RawV1Alpha1().MachineConfig.MachineFiles = node.MachineFiles
 	}
 
 	return &cfg

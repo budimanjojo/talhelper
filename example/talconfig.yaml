@@ -19,6 +19,14 @@ cniConfig:
 nodes:
   - hostname: kmaster1
     ipAddress: 192.168.200.11
+    extensions:
+      - image: ghcr.io/siderolabs/tailscale:1.44.0
+    machineFiles:
+      - content: |
+          TS_AUTHKEY=123456
+        permissions: 0o644
+        path: /var/etc/tailscale/auth.env
+        op: create
     installDiskSelector:
       size: 4GB
       model: WDC*

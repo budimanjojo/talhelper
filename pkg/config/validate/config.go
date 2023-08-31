@@ -41,6 +41,19 @@ type Node struct {
 	InstallDiskSelector *InstallDiskSelector
 	KernelModules       []*KernelModule
 	NodeLabels          map[string]string
+	MachineFiles        []MachineFile
+	Extensions          []Extension
+}
+
+type MachineFile struct {
+	Content     string `validate:"requiredWith:Nodes.MachineFiles"`
+	Path        string `validate:"requiredWith:Nodes.MachineFiles|isUnixPath"`
+	Op          string `validate:"isValidFileOperation"`
+	Permissions string
+}
+
+type Extension struct {
+	Image string `validate:"requiredWith:Nodes.Extensions"`
 }
 
 type KernelModule struct {
@@ -178,5 +191,7 @@ func (c Config) Messages() map[string]string {
 		"isValidNetworkInterfaces":  "{field} requires one of `interface` and `deviceSelector` to be set",
 		"isSupportedTalosVersion":   "{field} is not a supported Talos version",
 		"isSupportedK8sVersion":     "{field} is not supported by the specified Talos version",
+		"isValidFileOperation":      "{field} is not a valid MachineFile operation (create,append,overwrite)",
+		"isUnixPath":                "{field} is not a valid Unix file path",
 	}
 }

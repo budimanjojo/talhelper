@@ -22,20 +22,22 @@ type TalhelperConfig struct {
 }
 
 type Nodes struct {
-	Hostname            string                         `yaml:"hostname"`
-	IPAddress           string                         `yaml:"ipAddress,omitempty"`
-	ControlPlane        bool                           `yaml:"controlPlane"`
-	NodeLabels          map[string]string              `yaml:"nodeLabels"`
-	InstallDisk         string                         `yaml:"installDisk,omitempty"`
-	InstallDiskSelector *v1alpha1.InstallDiskSelector  `yaml:"installDiskSelector,omitempty"`
-	MachineDisks        []*v1alpha1.MachineDisk        `yaml:"machineDisks,omitempty"`
-	DisableSearchDomain bool                           `yaml:"disableSearchDomain,omitempty"`
-	KernelModules       []*v1alpha1.KernelModuleConfig `yaml:"kernelModules,omitempty"`
-	Nameservers         []string                       `yaml:"nameservers,omitempty"`
-	NetworkInterfaces   []*v1alpha1.Device             `yaml:"networkInterfaces,omitempty"`
-	ConfigPatches       []map[string]interface{}       `yaml:"configPatches,omitempty"`
-	InlinePatch         map[string]interface{}         `yaml:"inlinePatch,omitempty"`
-	Patches             []string                       `yaml:"patches,omitempty"`
+	Hostname            string                            `yaml:"hostname"`
+	IPAddress           string                            `yaml:"ipAddress,omitempty"`
+	ControlPlane        bool                              `yaml:"controlPlane"`
+	NodeLabels          map[string]string                 `yaml:"nodeLabels"`
+	InstallDisk         string                            `yaml:"installDisk,omitempty"`
+	InstallDiskSelector *v1alpha1.InstallDiskSelector     `yaml:"installDiskSelector,omitempty"`
+	MachineDisks        []*v1alpha1.MachineDisk           `yaml:"machineDisks,omitempty"`
+	MachineFiles        []*v1alpha1.MachineFile           `yaml:"machineFiles,omitempty"`
+	Extensions          []v1alpha1.InstallExtensionConfig `yaml:"extensions,omitempty"`
+	DisableSearchDomain bool                              `yaml:"disableSearchDomain,omitempty"`
+	KernelModules       []*v1alpha1.KernelModuleConfig    `yaml:"kernelModules,omitempty"`
+	Nameservers         []string                          `yaml:"nameservers,omitempty"`
+	NetworkInterfaces   []*v1alpha1.Device                `yaml:"networkInterfaces,omitempty"`
+	ConfigPatches       []map[string]interface{}          `yaml:"configPatches,omitempty"`
+	InlinePatch         map[string]interface{}            `yaml:"inlinePatch,omitempty"`
+	Patches             []string                          `yaml:"patches,omitempty"`
 }
 
 type cniConfig struct {
