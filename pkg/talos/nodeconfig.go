@@ -9,14 +9,14 @@ import (
 )
 
 func GenerateNodeConfigBytes(node *config.Nodes, input *generate.Input) ([]byte, error) {
-	cfg, err := generateNodeConfig(node, input)
+	cfg, err := GenerateNodeConfig(node, input)
 	if err != nil {
 		return nil, err
 	}
 	return cfg.Bytes()
 }
 
-func generateNodeConfig(node *config.Nodes, input *generate.Input) (taloscfg.Provider, error) {
+func GenerateNodeConfig(node *config.Nodes, input *generate.Input) (taloscfg.Provider, error) {
 	var c taloscfg.Provider
 	var err error
 

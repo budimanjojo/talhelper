@@ -1,22 +1,54 @@
 package talos
 
 import (
+	"encoding/json"
+	"reflect"
 	"testing"
 
 	"github.com/budimanjojo/talhelper/pkg/config"
-	"github.com/siderolabs/talos/pkg/machinery/config/configloader"
+	"github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1"
 	"gopkg.in/yaml.v3"
 )
 
-func TestGenerateNodeConfigBytes(t *testing.T) {
+func TestGenerateNodeConfig(t *testing.T) {
 	data := []byte(`clusterName: test
 endpoint: https://1.1.1.1:6443
 nodes:
   - hostname: node1
     controlPlane: true
     installDisk: /dev/sda
+    disableSearchDomain: true
+    extensions:
+      - image: ghcr.io/siderolabs/tailscale:1.44.0
+    machineFiles:
+      - content: TS_AUTHKEY=123456
+        permissions: 0o644
+        path: /var/etc/tailscale/auth.env
+        op: create
+    networkInterfaces:
+      - interface: eth0
+        bond:
+          deviceSelectors:
+            - hardwareAddr: "00:50:56:*"
+    kernelModules:
+      - name: br_netfilter
+        parameters:
+          - nf_conntrack_max=131072
   - hostname: node2
-    controlPlane: false`)
+    controlPlane: false
+    installDiskSelector:
+      size: 4KB
+      model: WDC*
+      name: /sys/block/sda/device/name
+      busPath: /pci0000:00/0000:00:17.0/ata1/host0/target0:0:0/0:0:0:0
+    machineDisks:
+      - device: /dev/disk/by-id/ata-CT500MX500SSD1_2149E5EC1D9D
+        partitions:
+          - mountpoint: /var/mnt/sata
+    nodeLabels:
+      rack: rack1a
+      zone: us-east-1a
+    nameservers: [1.1.1.1, 8.8.8.8]`)
 
 	var m config.TalhelperConfig
 	err := yaml.Unmarshal(data, &m)
@@ -29,44 +61,123 @@ nodes:
 		t.Fatal(err)
 	}
 
-	cp, err := GenerateNodeConfigBytes(&m.Nodes[0], input)
+	cp, err := GenerateNodeConfig(&m.Nodes[0], input)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	w, err := GenerateNodeConfigBytes(&m.Nodes[1], input)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	cpCfg, err := configloader.NewFromBytes(cp)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	wCfg, err := configloader.NewFromBytes(w)
+	w, err := GenerateNodeConfig(&m.Nodes[1], input)
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	expectedNode1Type := "controlplane"
 	expectedNode1Hostname := "node1"
-	expectedNode1Disk := "/dev/sda"
+	expectedNode1InstallDisk := "/dev/sda"
+	expectedNode1DisableSearchDomain := true
+	expectedNode1Extensions := []v1alpha1.InstallExtensionConfig{
+		{
+			ExtensionImage: "ghcr.io/siderolabs/tailscale:1.44.0",
+		},
+	}
+	expectedNode1MachineFiles := []*v1alpha1.MachineFile{
+		{
+			FileContent: "TS_AUTHKEY=123456",
+			FilePermissions: v1alpha1.FileMode(0o644),
+			FilePath: "/var/etc/tailscale/auth.env",
+			FileOp: "create",
+		},
+	}
+	expectedNode1NetworkInterfaces := v1alpha1.NetworkDeviceList{
+		{
+			DeviceInterface: "eth0",
+			DeviceBond: &v1alpha1.Bond{
+				BondDeviceSelectors: []v1alpha1.NetworkDeviceSelector{
+					{
+						NetworkDeviceHardwareAddress: "00:50:56:*",
+					},
+				},
+			},
+		},
+	}
+	expectedNode1KernelModules := &v1alpha1.KernelConfig{
+		KernelModules: []*v1alpha1.KernelModuleConfig{
+			{
+				ModuleName: "br_netfilter",
+				ModuleParameters: []string{"nf_conntrack_max=131072"},
+			},
+		},
+	}
 	expectedNode2Type := "worker"
-
-	if cpCfg.Machine().Type().String() != expectedNode1Type {
-		t.Errorf("got %s, want %s", cpCfg.Machine().Type().String(), expectedNode1Type)
+	expectedNode2InstallDiskSelector := &v1alpha1.InstallDiskSelector{
+		Size: &v1alpha1.InstallDiskSizeMatcher{
+			MatchData: v1alpha1.InstallDiskSizeMatchData{
+				Size: 4000,
+				Op: "",
+			},
+		},
+		Model: "WDC*",
+		Name: "/sys/block/sda/device/name",
+		BusPath: "/pci0000:00/0000:00:17.0/ata1/host0/target0:0:0/0:0:0:0",
 	}
-
-	if cpCfg.Machine().Network().Hostname() != expectedNode1Hostname {
-		t.Errorf("got %s, want %s", cpCfg.Machine().Network().Hostname(), expectedNode1Hostname)
+	expectedNode2MachineDisks := []*v1alpha1.MachineDisk{
+		{
+			DeviceName: "/dev/disk/by-id/ata-CT500MX500SSD1_2149E5EC1D9D",
+			DiskPartitions: []*v1alpha1.DiskPartition{
+				{
+					DiskMountPoint: "/var/mnt/sata",
+				},
+			},
+		},
 	}
+	expectedNode2NodeLabels := map[string]string{"rack": "rack1a", "zone": "us-east-1a"}
+	expectedNode2Nameservers := []string{"1.1.1.1", "8.8.8.8"}
 
-	if node1Disk, _ := cpCfg.Machine().Install().Disk(); node1Disk != expectedNode1Disk {
-		t.Errorf("got %s, want %s", node1Disk, expectedNode1Disk)
+	cpCfg := cp.RawV1Alpha1().MachineConfig
+	wCfg := w.RawV1Alpha1().MachineConfig
+
+	compare(cpCfg.MachineType, expectedNode1Type, t)
+	compare(cpCfg.MachineNetwork.Hostname(), expectedNode1Hostname, t)
+	compare(cpCfg.MachineInstall.InstallDisk, expectedNode1InstallDisk, t)
+	compare(cpCfg.MachineNetwork.DisableSearchDomain(), expectedNode1DisableSearchDomain, t)
+	compare(cpCfg.MachineInstall.InstallExtensions, expectedNode1Extensions, t)
+	compare(cpCfg.MachineFiles, expectedNode1MachineFiles, t)
+	compare(cpCfg.MachineNetwork.NetworkInterfaces, expectedNode1NetworkInterfaces, t)
+	compare(cpCfg.MachineKernel, expectedNode1KernelModules, t)
+	compare(wCfg.MachineType, expectedNode2Type, t)
+	compare(wCfg.MachineInstall.InstallDiskSelector, expectedNode2InstallDiskSelector, t)
+	compare(wCfg.MachineDisks, expectedNode2MachineDisks, t)
+	compare(wCfg.MachineNodeLabels, expectedNode2NodeLabels, t)
+	compare(wCfg.MachineNetwork.NameServers, expectedNode2Nameservers, t)
+}
+
+func compare(got, want any, t *testing.T) {
+	// Indicate this function is a helper and we're not interested in line numbers coming from it
+	t.Helper()
+	if reflect.TypeOf(got) != reflect.TypeOf(want) {
+		t.Errorf("\ngot type of %s, want type of %s", reflect.TypeOf(got), reflect.TypeOf(want))
+		return
 	}
-
-	if wCfg.Machine().Type().String() != expectedNode2Type {
-		t.Errorf("got %s, want %s", cpCfg.Machine().Type().String(), expectedNode1Type)
+	switch got.(type) {
+	case string, int, bool, float64, float32:
+		if got != want {
+			t.Errorf("\ngot %s\nwant %s", got, want)
+		}
+	case map[string]string:
+		if !reflect.DeepEqual(got, want) {
+			t.Errorf("\ngot %s\nwant %s", got, want)
+		}
+	default:
+		g, err := json.Marshal(got)
+		if err != nil {
+			t.Errorf("error encoding %v to json", got)
+		}
+		w, err := json.Marshal(want)
+		if err != nil {
+			t.Errorf("error encoding %v to json", want)
+		}
+		if !reflect.DeepEqual(g, w) {
+			t.Errorf("\ngot %s\nwant %s", g, w)
+		}
 	}
 }
