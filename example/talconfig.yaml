@@ -1,3 +1,4 @@
+---
 clusterName: home-cluster
 talosVersion: v1.5.0-alpha.3
 kubernetesVersion: v1.27.0
@@ -16,6 +17,12 @@ cniConfig:
   name: custom
   urls:
     - https://raw.githubusercontent.com/bjw-s/home-ops/main/infrastructure/talos/cluster-0/cni/install.yaml
+patches:
+  - |-
+    - op: add
+      path: /machine/env
+      value:
+        GRPC_GO_LOG_SEVERITY_LEVEL: error
 nodes:
   - hostname: kmaster1
     ipAddress: 192.168.200.11

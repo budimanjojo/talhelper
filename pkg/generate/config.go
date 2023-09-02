@@ -78,6 +78,13 @@ func GenerateConfig(c *config.TalhelperConfig, outDir, secretFile, mode string) 
 			}
 		}
 
+		if len(c.Patches) > 0 {
+			cfg, err = patcher.PatchesPatcher(c.Patches, cfg)
+			if err != nil {
+				return err
+			}
+		}
+
 		err = talos.ValidateConfigFromBytes(cfg, mode)
 		if err != nil {
 			return err
