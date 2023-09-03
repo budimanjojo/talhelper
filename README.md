@@ -204,6 +204,7 @@ Distributed under the BSD-3 License. See [LICENSE](./LICENSE) for more informati
 Thanks for those who are sponsoring or have sponsored my projects, it helps and motivates me to do more!
 
 <a href="https://github.com/0dragosh"><img src="https://github.com/0dragosh.png" width="40px" alt="" /></a>
+<a href="https://github.com/wouterbouvy"><img src="https://github.com/wouterbouvy.png" width="40px" alt="" /></a>
 
 ## Acknowledgments
 
