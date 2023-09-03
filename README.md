@@ -199,6 +199,12 @@ Distributed under the BSD-3 License. See [LICENSE](./LICENSE) for more informati
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
+## Sponsors
+
+Thanks for those who are sponsoring or have sponsored my projects, it helps and motivates me to do more!
+
+<a href="https://github.com/0dragosh"><img src="https://github.com/0dragosh.png" width="40px" alt="" /></a>
+
 ## Acknowledgments
 
 * [bjw-s](https://github.com/bjw-s) <- The guy who inspired this tool
