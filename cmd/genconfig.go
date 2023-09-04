@@ -24,6 +24,7 @@ var (
 	genconfigNoGitignore bool
 	genconfigEnvFile     []string
 	genconfigSecretFile  []string
+	genconfigDryRun      bool
 )
 
 var (
@@ -90,12 +91,12 @@ var (
 				}
 			}
 
-			err = generate.GenerateConfig(&m, genconfigOutDir, secretFile, genconfigTalosMode)
+			err = generate.GenerateConfig(&m, genconfigDryRun, genconfigOutDir, secretFile, genconfigTalosMode)
 			if err != nil {
 				log.Fatalf("failed to generate talos config: %s", err)
 			}
 
-			if !genconfigNoGitignore {
+			if !genconfigNoGitignore && !genconfigDryRun {
 				err = m.GenerateGitignore(genconfigOutDir)
 				if err != nil {
 					log.Fatalf("failed to generate gitignore file: %s", err)
@@ -114,4 +115,5 @@ func init() {
 	genconfigCmd.Flags().StringSliceVarP(&genconfigSecretFile, "secret-file", "s", []string{"talsecret.yaml", "talsecret.sops.yaml", "talsecret.yml", "talsecret.sops.yml"}, "List of files containing secrets for the cluster")
 	genconfigCmd.Flags().StringVarP(&genconfigTalosMode, "talos-mode", "m", "metal", "Talos runtime mode to validate generated config")
 	genconfigCmd.Flags().BoolVar(&genconfigNoGitignore, "no-gitignore", false, "Create/update gitignore file too")
+	genconfigCmd.Flags().BoolVarP(&genconfigDryRun, "dry-run", "n", false, "Skip generating manifests and show diff instead")
 }

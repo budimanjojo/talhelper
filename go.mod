@@ -8,6 +8,7 @@ require (
 	github.com/fatih/color v1.15.0
 	github.com/ghodss/yaml v1.0.0
 	github.com/gookit/validate v1.5.1
+	github.com/hexops/gotextdiff v1.0.3
 	github.com/joho/godotenv v1.5.1
 	github.com/sabhiram/go-gitignore v0.0.0-20210923224102-525f6e181f06
 	github.com/siderolabs/net v0.4.0
