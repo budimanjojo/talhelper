@@ -40,10 +40,10 @@ func GenerateNodeConfig(node *config.Nodes, input *generate.Input) (taloscfg.Pro
 
 	cfg := applyNodeOverride(node, c)
 
-	return *cfg, nil
+	return cfg, nil
 }
 
-func applyNodeOverride(node *config.Nodes, cfg taloscfg.Provider) *taloscfg.Provider {
+func applyNodeOverride(node *config.Nodes, cfg taloscfg.Provider) taloscfg.Provider {
 	cfg.RawV1Alpha1().MachineConfig.MachineNetwork.NetworkHostname = node.Hostname
 
 	if len(node.Nameservers) > 0 {
@@ -87,5 +87,5 @@ func applyNodeOverride(node *config.Nodes, cfg taloscfg.Provider) *taloscfg.Prov
 		cfg.RawV1Alpha1().MachineConfig.MachineFiles = node.MachineFiles
 	}
 
-	return &cfg
+	return cfg
 }
