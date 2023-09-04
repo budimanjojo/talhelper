@@ -22,7 +22,7 @@
           name = "talhelper-dev";
           packages = [
             gcc
-            go
+            go_1_21
           ];
         };
       };
