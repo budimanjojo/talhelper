@@ -142,6 +142,7 @@ Available Commands:
 
 Flags:
   -c, --config-file string    File containing configurations for talhelper (default "talconfig.yaml")
+  -n, --dry-run               Skip generating manifests and show diff instead
   -e, --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
   -h, --help                  help for genconfig
       --no-gitignore          Create/update gitignore file too
