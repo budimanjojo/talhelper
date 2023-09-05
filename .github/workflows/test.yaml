@@ -29,7 +29,7 @@ jobs:
       - uses: actions/setup-go@v4
         with:
           go-version: stable
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@3df4ab11eba7bda6032a0b82a6bb43b11571feac # v4
       - run: go build -o /usr/local/bin/talhelper
       - run: go test -v ./... -race -covermode=atomic
       - run: talhelper
