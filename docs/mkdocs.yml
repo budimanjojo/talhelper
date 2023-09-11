@@ -1,0 +1,45 @@
+---
+site_name: Talhelper
+site_description: Talhelper documentation
+site_author: budimanjojo
+theme:
+  name: readthedocs
+  prev_next_buttons_location: none
+  logo: img/logo.svg
+  highlightjs: false
+extra_css:
+  - css/extra.css
+  - css/highlight.css
+  - css/version-select.css
+extra_javascript:
+  - js/version-select.js
+nav:
+  - index.md
+  - getting-started.md
+  - installation.md
+  - guides.md
+  - Reference:
+      - reference/cli.md
+      - reference/configuration.md
+      - reference/supported-version.md
+  - GitHub:
+      - Homepage: https://github.com/budimanjojo/talhelper
+      - Issue Tracker: https://github.com/budimanjojo/talhelper/issues
+      - contributing.md
+      - Sponsor Me: https://github.com/sponsors/budimanjojo
+plugins:
+  search: {}
+  mike:
+    version_selector: false
+markdown_extensions:
+  - admonition: {}
+  - pymdownx.superfences: {}
+  - pymdownx.highlight: {}
+  - pymdownx.tabbed: {}
+  - pymdownx.emoji:
+      options:
+        attributes:
+          align: center
+          height: 20px
+          width: 20px
+  - md_in_html: {}

@@ -1,0 +1,8 @@
+#version-selector > select {
+  background: #c8d3f5;
+  color: #24283b;
+  width: auto;
+  height: auto;
+  text-align: center;
+  margin-top: 20px;
+}

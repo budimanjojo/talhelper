@@ -23,6 +23,10 @@
           packages = [
             gcc
             go_1_21
+            mkdocs
+            python311Packages.pymdown-extensions
+            python311Packages.accessible-pygments
+            python311Packages.mike
           ];
         };
       };
