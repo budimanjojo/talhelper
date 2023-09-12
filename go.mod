@@ -4,7 +4,7 @@ go 1.21
 
 require (
 	github.com/a8m/envsubst v1.4.2
-	github.com/evanphx/json-patch v5.6.0+incompatible
+	github.com/evanphx/json-patch v5.7.0+incompatible
 	github.com/fatih/color v1.15.0
 	github.com/ghodss/yaml v1.0.0
 	github.com/gookit/validate v1.5.1
