@@ -35,7 +35,7 @@ endpoint: https://192.168.200.10:6443
 
 <tr markdown="1">
 <td markdown="1">`nodes`</td>
-<td markdown="1">[][Nodes](#nodes)</td>
+<td markdown="1">[][Node](#node)</td>
 <td markdown="1">List of nodes configurations<details><summary>*Show example*</summary>
 ```yaml
 nodes:
@@ -244,9 +244,9 @@ worker:
 
 </table>
 
-## Nodes
+## Node
 
-`Nodes` defines machine configurations for each node.
+`Node` defines machine configurations for each node.
 
 <table markdown="1">
 <tr markdown="1">

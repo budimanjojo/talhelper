@@ -17,12 +17,12 @@ type TalhelperConfig struct {
 	ClusterSvcNets                 []string     `yaml:"clusterSvcNets,omitempty"`
 	CNIConfig                      cniConfig    `yaml:"cniConfig,omitempty"`
 	Patches                        []string     `yaml:"patches,omitempty"`
-	Nodes                          []Nodes      `yaml:"nodes"`
+	Nodes                          []Node      `yaml:"nodes"`
 	ControlPlane                   controlPlane `yaml:"controlPlane,omitempty"`
 	Worker                         worker       `yaml:"worker,omitempty"`
 }
 
-type Nodes struct {
+type Node struct {
 	Hostname            string                            `yaml:"hostname"`
 	IPAddress           string                            `yaml:"ipAddress,omitempty"`
 	ControlPlane        bool                              `yaml:"controlPlane"`

@@ -8,7 +8,7 @@ import (
 	"github.com/siderolabs/talos/pkg/machinery/config/machine"
 )
 
-func GenerateNodeConfigBytes(node *config.Nodes, input *generate.Input) ([]byte, error) {
+func GenerateNodeConfigBytes(node *config.Node, input *generate.Input) ([]byte, error) {
 	cfg, err := GenerateNodeConfig(node, input)
 	if err != nil {
 		return nil, err
@@ -16,7 +16,7 @@ func GenerateNodeConfigBytes(node *config.Nodes, input *generate.Input) ([]byte,
 	return cfg.Bytes()
 }
 
-func GenerateNodeConfig(node *config.Nodes, input *generate.Input) (taloscfg.Provider, error) {
+func GenerateNodeConfig(node *config.Node, input *generate.Input) (taloscfg.Provider, error) {
 	var c taloscfg.Provider
 	var err error
 
@@ -43,7 +43,7 @@ func GenerateNodeConfig(node *config.Nodes, input *generate.Input) (taloscfg.Pro
 	return cfg, nil
 }
 
-func applyNodeOverride(node *config.Nodes, cfg taloscfg.Provider) taloscfg.Provider {
+func applyNodeOverride(node *config.Node, cfg taloscfg.Provider) taloscfg.Provider {
 	cfg.RawV1Alpha1().MachineConfig.MachineNetwork.NetworkHostname = node.Hostname
 
 	if len(node.Nameservers) > 0 {
