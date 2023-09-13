@@ -1,0 +1,56 @@
+---
+name: Deploy docs
+on:
+  workflow_dispatch: {}
+  release:
+    types:
+      - published
+  push:
+    branches:
+      - master
+      - main
+    paths:
+      - docs
+permissions:
+  contents: write
+jobs:
+  deploy-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: cachix/install-nix-action@v23
+      - uses: workflow/nix-shell-action@v3.3.0
+        with:
+          working-directory: docs
+          flakes-from-devshell: true
+          script: |
+            git config user.name github-actions
+            git config user.email github-actions@github.com
+
+            ## Deploy to dev on push events and exit
+            if [ "$GITHUB_REF_NAME" == "master" ] || [ "$GITHUB_REF_NAME" == "main" ]; then
+              mike deploy develop --push --allow-empty
+              exit 0
+            fi
+
+            mike_versions=$(mike list -j)
+
+            ## Retitle all versions back to its original
+            for item in $(echo "$mike_versions" | jq -c '.[]'); do
+              title=$(echo "$item" | jq -r '.title')
+              version=$(echo "$item" | jq -r '.version')
+
+              if [ "$title" == "latest" ]; then
+                mike retitle "$version" "$version"
+              fi
+            done
+
+            major="${GITHUB_REF_NAME%%.*}"
+            minor="${GITHUB_REF_NAME#*.}"
+            minor="${minor%%.*}"
+            maj_min="$major"."$minor"
+
+            mike deploy "$maj_min" latest --title latest --update-aliases --allow-empty
+            mike set-default latest --push
