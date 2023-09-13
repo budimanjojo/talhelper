@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="budimanjojo" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Installation - Talhelper</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link href="../css/extra.css" rel="stylesheet" />
+        <link href="../css/highlight.css" rel="stylesheet" />
+        <link href="../css/version-select.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Installation";
+        var mkdocs_page_input_path = "installation.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <script src="../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]--> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="..">
+          <img src="../img/logo.svg" class="logo" alt="Logo"/>
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Introduction</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../getting-started/">Getting Started</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Installation</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#using-aqua">Using aqua</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#using-asdf">Using asdf</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#using-homebrew">Using Homebrew</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#using-nix-flakes">Using Nix Flakes</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#using-aur">Using AUR</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#using-scoop">Using Scoop</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#using-one-liner-with-jpillora">Using one liner with jpillora</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#from-the-release-page">From the release page</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../guides/">Guides</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../reference/cli/">CLI</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../reference/configuration/">Configuration</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../reference/supported-version/">Supported Talos Versions</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">GitHub</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="" href="https://github.com/budimanjojo/talhelper">Homepage</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="https://github.com/budimanjojo/talhelper/issues">Issue Tracker</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../contributing/">Contributing</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="https://github.com/sponsors/budimanjojo">Sponsor Me</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Talhelper</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+      <li>Installation</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="installation">Installation</h1>
+<p>There are several ways to install <code>talhelper</code> to your workstation.</p>
+<h2 id="using-aqua">Using aqua</h2>
+<p>You can get <code>talhelper</code> from the standard registry as <code>budimanjojo/talhelper</code>.</p>
+<h2 id="using-asdf">Using asdf</h2>
+<p>You can get <code>talhelper</code> with a <a href="https://github.com/bjw-s/asdf-talhelper">plugin</a> maintained by <a href="https://github.com/bjw-s">@bjw-s</a>.</p>
+<ul>
+<li>
+<p>Add the plugin</p>
+<div class="highlight"><pre><span></span><code>asdf<span class="w"> </span>plugin<span class="w"> </span>add<span class="w"> </span>talhelper
+</code></pre></div>
+</li>
+<li>
+<p>Install the program</p>
+<div class="highlight"><pre><span></span><code>asdf<span class="w"> </span>install<span class="w"> </span>talhelper<span class="w"> </span>latest
+</code></pre></div>
+</li>
+</ul>
+<h2 id="using-homebrew">Using Homebrew</h2>
+<p>You can get <code>talhelper</code> from the official formulae (thanks to <a href="https://github.com/ishioni">@ishioni</a>).</p>
+<div class="highlight"><pre><span></span><code>brew install talhelper
+</code></pre></div>
+<h2 id="using-nix-flakes">Using Nix Flakes</h2>
+<p>You can get <code>talhelper</code> as <a href="https://nixos.wiki/wiki/Flakes">Nix Flakes</a> from the <a href="https://github.com/budimanjojo/talhelper">repository</a>.</p>
+<ul>
+<li>
+<p>Add the repository as input in your <code>flake.nix</code> file</p>
+<div class="highlight"><pre><span></span><code><span class="p">{</span>
+  <span class="ss">inputs =</span> <span class="p">{</span>
+    talhelper<span class="o">.</span><span class="ss">url =</span> <span class="s2">&quot;github:budimanjojo/talhelper&quot;</span><span class="p">;</span>
+  <span class="p">}</span>
+<span class="p">}</span>
+</code></pre></div>
+</li>
+<li>
+<p>The package is now available at <code>packages.&lt;system&gt;.default</code> of the flake. You can call it in your <code>home.packages</code> or <code>environment.systemPackages</code> or <code>devShell</code> by referencing the input as <code>inputs.talhelper.packages.&lt;system&gt;.default</code>.</p>
+</li>
+</ul>
+<h2 id="using-aur">Using AUR</h2>
+<p>You can get <code>talhelper</code> from <a href="https://aur.archlinux.org/packages/talhelper-bin">AUR</a> using any <a href="https://wiki.archlinux.org/title/AUR_helpers">AUR helper</a> if you're Arch Linux user btw.</p>
+<p>Example using <a href="https://github.com/Jguer/yay"><code>yay</code></a>:
+<div class="highlight"><pre><span></span><code>yay<span class="w"> </span>-S<span class="w"> </span>talhelper-bin
+</code></pre></div></p>
+<h2 id="using-scoop">Using Scoop</h2>
+<p>You can get <code>talhelper</code> from <a href="https://scoop.sh/">Scoop</a> if you're a Windows user (thanks to <a href="https://github.com/dedene">@dedene</a>).</p>
+<div class="highlight"><pre><span></span><code><span class="n">scoop</span> <span class="n">bucket</span> <span class="n">add</span> <span class="n">budimanjojo</span> <span class="n">https</span><span class="p">://</span><span class="n">github</span><span class="p">.</span><span class="n">com</span><span class="p">/</span><span class="n">budimanjojo</span><span class="p">/</span><span class="n">talhelper</span><span class="p">.</span><span class="n">git</span>
+<span class="n">scoop</span> <span class="n">install</span> <span class="n">talhelper</span>
+</code></pre></div>
+<h2 id="using-one-liner-with-jpillora">Using one liner with jpillora</h2>
+<p>You can get <code>talhelper</code> using this one liner using tool provided by <a href="https://github.com/jpillora/installer">jpillora</a>.</p>
+<div class="highlight"><pre><span></span><code>curl<span class="w"> </span>https://i.jpillora.com/budimanjojo/talhelper!<span class="w"> </span><span class="p">|</span><span class="w"> </span>sudo<span class="w"> </span>bash
+</code></pre></div>
+<h2 id="from-the-release-page">From the release page</h2>
+<p>If none of the above works for you, you can download the archived binary for your system from the <a href="https://github.com/budimanjojo/talhelper/releases/latest">latest release page</a>.</p>
+<p>Please let me know if you want to help with adding new installation method by <a href="https://github.com/budimanjojo/talhelper/issues/new">creating a new issue</a>.</p>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../getting-started/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../guides/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../js/version-select.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
