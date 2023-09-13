@@ -19,10 +19,12 @@
       }: {
         packages.default = pkgs.callPackage ./default.nix {};
         devShells.default = with pkgs; mkShell {
-          name = "talhelper-dev";
+          name = "talhelper-docs-dev";
           packages = [
-            gcc
-            go_1_21
+            python311Packages.mkdocs
+            python311Packages.pymdown-extensions
+            python311Packages.pygments
+            python311Packages.mike
           ];
         };
       };
