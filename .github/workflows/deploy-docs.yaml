@@ -10,7 +10,7 @@ on:
       - master
       - main
     paths:
-      - docs
+      - docs/**
 permissions:
   contents: write
 jobs:
