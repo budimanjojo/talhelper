@@ -83,7 +83,7 @@ func checkSupportedK8sVersion(c TalhelperConfig, result *Errors) *Errors {
 		)
 
 		// stop here if `c.TalosVersion` is not right
-		if !isSemVer(c.TalosVersion) {
+		if c.TalosVersion != "" && !isSemVer(c.TalosVersion) {
 			return result.Append(&Error{
 				Kind:  "InvalidKubernetesVersion",
 				Field: getFieldYamlTag(c, "KubernetesVersion"),
