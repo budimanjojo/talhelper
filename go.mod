@@ -6,7 +6,7 @@ require (
 	github.com/a8m/envsubst v1.4.2
 	github.com/evanphx/json-patch v5.7.0+incompatible
 	github.com/fatih/color v1.15.0
-	github.com/go-yaml/yaml v2.1.0+incompatible
+	github.com/go-yaml/yaml/v3 v3.0.1
 	github.com/gookit/validate v1.5.1
 	github.com/hashicorp/go-multierror v1.1.1
 	github.com/hexops/gotextdiff v1.0.3
