@@ -3,7 +3,7 @@ package config
 import (
 	"os"
 
-	"github.com/go-yaml/yaml"
+	"gopkg.in/yaml.v3"
 )
 
 // NewFromByte takes bytes and convert it into Talhelper config.
