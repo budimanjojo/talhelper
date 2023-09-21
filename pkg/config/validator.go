@@ -327,9 +327,11 @@ func checkNodeMachineDisks(node Node, idx int, result *Errors) *Errors {
 func checkNodeMachineFiles(node Node, idx int, result *Errors) *Errors {
 	if node.MachineFiles != nil {
 		var messages *multierror.Error
+		pattern := `^create$|^append$|^overwrite$`
+		re := regexp.MustCompile(pattern)
 
 		for _, file := range node.MachineFiles {
-			if match, _ := regexp.MatchString(`^create$|^append$|^overwrite$`, file.FileOp); !match {
+			if !re.MatchString(file.FileOp) {
 				messages = multierror.Append(messages, fmt.Errorf("%q is not a valid operation name (create,append,overwrite)", file.Op()))
 			}
 			if !validate.IsUnixPath(file.Path()) {
@@ -526,7 +528,7 @@ func formatError(e *multierror.Error) *multierror.Error {
 		for i, err := range es {
 			points[i] = fmt.Sprintf("  * %s", err)
 		}
-		return fmt.Sprintf("%s", strings.Join(points, "\n"))
+		return strings.Join(points, "\n")
 	}
 	return e
 }
