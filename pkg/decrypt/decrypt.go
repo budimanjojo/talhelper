@@ -3,7 +3,7 @@ package decrypt
 import (
 	"os"
 
-	"go.mozilla.org/sops/v3/decrypt"
+	"github.com/getsops/sops/v3/decrypt"
 	"sigs.k8s.io/yaml"
 )
 
