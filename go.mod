@@ -6,7 +6,6 @@ require (
 	github.com/a8m/envsubst v1.4.2
 	github.com/evanphx/json-patch v5.7.0+incompatible
 	github.com/fatih/color v1.15.0
-	github.com/ghodss/yaml v1.0.0
 	github.com/go-yaml/yaml v2.1.0+incompatible
 	github.com/gookit/validate v1.5.1
 	github.com/hashicorp/go-multierror v1.1.1
@@ -49,6 +48,7 @@ require (
 	github.com/containernetworking/cni v1.1.2 // indirect
 	github.com/dimchansky/utfbom v1.1.1 // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect
+	github.com/ghodss/yaml v1.0.0 // indirect
 	github.com/golang-jwt/jwt/v4 v4.3.0 // indirect
 	github.com/golang/groupcache v0.0.0-20210331224755-41bb18bfe9da // indirect
 	github.com/golang/protobuf v1.5.3 // indirect
