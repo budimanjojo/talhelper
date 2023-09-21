@@ -7,7 +7,6 @@ import (
 	"os"
 
 	"github.com/budimanjojo/talhelper/pkg/config"
-	"github.com/budimanjojo/talhelper/pkg/config/validate"
 	"github.com/budimanjojo/talhelper/pkg/decrypt"
 	"github.com/budimanjojo/talhelper/pkg/generate"
 	"github.com/budimanjojo/talhelper/pkg/substitute"
@@ -61,14 +60,15 @@ var (
 				log.Fatalf("failed to substitute env: %s", err)
 			}
 
-			prob, err := validate.ValidateFromByte(talCfg)
+			prob, err := config.ValidateFromByte(talCfg)
 			if err != nil {
 				log.Fatalf("failed to validate talhelper config file: %s", err)
 			}
-			if prob != nil {
+			if len(prob) > 0 {
 				color.Red("There are issues with your talhelper config file:")
 				for _, v := range prob {
-					fmt.Printf("- " + v.One() + "\n")
+					color.Yellow("field: %q\n", v.Field)
+					fmt.Printf(v.Message.Error() + "\n")
 				}
 				os.Exit(1)
 			}

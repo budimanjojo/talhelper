@@ -17,7 +17,7 @@ type TalhelperConfig struct {
 	ClusterSvcNets                 []string     `yaml:"clusterSvcNets,omitempty"`
 	CNIConfig                      cniConfig    `yaml:"cniConfig,omitempty"`
 	Patches                        []string     `yaml:"patches,omitempty"`
-	Nodes                          []Node      `yaml:"nodes"`
+	Nodes                          []Node       `yaml:"nodes"`
 	ControlPlane                   controlPlane `yaml:"controlPlane,omitempty"`
 	Worker                         worker       `yaml:"worker,omitempty"`
 }

@@ -1,20 +1,20 @@
-package validate
+package config
 
 import (
 	"os"
 
-	"github.com/ghodss/yaml"
+	"github.com/go-yaml/yaml"
 )
 
 // NewFromByte takes bytes and convert it into Talhelper config.
 // It also returns an error, if any.
-func NewFromByte(source []byte) (Config, error) {
+func NewFromByte(source []byte) (TalhelperConfig, error) {
 	return newConfig(source)
 }
 
 // NewFromFile takes a file path and convert the contents into Talhelper config.
 // It also returns an error, if any.
-func NewFromFile(path string) (c Config, err error) {
+func NewFromFile(path string) (c TalhelperConfig, err error) {
 	source, err := fromFile(path)
 	if err != nil {
 		return c, err
@@ -30,10 +30,10 @@ func fromFile(path string) ([]byte, error) {
 
 // newConfig takes bytes and convert it into Talhelper config.
 // It also returns an error, if any.
-func newConfig(source []byte) (c Config, err error) {
+func newConfig(source []byte) (c TalhelperConfig, err error) {
 	err = yaml.Unmarshal(source, &c)
 	if err != nil {
-		return Config{}, err
+		return TalhelperConfig{}, err
 	}
 	return c, nil
 }
