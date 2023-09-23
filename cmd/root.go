@@ -16,7 +16,7 @@ Currently there is only one usage, which is creating a cluster config YAML file.
 Workflow:
   Create talconfig.yaml file defining your nodes information like so:
   ----------------------------------------
-  clustername: mycluster
+  clusterName: mycluster
   talosVersion: v1.0
   endpoint: https://192.168.200.10:6443
   nodes:
