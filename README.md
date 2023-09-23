@@ -8,7 +8,7 @@
   [![AUR link](https://img.shields.io/aur/version/talhelper-bin)](https://aur.archlinux.org/packages/talhelper-bin)
 
   <p align="center">
-    A helper tool to help creating Talos cluster in your GitOps repository.
+    A helper tool to help creating [Talos](https://www.talos.dev) cluster in your GitOps repository.
     <br />
     ·
     <a href="https://github.com/budimanjojo/talhelper/issues">Report Bug</a>
@@ -40,5 +40,6 @@ Thanks for those who are sponsoring or have sponsored my projects, it helps and 
 
 ## Acknowledgments
 
+* [Talos](https://github.com/siderolabs/talos) <- Obviously, for providing the code and everything
 * [bjw-s](https://github.com/bjw-s) <- The guy who inspired this tool
 * [k8s@home](https://github.com/k8s-at-home/) <- Best community of people running Kubernetes at home
