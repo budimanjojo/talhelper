@@ -179,6 +179,40 @@ Here's the simplified step by step to achieve this:</p>
 </li>
 <li>Run <code>doppler</code> CLI command that sets environment variable before running the <code>talhelper</code> command i.e: <code>doppler run -p talhelper -c env talhelper genconfig</code>.</li>
 </ol>
+<p>Thanks to <a href="https://github.com/jtcressy">@jtcressy</a> you can also make use of <code>talsecret.yaml</code> file (which is a better way than doing <code>inlinePatch</code>).
+Note that you can only put the cluster secrets known by Talos here (you can use <code>talhelper gensecret</code> command and modify it).
+Here's the simplified step by step to achieve this:</p>
+<ol>
+<li>
+<p>In <code>talsecret.yaml</code> file, put all your secrets with <code>${}</code> placeholder like this:</p>
+<p><div class="highlight"><pre><span></span><code><span class="nt">cluster</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${CLUSTERNAME}</span>
+<span class="w">  </span><span class="nt">secret</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${CLUSTERSECRET}</span>
+<span class="nt">secrets</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">bootstraptoken</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${BOOTSTRAPTOKEN}</span>
+<span class="w">  </span><span class="nt">secretboxencryptionsecret</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${AESCBCENCYPTIONKEY}</span>
+<span class="nt">trustdinfo</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${TRUSTDTOKEN}</span>
+<span class="nt">certs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">etcd</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">crt</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${ETCDCERT}</span>
+<span class="w">    </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${ETCDKEY}</span>
+<span class="w">  </span><span class="nt">k8s</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">crt</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${K8SCERT}</span>
+<span class="w">    </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${K8SKEY}</span>
+<span class="w">  </span><span class="nt">k8saggregator</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">crt</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${K8SAGGCERT}</span>
+<span class="w">    </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${K8SAGGKEY}</span>
+<span class="w">  </span><span class="nt">k8sserviceaccount</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${K8SSAKEY}</span>
+<span class="w">  </span><span class="nt">os</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">crt</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${OSCERT}</span>
+<span class="w">    </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${OSKEY}</span>
+</code></pre></div>
+2. In <code>doppler</code>, create a project named i.e "talhelper". In that project, create a config i.e "env" that stores key and value of the secret like <code>AESCBCENCYPTIONKEY: &lt;secret&gt;.</code>.
+3. Run <code>doppler</code> CLI command that sets environment variable before running the <code>talhelper</code> command i.e: <code>doppler run -p talhelper -c env talhelper genconfig</code>.</p>
+</li>
+</ol>
 <h2 id="shell-completion">Shell completion</h2>
 <p>Depending on how you install <code>talhelper</code>, you might not need to do anything to get autocompletion for <code>talhelper</code> commands i.e if you install using the Nix Flakes or AUR.</p>
 <p>If you don't get it working out of the box, you can use <code>talhelper completion</code> command to generate autocompletion for your shell.</p>
