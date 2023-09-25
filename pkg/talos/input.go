@@ -3,15 +3,16 @@ package talos
 import (
 	"github.com/budimanjojo/talhelper/pkg/config"
 	"github.com/budimanjojo/talhelper/pkg/decrypt"
+	"github.com/budimanjojo/talhelper/pkg/substitute"
 	tconfig "github.com/siderolabs/talos/pkg/machinery/config"
-	"github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1"
 	"github.com/siderolabs/talos/pkg/machinery/config/generate"
 	"github.com/siderolabs/talos/pkg/machinery/config/generate/secrets"
+	"github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1"
 	"gopkg.in/yaml.v3"
 )
 
 // NewClusterInput takes `Talhelper` config and path to encrypted `secretFile` and
-// returns Talos `generate.Input`. It also returns an error, if any. 
+// returns Talos `generate.Input`. It also returns an error, if any.
 func NewClusterInput(c *config.TalhelperConfig, secretFile string) (*generate.Input, error) {
 	kubernetesVersion := c.GetK8sVersion()
 
@@ -24,6 +25,11 @@ func NewClusterInput(c *config.TalhelperConfig, secretFile string) (*generate.In
 
 	if secretFile != "" {
 		decrypted, err := decrypt.DecryptYamlWithSops(secretFile)
+		if err != nil {
+			return nil, err
+		}
+
+		decrypted, err = substitute.SubstituteEnvFromByte(decrypted)
 		if err != nil {
 			return nil, err
 		}

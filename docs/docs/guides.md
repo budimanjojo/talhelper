@@ -79,6 +79,40 @@ Here's the simplified step by step to achieve this:
 2. In `doppler`, create a project named i.e "talhelper". In that project, create a config i.e "env" that stores key and value of the secret like `AESCBCENCYPTIONKEY: <secret>.`.
 3. Run `doppler` CLI command that sets environment variable before running the `talhelper` command i.e: `doppler run -p talhelper -c env talhelper genconfig`.
 
+Thanks to [@jtcressy](https://github.com/jtcressy) you can also make use of `talsecret.yaml` file (which is a better way than doing `inlinePatch`).
+Note that you can only put the cluster secrets known by Talos here (you can use `talhelper gensecret` command and modify it).
+Here's the simplified step by step to achieve this:
+
+1. In `talsecret.yaml` file, put all your secrets with `${}` placeholder like this:
+
+    ```yaml
+    cluster:
+      id: ${CLUSTERNAME}
+      secret: ${CLUSTERSECRET}
+    secrets:
+      bootstraptoken: ${BOOTSTRAPTOKEN}
+      secretboxencryptionsecret: ${AESCBCENCYPTIONKEY}
+    trustdinfo:
+      token: ${TRUSTDTOKEN}
+    certs:
+      etcd:
+        crt: ${ETCDCERT}
+        key: ${ETCDKEY}
+      k8s:
+        crt: ${K8SCERT}
+        key: ${K8SKEY}
+      k8saggregator:
+        crt: ${K8SAGGCERT}
+        key: ${K8SAGGKEY}
+      k8sserviceaccount:
+        key: ${K8SSAKEY}
+      os:
+        crt: ${OSCERT}
+        key: ${OSKEY}
+    ```
+2. In `doppler`, create a project named i.e "talhelper". In that project, create a config i.e "env" that stores key and value of the secret like `AESCBCENCYPTIONKEY: <secret>.`.
+3. Run `doppler` CLI command that sets environment variable before running the `talhelper` command i.e: `doppler run -p talhelper -c env talhelper genconfig`.
+
 ## Shell completion
 
 Depending on how you install `talhelper`, you might not need to do anything to get autocompletion for `talhelper` commands i.e if you install using the Nix Flakes or AUR.

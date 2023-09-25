@@ -14,7 +14,8 @@ type sopsFile struct {
 // DecryptYamlWithSops reads a `sops` encrypted `yaml` file path
 // and decrypt the content using `sops/v3/decrypt.Data`.
 // The unencrypted data will be returned bytes.
-// Error will be returned when file is not encrypted with `sops`.
+// Data will be returned as it is if file is not encrypted with
+// `sops`. Error will be returned when decryption fails.
 func DecryptYamlWithSops(filePath string) ([]byte, error) {
 	data, err := os.ReadFile(filePath)
 	if err != nil {
