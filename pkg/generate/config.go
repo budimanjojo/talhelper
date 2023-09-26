@@ -177,13 +177,13 @@ func dumpFile(path string, file []byte) error {
 
 	_, err := os.Stat(dirName)
 	if err != nil {
-		err := os.MkdirAll(dirName, 0700)
+		err := os.MkdirAll(dirName, 0o700)
 		if err != nil {
 			return err
 		}
 	}
 
-	err = os.WriteFile(path, file, 0600)
+	err = os.WriteFile(path, file, 0o600)
 	if err != nil {
 		return err
 	}

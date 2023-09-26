@@ -7,10 +7,8 @@ import (
 	"github.com/siderolabs/talos/pkg/machinery/constants"
 )
 
-var (
-	// renovate: depName=siderolabs/talos datasource=github-releases
-	LatestTalosVersion = "v1.5.3"
-)
+// renovate: depName=siderolabs/talos datasource=github-releases
+var LatestTalosVersion = "v1.5.3"
 
 // GetK8sVersion returns Kubernetes version string without `v` prefix.
 func (c *TalhelperConfig) GetK8sVersion() string {

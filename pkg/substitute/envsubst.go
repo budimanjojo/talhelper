@@ -37,7 +37,7 @@ func SubstituteEnvFromByte(file []byte) ([]byte, error) {
 
 // stripYamlComment takes yaml bytes and returns them back with
 // comments stripped.
-func stripYamlComment(file []byte) ([]byte) {
+func stripYamlComment(file []byte) []byte {
 	// FIXME use better logic than regex.
 	re := regexp.MustCompile(".?#.*\n")
 	first := re.ReplaceAllFunc(file, func(b []byte) []byte {

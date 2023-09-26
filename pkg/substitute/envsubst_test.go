@@ -32,7 +32,6 @@ d: default value
 	result, _ := SubstituteEnvFromByte([]byte(file))
 	if expected != string(result) {
 		t.Errorf("got %s, want %s", string(result), expected)
-
 	}
 }
 
@@ -43,9 +42,9 @@ env3: 123
 default: default value
 `
 	expected := map[string]string{
-		"env1": "value1",
-		"env2": "true",
-		"env3": "123",
+		"env1":    "value1",
+		"env2":    "true",
+		"env3":    "123",
 		"default": "default value",
 	}
 
@@ -59,5 +58,4 @@ default: default value
 			t.Errorf("got %s, want %s", result, v)
 		}
 	}
-
 }

@@ -29,7 +29,7 @@ func (config *TalhelperConfig) GenerateGitignore(outputDir string) error {
 func createGitIgnore(path, line string) error {
 	ignorefPath := path + "/.gitignore"
 
-	file, err := os.OpenFile(ignorefPath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
+	file, err := os.OpenFile(ignorefPath, os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0o644)
 	if err != nil {
 		return err
 	}

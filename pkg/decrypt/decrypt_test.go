@@ -9,12 +9,12 @@ import (
 func TestIsSopsEncrypted(t *testing.T) {
 	var m1 *sopsFile
 	var m2 *sopsFile
-	var data1 = `
+	data1 := `
 this:
   is:
     not: encrypted`
 
-	var data2 = `
+	data2 := `
 this:
   is:
     super: encrypted

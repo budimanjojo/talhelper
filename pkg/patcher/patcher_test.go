@@ -32,7 +32,6 @@ func TestApplyPatchFromYaml(t *testing.T) {
 	}
 	if expected != string(result) {
 		t.Errorf("got %s, want %s", string(result), expected)
-
 	}
 }
 
@@ -66,7 +65,6 @@ func TestYAMLInlinePatcher(t *testing.T) {
 	}
 	if expected != string(result) {
 		t.Errorf("got %s, want %s", string(result), expected)
-
 	}
 }
 
@@ -122,6 +120,5 @@ version: v1alpha1
 
 	if string(expectedByte) != string(result) {
 		t.Errorf("got %s, want %s", string(result), string(expectedByte))
-
 	}
 }

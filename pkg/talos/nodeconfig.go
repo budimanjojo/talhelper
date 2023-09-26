@@ -2,10 +2,10 @@ package talos
 
 import (
 	"github.com/budimanjojo/talhelper/pkg/config"
-	"github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1"
 	taloscfg "github.com/siderolabs/talos/pkg/machinery/config"
 	"github.com/siderolabs/talos/pkg/machinery/config/generate"
 	"github.com/siderolabs/talos/pkg/machinery/config/machine"
+	"github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1"
 )
 
 func GenerateNodeConfigBytes(node *config.Node, input *generate.Input) ([]byte, error) {

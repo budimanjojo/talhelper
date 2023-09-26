@@ -26,85 +26,83 @@ var (
 	genconfigDryRun      bool
 )
 
-var (
-	genconfigCmd = &cobra.Command{
-		Use:   "genconfig",
-		Short: "Generate Talos cluster config YAML files",
-		Args:  cobra.NoArgs,
-		Run: func(cmd *cobra.Command, args []string) {
-			talCfg, err := os.ReadFile(genconfigCfgFile)
-			if err != nil {
-				log.Fatalf("failed to read config file: %s", err)
-			}
+var genconfigCmd = &cobra.Command{
+	Use:   "genconfig",
+	Short: "Generate Talos cluster config YAML files",
+	Args:  cobra.NoArgs,
+	Run: func(cmd *cobra.Command, args []string) {
+		talCfg, err := os.ReadFile(genconfigCfgFile)
+		if err != nil {
+			log.Fatalf("failed to read config file: %s", err)
+		}
 
-			for _, talEnv := range genconfigEnvFile {
-				if _, err := os.Stat(talEnv); err == nil {
-					env, err := decrypt.DecryptYamlWithSops(talEnv)
-					if err != nil {
-						log.Fatalf("failed to decrypt/read env file %s: %s", talEnv, err)
-					}
-
-					err = substitute.LoadEnv(env)
-					if err != nil {
-						log.Fatalf("failed to load env variables from file %s: %s", talEnv, err)
-					}
-				} else if errors.Is(err, os.ErrNotExist) {
-					continue
-				} else {
-					log.Fatalf("failed to stat env file %s: %s ", talEnv, err)
-				}
-			}
-
-			talCfg, err = substitute.SubstituteEnvFromByte(talCfg)
-			if err != nil {
-				log.Fatalf("failed to substitute env: %s", err)
-			}
-
-			prob, err := config.ValidateFromByte(talCfg)
-			if err != nil {
-				log.Fatalf("failed to validate talhelper config file: %s", err)
-			}
-			if len(prob) > 0 {
-				color.Red("There are issues with your talhelper config file:")
-				for _, v := range prob {
-					color.Yellow("field: %q\n", v.Field)
-					fmt.Printf(v.Message.Error() + "\n")
-				}
-				os.Exit(1)
-			}
-
-			var m config.TalhelperConfig
-
-			err = yaml.Unmarshal(talCfg, &m)
-			if err != nil {
-				log.Fatalf("failed to unmarshal data: %s", err)
-			}
-
-			var secretFile string
-			for _, file := range genconfigSecretFile {
-				if _, err := os.Stat(file); err == nil {
-					secretFile = file
-				} else if errors.Is(err, os.ErrNotExist) {
-					continue
-				} else {
-					log.Fatalf("failed to stat secret file %s: %s ", file, err)
-				}
-			}
-
-			err = generate.GenerateConfig(&m, genconfigDryRun, genconfigOutDir, secretFile, genconfigTalosMode)
-			if err != nil {
-				log.Fatalf("failed to generate talos config: %s", err)
-			}
-
-			if !genconfigNoGitignore && !genconfigDryRun {
-				err = m.GenerateGitignore(genconfigOutDir)
+		for _, talEnv := range genconfigEnvFile {
+			if _, err := os.Stat(talEnv); err == nil {
+				env, err := decrypt.DecryptYamlWithSops(talEnv)
 				if err != nil {
-					log.Fatalf("failed to generate gitignore file: %s", err)
+					log.Fatalf("failed to decrypt/read env file %s: %s", talEnv, err)
 				}
+
+				err = substitute.LoadEnv(env)
+				if err != nil {
+					log.Fatalf("failed to load env variables from file %s: %s", talEnv, err)
+				}
+			} else if errors.Is(err, os.ErrNotExist) {
+				continue
+			} else {
+				log.Fatalf("failed to stat env file %s: %s ", talEnv, err)
 			}
-		},
-	}
-)
+		}
+
+		talCfg, err = substitute.SubstituteEnvFromByte(talCfg)
+		if err != nil {
+			log.Fatalf("failed to substitute env: %s", err)
+		}
+
+		prob, err := config.ValidateFromByte(talCfg)
+		if err != nil {
+			log.Fatalf("failed to validate talhelper config file: %s", err)
+		}
+		if len(prob) > 0 {
+			color.Red("There are issues with your talhelper config file:")
+			for _, v := range prob {
+				color.Yellow("field: %q\n", v.Field)
+				fmt.Printf(v.Message.Error() + "\n")
+			}
+			os.Exit(1)
+		}
+
+		var m config.TalhelperConfig
+
+		err = yaml.Unmarshal(talCfg, &m)
+		if err != nil {
+			log.Fatalf("failed to unmarshal data: %s", err)
+		}
+
+		var secretFile string
+		for _, file := range genconfigSecretFile {
+			if _, err := os.Stat(file); err == nil {
+				secretFile = file
+			} else if errors.Is(err, os.ErrNotExist) {
+				continue
+			} else {
+				log.Fatalf("failed to stat secret file %s: %s ", file, err)
+			}
+		}
+
+		err = generate.GenerateConfig(&m, genconfigDryRun, genconfigOutDir, secretFile, genconfigTalosMode)
+		if err != nil {
+			log.Fatalf("failed to generate talos config: %s", err)
+		}
+
+		if !genconfigNoGitignore && !genconfigDryRun {
+			err = m.GenerateGitignore(genconfigOutDir)
+			if err != nil {
+				log.Fatalf("failed to generate gitignore file: %s", err)
+			}
+		}
+	},
+}
 
 func init() {
 	rootCmd.AddCommand(genconfigCmd)

@@ -19,8 +19,8 @@ import (
 func checkRequiredCfg(c TalhelperConfig, result *Errors) *Errors {
 	if c.ClusterName == "" {
 		e := &Error{
-			Kind:    "ClusterNameRequired",
-			Field:   getFieldYamlTag(c, "ClusterName"),
+			Kind:  "ClusterNameRequired",
+			Field: getFieldYamlTag(c, "ClusterName"),
 		}
 		e.Message = formatError(multierror.Append(fmt.Errorf("%q is required to be not empty", e.Field)))
 		result.Append(e)
@@ -28,8 +28,8 @@ func checkRequiredCfg(c TalhelperConfig, result *Errors) *Errors {
 
 	if c.Endpoint == "" {
 		e := &Error{
-			Kind:    "EndpointRequired",
-			Field:   getFieldYamlTag(c, "Endpoint"),
+			Kind:  "EndpointRequired",
+			Field: getFieldYamlTag(c, "Endpoint"),
 		}
 		e.Message = formatError(multierror.Append(fmt.Errorf("%q is required to be not empty", e.Field)))
 		result.Append(e)
@@ -37,8 +37,8 @@ func checkRequiredCfg(c TalhelperConfig, result *Errors) *Errors {
 
 	if len(c.Nodes) == 0 {
 		e := &Error{
-			Kind:    "NodesRequired",
-			Field:   getFieldYamlTag(c, "Nodes"),
+			Kind:  "NodesRequired",
+			Field: getFieldYamlTag(c, "Nodes"),
 		}
 		e.Message = formatError(multierror.Append(fmt.Errorf("%q is required to be not empty", e.Field)))
 		result.Append(e)
@@ -66,7 +66,7 @@ func checkSupportedTalosVersion(c TalhelperConfig, result *Errors) *Errors {
 			return result
 		default:
 			return result.Append(&Error{
-				Kind: "InvalidTalosVersion",
+				Kind:    "InvalidTalosVersion",
 				Field:   getFieldYamlTag(c, "TalosVersion"),
 				Message: formatError(multierror.Append(fmt.Errorf("%q is not a supported Talos version", c.TalosVersion))),
 			})
@@ -85,8 +85,8 @@ func checkSupportedK8sVersion(c TalhelperConfig, result *Errors) *Errors {
 		// stop here if `c.TalosVersion` is not right
 		if c.TalosVersion != "" && !isSemVer(c.TalosVersion) {
 			return result.Append(&Error{
-				Kind:  "InvalidKubernetesVersion",
-				Field: getFieldYamlTag(c, "KubernetesVersion"),
+				Kind:    "InvalidKubernetesVersion",
+				Field:   getFieldYamlTag(c, "KubernetesVersion"),
 				Message: formatError(multierror.Append(fmt.Errorf("fix the issue on %q field", getFieldYamlTag(c, "TalosVersion")))),
 			})
 		}
@@ -117,8 +117,8 @@ func checkSupportedK8sVersion(c TalhelperConfig, result *Errors) *Errors {
 
 		if messages.ErrorOrNil() != nil {
 			return result.Append(&Error{
-				Kind:  "InvalidKubernetesVersion",
-				Field: getFieldYamlTag(c, "KubernetesVersion"),
+				Kind:    "InvalidKubernetesVersion",
+				Field:   getFieldYamlTag(c, "KubernetesVersion"),
 				Message: formatError(messages),
 			})
 		}
@@ -137,8 +137,8 @@ func checkTalosEndpoint(c TalhelperConfig, result *Errors) *Errors {
 
 		if messages.ErrorOrNil() != nil {
 			return result.Append(&Error{
-				Kind:  "InvalidTalosEndpoint",
-				Field: getFieldYamlTag(c, "Endpoint"),
+				Kind:    "InvalidTalosEndpoint",
+				Field:   getFieldYamlTag(c, "Endpoint"),
 				Message: formatError(messages),
 			})
 		}
@@ -150,8 +150,8 @@ func checkDomain(c TalhelperConfig, result *Errors) *Errors {
 	if c.Domain != "" {
 		if !isDomain(c.Domain) {
 			return result.Append(&Error{
-				Kind:  "InvalidDomain",
-				Field: getFieldYamlTag(c, "Domain"),
+				Kind:    "InvalidDomain",
+				Field:   getFieldYamlTag(c, "Domain"),
 				Message: formatError(multierror.Append(fmt.Errorf("%q is not a valid domain", c.Domain))),
 			})
 		}
@@ -208,8 +208,8 @@ func checkCNIConfig(c TalhelperConfig, result *Errors) *Errors {
 
 		if messages.ErrorOrNil() != nil {
 			return result.Append(&Error{
-				Kind:  "InvalidCNIConfig",
-				Field: getFieldYamlTag(c, "CNIConfig"),
+				Kind:    "InvalidCNIConfig",
+				Field:   getFieldYamlTag(c, "CNIConfig"),
 				Message: formatError(messages),
 			})
 		}
@@ -221,8 +221,8 @@ func checkControlPlane(c TalhelperConfig, result *Errors) *Errors {
 	if len(c.ControlPlane.ConfigPatches) > 0 {
 		if !isRFC6902List(c.ControlPlane.ConfigPatches) {
 			result = result.Append(&Error{
-				Kind: "InvalidControlPlaneConfigPatches",
-				Field: getFieldYamlTag(c, "ControlPlane.ConfigPatches"),
+				Kind:    "InvalidControlPlaneConfigPatches",
+				Field:   getFieldYamlTag(c, "ControlPlane.ConfigPatches"),
 				Message: formatError(multierror.Append(fmt.Errorf("doesn't look like list of RFC6902 JSON patches"))),
 			})
 		}
@@ -234,8 +234,8 @@ func checkWorker(c TalhelperConfig, result *Errors) *Errors {
 	if len(c.Worker.ConfigPatches) > 0 {
 		if !isRFC6902List(c.Worker.ConfigPatches) {
 			result = result.Append(&Error{
-				Kind: "InvalidWorkerConfigPatches",
-				Field: getFieldYamlTag(c, "Worker.ConfigPatches"),
+				Kind:    "InvalidWorkerConfigPatches",
+				Field:   getFieldYamlTag(c, "Worker.ConfigPatches"),
 				Message: formatError(multierror.Append(fmt.Errorf("doesn't look like list of RFC6902 JSON patches"))),
 			})
 		}
@@ -246,7 +246,7 @@ func checkWorker(c TalhelperConfig, result *Errors) *Errors {
 func checkNodeRequiredCfg(node Node, idx int, result *Errors) *Errors {
 	if node.Hostname == "" {
 		e := &Error{
-			Kind: "NodeHostnameRequired",
+			Kind:  "NodeHostnameRequired",
 			Field: getNodeFieldYamlTag(node, idx, "Hostname"),
 		}
 		e.Message = formatError(multierror.Append(fmt.Errorf("%q is required to be not empty", e.Field)))
@@ -255,7 +255,7 @@ func checkNodeRequiredCfg(node Node, idx int, result *Errors) *Errors {
 
 	if node.IPAddress == "" {
 		e := &Error{
-			Kind: "NodeIPAddressRequired",
+			Kind:  "NodeIPAddressRequired",
 			Field: getNodeFieldYamlTag(node, idx, "IPAddress"),
 		}
 		e.Message = formatError(multierror.Append(fmt.Errorf("%q is required to be not empty", e.Field)))
@@ -264,7 +264,7 @@ func checkNodeRequiredCfg(node Node, idx int, result *Errors) *Errors {
 
 	if node.InstallDisk == "" && node.InstallDiskSelector == nil {
 		e := &Error{
-			Kind: "NodeInstallRequired",
+			Kind:  "NodeInstallRequired",
 			Field: getNodeFieldYamlTag(node, idx, "InstallDisk"),
 		}
 		e.Message = formatError(multierror.Append(fmt.Errorf("%q is required to be not empty", e.Field)))
@@ -278,8 +278,8 @@ func checkNodeIPAddress(node Node, idx int, result *Errors) *Errors {
 	if node.IPAddress != "" {
 		if !isDomainOrIP(node.IPAddress) {
 			return result.Append(&Error{
-				Kind: "InvalidNodeIPAddress",
-				Field: getNodeFieldYamlTag(node, idx, "IPAddress"),
+				Kind:    "InvalidNodeIPAddress",
+				Field:   getNodeFieldYamlTag(node, idx, "IPAddress"),
 				Message: formatError(multierror.Append(fmt.Errorf("%q is not a valid domain or IP address", node.IPAddress))),
 			})
 		}
@@ -292,8 +292,8 @@ func checkNodeLabels(node Node, idx int, result *Errors) *Errors {
 		var messages *multierror.Error
 		if err := labels.Validate(node.NodeLabels); err != nil {
 			return result.Append(&Error{
-				Kind: "InvalidNodeLabels",
-				Field: getNodeFieldYamlTag(node, idx, "NodeLabels"),
+				Kind:    "InvalidNodeLabels",
+				Field:   getNodeFieldYamlTag(node, idx, "NodeLabels"),
 				Message: formatError(multierror.Append(messages, err)),
 			})
 		}
@@ -315,8 +315,8 @@ func checkNodeMachineDisks(node Node, idx int, result *Errors) *Errors {
 
 		if messages.ErrorOrNil() != nil {
 			return result.Append(&Error{
-				Kind: "InvalidMachineDisks",
-				Field: getNodeFieldYamlTag(node, idx, "MachineDisks"),
+				Kind:    "InvalidMachineDisks",
+				Field:   getNodeFieldYamlTag(node, idx, "MachineDisks"),
 				Message: formatError(messages),
 			})
 		}
@@ -341,8 +341,8 @@ func checkNodeMachineFiles(node Node, idx int, result *Errors) *Errors {
 
 		if messages.ErrorOrNil() != nil {
 			return result.Append(&Error{
-				Kind: "InvalidMachineFiles",
-				Field: getNodeFieldYamlTag(node, idx, "MachineFiles"),
+				Kind:    "InvalidMachineFiles",
+				Field:   getNodeFieldYamlTag(node, idx, "MachineFiles"),
 				Message: formatError(messages),
 			})
 		}
@@ -364,8 +364,8 @@ func checkNodeExtensions(node Node, idx int, result *Errors) *Errors {
 
 		if messages.ErrorOrNil() != nil {
 			return result.Append(&Error{
-				Kind: "InvalidNodeExtensions",
-				Field: getNodeFieldYamlTag(node, idx, "Extensions"),
+				Kind:    "InvalidNodeExtensions",
+				Field:   getNodeFieldYamlTag(node, idx, "Extensions"),
 				Message: formatError(messages),
 			})
 		}
@@ -380,8 +380,8 @@ func checkNodeNameServers(node Node, idx int, result *Errors) *Errors {
 			if !validate.IsIP(ip) {
 				e := fmt.Errorf("%q is not a valid list of IP addresses", node.Nameservers[:])
 				return result.Append(&Error{
-					Kind: "InvalidNodeNameservers",
-					Field: getNodeFieldYamlTag(node, idx, "Nameservers"),
+					Kind:    "InvalidNodeNameservers",
+					Field:   getNodeFieldYamlTag(node, idx, "Nameservers"),
 					Message: formatError(multierror.Append(e)),
 				})
 			}
@@ -445,10 +445,9 @@ func checkNodeNetworkInterfaces(node Node, idx int, result *Errors) *Errors {
 
 		if messages.ErrorOrNil() != nil {
 			return result.Append(&Error{
-				Kind:  "InvalidNodeNetworkInterfaces",
-				Field: getNodeFieldYamlTag(node, idx, "NetworkInterfaces"),
+				Kind:    "InvalidNodeNetworkInterfaces",
+				Field:   getNodeFieldYamlTag(node, idx, "NetworkInterfaces"),
 				Message: formatError(messages),
-
 			})
 		}
 	}
@@ -461,8 +460,8 @@ func checkNodeConfigPatches(node Node, idx int, result *Errors) *Errors {
 		if !isRFC6902List(node.ConfigPatches) {
 			e := fmt.Errorf("doesn't look like list of RFC6902 JSON patches")
 			return result.Append(&Error{
-				Kind: "InvalidNodeConfigPatches",
-				Field: getNodeFieldYamlTag(node, idx, "ConfigPatches"),
+				Kind:    "InvalidNodeConfigPatches",
+				Field:   getNodeFieldYamlTag(node, idx, "ConfigPatches"),
 				Message: formatError(multierror.Append(e)),
 			})
 		}

@@ -82,10 +82,10 @@ nodes:
 	}
 	expectedNode1MachineFiles := []*v1alpha1.MachineFile{
 		{
-			FileContent: "TS_AUTHKEY=123456",
+			FileContent:     "TS_AUTHKEY=123456",
 			FilePermissions: v1alpha1.FileMode(0o644),
-			FilePath: "/var/etc/tailscale/auth.env",
-			FileOp: "create",
+			FilePath:        "/var/etc/tailscale/auth.env",
+			FileOp:          "create",
 		},
 	}
 	expectedNode1NetworkInterfaces := v1alpha1.NetworkDeviceList{
@@ -103,7 +103,7 @@ nodes:
 	expectedNode1KernelModules := &v1alpha1.KernelConfig{
 		KernelModules: []*v1alpha1.KernelModuleConfig{
 			{
-				ModuleName: "br_netfilter",
+				ModuleName:       "br_netfilter",
 				ModuleParameters: []string{"nf_conntrack_max=131072"},
 			},
 		},
@@ -113,11 +113,11 @@ nodes:
 		Size: &v1alpha1.InstallDiskSizeMatcher{
 			MatchData: v1alpha1.InstallDiskSizeMatchData{
 				Size: 4000,
-				Op: "",
+				Op:   "",
 			},
 		},
-		Model: "WDC*",
-		Name: "/sys/block/sda/device/name",
+		Model:   "WDC*",
+		Name:    "/sys/block/sda/device/name",
 		BusPath: "/pci0000:00/0000:00:17.0/ata1/host0/target0:0:0/0:0:0:0",
 	}
 	expectedNode2MachineDisks := []*v1alpha1.MachineDisk{
