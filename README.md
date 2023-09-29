@@ -8,7 +8,7 @@
   [![AUR link](https://img.shields.io/aur/version/talhelper-bin)](https://aur.archlinux.org/packages/talhelper-bin)
 
   <p align="center">
-    A helper tool to help creating [Talos](https://www.talos.dev) cluster in your GitOps repository.
+    A helper tool to help creating <a href="https://www.talos.dev">Talos</a> cluster in your GitOps repository.
     <br />
     ·
     <a href="https://github.com/budimanjojo/talhelper/issues">Report Bug</a>
