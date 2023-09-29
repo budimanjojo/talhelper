@@ -3,7 +3,7 @@ clusterName: home-cluster
 talosVersion: v1.5.0-alpha.3
 kubernetesVersion: v1.27.0
 endpoint: https://192.168.200.10:6443
-domain: cluster.local
+domain: ${myDomainName}
 allowSchedulingOnMasters: true
 additionalMachineCertSans:
   - 192.168.200.10
