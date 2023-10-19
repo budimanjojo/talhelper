@@ -55,4 +55,4 @@ jobs:
             maj_min="$major"."$minor"
 
             mike deploy "$maj_min" latest --title latest --update-aliases --allow-empty
-            mike set-default latest --push
+            mike set-default latest --push --allow-empty
