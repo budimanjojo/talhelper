@@ -39,6 +39,7 @@ type Node struct {
 	ConfigPatches       []map[string]interface{}          `yaml:"configPatches,omitempty"`
 	InlinePatch         map[string]interface{}            `yaml:"inlinePatch,omitempty"`
 	Patches             []string                          `yaml:"patches,omitempty"`
+	TalosImageURL       string                            `yaml:"talosImageURL"`
 }
 
 type cniConfig struct {

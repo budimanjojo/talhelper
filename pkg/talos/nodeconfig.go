@@ -1,6 +1,8 @@
 package talos
 
 import (
+	"strings"
+
 	"github.com/budimanjojo/talhelper/pkg/config"
 	taloscfg "github.com/siderolabs/talos/pkg/machinery/config"
 	"github.com/siderolabs/talos/pkg/machinery/config/generate"
@@ -45,6 +47,11 @@ func GenerateNodeConfig(node *config.Node, input *generate.Input) (taloscfg.Prov
 
 func applyNodeOverride(node *config.Node, cfg taloscfg.Provider) taloscfg.Provider {
 	cfg.RawV1Alpha1().MachineConfig.MachineNetwork.NetworkHostname = node.Hostname
+
+	if node.TalosImageURL != "" {
+		version := strings.Split(cfg.Machine().Install().Image(), ":")
+		cfg.RawV1Alpha1().MachineConfig.MachineInstall.InstallImage = node.TalosImageURL + ":" + version[1]
+	}
 
 	if len(node.Nameservers) > 0 {
 		cfg.RawV1Alpha1().MachineConfig.MachineNetwork.NameServers = node.Nameservers

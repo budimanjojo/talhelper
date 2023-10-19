@@ -290,6 +290,18 @@ installDisk: /dev/sda
 </tr>
 
 <tr markdown="1">
+<td markdown="1">`talosImageURL`</td>
+<td markdown="1">string</td>
+<td markdown="1">Allows for supplying the node level image used to perform the installation.<details><summary>*Show example*</summary>
+```yaml
+talosImageURL: factory.talos.dev/installer/e9c7ef96884d4fbc8c0a1304ccca4bb0287d766a8b4125997cb9dbe84262144e
+```
+</details></td>
+<td markdown="1" align="center">`""`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+</tr>
+
+<tr markdown="1">
 <td markdown="1">`installDiskSelector`</td>
 <td markdown="1">[InstallDiskSelector](#installdiskselector)</td>
 <td markdown="1"><details><summary>Look up disk used for installation.</summary>Required if `installDisk` is not specified.</details><details><summary>*Show example*</summary>
