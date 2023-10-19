@@ -1,17 +1,17 @@
-{ buildGoModule, fetchFromGitHub, installShellFiles, stdenv, lib }:
+{ buildGo121Module, fetchFromGitHub, installShellFiles, stdenv, lib }:
 
-buildGoModule rec {
+buildGo121Module rec {
   pname = "talhelper";
-  version = "1.13.0";
+  version = "1.14.0";
 
   src = fetchFromGitHub {
     owner = "budimanjojo";
     repo = pname;
     rev = "v${version}";
-    sha256 = "sha256-zU6ZzKQANVnlDqPR781YSKkHlV4Tbsu91cSeemC3PSk=";
+    sha256 = "sha256-zyDffiYBduToiCC0CUI4vD5C5r1IpIb6uOMgUlDsw+I=";
   };
 
-  vendorSha256 = "sha256-l0y5L/hcIWj5CU+4E+wImn6uc9orMZU6tK5v08rAdkc=";
+  vendorSha256 = "sha256-0/TStlX+sjJWtKIQWZL14QczME/ivLBImoHcPRWOihU=";
 
   ldflags = [ "-s -w -X github.com/budimanjojo/talhelper/cmd.version=v${version}" ];
 
