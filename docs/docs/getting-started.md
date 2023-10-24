@@ -24,7 +24,8 @@ Here are the steps you need to do:
 3. Encrypt the secret with `sops`: `sops -e -i talsecret.sops.yaml` (you will need `sops` [configured properly](guides.md#configuring-sops-for-talhelper)).
 4. Create a `talconfig.yaml` based on your current cluster, here's the example [template](https://github.com/budimanjojo/talhelper/blob/master/example/talconfig.yaml). For all the available options, look at the [Configuration Reference](reference/configuration.md)
 5. Run `talhelper genconfig` and the output files will be in `./clusterconfig` by default.
-6. Commit your `talconfig.yaml` and `talsecret.yaml` in your git repository.
+6. You can now do [talosctl apply-config](https://www.talos.dev/latest/reference/cli/#talosctl-apply-config) commands to the generated files.
+7. Commit your `talconfig.yaml` and `talsecret.yaml` in your git repository.
 
 !!! note
 
@@ -42,7 +43,8 @@ Here are the steps you need to do:
 2. Run `talhelper gensecret > talsecret.sops.yaml`. This command will create a `talsecret.sops.yaml` file with your future cluster secrets.
 3. Encrypt the secret with `sops`: `sops -e -i talsecret.sops.yaml` (you will need `sops` [configured properly](guides.md#configuring-sops-for-talhelper)).
 4. Run `talhelper genconfig` and the output files will be in `./clusterconfig` by default.
-5. Commit your `talconfig.yaml` and `talsecret.yaml` in your git repository.
+5. You can now do [talosctl apply-config](https://www.talos.dev/latest/reference/cli/#talosctl-apply-config) commands to the generated files.
+6. Commit your `talconfig.yaml` and `talsecret.yaml` in your git repository.
 
 !!! note
 
