@@ -29,7 +29,12 @@ var genurlInstallerCmd = &cobra.Command{
 		if _, err := os.Stat(genurlInstallerCfgFile); err == nil {
 			var m config.TalhelperConfig
 
-			err = yaml.Unmarshal([]byte(genurlInstallerCfgFile), &m)
+			data, err := os.ReadFile(genurlISOCfgFile)
+			if err != nil {
+				log.Fatalf("failed to read Talhelper config file %s, %v", genurlISOCfgFile, err)
+			}
+
+			err = yaml.Unmarshal(data, &m)
 			if err != nil {
 				log.Fatalf("failed to unmarshal data: %s", err)
 			}

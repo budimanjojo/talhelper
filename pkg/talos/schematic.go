@@ -19,7 +19,7 @@ func GetISOURL(cfg *schematic.Schematic, registryURL, version, mode, arch string
 	if err != nil {
 		return "", err
 	}
-	return ensureSlashSuffix(registryURL) + ensureSlashSuffix(id) + mode + "-" + arch + ".iso", nil
+	return ensureSlashSuffix(registryURL) + ensureSlashSuffix(id) + ensureSlashSuffix(version) + mode + "-" + arch + ".iso", nil
 }
 
 func ensureSlashSuffix(s string) string {
