@@ -44,6 +44,7 @@ func (c TalhelperConfig) Validate() Errors {
 		checkNodeMachineDisks(node, k, &result)
 		checkNodeMachineFiles(node, k, &result)
 		checkNodeExtensions(node, k, &result)
+		checkNodeSchematic(node, k, &result)
 		checkNodeNameServers(node, k, &result)
 		checkNodeNetworkInterfaces(node, k, &result)
 		checkNodeConfigPatches(node, k, &result)

@@ -38,6 +38,11 @@ nodes:
       z***: hahaha
     machineFiles:
       - op: ccreate
+    schematic:
+      customization:
+        systemExtensions:
+          officialExtensions:
+            - siderolabs/aaa
 `)
 
 	found, err := ValidateFromByte(data)
@@ -65,6 +70,7 @@ nodes:
 		"nodes[1].installDisk":       true,
 		"nodes[1].nodeLabels":        true,
 		"nodes[1].machineFiles":      true,
+		"nodes[1].schematic":         true,
 	}
 
 	for k, v := range expectedErrors {
