@@ -4,6 +4,7 @@ import (
 	"strings"
 
 	"github.com/budimanjojo/talhelper/pkg/config"
+	"github.com/siderolabs/image-factory/pkg/schematic"
 	taloscfg "github.com/siderolabs/talos/pkg/machinery/config"
 	"github.com/siderolabs/talos/pkg/machinery/config/generate"
 	"github.com/siderolabs/talos/pkg/machinery/config/machine"
@@ -115,5 +116,6 @@ func installerURL(node *config.Node, cfg taloscfg.Provider) (string, error) {
 		return node.TalosImageURL + ":" + version[1], nil
 	}
 
-	return cfg.RawV1Alpha1().Machine().Install().Image(), nil
+	s := &schematic.Schematic{}
+	return GetInstallerURL(s, defaultInstallerRegistry, version[1])
 }
