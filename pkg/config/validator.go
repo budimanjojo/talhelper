@@ -351,8 +351,13 @@ func checkNodeMachineFiles(node Node, idx int, result *Errors) *Errors {
 	return result
 }
 
-func checkNodeExtensions(node Node, idx int, result *Errors) *Errors {
+func checkNodeExtensions(node Node, idx int, errs *Errors, warns *Warnings) (*Errors, *Warnings) {
 	if len(node.Extensions) > 0 {
+		warns.Append(&Warning{
+			Kind:    "DeprecatedNodeExtensions",
+			Field:   getNodeFieldYamlTag(node, idx, "Extensions"),
+			Message: formatWarning("`extensions` is deprecated, please use `schematic.customization.systemExtensions` instead"),
+		})
 		var messages *multierror.Error
 		extensions := map[string]struct{}{}
 
@@ -364,15 +369,15 @@ func checkNodeExtensions(node Node, idx int, result *Errors) *Errors {
 		}
 
 		if messages.ErrorOrNil() != nil {
-			return result.Append(&Error{
+			return errs.Append(&Error{
 				Kind:    "InvalidNodeExtensions",
 				Field:   getNodeFieldYamlTag(node, idx, "Extensions"),
 				Message: formatError(messages),
-			})
+			}), warns
 		}
 	}
 
-	return result
+	return errs, warns
 }
 
 func checkNodeSchematic(node Node, idx int, result *Errors) *Errors {
@@ -578,6 +583,10 @@ func formatError(e *multierror.Error) *multierror.Error {
 		return strings.Join(points, "\n")
 	}
 	return e
+}
+
+func formatWarning(w string) string {
+	return fmt.Sprintf("  * WARNING: %s", w)
 }
 
 func getNodeFieldYamlTag(node Node, idx int, fieldPath string) string {

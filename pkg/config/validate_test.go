@@ -21,6 +21,8 @@ nodes:
     ipAddress: 1.2.3.4.5
     installDisk: /dev/sda
     disableSearchDomain: true
+    extensions:
+      - image: hehe
     nameservers:
       - 8.8.8.8
     networkInterfaces:
@@ -45,7 +47,7 @@ nodes:
             - siderolabs/aaa
 `)
 
-	found, err := ValidateFromByte(data)
+	errs, warns, err := ValidateFromByte(data)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -73,9 +75,19 @@ nodes:
 		"nodes[1].schematic":         true,
 	}
 
+	expectedWarnings := map[string]bool{
+		"nodes[0].extensions": true,
+	}
+
 	for k, v := range expectedErrors {
-		if found.HasField(k) != v {
-			t.Errorf("%s: got %t, want %t", k, found.HasField(k), v)
+		if errs.HasField(k) != v {
+			t.Errorf("%s: got %t, want %t", k, errs.HasField(k), v)
+		}
+	}
+
+	for k, v := range expectedWarnings {
+		if warns.HasField(k) != v {
+			t.Errorf("%s: got %t, want %t", k, warns.HasField(k), v)
 		}
 	}
 }
