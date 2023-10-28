@@ -113,6 +113,11 @@ Here's the simplified step by step to achieve this:
 2. In `doppler`, create a project named i.e "talhelper". In that project, create a config i.e "env" that stores key and value of the secret like `AESCBCENCYPTIONKEY: <secret>.`.
 3. Run `doppler` CLI command that sets environment variable before running the `talhelper` command i.e: `doppler run -p talhelper -c env talhelper genconfig`.
 
+## Editing `talconfig.yaml` file
+
+If you're using a text editor with `yaml` LSP support, you can use `talhelper genschema` command to generate a `talconfig.json`.
+You can then feed that file to the language server so you can get autocompletion when editing `talconfig.yaml` file.
+
 ## Shell completion
 
 Depending on how you install `talhelper`, you might not need to do anything to get autocompletion for `talhelper` commands i.e if you install using the Nix Flakes or AUR.

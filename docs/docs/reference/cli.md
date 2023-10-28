@@ -73,6 +73,23 @@ Flags:
 -h, --help                     help for gensecret
 ```
 
+## talhelper genschema
+
+This command will generate `talconfig.yaml` JSON schema file.
+
+Usage:
+
+```
+talhelper genschema [flag]
+```
+
+Flags:
+
+```
+-f, --file string   Where to dump the generated json-schema file (default "talhelper.json")
+-h, --help          help for genschema
+```
+
 ## talhelper validate
 
 This command will validate the correctness of talconfig or talos node config.
