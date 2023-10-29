@@ -376,13 +376,32 @@ machineFiles:
 <tr markdown="1">
 <td markdown="1">`extensions`</td>
 <td markdown="1">[][InstallExtensionConfig](#installextensionconfig)</td>
-<td markdown="1">List of additional system extensions image to install.<details><summary>*Show example*</summary>
+<td markdown="1"><details><summary>**DEPRECATED, use `schematic` instead**.</summary>List of additional system extensions image to install.</details><details><summary>*Show example*</summary>
 ```yaml
 extensions:
   - image: ghcr.io/siderolabs/tailscale:1.44.0
 ```
 </summary></td>
 <td markdown="1" align="center">`[]`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+</tr>
+
+<tr markdown="1">
+<td markdown="1">`schematic`</td>
+<td markdown="1">[Schematic](#schematic)</td>
+<td markdown="1">Configure Talos image customization to be used in the installer image<details><summary>*Show example*</summary>
+```yaml
+schematic:
+  customization:
+    extraKernelArgs:
+      - net.ifnames=0
+    systemExtensions:
+      officialExtensions:
+        officialExtensions:
+          - siderolabs/intel-ucode
+```
+</summary></td>
+<td markdown="1" align="center">`nil`</td>
 <td markdown="1" align="center">:negative_squared_cross_mark:</td>
 </tr>
 
@@ -675,6 +694,10 @@ inlinePatch:
 ## InstallExtensionConfig
 
 `InstallExtensionConfig` is type of upstream Talos <a href="https://www.talos.dev/latest/reference/configuration/#installextensionconfig" target="_blank">`v1alpha1.InstallExtensionConfig`</a>
+
+## Schematic
+
+`Schematic` is type of upstream Talos Image Factory <a href="https://pkg.go.dev/github.com/siderolabs/image-factory/pkg/schematic#Schematic" target="_blank">`schematic.Schematic`</a>
 
 ## KernelModuleConfig
 

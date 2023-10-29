@@ -73,11 +73,56 @@ Flags:
 -h, --help                     help for gensecret
 ```
 
+## talhelper genurl
+
+This command will generate URL for Talos Installer or ISO.
+
+Usage:
+
+```
+talhelper genurl [option] [flag]
+```
+
+Option:
+
+```
+installer     Generate URL for Talos installer image
+iso           Generate URL for Talos ISO image
+```
+
+Flags:
+
+```
+-h, --help          help for genurl
+```
+
+Flags available on installer option:
+
+```
+-c, --config-file string    File containing configurations for talhelper (default "talconfig.yaml")
+-e, --extension strings     Official extension image to be included in the image
+-h, --help                  help for installer
+-k, --kernel-arg strings    Kernel arguments to be passed to the image kernel
+-r, --registry-url string   Registry url of the image (default "factory.talos.dev/installer")
+-v, --version string        Talos version to generate (defaults to latest Talos version)
+```
+
+Flags available on iso option:
+
+```
+-a, --arch string           CPU architecture support of the image (default "amd64")
+-c, --config-file string    File containing configurations for talhelper (default "talconfig.yaml")
+-e, --extension strings     Official extension image to be included in the image
+-h, --help                  help for iso
+-k, --kernel-arg strings    Kernel arguments to be passed to the image kernel
+-r, --registry-url string   Registry url of the image (default "https://factory.talos.dev/image")
+-m, --talos-mode string     Talos runtime mode to generate URL (default "metal")
+-v, --version string        Talos version to generate (defaults to latest Talos version)
+```
+
 ## talhelper genschema
 
 This command will generate `talconfig.yaml` JSON schema file.
-
-Usage:
 
 ```
 talhelper genschema [flag]
@@ -114,6 +159,7 @@ Flags:
 ```
 
 Flags available on nodeconfig option:
+
 ```
 -m, --mode string   Talos runtime mode to validate with (default "metal")
 ```

@@ -40,6 +40,51 @@ Here's a more detailed example [talconfig.yaml](https://github.com/budimanjojo/t
 
 To see all the available options of the configuration file, head over to [Configuration Reference](reference/configuration.md).
 
+## Adding Talos extensions and kernel arguments
+
+Talos v1.5 introduced a new unified way to generate boot assets for installer container image that you can build yourself using their `imager` container or use [image-factory](https://factory.talos.dev/) to dynamically build it for you.
+The old way of installing system extensions using `machine.install.extensions` in the configuration file is being deprecated, so it's not recommended to use it.
+
+`Talhelper` can help you to generate the installer url like `image-factory` if you provide `schematic` for your nodes.
+Let's say your `warmachine` node is using Intel processor so you want to have `intel-ucode` extension and you also want to use traditional network interface naming by providing `net.ifnames=0` to the kernel argument.
+Your `talhelper.yaml` should be something like this:
+
+```{.yaml hl_lines="9-15"}
+---
+clusterName: my-cluster
+talosVersion: v1.5.4
+endpoint: https://192.168.200.10:6443
+nodes:
+  - hostname: warmachine
+    controlPlane: false
+    ipAddress: 192.168.200.12
+    schematic:
+      customization:
+        extraKernelArgs:
+          - net.ifnames=0
+        systemExtensions:
+          officialExtensions:
+            - siderolabs/intel-ucode
+```
+
+When you run `talhelper genconfig`, the generated manifest file for `warmachine` will have `machine.install.image` value of `factory.talos.dev/installer/9e8cc193609699825d61c039c7738d81cf29c7b20f2a91d8f5c540511b9ea0b4:v1.5.4`, which will be the same url you'll get if using `image-factory`.
+
+If you don't want to use the url from `image-factory` or you want to use your own installer image, you can use per node `talosImageURL` like this:
+
+```{.yaml hl_lines="9-10"}
+---
+clusterName: my-cluster
+talosVersion: v1.5.4
+endpoint: https://192.168.200.10:6443
+nodes:
+  - hostname: warmachine
+    controlPlane: false
+    ipAddress: 192.168.200.12
+    talosImageURL: my.registry/install/talos-installer-image
+```
+
+This will result in `machine.install.image` value to be `my.registry/install/talos-installer-image:v1.5.4`.
+
 ## Configuring SOPS for Talhelper
 
 [sops](https://github.com/getsops/sops) is a simple and flexible tool for managing secrets.

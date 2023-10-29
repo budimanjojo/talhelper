@@ -6,7 +6,7 @@ import (
 
 var genurlCmd = &cobra.Command{
 	Use:   "genurl",
-	Short: "Generate URL Talos installer or ISO",
+	Short: "Generate URL for Talos installer or ISO",
 }
 
 func init() {
