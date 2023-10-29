@@ -62,6 +62,8 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#using-doppler-instead-of-sops">Using Doppler instead of SOPS</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#editing-talconfigyaml-file">Editing talconfig.yaml file</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#shell-completion">Shell completion</a>
     </li>
     </ul>
@@ -213,6 +215,9 @@ Here's the simplified step by step to achieve this:</p>
 3. Run <code>doppler</code> CLI command that sets environment variable before running the <code>talhelper</code> command i.e: <code>doppler run -p talhelper -c env talhelper genconfig</code>.</p>
 </li>
 </ol>
+<h2 id="editing-talconfigyaml-file">Editing <code>talconfig.yaml</code> file</h2>
+<p>If you're using a text editor with <code>yaml</code> LSP support, you can use <code>talhelper genschema</code> command to generate a <code>talconfig.json</code>.
+You can then feed that file to the language server so you can get autocompletion when editing <code>talconfig.yaml</code> file.</p>
 <h2 id="shell-completion">Shell completion</h2>
 <p>Depending on how you install <code>talhelper</code>, you might not need to do anything to get autocompletion for <code>talhelper</code> commands i.e if you install using the Nix Flakes or AUR.</p>
 <p>If you don't get it working out of the box, you can use <code>talhelper completion</code> command to generate autocompletion for your shell.</p>

@@ -69,6 +69,8 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#talhelper-gensecret">talhelper gensecret</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#talhelper-genschema">talhelper genschema</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#talhelper-validate">talhelper validate</a>
     </li>
     </ul>
@@ -154,6 +156,15 @@ zsh          Generate autocompletion script for `zsh` shell
 <p>Flags:</p>
 <div class="highlight"><pre><span></span><code>-f, --from-configfile string   Talos cluster node configuration file to generate secret from
 -h, --help                     help for gensecret
+</code></pre></div>
+<h2 id="talhelper-genschema">talhelper genschema</h2>
+<p>This command will generate <code>talconfig.yaml</code> JSON schema file.</p>
+<p>Usage:</p>
+<div class="highlight"><pre><span></span><code>talhelper genschema [flag]
+</code></pre></div>
+<p>Flags:</p>
+<div class="highlight"><pre><span></span><code>-f, --file string   Where to dump the generated json-schema file (default &quot;talhelper.json&quot;)
+-h, --help          help for genschema
 </code></pre></div>
 <h2 id="talhelper-validate">talhelper validate</h2>
 <p>This command will validate the correctness of talconfig or talos node config.</p>
