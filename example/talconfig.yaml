@@ -26,7 +26,13 @@ patches:
 nodes:
   - hostname: kmaster1
     ipAddress: 192.168.200.11
-    talosImageURL: factory.talos.dev/installer/e9c7ef96884d4fbc8c0a1304ccca4bb0287d766a8b4125997cb9dbe84262144e
+    schematic:
+      customization:
+        extraKernelArgs:
+          - net.ifnames=0
+        systemExtensions:
+          officialExtensions:
+            - siderolabs/intel-ucode
     extensions:
       - image: ghcr.io/siderolabs/tailscale:1.44.0
     machineFiles:
