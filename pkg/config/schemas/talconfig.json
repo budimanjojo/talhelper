@@ -488,7 +488,7 @@
             "$ref": "#/$defs/InstallExtensionConfig"
           },
           "type": "array",
-          "description": "DEPRECATED"
+          "description": "DEPRECATED: use \"schematic\" instead"
         },
         "disableSearchDomain": {
           "type": "boolean",
@@ -520,11 +520,11 @@
             "type": "object"
           },
           "type": "array",
-          "description": "DEPRECATED"
+          "description": "DEPRECATED: use \"patches\" instead"
         },
         "inlinePatch": {
           "type": "object",
-          "description": "DEPRECATED"
+          "description": "DEPRECATED: use \"patches\" instead"
         },
         "patches": {
           "items": {
@@ -687,7 +687,7 @@
             "type": "string"
           },
           "type": "array",
-          "description": "ClusterInlineManifest"
+          "description": "Patches to be applied to all nodes"
         },
         "nodes": {
           "items": {
@@ -800,11 +800,11 @@
             "type": "object"
           },
           "type": "array",
-          "description": "DEPRECATED"
+          "description": "DEPRECATED: use \"patches\" instead"
         },
         "inlinePatch": {
           "type": "object",
-          "description": "DEPRECATED"
+          "description": "DEPRECATED: use \"patches\" instead"
         },
         "patches": {
           "items": {
@@ -824,11 +824,11 @@
             "type": "object"
           },
           "type": "array",
-          "description": "DEPRECATED"
+          "description": "DEPRECATED: use \"patches\" instead"
         },
         "inlinePatch": {
           "type": "object",
-          "description": "DEPRECATED"
+          "description": "DEPRECATED: use \"patches\" instead"
         },
         "patches": {
           "items": {
