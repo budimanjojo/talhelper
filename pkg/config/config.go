@@ -19,7 +19,7 @@ type TalhelperConfig struct {
 	ClusterPodNets                 []string     `yaml:"clusterPodNets,omitempty" jsonschema:"description=The pod subnet CIDR list"`
 	ClusterSvcNets                 []string     `yaml:"clusterSvcNets,omitempty" jsonschema:"description=The service subnet CIDR list"`
 	CNIConfig                      cniConfig    `yaml:"cniConfig,omitempty" jsonschema:"description=The CNI to be used for the cluster's network"`
-	Patches                        []string     `yaml:"patches,omitempty" jsonschema:"description=ClusterInlineManifest"`
+	Patches                        []string     `yaml:"patches,omitempty" jsonschema:"description=Patches to be applied to all nodes"`
 	Nodes                          []Node       `yaml:"nodes" jsonschema:"required,description=List of configurations for Node"`
 	ControlPlane                   controlPlane `yaml:"controlPlane,omitempty" jsonschema:"description=Configurations targetted for controlplane nodes"`
 	Worker                         worker       `yaml:"worker,omitempty" jsonschema:"description=Configurations targetted for worker nodes"`
@@ -34,13 +34,13 @@ type Node struct {
 	InstallDiskSelector *v1alpha1.InstallDiskSelector     `yaml:"installDiskSelector,omitempty" jsonschema:"oneof_required=installDisk,description=Look up disk used for installation"`
 	MachineDisks        []*v1alpha1.MachineDisk           `yaml:"machineDisks,omitempty" jsonschema:"description=List of additional disks to partition, format, mount"`
 	MachineFiles        []*v1alpha1.MachineFile           `yaml:"machineFiles,omitempty" jsonschema:"description=List of files to create inside the node"`
-	Extensions          []v1alpha1.InstallExtensionConfig `yaml:"extensions,omitempty" jsonschema:"description=DEPRECATED, use \"schematic\" instead"`
+	Extensions          []v1alpha1.InstallExtensionConfig `yaml:"extensions,omitempty" jsonschema:"description=DEPRECATED: use \"schematic\" instead"`
 	DisableSearchDomain bool                              `yaml:"disableSearchDomain,omitempty" jsonschema:"description=Whether to disable generating default search domain"`
 	KernelModules       []*v1alpha1.KernelModuleConfig    `yaml:"kernelModules,omitempty" jsonschema:"description=List of additional kernel modules to load inside the node"`
 	Nameservers         []string                          `yaml:"nameservers,omitempty" jsonschema:"description=List of nameservers for the node"`
 	NetworkInterfaces   []*v1alpha1.Device                `yaml:"networkInterfaces,omitempty" jsonschema:"description=List of network interface configuration for the node"`
-	ConfigPatches       []map[string]interface{}          `yaml:"configPatches,omitempty" jsonschema:"description=DEPRECATED, use \"patches\" instead"`
-	InlinePatch         map[string]interface{}            `yaml:"inlinePatch,omitempty" jsonschema:"description=DEPRECATED, use \"patches\" instead"`
+	ConfigPatches       []map[string]interface{}          `yaml:"configPatches,omitempty" jsonschema:"description=DEPRECATED: use \"patches\" instead"`
+	InlinePatch         map[string]interface{}            `yaml:"inlinePatch,omitempty" jsonschema:"description=DEPRECATED: use \"patches\" instead"`
 	Patches             []string                          `yaml:"patches,omitempty" jsonschema:"description=Patches to be applied to the node"`
 	TalosImageURL       string                            `yaml:"talosImageURL" jsonschema:"example=factory.talos.dev/installer/e9c7ef96884d4fbc8c0a1304ccca4bb0287d766a8b4125997cb9dbe84262144e,description=Talos installer image url for the node"`
 	Schematic           *schematic.Schematic              `yaml:"schematic,omitempty" jsonschema:"description=Talos image customization to be used in the installer image"`
@@ -52,13 +52,13 @@ type cniConfig struct {
 }
 
 type controlPlane struct {
-	ConfigPatches []map[string]interface{} `yaml:"configPatches,omitempty" jsonschema:"description=DEPRECATED, use \"patches\" instead"`
-	InlinePatch   map[string]interface{}   `yaml:"inlinePatch,omitempty" jsonschema:"description=DEPRECATED, use \"patches\" instead"`
+	ConfigPatches []map[string]interface{} `yaml:"configPatches,omitempty" jsonschema:"description=DEPRECATED: use \"patches\" instead"`
+	InlinePatch   map[string]interface{}   `yaml:"inlinePatch,omitempty" jsonschema:"description=DEPRECATED: use \"patches\" instead"`
 	Patches       []string                 `yaml:"patches,omitempty" jsonschema:"description=Patches to be applied to all controlplane nodes"`
 }
 
 type worker struct {
-	ConfigPatches []map[string]interface{} `yaml:"configPatches,omitempty" jsonschema:"description=DEPRECATED, use \"patches\" instead"`
-	InlinePatch   map[string]interface{}   `yaml:"inlinePatch,omitempty" jsonschema:"description=DEPRECATED, use \"patches\" instead"`
+	ConfigPatches []map[string]interface{} `yaml:"configPatches,omitempty" jsonschema:"description=DEPRECATED: use \"patches\" instead"`
+	InlinePatch   map[string]interface{}   `yaml:"inlinePatch,omitempty" jsonschema:"description=DEPRECATED: use \"patches\" instead"`
 	Patches       []string                 `yaml:"patches,omitempty" jsonschema:"description=Patches to be applied to all worker nodes"`
 }
