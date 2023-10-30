@@ -117,6 +117,27 @@
       "additionalProperties": false,
       "type": "object"
     },
+    "Customization": {
+      "properties": {
+        "extraKernelArgs": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "meta": {
+          "items": {
+            "$ref": "#/$defs/MetaValue"
+          },
+          "type": "array"
+        },
+        "systemExtensions": {
+          "$ref": "#/$defs/SystemExtensions"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
     "DHCPOptions": {
       "properties": {
         "routeMetric": {
@@ -372,6 +393,18 @@
       "additionalProperties": false,
       "type": "object"
     },
+    "MetaValue": {
+      "properties": {
+        "key": {
+          "type": "integer"
+        },
+        "value": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
     "NetworkDeviceSelector": {
       "properties": {
         "busPath": {
@@ -455,7 +488,7 @@
             "$ref": "#/$defs/InstallExtensionConfig"
           },
           "type": "array",
-          "description": "List of additional system extensions to install"
+          "description": "DEPRECATED"
         },
         "disableSearchDomain": {
           "type": "boolean",
@@ -506,6 +539,10 @@
           "examples": [
             "factory.talos.dev/installer/e9c7ef96884d4fbc8c0a1304ccca4bb0287d766a8b4125997cb9dbe84262144e"
           ]
+        },
+        "schematic": {
+          "$ref": "#/$defs/Schematic",
+          "description": "Talos image customization to be used in the installer image"
         }
       },
       "additionalProperties": false,
@@ -540,6 +577,27 @@
       "properties": {
         "enabled": {
           "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "Schematic": {
+      "properties": {
+        "customization": {
+          "$ref": "#/$defs/Customization"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "SystemExtensions": {
+      "properties": {
+        "officialExtensions": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
         }
       },
       "additionalProperties": false,
