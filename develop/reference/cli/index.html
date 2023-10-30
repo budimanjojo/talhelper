@@ -69,6 +69,8 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#talhelper-gensecret">talhelper gensecret</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#talhelper-genurl">talhelper genurl</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#talhelper-genschema">talhelper genschema</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#talhelper-validate">talhelper validate</a>
@@ -157,9 +159,38 @@ zsh          Generate autocompletion script for `zsh` shell
 <div class="highlight"><pre><span></span><code>-f, --from-configfile string   Talos cluster node configuration file to generate secret from
 -h, --help                     help for gensecret
 </code></pre></div>
+<h2 id="talhelper-genurl">talhelper genurl</h2>
+<p>This command will generate URL for Talos Installer or ISO.</p>
+<p>Usage:</p>
+<div class="highlight"><pre><span></span><code>talhelper genurl [option] [flag]
+</code></pre></div>
+<p>Option:</p>
+<div class="highlight"><pre><span></span><code>installer     Generate URL for Talos installer image
+iso           Generate URL for Talos ISO image
+</code></pre></div>
+<p>Flags:</p>
+<div class="highlight"><pre><span></span><code>-h, --help          help for genurl
+</code></pre></div>
+<p>Flags available on installer option:</p>
+<div class="highlight"><pre><span></span><code>-c, --config-file string    File containing configurations for talhelper (default &quot;talconfig.yaml&quot;)
+-e, --extension strings     Official extension image to be included in the image
+-h, --help                  help for installer
+-k, --kernel-arg strings    Kernel arguments to be passed to the image kernel
+-r, --registry-url string   Registry url of the image (default &quot;factory.talos.dev/installer&quot;)
+-v, --version string        Talos version to generate (defaults to latest Talos version)
+</code></pre></div>
+<p>Flags available on iso option:</p>
+<div class="highlight"><pre><span></span><code>-a, --arch string           CPU architecture support of the image (default &quot;amd64&quot;)
+-c, --config-file string    File containing configurations for talhelper (default &quot;talconfig.yaml&quot;)
+-e, --extension strings     Official extension image to be included in the image
+-h, --help                  help for iso
+-k, --kernel-arg strings    Kernel arguments to be passed to the image kernel
+-r, --registry-url string   Registry url of the image (default &quot;https://factory.talos.dev/image&quot;)
+-m, --talos-mode string     Talos runtime mode to generate URL (default &quot;metal&quot;)
+-v, --version string        Talos version to generate (defaults to latest Talos version)
+</code></pre></div>
 <h2 id="talhelper-genschema">talhelper genschema</h2>
 <p>This command will generate <code>talconfig.yaml</code> JSON schema file.</p>
-<p>Usage:</p>
 <div class="highlight"><pre><span></span><code>talhelper genschema [flag]
 </code></pre></div>
 <p>Flags:</p>
@@ -178,9 +209,9 @@ nodeconfig    Check the validity of Talos node config file
 <p>Flags:</p>
 <div class="highlight"><pre><span></span><code>-h, --help          help for validate
 </code></pre></div>
-<p>Flags available on nodeconfig option:
+<p>Flags available on nodeconfig option:</p>
 <div class="highlight"><pre><span></span><code>-m, --mode string   Talos runtime mode to validate with (default &quot;metal&quot;)
-</code></pre></div></p>
+</code></pre></div>
               
             </div>
           </div><footer>
