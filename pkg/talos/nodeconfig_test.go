@@ -12,6 +12,7 @@ import (
 
 func TestGenerateNodeConfig(t *testing.T) {
 	data := []byte(`clusterName: test
+talosVersion: v1.5.4
 endpoint: https://1.1.1.1:6443
 nodes:
   - hostname: node1
@@ -34,6 +35,15 @@ nodes:
       - name: br_netfilter
         parameters:
           - nf_conntrack_max=131072
+    schematic:
+      customization:
+        extraKernelArgs:
+          - hello
+          - hihi
+        systemExtensions:
+          officialExtensions:
+            - siderolabs/amd-ucode
+            - siderolabs/nvidia-fabricmanager
   - hostname: node2
     controlPlane: false
     installDiskSelector:
@@ -48,6 +58,16 @@ nodes:
     nodeLabels:
       rack: rack1a
       zone: us-east-1a
+    talosImageURL: factory.talos.dev/installer/e9c7ef96884d4fbc8c0a1304ccca4bb0287d766a8b4125997cb9dbe84262144e
+    schematic:
+      customization:
+        extraKernelArgs:
+          - hello
+          - hihi
+        systemExtensions:
+          officialExtensions:
+            - siderolabs/amd-ucode
+            - siderolabs/nvidia-fabricmanager
     nameservers: [1.1.1.1, 8.8.8.8]`)
 
 	var m config.TalhelperConfig
@@ -108,6 +128,7 @@ nodes:
 			},
 		},
 	}
+	expectedNode1InstallImage := "factory.talos.dev/installer/647a0a54bff662aa12051bc0312097f29d3562107d8e6a8e87ab85b643e25bc0:v1.5.4"
 	expectedNode2Type := "worker"
 	expectedNode2InstallDiskSelector := &v1alpha1.InstallDiskSelector{
 		Size: &v1alpha1.InstallDiskSizeMatcher{
@@ -131,6 +152,7 @@ nodes:
 		},
 	}
 	expectedNode2NodeLabels := map[string]string{"rack": "rack1a", "zone": "us-east-1a"}
+	expectedNode2InstallImage := "factory.talos.dev/installer/e9c7ef96884d4fbc8c0a1304ccca4bb0287d766a8b4125997cb9dbe84262144e:v1.5.4"
 	expectedNode2Nameservers := []string{"1.1.1.1", "8.8.8.8"}
 
 	cpCfg := cp.RawV1Alpha1().MachineConfig
@@ -144,10 +166,12 @@ nodes:
 	compare(cpCfg.MachineFiles, expectedNode1MachineFiles, t)
 	compare(cpCfg.MachineNetwork.NetworkInterfaces, expectedNode1NetworkInterfaces, t)
 	compare(cpCfg.MachineKernel, expectedNode1KernelModules, t)
+	compare(cpCfg.MachineInstall.InstallImage, expectedNode1InstallImage, t)
 	compare(wCfg.MachineType, expectedNode2Type, t)
 	compare(wCfg.MachineInstall.InstallDiskSelector, expectedNode2InstallDiskSelector, t)
 	compare(wCfg.MachineDisks, expectedNode2MachineDisks, t)
 	compare(wCfg.MachineNodeLabels, expectedNode2NodeLabels, t)
+	compare(wCfg.MachineInstall.InstallImage, expectedNode2InstallImage, t)
 	compare(wCfg.MachineNetwork.NameServers, expectedNode2Nameservers, t)
 }
 

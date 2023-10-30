@@ -59,17 +59,29 @@ var genconfigCmd = &cobra.Command{
 			log.Fatalf("failed to substitute env: %s", err)
 		}
 
-		prob, err := config.ValidateFromByte(talCfg)
+		errs, warns, err := config.ValidateFromByte(talCfg)
 		if err != nil {
 			log.Fatalf("failed to validate talhelper config file: %s", err)
 		}
-		if len(prob) > 0 {
+		if len(errs) > 0 || len(warns) > 0 {
 			color.Red("There are issues with your talhelper config file:")
-			for _, v := range prob {
-				color.Yellow("field: %q\n", v.Field)
-				fmt.Printf(v.Message.Error() + "\n")
+			grouped := make(map[string][]string)
+			for _, v := range errs {
+				grouped[v.Field] = append(grouped[v.Field], v.Message.Error())
 			}
-			os.Exit(1)
+			for _, v := range warns {
+				grouped[v.Field] = append(grouped[v.Field], v.Message)
+			}
+			for field, list := range grouped {
+				color.Yellow("field: %q\n", field)
+				for _, l := range list {
+					fmt.Printf(l + "\n")
+				}
+			}
+
+			if len(errs) > 0 {
+				os.Exit(1)
+			}
 		}
 
 		var m config.TalhelperConfig

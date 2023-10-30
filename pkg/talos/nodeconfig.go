@@ -4,11 +4,14 @@ import (
 	"strings"
 
 	"github.com/budimanjojo/talhelper/pkg/config"
+	"github.com/siderolabs/image-factory/pkg/schematic"
 	taloscfg "github.com/siderolabs/talos/pkg/machinery/config"
 	"github.com/siderolabs/talos/pkg/machinery/config/generate"
 	"github.com/siderolabs/talos/pkg/machinery/config/machine"
 	"github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1"
 )
+
+var defaultInstallerRegistry = "factory.talos.dev/installer"
 
 func GenerateNodeConfigBytes(node *config.Node, input *generate.Input) ([]byte, error) {
 	cfg, err := GenerateNodeConfig(node, input)
@@ -42,16 +45,17 @@ func GenerateNodeConfig(node *config.Node, input *generate.Input) (taloscfg.Prov
 
 	cfg := applyNodeOverride(node, c)
 
+	installerURL, err := installerURL(node, c)
+	if err != nil {
+		return nil, err
+	}
+	cfg.RawV1Alpha1().MachineConfig.MachineInstall.InstallImage = installerURL
+
 	return cfg, nil
 }
 
 func applyNodeOverride(node *config.Node, cfg taloscfg.Provider) taloscfg.Provider {
 	cfg.RawV1Alpha1().MachineConfig.MachineNetwork.NetworkHostname = node.Hostname
-
-	if node.TalosImageURL != "" {
-		version := strings.Split(cfg.Machine().Install().Image(), ":")
-		cfg.RawV1Alpha1().MachineConfig.MachineInstall.InstallImage = node.TalosImageURL + ":" + version[1]
-	}
 
 	if len(node.Nameservers) > 0 {
 		cfg.RawV1Alpha1().MachineConfig.MachineNetwork.NameServers = node.Nameservers
@@ -95,4 +99,23 @@ func applyNodeOverride(node *config.Node, cfg taloscfg.Provider) taloscfg.Provid
 	}
 
 	return cfg
+}
+
+func installerURL(node *config.Node, cfg taloscfg.Provider) (string, error) {
+	version := strings.Split(cfg.Machine().Install().Image(), ":")
+
+	if node.Schematic != nil && node.TalosImageURL == "" {
+		url, err := GetInstallerURL(node.Schematic, defaultInstallerRegistry, version[1])
+		if err != nil {
+			return "", err
+		}
+		return url, nil
+	}
+
+	if node.TalosImageURL != "" {
+		return node.TalosImageURL + ":" + version[1], nil
+	}
+
+	s := &schematic.Schematic{}
+	return GetInstallerURL(s, defaultInstallerRegistry, version[1])
 }

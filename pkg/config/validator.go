@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"reflect"
 	"regexp"
+	"slices"
 	"strings"
 
 	"github.com/gookit/validate"
@@ -350,8 +351,13 @@ func checkNodeMachineFiles(node Node, idx int, result *Errors) *Errors {
 	return result
 }
 
-func checkNodeExtensions(node Node, idx int, result *Errors) *Errors {
+func checkNodeExtensions(node Node, idx int, errs *Errors, warns *Warnings) (*Errors, *Warnings) {
 	if len(node.Extensions) > 0 {
+		warns.Append(&Warning{
+			Kind:    "DeprecatedNodeExtensions",
+			Field:   getNodeFieldYamlTag(node, idx, "Extensions"),
+			Message: formatWarning("`extensions` is deprecated, please use `schematic.customization.systemExtensions` instead"),
+		})
 		var messages *multierror.Error
 		extensions := map[string]struct{}{}
 
@@ -363,12 +369,59 @@ func checkNodeExtensions(node Node, idx int, result *Errors) *Errors {
 		}
 
 		if messages.ErrorOrNil() != nil {
-			return result.Append(&Error{
+			return errs.Append(&Error{
 				Kind:    "InvalidNodeExtensions",
 				Field:   getNodeFieldYamlTag(node, idx, "Extensions"),
 				Message: formatError(messages),
-			})
+			}), warns
 		}
+	}
+
+	return errs, warns
+}
+
+func checkNodeSchematic(node Node, idx int, result *Errors) *Errors {
+	var messages *multierror.Error
+	extensions := map[string]struct{}{}
+	if node.Schematic != nil {
+		supportedExtensions := []string{
+			"siderolabs/amd-ucode",
+			"siderolabs/bnx2-bnx2x",
+			"siderolabs/drbd",
+			"siderolabs/gasket-driver",
+			"siderolabs/gvisor",
+			"siderolabs/hello-world-service",
+			"siderolabs/i915-ucode",
+			"siderolabs/intel-ucode",
+			"siderolabs/iscsi-tools",
+			"siderolabs/nut-client",
+			"siderolabs/nvidia-container-toolkit",
+			"siderolabs/nvidia-fabricmanager",
+			"siderolabs/nvidia-open-gpu-kernel-modules",
+			"siderolabs/qemu-guest-agent",
+			"siderolabs/tailscale",
+			"siderolabs/thunderbolt",
+			"siderolabs/usb-modem-drivers",
+			"siderolabs/zfs",
+			"siderolabs/nonfree-kmod-nvidia",
+		}
+		for _, ext := range node.Schematic.Customization.SystemExtensions.OfficialExtensions {
+			if !slices.Contains(supportedExtensions, ext) {
+				messages = multierror.Append(messages, fmt.Errorf("%q is not a supported Talos extension", ext))
+			}
+			if _, exists := extensions[ext]; exists {
+				messages = multierror.Append(messages, fmt.Errorf("duplicate system extension %q", ext))
+			}
+			extensions[ext] = struct{}{}
+		}
+	}
+
+	if messages.ErrorOrNil() != nil {
+		return result.Append(&Error{
+			Kind:    "InvalidNodeSchematic",
+			Field:   getNodeFieldYamlTag(node, idx, "Schematic"),
+			Message: formatError(messages),
+		})
 	}
 
 	return result
@@ -530,6 +583,10 @@ func formatError(e *multierror.Error) *multierror.Error {
 		return strings.Join(points, "\n")
 	}
 	return e
+}
+
+func formatWarning(w string) string {
+	return fmt.Sprintf("  * WARNING: %s", w)
 }
 
 func getNodeFieldYamlTag(node Node, idx int, fieldPath string) string {

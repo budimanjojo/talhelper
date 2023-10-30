@@ -1,6 +1,9 @@
 package config
 
-import "github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1"
+import (
+	"github.com/siderolabs/image-factory/pkg/schematic"
+	"github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1"
+)
 
 type TalhelperConfig struct {
 	ClusterName                    string       `yaml:"clusterName" jsonschema:"required,description=Name of the cluster"`
@@ -31,7 +34,7 @@ type Node struct {
 	InstallDiskSelector *v1alpha1.InstallDiskSelector     `yaml:"installDiskSelector,omitempty" jsonschema:"oneof_required=installDisk,description=Look up disk used for installation"`
 	MachineDisks        []*v1alpha1.MachineDisk           `yaml:"machineDisks,omitempty" jsonschema:"description=List of additional disks to partition, format, mount"`
 	MachineFiles        []*v1alpha1.MachineFile           `yaml:"machineFiles,omitempty" jsonschema:"description=List of files to create inside the node"`
-	Extensions          []v1alpha1.InstallExtensionConfig `yaml:"extensions,omitempty" jsonschema:"description=List of additional system extensions to install"`
+	Extensions          []v1alpha1.InstallExtensionConfig `yaml:"extensions,omitempty" jsonschema:"description=DEPRECATED, use \"schematic\" instead"`
 	DisableSearchDomain bool                              `yaml:"disableSearchDomain,omitempty" jsonschema:"description=Whether to disable generating default search domain"`
 	KernelModules       []*v1alpha1.KernelModuleConfig    `yaml:"kernelModules,omitempty" jsonschema:"description=List of additional kernel modules to load inside the node"`
 	Nameservers         []string                          `yaml:"nameservers,omitempty" jsonschema:"description=List of nameservers for the node"`
@@ -40,6 +43,7 @@ type Node struct {
 	InlinePatch         map[string]interface{}            `yaml:"inlinePatch,omitempty" jsonschema:"description=DEPRECATED, use \"patches\" instead"`
 	Patches             []string                          `yaml:"patches,omitempty" jsonschema:"description=Patches to be applied to the node"`
 	TalosImageURL       string                            `yaml:"talosImageURL" jsonschema:"example=factory.talos.dev/installer/e9c7ef96884d4fbc8c0a1304ccca4bb0287d766a8b4125997cb9dbe84262144e,description=Talos installer image url for the node"`
+	Schematic           *schematic.Schematic              `yaml:"schematic,omitempty" jsonschema:"description=Talos image customization to be used in the installer image"`
 }
 
 type cniConfig struct {

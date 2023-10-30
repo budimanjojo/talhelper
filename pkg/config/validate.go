@@ -4,6 +4,14 @@ import (
 	"os"
 )
 
+type Warning struct {
+	Kind    string
+	Field   string
+	Message string
+}
+
+type Warnings []*Warning
+
 type Error struct {
 	Kind    string
 	Field   string
@@ -12,22 +20,23 @@ type Error struct {
 
 type Errors []*Error
 
-func ValidateFromByte(source []byte) (Errors, error) {
+func ValidateFromByte(source []byte) (Errors, Warnings, error) {
 	return runValidate(source)
 }
 
-func ValidateFromFile(path string) (Errors, error) {
+func ValidateFromFile(path string) (Errors, Warnings, error) {
 	byte, err := os.ReadFile(path)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
 	return runValidate(byte)
 }
 
 // Validate returns `Errors` if the given `TalhelperConfig` is not
 // correct
-func (c TalhelperConfig) Validate() Errors {
+func (c TalhelperConfig) Validate() (Errors, Warnings) {
 	var result Errors
+	var warns Warnings
 	checkRequiredCfg(c, &result)
 	checkSupportedTalosVersion(c, &result)
 	checkSupportedK8sVersion(c, &result)
@@ -43,21 +52,22 @@ func (c TalhelperConfig) Validate() Errors {
 		checkNodeLabels(node, k, &result)
 		checkNodeMachineDisks(node, k, &result)
 		checkNodeMachineFiles(node, k, &result)
-		checkNodeExtensions(node, k, &result)
+		checkNodeExtensions(node, k, &result, &warns)
+		checkNodeSchematic(node, k, &result)
 		checkNodeNameServers(node, k, &result)
 		checkNodeNetworkInterfaces(node, k, &result)
 		checkNodeConfigPatches(node, k, &result)
 	}
-	return result
+	return result, warns
 }
 
-func runValidate(source []byte) (Errors, error) {
+func runValidate(source []byte) (Errors, Warnings, error) {
 	c, err := NewFromByte(source)
 	if err != nil {
-		return nil, err
+		return nil, nil, err
 	}
-	errors := c.Validate()
-	return errors, nil
+	errors, warnings := c.Validate()
+	return errors, warnings, nil
 }
 
 func (errs Errors) HasField(field string) bool {
@@ -72,4 +82,18 @@ func (errs Errors) HasField(field string) bool {
 func (errs *Errors) Append(err *Error) *Errors {
 	*errs = append(*errs, err)
 	return errs
+}
+
+func (warns Warnings) HasField(field string) bool {
+	for _, warn := range warns {
+		if warn.Field == field {
+			return true
+		}
+	}
+	return false
+}
+
+func (warns *Warnings) Append(warn *Warning) *Warnings {
+	*warns = append(*warns, warn)
+	return warns
 }

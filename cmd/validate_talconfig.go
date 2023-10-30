@@ -20,15 +20,25 @@ var validateTHCmd = &cobra.Command{
 			cfg = args[0]
 		}
 
-		found, err := config.ValidateFromFile(cfg)
+		errs, warns, err := config.ValidateFromFile(cfg)
 		if err != nil {
 			log.Fatalf("failed to validate talhelper config file: %s", err)
 		}
-		if len(found) > 0 {
+
+		if len(errs) > 0 || len(warns) > 0 {
 			color.Red("There are issues with your talhelper config file:")
-			for _, v := range found {
-				color.Yellow("field: %q\n", v.Field)
-				fmt.Printf(v.Message.Error() + "\n")
+			grouped := make(map[string][]string)
+			for _, v := range errs {
+				grouped[v.Field] = append(grouped[v.Field], v.Message.Error())
+			}
+			for _, v := range warns {
+				grouped[v.Field] = append(grouped[v.Field], v.Message)
+			}
+			for field, list := range grouped {
+				color.Yellow("field: %q\n", field)
+				for _, l := range list {
+					fmt.Printf(l + "\n")
+				}
 			}
 		} else {
 			fmt.Println("Your talhelper config file is looking great!")
