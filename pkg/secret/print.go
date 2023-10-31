@@ -7,13 +7,13 @@ import (
 	"sort"
 
 	"github.com/fatih/color"
-	"github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1/generate"
+	"github.com/siderolabs/talos/pkg/machinery/config/generate/secrets"
 	"gopkg.in/yaml.v3"
 )
 
 // PrintSecretBundle prints the generated `SecretsBundle` into the terminal.
 // It returns an error, if any.
-func PrintSecretBundle(secret *generate.SecretsBundle) error {
+func PrintSecretBundle(secret *secrets.Bundle) error {
 	buf := new(bytes.Buffer)
 	encoder := yaml.NewEncoder(buf)
 	encoder.SetIndent(2)
@@ -28,7 +28,7 @@ func PrintSecretBundle(secret *generate.SecretsBundle) error {
 }
 
 // PrintSortedSecrets takes a `SecretsBundle`, sorts them and prints them out.
-func PrintSortedSecrets(secret *generate.SecretsBundle) {
+func PrintSortedSecrets(secret *secrets.Bundle) {
 	unsorted := getSecrets(secret)
 
 	sorted := make([]string, 0, len(unsorted))
@@ -45,7 +45,7 @@ func PrintSortedSecrets(secret *generate.SecretsBundle) {
 }
 
 // getSecrets takes a `SecretsBundle` and returns `map[string]string` of them.
-func getSecrets(secret *generate.SecretsBundle) map[string]string {
+func getSecrets(secret *secrets.Bundle) map[string]string {
 	secrets := map[string]string{
 		"etcdCert":             getEtcdCert(secret, "cert"),
 		"etcdCertKey":          getEtcdCert(secret, "key"),
@@ -67,7 +67,7 @@ func getSecrets(secret *generate.SecretsBundle) map[string]string {
 
 // getEtcdCert takes a `SecretsBundle` and returns value of the specified
 // etcd `key` or `cert` key.
-func getEtcdCert(secret *generate.SecretsBundle, kind string) string {
+func getEtcdCert(secret *secrets.Bundle, kind string) string {
 	var etcdCert string
 	switch kind {
 	case "cert":
@@ -80,14 +80,14 @@ func getEtcdCert(secret *generate.SecretsBundle, kind string) string {
 
 // getK8sServiceAccountKey takes a `SecretsBundle` and returns value of the
 // service account key.
-func getK8sServiceAccountKey(secret *generate.SecretsBundle) string {
+func getK8sServiceAccountKey(secret *secrets.Bundle) string {
 	svcAccountKey := base64.StdEncoding.EncodeToString(secret.Certs.K8sServiceAccount.Key)
 	return svcAccountKey
 }
 
 // getK8sAggregatorCert takes a `SecretsBundle` and returns value of the specified
 // k8s aggregator `key` or `cert` key.
-func getK8sAggregatorCert(secret *generate.SecretsBundle, kind string) string {
+func getK8sAggregatorCert(secret *secrets.Bundle, kind string) string {
 	var aggregatorCert string
 	switch kind {
 	case "cert":
@@ -99,32 +99,32 @@ func getK8sAggregatorCert(secret *generate.SecretsBundle, kind string) string {
 }
 
 // getClusterToken takes a `SecretsBundle` and returns value of the cluster token.
-func getClusterToken(secret *generate.SecretsBundle) string {
+func getClusterToken(secret *secrets.Bundle) string {
 	token := secret.Secrets.BootstrapToken
 	return token
 }
 
 // getAescbcEncryptionKey takes a `SecretsBundle` and returns value of the Aescbc encryption key.
-func getAescbcEncryptionKey(secret *generate.SecretsBundle) string {
+func getAescbcEncryptionKey(secret *secrets.Bundle) string {
 	key := secret.Secrets.AESCBCEncryptionSecret
 	return key
 }
 
 // getClusterSecret takes a `SecretsBundle` and returns value of the cluster secret key.
-func getClusterSecret(secret *generate.SecretsBundle) string {
+func getClusterSecret(secret *secrets.Bundle) string {
 	key := secret.Cluster.Secret
 	return key
 }
 
 // getMachineToken takes a `SecretsBundle` and returns value of the machine token key.
-func getMachineToken(secret *generate.SecretsBundle) string {
+func getMachineToken(secret *secrets.Bundle) string {
 	token := secret.TrustdInfo.Token
 	return token
 }
 
 // getMachineCert takes a `SecretsBundle` and returns value of the specified
 // machine `key` or `cert` key.
-func getMachineCert(secret *generate.SecretsBundle, kind string) string {
+func getMachineCert(secret *secrets.Bundle, kind string) string {
 	var machineCert string
 	switch kind {
 	case "cert":
@@ -137,7 +137,7 @@ func getMachineCert(secret *generate.SecretsBundle, kind string) string {
 
 // getClusterCert takes a `SecretsBundle` and returns value of the specified
 // cluster `key` or `cert` key.
-func getClusterCert(secret *generate.SecretsBundle, kind string) string {
+func getClusterCert(secret *secrets.Bundle, kind string) string {
 	var clusterCert string
 	switch kind {
 	case "cert":
