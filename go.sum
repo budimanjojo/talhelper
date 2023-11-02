@@ -341,12 +341,16 @@ github.com/siderolabs/image-factory v0.0.0-20231030124805-661dc70db360 h1:PUir0n
 github.com/siderolabs/image-factory v0.0.0-20231030124805-661dc70db360/go.mod h1:CEkIEeyuDtyHNJW+G8hDY6jLBxgdSV7AYi3gVMLIehA=
 github.com/siderolabs/image-factory v0.1.0 h1:/zLvkb2KgL/Sf3EqKLbaTuhMQa7MVvs3ZFiEfVxCoy0=
 github.com/siderolabs/image-factory v0.1.0/go.mod h1:/R30V+n9tdfk845MNPGg79cbUVs3Ln8oBcEsVHkTs4Y=
+github.com/siderolabs/image-factory v0.1.1 h1:yRK39qYh7wr9zIFquvkhETRKFWE2uzzTFTt9tIAvbvI=
+github.com/siderolabs/image-factory v0.1.1/go.mod h1:fQnHZq2tk0HTmElZWAFk0lobG7fxbDrT+PB1Li0kT1A=
 github.com/siderolabs/net v0.4.0 h1:1bOgVay/ijPkJz4qct98nHsiB/ysLQU0KLoBC4qLm7I=
 github.com/siderolabs/net v0.4.0/go.mod h1:/ibG+Hm9HU27agp5r9Q3eZicEfjquzNzQNux5uEk0kM=
 github.com/siderolabs/protoenc v0.2.0 h1:QFxWIAo//12+/bm27GNYoK/TpQGTYsRrrZCu9jSghvU=
 github.com/siderolabs/protoenc v0.2.0/go.mod h1:mu4gc6pJxhdJYpuloacKE4jsJojj87qDXwn8LUvs2bY=
 github.com/siderolabs/talos/pkg/machinery v1.6.0-alpha.1.0.20231030094658-cbe6e7622d01 h1:vyNwRvOGVIS3zkx1Qsr65fU9kjiUHeQwG8t6dgXIQso=
 github.com/siderolabs/talos/pkg/machinery v1.6.0-alpha.1.0.20231030094658-cbe6e7622d01/go.mod h1:5yJYpFKtvV2ttFRr8ZKV3VnlNuZXXGuIwg/3Ql3zCjo=
+github.com/siderolabs/talos/pkg/machinery v1.6.0-alpha.1.0.20231101175649-2e78513e16b2 h1:7h8o9esTbB46lX0WL+JUlmEi2aopA3InXpeBOmWIfi0=
+github.com/siderolabs/talos/pkg/machinery v1.6.0-alpha.1.0.20231101175649-2e78513e16b2/go.mod h1:5yJYpFKtvV2ttFRr8ZKV3VnlNuZXXGuIwg/3Ql3zCjo=
 github.com/sirupsen/logrus v1.9.3 h1:dueUQJ1C2q9oE3F7wvmSGAaVtTmUizReu6fjN8uqzbQ=
 github.com/sirupsen/logrus v1.9.3/go.mod h1:naHLuLoDiP4jHNo9R0sCBMtWGeIprob74mVsIT4qYEQ=
 github.com/spf13/cobra v1.7.0 h1:hyqWnYt1ZQShIddO5kBpj3vu05/++x6tJ6dg8EC572I=
