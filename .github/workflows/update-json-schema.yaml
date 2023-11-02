@@ -8,6 +8,7 @@ on:
       - main
     paths:
       - pkg/config/config.go
+      - pkg/config/schema.go
 jobs:
   update-json-schema:
     runs-on: ubuntu-latest
