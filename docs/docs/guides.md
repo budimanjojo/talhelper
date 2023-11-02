@@ -163,6 +163,8 @@ Here's the simplified step by step to achieve this:
 If you're using a text editor with `yaml` LSP support, you can use `talhelper genschema` command to generate a `talconfig.json`.
 You can then feed that file to the language server so you can get autocompletion when editing `talconfig.yaml` file.
 
+If your LSP is configured to use [JSON schema store](https://www.schemastore.org/json/), you should get auto-completion working immediately.
+
 ## Shell completion
 
 Depending on how you install `talhelper`, you might not need to do anything to get autocompletion for `talhelper` commands i.e if you install using the Nix Flakes or AUR.
