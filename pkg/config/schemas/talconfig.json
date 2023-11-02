@@ -282,10 +282,14 @@
       "additionalProperties": false,
       "type": "object"
     },
-    "InstallDiskSelector": {
+    "InstallDiskSelectorWrapper": {
       "properties": {
         "size": {
-          "$ref": "#/$defs/InstallDiskSizeMatcher"
+          "type": "string",
+          "description": "Disk size",
+          "examples": [
+            "4GB"
+          ]
         },
         "name": {
           "type": "string"
@@ -306,31 +310,13 @@
           "type": "string"
         },
         "type": {
-          "type": "integer"
+          "type": "string",
+          "examples": [
+            "ssd"
+          ]
         },
         "busPath": {
           "type": "string"
-        }
-      },
-      "additionalProperties": false,
-      "type": "object"
-    },
-    "InstallDiskSizeMatchData": {
-      "properties": {
-        "Op": {
-          "type": "string"
-        },
-        "Size": {
-          "type": "integer"
-        }
-      },
-      "additionalProperties": false,
-      "type": "object"
-    },
-    "InstallDiskSizeMatcher": {
-      "properties": {
-        "MatchData": {
-          "$ref": "#/$defs/InstallDiskSizeMatchData"
         }
       },
       "additionalProperties": false,
@@ -466,7 +452,7 @@
           "description": "The disk used for installation"
         },
         "installDiskSelector": {
-          "$ref": "#/$defs/InstallDiskSelector",
+          "$ref": "#/$defs/InstallDiskSelectorWrapper",
           "description": "Look up disk used for installation"
         },
         "machineDisks": {
