@@ -49,6 +49,7 @@ func (c TalhelperConfig) Validate() (Errors, Warnings) {
 	for k, node := range c.Nodes {
 		checkNodeRequiredCfg(node, k, &result)
 		checkNodeIPAddress(node, k, &result)
+		checkNodeHostname(node, k, &result)
 		checkNodeLabels(node, k, &result)
 		checkNodeMachineDisks(node, k, &result)
 		checkNodeMachineFiles(node, k, &result)

@@ -6,6 +6,7 @@ import (
 	"regexp"
 	"slices"
 	"strings"
+	"sync"
 
 	"github.com/gookit/validate"
 	"github.com/hashicorp/go-multierror"
@@ -288,6 +289,19 @@ func checkNodeIPAddress(node Node, idx int, result *Errors) *Errors {
 	return result
 }
 
+func checkNodeHostname(node Node, idx int, result *Errors) *Errors {
+	if node.Hostname != "" {
+		if !isHostname(node.Hostname) {
+			return result.Append(&Error{
+				Kind:    "InvalidNodeHostname",
+				Field:   getNodeFieldYamlTag(node, idx, "Hostname"),
+				Message: formatError(multierror.Append(fmt.Errorf("%q is not a valid hostname", node.Hostname))),
+			})
+		}
+	}
+	return result
+}
+
 func checkNodeLabels(node Node, idx int, result *Errors) *Errors {
 	if node.NodeLabels != nil {
 		var messages *multierror.Error
@@ -520,6 +534,17 @@ func checkNodeConfigPatches(node Node, idx int, result *Errors) *Errors {
 		}
 	}
 	return result
+}
+
+var hostnamePattern = sync.OnceValue(func() *regexp.Regexp {
+	return regexp.MustCompile(`^([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])(\.([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]{0,61}[a-zA-Z0-9]))*$`)
+})
+
+func isHostname(hostname string) bool {
+	if len(hostname) < 1 || len(hostname) > 255 {
+		return false
+	}
+	return hostnamePattern().MatchString(hostname)
 }
 
 func isDomain(domain string) bool {
