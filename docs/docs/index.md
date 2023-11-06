@@ -2,7 +2,7 @@
 
 ## Overview
 
-`talhelper` is a tool to help creating [Talos](https://talos.dev) configuration files with GitOps in mind.
+`talhelper` is a tool to help creating [Talos](https://talos.dev) configuration files declaratively.
 It was inspired by a `python` script written by [@bjw-s](https://github.com/bjw-s).
 
 In a nutshell, this is what `talhelper` does step by step behind the door:
@@ -34,7 +34,7 @@ With `talhelper`, the steps will become like this:
 - Run `talosctl apply-config --insecure -n <ip-address> --file ./clusterconfig/<cluster-name>-<hostname>.yaml` for each node.
 
 Yes there are more steps needed.
-But now you can commit your `talconfig.yaml` and the encrypted `talsecret.sops.yaml` to your gitops repository and get your whole cluster version controlled.
+But now you can commit your `talconfig.yaml` and the encrypted `talsecret.sops.yaml` to your repository and get your whole cluster version controlled.
 
 To get started, hop over to the [Getting Started](getting-started.md) section.
 
