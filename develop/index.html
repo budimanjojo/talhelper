@@ -112,7 +112,7 @@
               
                 <h1 id="introduction">Introduction</h1>
 <h2 id="overview">Overview</h2>
-<p><code>talhelper</code> is a tool to help creating <a href="https://talos.dev">Talos</a> configuration files with GitOps in mind.
+<p><code>talhelper</code> is a tool to help creating <a href="https://talos.dev">Talos</a> configuration files declaratively.
 It was inspired by a <code>python</code> script written by <a href="https://github.com/bjw-s">@bjw-s</a>.</p>
 <p>In a nutshell, this is what <code>talhelper</code> does step by step behind the door:</p>
 <ul>
@@ -140,7 +140,7 @@ It was inspired by a <code>python</code> script written by <a href="https://gith
 <li>Run <code>talosctl apply-config --insecure -n &lt;ip-address&gt; --file ./clusterconfig/&lt;cluster-name&gt;-&lt;hostname&gt;.yaml</code> for each node.</li>
 </ul>
 <p>Yes there are more steps needed.
-But now you can commit your <code>talconfig.yaml</code> and the encrypted <code>talsecret.sops.yaml</code> to your gitops repository and get your whole cluster version controlled.</p>
+But now you can commit your <code>talconfig.yaml</code> and the encrypted <code>talsecret.sops.yaml</code> to your repository and get your whole cluster version controlled.</p>
 <p>To get started, hop over to the <a href="getting-started/">Getting Started</a> section.</p>
 <h2 id="alternatives">Alternatives</h2>
 <p>There are some alternatives you can consider instead of <code>talhelper</code>.</p>
