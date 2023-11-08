@@ -9,7 +9,7 @@ on:
     paths:
       - cmd/**
 jobs:
-  update-json-schema:
+  generate-cli-ref-doc:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/setup-go@v4
