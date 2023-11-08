@@ -13,7 +13,6 @@ import (
 	"github.com/fatih/color"
 
 	"github.com/spf13/cobra"
-	"gopkg.in/yaml.v3"
 )
 
 var (
@@ -31,7 +30,7 @@ var genconfigCmd = &cobra.Command{
 	Short: "Generate Talos cluster config YAML files",
 	Args:  cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
-		talCfg, err := os.ReadFile(genconfigCfgFile)
+		cfgByte, err := os.ReadFile(genconfigCfgFile)
 		if err != nil {
 			log.Fatalf("failed to read config file: %s", err)
 		}
@@ -54,15 +53,17 @@ var genconfigCmd = &cobra.Command{
 			}
 		}
 
-		talCfg, err = substitute.SubstituteEnvFromByte(talCfg)
+		cfgByte, err = substitute.SubstituteEnvFromByte(cfgByte)
 		if err != nil {
 			log.Fatalf("failed to substitute env: %s", err)
 		}
 
-		errs, warns, err := config.ValidateFromByte(talCfg)
+		cfg, err := config.NewFromByte(cfgByte)
 		if err != nil {
-			log.Fatalf("failed to validate talhelper config file: %s", err)
+			log.Fatalf("failed to unmarshal config file: %s", err)
 		}
+
+		errs, warns := cfg.Validate()
 		if len(errs) > 0 || len(warns) > 0 {
 			color.Red("There are issues with your talhelper config file:")
 			grouped := make(map[string][]string)
@@ -84,13 +85,6 @@ var genconfigCmd = &cobra.Command{
 			}
 		}
 
-		var m config.TalhelperConfig
-
-		err = yaml.Unmarshal(talCfg, &m)
-		if err != nil {
-			log.Fatalf("failed to unmarshal data: %s", err)
-		}
-
 		var secretFile string
 		for _, file := range genconfigSecretFile {
 			if _, err := os.Stat(file); err == nil {
@@ -102,13 +96,13 @@ var genconfigCmd = &cobra.Command{
 			}
 		}
 
-		err = generate.GenerateConfig(&m, genconfigDryRun, genconfigOutDir, secretFile, genconfigTalosMode)
+		err = generate.GenerateConfig(&cfg, genconfigDryRun, genconfigOutDir, secretFile, genconfigTalosMode)
 		if err != nil {
 			log.Fatalf("failed to generate talos config: %s", err)
 		}
 
 		if !genconfigNoGitignore && !genconfigDryRun {
-			err = m.GenerateGitignore(genconfigOutDir)
+			err = cfg.GenerateGitignore(genconfigOutDir)
 			if err != nil {
 				log.Fatalf("failed to generate gitignore file: %s", err)
 			}
