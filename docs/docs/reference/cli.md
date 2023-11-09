@@ -365,8 +365,6 @@ A tool to help with creating Talos cluster
 
 talhelper is a tool to help you create a Talos cluster.
 
-Currently there is only one usage, which is creating a cluster config YAML file.
-
 Workflow:
   Create talconfig.yaml file defining your nodes information like so:
 
