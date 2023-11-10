@@ -7,7 +7,6 @@ import (
 	"os"
 
 	"github.com/budimanjojo/talhelper/pkg/config"
-	"github.com/budimanjojo/talhelper/pkg/decrypt"
 	"github.com/budimanjojo/talhelper/pkg/generate"
 	"github.com/budimanjojo/talhelper/pkg/substitute"
 	"github.com/fatih/color"
@@ -35,22 +34,8 @@ var genconfigCmd = &cobra.Command{
 			log.Fatalf("failed to read config file: %s", err)
 		}
 
-		for _, talEnv := range genconfigEnvFile {
-			if _, err := os.Stat(talEnv); err == nil {
-				env, err := decrypt.DecryptYamlWithSops(talEnv)
-				if err != nil {
-					log.Fatalf("failed to decrypt/read env file %s: %s", talEnv, err)
-				}
-
-				err = substitute.LoadEnv(env)
-				if err != nil {
-					log.Fatalf("failed to load env variables from file %s: %s", talEnv, err)
-				}
-			} else if errors.Is(err, os.ErrNotExist) {
-				continue
-			} else {
-				log.Fatalf("failed to stat env file %s: %s ", talEnv, err)
-			}
+		if err := substitute.LoadEnvFromFiles(genconfigEnvFile); err != nil {
+			log.Fatalf("failed to load env file: %s", err)
 		}
 
 		cfgByte, err = substitute.SubstituteEnvFromByte(cfgByte)

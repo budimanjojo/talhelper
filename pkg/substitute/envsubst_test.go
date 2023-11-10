@@ -5,6 +5,27 @@ import (
 	"testing"
 )
 
+func TestLoadEnvFromFiles(t *testing.T) {
+	os.Setenv("SOPS_AGE_KEY", "AGE-SECRET-KEY-172FENV3SDP8JSRRX2SWTA9JQMAW7MW3GSKJ2JZDNXS4GVFAS5STQUW8WN4")
+
+	files := []string{"testdata/file1.yml", "./testdata/file2.yaml", "./testdata/file3.sops.yaml"}
+	expected := map[string]string{
+		"env1":          "hello",
+		"env2":          "world",
+		"env3":          "this is value",
+		"enc_hello_env": "hello",
+	}
+	if err := LoadEnvFromFiles(files); err != nil {
+		t.Fatal(err)
+	}
+
+	for k, v := range expected {
+		if result, _ := os.LookupEnv(k); result != v {
+			t.Errorf("%s: got %s, want %s", k, result, v)
+		}
+	}
+}
+
 func TestSubstituteEnvFromYaml(t *testing.T) {
 	env := `env1: value1
 env2: "true"
