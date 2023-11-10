@@ -256,7 +256,7 @@ talhelper genurl installer [flags]
   -h, --help                  help for installer
   -k, --kernel-arg strings    Kernel arguments to be passed to the image kernel
   -r, --registry-url string   Registry url of the image (default "factory.talos.dev/installer")
-  -v, --version string        Talos version to generate (defaults to latest Talos version) (default "v1.5.4")
+  -v, --version string        Talos version to generate (defaults to latest Talos version) (default "v1.5.5")
 ```
 
 ### SEE ALSO
@@ -281,7 +281,7 @@ talhelper genurl iso [flags]
   -k, --kernel-arg strings    Kernel arguments to be passed to the image kernel
   -r, --registry-url string   Registry url of the image (default "https://factory.talos.dev/image")
   -m, --talos-mode string     Talos runtime mode to generate URL (default "metal")
-  -v, --version string        Talos version to generate (defaults to latest Talos version) (default "v1.5.4")
+  -v, --version string        Talos version to generate (defaults to latest Talos version) (default "v1.5.5")
 ```
 
 ### SEE ALSO
