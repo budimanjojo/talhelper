@@ -1,6 +1,7 @@
 package substitute
 
 import (
+	"bytes"
 	"os"
 	"regexp"
 
@@ -40,8 +41,8 @@ func SubstituteEnvFromByte(file []byte) ([]byte, error) {
 func stripYamlComment(file []byte) []byte {
 	// FIXME use better logic than regex.
 	re := regexp.MustCompile(".?#.*\n")
-	first := re.ReplaceAllFunc(file, func(b []byte) []byte {
-		re := regexp.MustCompile("^['\"].+['\"]|^[a-zA-Z1-9]")
+	stripped := re.ReplaceAllFunc(file, func(b []byte) []byte {
+		re := regexp.MustCompile("^['\"].+['\"]|^[a-zA-Z0-9]")
 		if re.Match(b) {
 			return b
 		} else {
@@ -49,5 +50,12 @@ func stripYamlComment(file []byte) []byte {
 		}
 	})
 
-	return first
+	var final bytes.Buffer
+	for _, line := range bytes.Split(stripped, []byte("\n")) {
+		if len(bytes.TrimSpace(line)) > 0 {
+			final.WriteString(string(line) + "\n")
+		}
+	}
+
+	return final.Bytes()
 }

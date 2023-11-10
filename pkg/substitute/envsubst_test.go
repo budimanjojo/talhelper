@@ -13,8 +13,10 @@ default: default value
 `
 
 	file := `a: ${env1}
-b: "${env2:+$default}"
-c: "${env3-$default}"
+b: "${env2:+$default}" ## commentb
+## this is comment
+# another comment
+c: "${env3-$default}" # commentc
 d: ${env4:=$default}
 `
 
@@ -40,6 +42,7 @@ func TestLoadEnv(t *testing.T) {
 env2: "true"
 env3: 123
 default: default value
+# env2: "false"
 `
 	expected := map[string]string{
 		"env1":    "value1",
@@ -55,7 +58,7 @@ default: default value
 
 	for k, v := range expected {
 		if result, _ := os.LookupEnv(k); result != v {
-			t.Errorf("got %s, want %s", result, v)
+			t.Errorf("%s: got %s, want %s", k, result, v)
 		}
 	}
 }
