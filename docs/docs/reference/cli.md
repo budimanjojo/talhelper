@@ -334,7 +334,9 @@ talhelper validate talconfig [file] [flags]
 ### Options
 
 ```
-  -h, --help   help for talconfig
+  -e, --env-file strings   List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yaml,talenv.sops.yml])
+  -h, --help               help for talconfig
+      --no-substitute      Whether to do envsubst on before validation
 ```
 
 ### SEE ALSO
