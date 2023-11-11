@@ -3,10 +3,17 @@ package cmd
 import (
 	"fmt"
 	"log"
+	"os"
 
 	"github.com/budimanjojo/talhelper/pkg/config"
+	"github.com/budimanjojo/talhelper/pkg/substitute"
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
+)
+
+var (
+	validateTHEnvFile      []string
+	validateTHNoSubstitute bool
 )
 
 var validateTHCmd = &cobra.Command{
@@ -20,7 +27,22 @@ var validateTHCmd = &cobra.Command{
 			cfg = args[0]
 		}
 
-		errs, warns, err := config.ValidateFromFile(cfg)
+		cfgByte, err := os.ReadFile(cfg)
+		if err != nil {
+			log.Fatalf("failed to read config file: %s", err)
+		}
+
+		if !validateTHNoSubstitute {
+			if err := substitute.LoadEnvFromFiles(validateTHEnvFile); err != nil {
+				log.Fatalf("failed to load env file: %s", err)
+			}
+			cfgByte, err = substitute.SubstituteEnvFromByte(cfgByte)
+			if err != nil {
+				log.Fatalf("failed trying to substitute env: %s", err)
+			}
+		}
+
+		errs, warns, err := config.ValidateFromByte(cfgByte)
 		if err != nil {
 			log.Fatalf("failed to validate talhelper config file: %s", err)
 		}
@@ -48,4 +70,7 @@ var validateTHCmd = &cobra.Command{
 
 func init() {
 	validateCmd.AddCommand(validateTHCmd)
+
+	validateTHCmd.Flags().StringSliceVarP(&validateTHEnvFile, "env-file", "e", []string{"talenv.yaml", "talenv.sops.yaml", "talenv.yaml", "talenv.sops.yml"}, "List of files containing env variables for config file")
+	validateTHCmd.Flags().BoolVar(&validateTHNoSubstitute, "no-substitute", false, "Whether to do envsubst on before validation")
 }
