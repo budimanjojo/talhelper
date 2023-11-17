@@ -11,7 +11,7 @@ buildGo121Module rec {
     sha256 = "sha256-gX07Gy+TfVFJioEWImS6N2vJTipwRoDtmDcv9juWlnM=";
   };
 
-  vendorSha256 = "sha256-GKUMqueSkuQRDVjVE7QjvgxSxVBQxD9effeFDVY4+dI=";
+  vendorHash = "sha256-GKUMqueSkuQRDVjVE7QjvgxSxVBQxD9effeFDVY4+dI=";
 
   ldflags = [ "-s -w -X github.com/budimanjojo/talhelper/cmd.version=v${version}" ];
 
