@@ -398,29 +398,8 @@ func checkNodeSchematic(node Node, idx int, result *Errors) *Errors {
 	var messages *multierror.Error
 	extensions := map[string]struct{}{}
 	if node.Schematic != nil {
-		supportedExtensions := []string{
-			"siderolabs/amd-ucode",
-			"siderolabs/bnx2-bnx2x",
-			"siderolabs/drbd",
-			"siderolabs/gasket-driver",
-			"siderolabs/gvisor",
-			"siderolabs/hello-world-service",
-			"siderolabs/i915-ucode",
-			"siderolabs/intel-ucode",
-			"siderolabs/iscsi-tools",
-			"siderolabs/nut-client",
-			"siderolabs/nvidia-container-toolkit",
-			"siderolabs/nvidia-fabricmanager",
-			"siderolabs/nvidia-open-gpu-kernel-modules",
-			"siderolabs/qemu-guest-agent",
-			"siderolabs/tailscale",
-			"siderolabs/thunderbolt",
-			"siderolabs/usb-modem-drivers",
-			"siderolabs/zfs",
-			"siderolabs/nonfree-kmod-nvidia",
-		}
 		for _, ext := range node.Schematic.Customization.SystemExtensions.OfficialExtensions {
-			if !slices.Contains(supportedExtensions, ext) {
+			if !slices.Contains(OfficialExtensions, ext) {
 				messages = multierror.Append(messages, fmt.Errorf("%q is not a supported Talos extension", ext))
 			}
 			if _, exists := extensions[ext]; exists {

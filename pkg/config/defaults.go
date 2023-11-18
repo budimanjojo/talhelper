@@ -10,6 +10,28 @@ import (
 // renovate: depName=siderolabs/talos datasource=github-releases
 var LatestTalosVersion = "v1.5.5"
 
+var OfficialExtensions = []string{
+	"siderolabs/amd-ucode",
+	"siderolabs/bnx2-bnx2x",
+	"siderolabs/drbd",
+	"siderolabs/gasket-driver",
+	"siderolabs/gvisor",
+	"siderolabs/hello-world-service",
+	"siderolabs/i915-ucode",
+	"siderolabs/intel-ucode",
+	"siderolabs/iscsi-tools",
+	"siderolabs/nut-client",
+	"siderolabs/nvidia-container-toolkit",
+	"siderolabs/nvidia-fabricmanager",
+	"siderolabs/nvidia-open-gpu-kernel-modules",
+	"siderolabs/qemu-guest-agent",
+	"siderolabs/tailscale",
+	"siderolabs/thunderbolt",
+	"siderolabs/usb-modem-drivers",
+	"siderolabs/zfs",
+	"siderolabs/nonfree-kmod-nvidia",
+}
+
 // GetK8sVersion returns Kubernetes version string without `v` prefix.
 func (c *TalhelperConfig) GetK8sVersion() string {
 	if c.KubernetesVersion == "" {
