@@ -2,7 +2,9 @@ package generate
 
 import (
 	"fmt"
+	"log"
 	"github.com/budimanjojo/talhelper/pkg/config"
+	"github.com/budimanjojo/talhelper/pkg/talos"
 )
 
 func GenerateCommand(c *config.TalhelperConfig, outDir string, generateApply bool, generateUpgrade bool) error {
@@ -18,7 +20,10 @@ func GenerateCommand(c *config.TalhelperConfig, outDir string, generateApply boo
 		}
 		
 		if generateUpgrade {
-			var image = "test123"
+			var image, err = talos.GetInstallerURL(node.Schematic, "factory.talos.dev", c.TalosVersion)
+			if err != nil {
+				log.Fatalf("Failed to generate installer url, %v", err)
+			}
 			fmt.Printf("talosctl upgrade --talosconfig %s/talosconfig --nodes %s --image %s;\n", outDir, node.IPAddress, image)
 		}
 	}
