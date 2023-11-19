@@ -14,22 +14,26 @@ import (
 )
 
 var (
-	generateApply      bool
-	generateUpgrade      bool
-	generateForNode      string
+	gencommandOutDir     string
+	gencommandCfgFile    string
+	gencommandEnvFile    []string
+
+	gencommandFlagApply        bool
+	gencommandFlagUpgrade      bool
+	gencommandFlagNode         string
 )
 
 var gencommandCmd = &cobra.Command{
 	Use:   "gencommand",
-	Short: "Generate the talosctl command for applying the talhelper generated config files.",
+	Short: "Generate talosctl commands.",
 	Args:  cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
-		cfgByte, err := os.ReadFile(genconfigCfgFile)
+		cfgByte, err := os.ReadFile(gencommandCfgFile)
 		if err != nil {
 			log.Fatalf("failed to read config file: %s", err)
 		}
 
-		if err := substitute.LoadEnvFromFiles(genconfigEnvFile); err != nil {
+		if err := substitute.LoadEnvFromFiles(gencommandEnvFile); err != nil {
 			log.Fatalf("failed to load env file: %s", err)
 		}
 
@@ -65,18 +69,18 @@ var gencommandCmd = &cobra.Command{
 			}
 		}
 
-		err = generate.GenerateCommand(&cfg, genconfigOutDir, generateForNode, generateApply, generateUpgrade)
+		err = generate.GenerateCommand(&cfg, gencommandOutDir, gencommandFlagNode, gencommandFlagApply, gencommandFlagUpgrade)
 		if err != nil {
-			log.Fatalf("failed to generate talosctl command: %s", err)
+			return fmt.Errorf("failed to generate talosctl command: %s", err)
 		}
 	},
 }
 
 func init() {
 	rootCmd.AddCommand(gencommandCmd)
-	gencommandCmd.Flags().StringVarP(&genconfigCfgFile, "config-file", "c", "talconfig.yaml", "File containing configurations for talhelper")
-	gencommandCmd.Flags().StringVarP(&genconfigOutDir, "out-dir", "o", "./clusterconfig", "Directory where to dump the generated files")
-	gencommandCmd.Flags().StringVarP(&generateForNode, "node", "n", "", "A specific node to generate the command for. If not specified, will generate for all nodes.")
-	gencommandCmd.Flags().BoolVarP(&generateApply, "apply", "a", false, "Generate the talosctl apply commands.")
-	gencommandCmd.Flags().BoolVarP(&generateUpgrade, "upgrade", "u", false, "Generate the talosctl upgrade commands.")
+	gencommandCmd.Flags().StringVarP(&gencommandCfgFile, "config-file", "c", "talconfig.yaml", "File containing configurations for talhelper")
+	gencommandCmd.Flags().StringVarP(&gencommandOutDir, "out-dir", "o", "./clusterconfig", "Directory where the generated files were dumped with `genconfig`.")
+	gencommandCmd.Flags().StringVarP(&gencommandFlagNode, "node", "n", "", "A specific node to generate the command for. If not specified, will generate for all nodes.")
+	gencommandCmd.Flags().BoolVarP(&gencommandFlagApply, "apply", "a", false, "Generate the talosctl apply commands.")
+	gencommandCmd.Flags().BoolVarP(&gencommandFlagUpgrade, "upgrade", "u", false, "Generate the talosctl upgrade commands.")
 }
