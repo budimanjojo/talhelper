@@ -8,7 +8,7 @@ import (
 	"github.com/siderolabs/image-factory/pkg/schematic"
 )
 
-func GenerateCommand(cfg *config.TalhelperConfig, gencommandOutDir string, gencommandFlagNode string, gencommandFlagApply bool, gencommandFlagUpgrade bool, gencommandInstallerRegistryURL string) error {
+func GenerateCommand(cfg *config.TalhelperConfig, gencommandOutDir string, gencommandFlagNode string, gencommandFlagApply bool, gencommandFlagUpgrade bool, gencommandInstallerRegistryURL string, gencommandExtraFlags []string) error {
 	if !gencommandFlagApply && !gencommandFlagUpgrade {
 		return fmt.Errorf("Must select one of `--apply` of `--upgrade`\n")
 	}
@@ -24,6 +24,7 @@ func GenerateCommand(cfg *config.TalhelperConfig, gencommandOutDir string, genco
 					"--nodes=" + node.IPAddress,
 					"--file=" + gencommandOutDir + "/" + cfg.ClusterName + "-" + node.Hostname + ".yaml",
 				}
+				applyFlags = append(applyFlags, gencommandExtraFlags...)
 				fmt.Printf("talosctl apply-config %s;\n", strings.Join(applyFlags, " "))
 			}
 			
@@ -46,6 +47,7 @@ func GenerateCommand(cfg *config.TalhelperConfig, gencommandOutDir string, genco
 					"--nodes=" + node.IPAddress,
 					"--image=" + imageUrl,
 				}
+				upgradeFlags = append(upgradeFlags, gencommandExtraFlags...)
 				fmt.Printf("talosctl upgrade %s;\n", strings.Join(upgradeFlags, " "))
 			}
 		}
