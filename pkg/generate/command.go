@@ -8,48 +8,49 @@ import (
 	"github.com/siderolabs/image-factory/pkg/schematic"
 )
 
-func GenerateCommand(cfg *config.TalhelperConfig, gencommandOutDir string, gencommandFlagNode string, gencommandFlagApply bool, gencommandFlagUpgrade bool, gencommandInstallerRegistryURL string, gencommandExtraFlags []string) error {
-	if !gencommandFlagApply && !gencommandFlagUpgrade {
-		return fmt.Errorf("Must select one of `--apply` of `--upgrade`\n")
-	}
-
+func GenerateApplyCommand(cfg *config.TalhelperConfig, gencommandOutDir string, gencommandFlagNode string, gencommandExtraFlags []string) error {
 	for _, node := range cfg.Nodes {
 		isSelectedNode := ( (gencommandFlagNode != "") && (gencommandFlagNode == node.IPAddress) )
 		allNodesSelected := (gencommandFlagNode == "")
 
 		if allNodesSelected || isSelectedNode {
-			if gencommandFlagApply {
-				applyFlags := []string{
-					"--talosconfig=" + gencommandOutDir + "/talosconfig",
-					"--nodes=" + node.IPAddress,
-					"--file=" + gencommandOutDir + "/" + cfg.ClusterName + "-" + node.Hostname + ".yaml",
-				}
-				applyFlags = append(applyFlags, gencommandExtraFlags...)
-				fmt.Printf("talosctl apply-config %s;\n", strings.Join(applyFlags, " "))
+			applyFlags := []string{
+				"--talosconfig=" + gencommandOutDir + "/talosconfig",
+				"--nodes=" + node.IPAddress,
+				"--file=" + gencommandOutDir + "/" + cfg.ClusterName + "-" + node.Hostname + ".yaml",
 			}
-			
-			if gencommandFlagUpgrade {
-				var imageUrl string
+			applyFlags = append(applyFlags, gencommandExtraFlags...)
+			fmt.Printf("talosctl apply-config %s;\n", strings.Join(applyFlags, " "))
+		}
+	}
 
-				if node.Schematic != nil {
-					url, err := talos.GetInstallerURL(node.Schematic, gencommandInstallerRegistryURL, cfg.GetTalosVersion())
-					if err != nil {
-						return fmt.Errorf("Failed to generate installer url for %s, %v", node.Hostname, err)
-					}
-					imageUrl = url
-				} else {
-					url, _ := talos.GetInstallerURL(&schematic.Schematic{}, gencommandInstallerRegistryURL, cfg.GetTalosVersion())
-					imageUrl = url
-				}
+	return nil
+}
 
-				upgradeFlags := []string{
-					"--talosconfig=" + gencommandOutDir + "/talosconfig",
-					"--nodes=" + node.IPAddress,
-					"--image=" + imageUrl,
+func GenerateUpgradeCommand(cfg *config.TalhelperConfig, gencommandOutDir string, gencommandFlagNode string, gencommandInstallerRegistryURL string, gencommandExtraFlags []string) error {
+	for _, node := range cfg.Nodes {
+		isSelectedNode := ( (gencommandFlagNode != "") && (gencommandFlagNode == node.IPAddress) )
+		allNodesSelected := (gencommandFlagNode == "")
+
+		if allNodesSelected || isSelectedNode {
+			var url string
+			if node.Schematic != nil {
+				var err error
+				url, err = talos.GetInstallerURL(node.Schematic, gencommandInstallerRegistryURL, cfg.GetTalosVersion())
+				if err != nil {
+					return fmt.Errorf("Failed to generate installer url for %s, %v", node.Hostname, err)
 				}
-				upgradeFlags = append(upgradeFlags, gencommandExtraFlags...)
-				fmt.Printf("talosctl upgrade %s;\n", strings.Join(upgradeFlags, " "))
+			} else {
+				url, _ = talos.GetInstallerURL(&schematic.Schematic{}, gencommandInstallerRegistryURL, cfg.GetTalosVersion())
 			}
+
+			upgradeFlags := []string{
+				"--talosconfig=" + gencommandOutDir + "/talosconfig",
+				"--nodes=" + node.IPAddress,
+				"--image=" + url,
+			}
+			upgradeFlags = append(upgradeFlags, gencommandExtraFlags...)
+			fmt.Printf("talosctl upgrade %s;\n", strings.Join(upgradeFlags, " "))
 		}
 	}
 
