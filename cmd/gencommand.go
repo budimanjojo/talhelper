@@ -21,6 +21,7 @@ var (
 	gencommandFlagApply        bool
 	gencommandFlagUpgrade      bool
 	gencommandFlagNode         string
+	gencommandInstallerRegistryURL string
 )
 
 var gencommandCmd = &cobra.Command{
@@ -69,9 +70,9 @@ var gencommandCmd = &cobra.Command{
 			}
 		}
 
-		err = generate.GenerateCommand(&cfg, gencommandOutDir, gencommandFlagNode, gencommandFlagApply, gencommandFlagUpgrade)
+		err = generate.GenerateCommand(&cfg, gencommandOutDir, gencommandFlagNode, gencommandFlagApply, gencommandFlagUpgrade, gencommandInstallerRegistryURL)
 		if err != nil {
-			return fmt.Errorf("failed to generate talosctl command: %s", err)
+			log.Fatalf("failed to generate talosctl command: %s", err)
 		}
 	},
 }
@@ -81,6 +82,7 @@ func init() {
 	gencommandCmd.Flags().StringVarP(&gencommandCfgFile, "config-file", "c", "talconfig.yaml", "File containing configurations for talhelper")
 	gencommandCmd.Flags().StringVarP(&gencommandOutDir, "out-dir", "o", "./clusterconfig", "Directory where the generated files were dumped with `genconfig`.")
 	gencommandCmd.Flags().StringVarP(&gencommandFlagNode, "node", "n", "", "A specific node to generate the command for. If not specified, will generate for all nodes.")
+	gencommandCmd.Flags().StringVarP(&gencommandInstallerRegistryURL, "registry-url", "r", "factory.talos.dev/installer", "Registry url of the image")
 	gencommandCmd.Flags().BoolVarP(&gencommandFlagApply, "apply", "a", false, "Generate the talosctl apply commands.")
 	gencommandCmd.Flags().BoolVarP(&gencommandFlagUpgrade, "upgrade", "u", false, "Generate the talosctl upgrade commands.")
 }
