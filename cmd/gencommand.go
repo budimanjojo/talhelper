@@ -16,6 +16,7 @@ import (
 var (
 	generateApply      bool
 	generateUpgrade      bool
+	generateForNode      string
 )
 
 var gencommandCmd = &cobra.Command{
@@ -64,7 +65,7 @@ var gencommandCmd = &cobra.Command{
 			}
 		}
 
-		err = generate.GenerateCommand(&cfg, genconfigOutDir, generateApply, generateUpgrade)
+		err = generate.GenerateCommand(&cfg, genconfigOutDir, generateForNode, generateApply, generateUpgrade)
 		if err != nil {
 			log.Fatalf("failed to generate talosctl command: %s", err)
 		}
@@ -74,6 +75,8 @@ var gencommandCmd = &cobra.Command{
 func init() {
 	rootCmd.AddCommand(gencommandCmd)
 	gencommandCmd.Flags().StringVarP(&genconfigCfgFile, "config-file", "c", "talconfig.yaml", "File containing configurations for talhelper")
+	gencommandCmd.Flags().StringVarP(&genconfigOutDir, "out-dir", "o", "./clusterconfig", "Directory where to dump the generated files")
+	gencommandCmd.Flags().StringVarP(&generateForNode, "node", "n", "", "A specific node to generate the command for. If not specified, will generate for all nodes.")
 	gencommandCmd.Flags().BoolVarP(&generateApply, "apply", "a", false, "Generate the talosctl apply commands.")
 	gencommandCmd.Flags().BoolVarP(&generateUpgrade, "upgrade", "u", false, "Generate the talosctl upgrade commands.")
 }
