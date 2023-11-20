@@ -80,6 +80,6 @@ func init() {
 	gencommandApplyCmd.Flags().StringVarP(&gencommandApplyCfgFile, "config-file", "c", "talconfig.yaml", "File containing configurations for talhelper")
 	gencommandApplyCmd.Flags().StringVarP(&gencommandApplyOutDir, "out-dir", "o", "./clusterconfig", "Directory that contains the generated config files to apply.")
 	gencommandApplyCmd.Flags().StringSliceVar(&gencommandApplyEnvFile, "env-file", []string{"talenv.yaml", "talenv.sops.yaml", "talenv.yml", "talenv.sops.yml"}, "List of files containing env variables for config file")
-	gencommandApplyCmd.Flags().StringSliceVar(&gencommandApplyExtraFlags, "extra-flags", []string{""}, "List of additional flags that will be injected into the generated commands.")
+	gencommandApplyCmd.Flags().StringSliceVar(&gencommandApplyExtraFlags, "extra-flags", []string{}, "List of additional flags that will be injected into the generated commands.")
 	gencommandApplyCmd.Flags().StringVarP(&gencommandApplyNode, "node", "n", "", "A specific node to generate the command for. If not specified, will generate for all nodes.")
 }

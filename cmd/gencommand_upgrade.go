@@ -81,7 +81,7 @@ func init() {
 	gencommandUpgradeCmd.Flags().StringVarP(&gencommandUpgradeCfgFile, "config-file", "c", "talconfig.yaml", "File containing configurations for talhelper")
 	gencommandUpgradeCmd.Flags().StringVarP(&gencommandUpgradeOutDir, "out-dir", "o", "./clusterconfig", "Directory where the generated files were dumped with `genconfig`.")
 	gencommandUpgradeCmd.Flags().StringSliceVar(&gencommandUpgradeEnvFile, "env-file", []string{"talenv.yaml", "talenv.sops.yaml", "talenv.yml", "talenv.sops.yml"}, "List of files containing env variables for config file")
-	gencommandUpgradeCmd.Flags().StringSliceVar(&gencommandUpgradeExtraFlags, "extra-flags", []string{""}, "List of additional flags that will be injected into the generated commands.")
+	gencommandUpgradeCmd.Flags().StringSliceVar(&gencommandUpgradeExtraFlags, "extra-flags", []string{}, "List of additional flags that will be injected into the generated commands.")
 	gencommandUpgradeCmd.Flags().StringVarP(&gencommandUpgradeFlagNode, "node", "n", "", "A specific node to generate the command for. If not specified, will generate for all nodes.")
 	gencommandUpgradeCmd.Flags().StringVarP(&gencommandUpgradeInstallerRegistryURL, "registry-url", "r", "factory.talos.dev/installer", "Registry url of the image")
 }
