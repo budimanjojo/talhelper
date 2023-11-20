@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"strings"
 
 	"github.com/budimanjojo/talhelper/pkg/config"
 	"github.com/budimanjojo/talhelper/pkg/substitute"
@@ -17,6 +18,7 @@ import (
 var (
 	genurlISOCfgFile     string
 	genurlISOEnvFile     []string
+	genurlISONode        string
 	genurlISORegistryURL string
 	genurlISOVersion     string
 	genurlISOTalosMode   string
@@ -70,16 +72,42 @@ var genurlISOCmd = &cobra.Command{
 				}
 			}
 
+			var urls []string
 			for _, node := range cfg.Nodes {
+				if genurlISONode != "" && node.IPAddress != genurlISONode {
+					continue
+				}
+
+				schema := &schematic.Schematic{}
 				if node.Schematic != nil {
-					url, err := talos.GetISOURL(node.Schematic, genurlISORegistryURL, cfg.GetTalosVersion(), genurlISOTalosMode, genurlISOArch)
+					schema = node.Schematic
+				}
+
+				if node.IPAddress == genurlISONode {
+					url, err := talos.GetISOURL(schema, genurlISORegistryURL, cfg.GetTalosVersion(), genurlISOTalosMode, genurlISOArch)
 					if err != nil {
-						log.Fatalf("Failed to generate installer url for %s, %v", node.Hostname, err)
+						log.Fatalf("Failed to generate ISO url for %s, %v", node.Hostname, err)
 					}
-					fmt.Printf("%s: %s\n", node.Hostname, url)
-				} else {
-					url, _ := talos.GetISOURL(&schematic.Schematic{}, genurlISORegistryURL, cfg.GetTalosVersion(), genurlISOTalosMode, genurlISOArch)
-					fmt.Printf("%s: %s\n", node.Hostname, url)
+					urls = append(urls, fmt.Sprintf(node.Hostname+": "+url))
+					break
+				}
+
+				url, err := talos.GetISOURL(schema, genurlISORegistryURL, cfg.GetTalosVersion(), genurlISOTalosMode, genurlISOArch)
+				if err != nil {
+					log.Fatalf("Failed to generate ISO url for %s, %v", node.Hostname, err)
+				}
+				urls = append(urls, fmt.Sprintf(node.Hostname+": "+url))
+			}
+
+			switch len(urls) {
+			case 0:
+				log.Fatalf("Node with IP address of %s is not found in the config file", genurlISONode)
+			case 1:
+				s := strings.Split(urls[0], " ")
+				fmt.Printf("%s\n", s[len(s)-1])
+			default:
+				for _, v := range urls {
+					fmt.Printf("%s\n", v)
 				}
 			}
 		} else if errors.Is(err, os.ErrNotExist) {
@@ -108,6 +136,7 @@ func init() {
 
 	genurlISOCmd.Flags().StringVarP(&genurlISOCfgFile, "config-file", "c", "talconfig.yaml", "File containing configurations for talhelper")
 	genurlISOCmd.Flags().StringSliceVar(&genurlISOEnvFile, "env-file", []string{"talenv.yaml", "talenv.sops.yaml", "talenv.yml", "talenv.sops.yml"}, "List of files containing env variables for config file")
+	genurlISOCmd.Flags().StringVarP(&genurlISONode, "node", "n", "", "A specific node to generate command for. If not specified, will generate for all nodes (ignored when talconfig.yaml is not found)")
 	genurlISOCmd.Flags().StringVarP(&genurlISORegistryURL, "registry-url", "r", "https://factory.talos.dev/image", "Registry url of the image")
 	genurlISOCmd.Flags().StringVarP(&genurlISOVersion, "version", "v", config.LatestTalosVersion, "Talos version to generate (defaults to latest Talos version)")
 	genurlISOCmd.Flags().StringVarP(&genurlISOTalosMode, "talos-mode", "m", "metal", "Talos runtime mode to generate URL")
