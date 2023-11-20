@@ -177,6 +177,69 @@ See each sub-command's help for details on how to use the generated script.
 * [talhelper completion powershell](#talhelper-completion-powershell)	 - Generate the autocompletion script for powershell
 * [talhelper completion zsh](#talhelper-completion-zsh)	 - Generate the autocompletion script for zsh
 
+## talhelper gencommand apply
+
+Generate talosctl apply-config commands.
+
+```
+talhelper gencommand apply [flags]
+```
+
+### Options
+
+```
+  -c, --config-file string    File containing configurations for talhelper (default "talconfig.yaml")
+      --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
+      --extra-flags strings   List of additional flags that will be injected into the generated commands.
+  -h, --help                  help for apply
+  -n, --node string           A specific node to generate the command for. If not specified, will generate for all nodes.
+  -o, --out-dir string        Directory that contains the generated config files to apply. (default "./clusterconfig")
+```
+
+### SEE ALSO
+
+* [talhelper gencommand](#talhelper-gencommand)	 - Generate commands for talosctl.
+
+## talhelper gencommand upgrade
+
+Generate talosctl upgrade commands.
+
+```
+talhelper gencommand upgrade [flags]
+```
+
+### Options
+
+```
+  -c, --config-file string    File containing configurations for talhelper (default "talconfig.yaml")
+      --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
+      --extra-flags strings   List of additional flags that will be injected into the generated commands.
+  -h, --help                  help for upgrade
+  -n, --node string           A specific node to generate the command for. If not specified, will generate for all nodes.
+  -o, --out-dir genconfig     Directory where the generated files were dumped with genconfig. (default "./clusterconfig")
+  -r, --registry-url string   Registry url of the image (default "factory.talos.dev/installer")
+```
+
+### SEE ALSO
+
+* [talhelper gencommand](#talhelper-gencommand)	 - Generate commands for talosctl.
+
+## talhelper gencommand
+
+Generate commands for talosctl.
+
+### Options
+
+```
+  -h, --help   help for gencommand
+```
+
+### SEE ALSO
+
+* [talhelper](#talhelper)	 - A tool to help with creating Talos cluster
+* [talhelper gencommand apply](#talhelper-gencommand-apply)	 - Generate talosctl apply-config commands.
+* [talhelper gencommand upgrade](#talhelper-gencommand-upgrade)	 - Generate talosctl upgrade commands.
+
 ## talhelper genconfig
 
 Generate Talos cluster config YAML files
@@ -406,6 +469,7 @@ Workflow:
 ### SEE ALSO
 
 * [talhelper completion](#talhelper-completion)	 - Generate the autocompletion script for the specified shell
+* [talhelper gencommand](#talhelper-gencommand)	 - Generate commands for talosctl.
 * [talhelper genconfig](#talhelper-genconfig)	 - Generate Talos cluster config YAML files
 * [talhelper genschema](#talhelper-genschema)	 - Generate `talconfig.yaml` JSON schema file
 * [talhelper gensecret](#talhelper-gensecret)	 - Generate Talos cluster secrets
