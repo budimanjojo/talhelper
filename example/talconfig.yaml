@@ -122,3 +122,8 @@ worker:
         value:
           feature-gates: GracefulNodeShutdown=false,MixedProtocolLBService=false
           rotate-server-certificates: "true"
+  schematic:
+    customization:
+      systemExtensions:
+        officialExtensions:
+          - siderolabs/intel-ucode

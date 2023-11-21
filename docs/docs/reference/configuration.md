@@ -611,6 +611,25 @@ inlinePatch:
 <td markdown="1" align="center">:negative_squared_cross_mark:</td>
 </tr>
 
+<tr markdown="1">
+<td markdown="1">`schematic`</td>
+<td markdown="1">[Schematic](#schematic)</td>
+<td markdown="1">Configure Talos image customization to be applied to all controlplane nodes<details><summary>*Show example*</summary>
+```yaml
+schematic:
+  customization:
+    extraKernelArgs:
+      - net.ifnames=0
+    systemExtensions:
+      officialExtensions:
+        officialExtensions:
+          - siderolabs/intel-ucode
+```
+</summary></td>
+<td markdown="1" align="center">`nil`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+</tr>
+
 </table>
 
 ## Worker
@@ -674,6 +693,25 @@ inlinePatch:
 ```
 </summary></td>
 <td markdown="1" align="center">`map[]`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+</tr>
+
+<tr markdown="1">
+<td markdown="1">`schematic`</td>
+<td markdown="1">[Schematic](#schematic)</td>
+<td markdown="1">Configure Talos image customization to be applied to all worker nodes<details><summary>*Show example*</summary>
+```yaml
+schematic:
+  customization:
+    extraKernelArgs:
+      - net.ifnames=0
+    systemExtensions:
+      officialExtensions:
+        officialExtensions:
+          - siderolabs/intel-ucode
+```
+</summary></td>
+<td markdown="1" align="center">`nil`</td>
 <td markdown="1" align="center">:negative_squared_cross_mark:</td>
 </tr>
 

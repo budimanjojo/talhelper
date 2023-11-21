@@ -32,6 +32,19 @@ func LoadAndValidateFromFile(filePath string, envPaths []string) (*TalhelperConf
 		return nil, fmt.Errorf("failed to unmarshal config file: %s", err)
 	}
 
+	for k, node := range cfg.Nodes {
+		switch node.ControlPlane {
+		case true:
+			if cfg.ControlPlane.Schematic != nil && node.Schematic == nil {
+				cfg.Nodes[k].Schematic = cfg.ControlPlane.Schematic
+			}
+		case false:
+			if cfg.Worker.Schematic != nil && node.Schematic == nil {
+				cfg.Nodes[k].Schematic = cfg.Worker.Schematic
+			}
+		}
+	}
+
 	errs, warns := cfg.Validate()
 	if len(errs) > 0 || len(warns) > 0 {
 		color.Red("There are issues with your talhelper config file:")

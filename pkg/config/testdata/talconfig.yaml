@@ -1,0 +1,28 @@
+---
+clusterName: test-cluster
+endpoint: https://192.168.200.10:6443
+nodes:
+  - hostname: ${HOSTNAME1}
+    ipAddress: ${IP1}
+    installDisk: /dev/sda
+    controlPlane: true
+    schematic:
+      customization:
+        systemExtensions:
+          officialExtensions:
+            - siderolabs/tailscale
+  - hostname: ${HOSTNAME2}
+    ipAddress: "192.168.200.11"
+    installDisk: /dev/sda
+    controlPlane: false
+controlPlane:
+  schematic:
+    customization:
+      systemExtensions:
+        officialExtensions:
+          - siderolabs/intel-ucode
+worker:
+  schematic:
+    customization:
+      extraKernelArgs:
+        - net.ifnames=0
