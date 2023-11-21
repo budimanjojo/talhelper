@@ -7,8 +7,8 @@ import (
 
 	"github.com/spf13/cobra"
 
+	"github.com/budimanjojo/talhelper/pkg/config"
 	"github.com/budimanjojo/talhelper/pkg/generate"
-	"github.com/budimanjojo/talhelper/pkg/parse"
 )
 
 var (
@@ -26,7 +26,7 @@ var genconfigCmd = &cobra.Command{
 	Short: "Generate Talos cluster config YAML files",
 	Args:  cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
-		cfg, err := parse.ParseConfig(gencommandUpgradeCfgFile, gencommandUpgradeEnvFile)
+		cfg, err := config.LoadAndValidateFromFile(genconfigCfgFile, genconfigEnvFile)
 		if err != nil {
 			log.Fatalf("failed to parse config file: %s", err)
 		}
@@ -42,7 +42,7 @@ var genconfigCmd = &cobra.Command{
 			}
 		}
 
-		err = generate.GenerateConfig(&cfg, genconfigDryRun, genconfigOutDir, secretFile, genconfigTalosMode)
+		err = generate.GenerateConfig(cfg, genconfigDryRun, genconfigOutDir, secretFile, genconfigTalosMode)
 		if err != nil {
 			log.Fatalf("failed to generate talos config: %s", err)
 		}

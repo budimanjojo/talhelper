@@ -5,14 +5,14 @@ import (
 
 	"github.com/spf13/cobra"
 
+	"github.com/budimanjojo/talhelper/pkg/config"
 	"github.com/budimanjojo/talhelper/pkg/generate"
-	"github.com/budimanjojo/talhelper/pkg/parse"
 )
 
 var (
-	gencommandUpgradeOutDir     string
-	gencommandUpgradeCfgFile    string
-	gencommandUpgradeEnvFile    []string
+	gencommandUpgradeOutDir  string
+	gencommandUpgradeCfgFile string
+	gencommandUpgradeEnvFile []string
 
 	gencommandUpgradeFlagNode             string
 	gencommandUpgradeExtraFlags           []string
@@ -24,12 +24,12 @@ var gencommandUpgradeCmd = &cobra.Command{
 	Short: "Generate talosctl upgrade commands.",
 	Args:  cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
-		cfg, err := parse.ParseConfig(gencommandUpgradeCfgFile, gencommandUpgradeEnvFile)
+		cfg, err := config.LoadAndValidateFromFile(gencommandUpgradeCfgFile, gencommandUpgradeEnvFile)
 		if err != nil {
 			log.Fatalf("failed to parse config file: %s", err)
 		}
 
-		err = generate.GenerateUpgradeCommand(&cfg, gencommandUpgradeOutDir, gencommandUpgradeFlagNode, gencommandUpgradeInstallerRegistryURL, gencommandUpgradeExtraFlags)
+		err = generate.GenerateUpgradeCommand(cfg, gencommandUpgradeOutDir, gencommandUpgradeFlagNode, gencommandUpgradeInstallerRegistryURL, gencommandUpgradeExtraFlags)
 		if err != nil {
 			log.Fatalf("failed to generate talosctl upgrade command: %s", err)
 		}

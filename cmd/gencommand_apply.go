@@ -5,17 +5,17 @@ import (
 
 	"github.com/spf13/cobra"
 
+	"github.com/budimanjojo/talhelper/pkg/config"
 	"github.com/budimanjojo/talhelper/pkg/generate"
-	"github.com/budimanjojo/talhelper/pkg/parse"
 )
 
 var (
-	gencommandApplyOutDir     string
-	gencommandApplyCfgFile    string
-	gencommandApplyEnvFile    []string
+	gencommandApplyOutDir  string
+	gencommandApplyCfgFile string
+	gencommandApplyEnvFile []string
 
-	gencommandApplyNode             string
-	gencommandApplyExtraFlags           []string
+	gencommandApplyNode       string
+	gencommandApplyExtraFlags []string
 )
 
 var gencommandApplyCmd = &cobra.Command{
@@ -23,12 +23,12 @@ var gencommandApplyCmd = &cobra.Command{
 	Short: "Generate talosctl apply-config commands.",
 	Args:  cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
-		cfg, err := parse.ParseConfig(gencommandUpgradeCfgFile, gencommandUpgradeEnvFile)
+		cfg, err := config.LoadAndValidateFromFile(gencommandApplyCfgFile, gencommandApplyEnvFile)
 		if err != nil {
 			log.Fatalf("failed to parse config file: %s", err)
 		}
 
-		err = generate.GenerateApplyCommand(&cfg, gencommandApplyOutDir, gencommandApplyNode, gencommandApplyExtraFlags)
+		err = generate.GenerateApplyCommand(cfg, gencommandApplyOutDir, gencommandApplyNode, gencommandApplyExtraFlags)
 		if err != nil {
 			log.Fatalf("failed to generate talosctl apply command: %s", err)
 		}
