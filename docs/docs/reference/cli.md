@@ -315,9 +315,11 @@ talhelper genurl installer [flags]
 
 ```
   -c, --config-file string    File containing configurations for talhelper (default "talconfig.yaml")
-  -e, --extension strings     Official extension image to be included in the image
+      --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
+  -e, --extension strings     Official extension image to be included in the image (ignored when talconfig.yaml is found)
   -h, --help                  help for installer
-  -k, --kernel-arg strings    Kernel arguments to be passed to the image kernel
+  -k, --kernel-arg strings    Kernel arguments to be passed to the image kernel (ignored when talconfig.yaml is found)
+  -n, --node string           A specific node to generate command for. If not specified, will generate for all nodes (ignored when talconfig.yaml is not found)
   -r, --registry-url string   Registry url of the image (default "factory.talos.dev/installer")
   -v, --version string        Talos version to generate (defaults to latest Talos version) (default "v1.5.5")
 ```
@@ -339,9 +341,11 @@ talhelper genurl iso [flags]
 ```
   -a, --arch string           CPU architecture support of the image (default "amd64")
   -c, --config-file string    File containing configurations for talhelper (default "talconfig.yaml")
-  -e, --extension strings     Official extension image to be included in the image
+      --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
+  -e, --extension strings     Official extension image to be included in the image (ignored when talconfig.yaml is found)
   -h, --help                  help for iso
-  -k, --kernel-arg strings    Kernel arguments to be passed to the image kernel
+  -k, --kernel-arg strings    Kernel arguments to be passed to the image kernel (ignored when talconfig.yaml is found)
+  -n, --node string           A specific node to generate command for. If not specified, will generate for all nodes (ignored when talconfig.yaml is not found)
   -r, --registry-url string   Registry url of the image (default "https://factory.talos.dev/image")
   -m, --talos-mode string     Talos runtime mode to generate URL (default "metal")
   -v, --version string        Talos version to generate (defaults to latest Talos version) (default "v1.5.5")
