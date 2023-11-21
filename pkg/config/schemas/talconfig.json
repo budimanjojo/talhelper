@@ -798,6 +798,10 @@
           },
           "type": "array",
           "description": "Patches to be applied to all controlplane nodes"
+        },
+        "schematic": {
+          "$ref": "#/$defs/Schematic",
+          "description": "Talos image customization to be applied to all controlplane nodes"
         }
       },
       "additionalProperties": false,
@@ -822,6 +826,10 @@
           },
           "type": "array",
           "description": "Patches to be applied to all worker nodes"
+        },
+        "schematic": {
+          "$ref": "#/$defs/Schematic",
+          "description": "Talos image customization to be applied to all worker nodes"
         }
       },
       "additionalProperties": false,
