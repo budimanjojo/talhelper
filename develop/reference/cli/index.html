@@ -476,9 +476,11 @@ See each sub-command's help for details on how to use the generated script.</p>
 </code></pre></div>
 <h3 id="options_11">Options</h3>
 <div class="highlight"><pre><span></span><code>  -c, --config-file string    File containing configurations for talhelper (default &quot;talconfig.yaml&quot;)
-  -e, --extension strings     Official extension image to be included in the image
+      --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
+  -e, --extension strings     Official extension image to be included in the image (ignored when talconfig.yaml is found)
   -h, --help                  help for installer
-  -k, --kernel-arg strings    Kernel arguments to be passed to the image kernel
+  -k, --kernel-arg strings    Kernel arguments to be passed to the image kernel (ignored when talconfig.yaml is found)
+  -n, --node string           A specific node to generate command for. If not specified, will generate for all nodes (ignored when talconfig.yaml is not found)
   -r, --registry-url string   Registry url of the image (default &quot;factory.talos.dev/installer&quot;)
   -v, --version string        Talos version to generate (defaults to latest Talos version) (default &quot;v1.5.5&quot;)
 </code></pre></div>
@@ -493,9 +495,11 @@ See each sub-command's help for details on how to use the generated script.</p>
 <h3 id="options_12">Options</h3>
 <div class="highlight"><pre><span></span><code>  -a, --arch string           CPU architecture support of the image (default &quot;amd64&quot;)
   -c, --config-file string    File containing configurations for talhelper (default &quot;talconfig.yaml&quot;)
-  -e, --extension strings     Official extension image to be included in the image
+      --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
+  -e, --extension strings     Official extension image to be included in the image (ignored when talconfig.yaml is found)
   -h, --help                  help for iso
-  -k, --kernel-arg strings    Kernel arguments to be passed to the image kernel
+  -k, --kernel-arg strings    Kernel arguments to be passed to the image kernel (ignored when talconfig.yaml is found)
+  -n, --node string           A specific node to generate command for. If not specified, will generate for all nodes (ignored when talconfig.yaml is not found)
   -r, --registry-url string   Registry url of the image (default &quot;https://factory.talos.dev/image&quot;)
   -m, --talos-mode string     Talos runtime mode to generate URL (default &quot;metal&quot;)
   -v, --version string        Talos version to generate (defaults to latest Talos version) (default &quot;v1.5.5&quot;)
