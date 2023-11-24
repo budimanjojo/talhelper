@@ -91,5 +91,6 @@ func stripYamlComment(file []byte) []byte {
 
 // stripYAMLDocDelimiter replace YAML document delimiter with empty line
 func stripYAMLDocDelimiter(src []byte) []byte {
-	return bytes.ReplaceAll(src, []byte("---\n"), []byte("\n"))
+	re := regexp.MustCompile(`(?m)^---\n`)
+	return re.ReplaceAll(src, []byte("\n"))
 }
