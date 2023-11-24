@@ -58,6 +58,25 @@ func GenerateUpgradeCommand(cfg *config.TalhelperConfig, gencommandOutDir string
 	return nil
 }
 
+func GenerateUpgradeK8sCommand(cfg *config.TalhelperConfig, gencommandOutDir string, gencommandFlagNode string, gencommandExtraFlags []string) error {
+	for _, node := range cfg.Nodes {
+		isSelectedNode := ((gencommandFlagNode != "") && (gencommandFlagNode == node.IPAddress))
+		allNodesSelected := (gencommandFlagNode == "")
+
+		if allNodesSelected || isSelectedNode {
+			upgradeFlags := []string{
+				"--talosconfig=" + gencommandOutDir + "/talosconfig",
+				"--nodes=" + node.IPAddress,
+				"--to=v" + cfg.GetK8sVersion(),
+			}
+			upgradeFlags = append(upgradeFlags, gencommandExtraFlags...)
+			fmt.Printf("talosctl upgrade-k8s %s;\n", strings.Join(upgradeFlags, " "))
+		}
+	}
+
+	return nil
+}
+
 func GenerateBootstrapCommand(cfg *config.TalhelperConfig, gencommandOutDir string, gencommandFlagNode string, gencommandExtraFlags []string) error {
 	for _, node := range cfg.Nodes {
 		isSelectedNode := ((gencommandFlagNode != "") && (gencommandFlagNode == node.IPAddress))
