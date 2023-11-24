@@ -19,7 +19,7 @@ var gencommandApplyCmd = &cobra.Command{
 			log.Fatalf("failed to parse config file: %s", err)
 		}
 
-		err = generate.GenerateApplyCommand(cfg, gencommandOutDir, gencommandFlagNode, gencommandExtraFlags)
+		err = generate.GenerateApplyCommand(cfg, gencommandOutDir, gencommandNode, gencommandExtraFlags)
 		if err != nil {
 			log.Fatalf("failed to generate talosctl apply command: %s", err)
 		}

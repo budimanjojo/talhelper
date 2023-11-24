@@ -21,7 +21,7 @@ var gencommandUpgradeCmd = &cobra.Command{
 			log.Fatalf("failed to parse config file: %s", err)
 		}
 
-		err = generate.GenerateUpgradeCommand(cfg, gencommandOutDir, gencommandFlagNode, gencommandUpgradeInstallerRegistryURL, gencommandExtraFlags)
+		err = generate.GenerateUpgradeCommand(cfg, gencommandOutDir, gencommandNode, gencommandUpgradeInstallerRegistryURL, gencommandExtraFlags)
 		if err != nil {
 			log.Fatalf("failed to generate talosctl upgrade command: %s", err)
 		}

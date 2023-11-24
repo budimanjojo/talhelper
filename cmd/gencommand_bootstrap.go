@@ -19,7 +19,7 @@ var gencommandBootstrapCmd = &cobra.Command{
 			log.Fatalf("failed to parse config file: %s", err)
 		}
 
-		err = generate.GenerateBootstrapCommand(cfg, gencommandOutDir, gencommandFlagNode, gencommandExtraFlags)
+		err = generate.GenerateBootstrapCommand(cfg, gencommandOutDir, gencommandNode, gencommandExtraFlags)
 		if err != nil {
 			log.Fatalf("failed to generate talosctl bootstrap command: %s", err)
 		}

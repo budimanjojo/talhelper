@@ -19,7 +19,7 @@ var gencommandUpgradeK8sCmd = &cobra.Command{
 			log.Fatalf("failed to parse config file: %s", err)
 		}
 
-		err = generate.GenerateUpgradeK8sCommand(cfg, gencommandOutDir, gencommandFlagNode, gencommandExtraFlags)
+		err = generate.GenerateUpgradeK8sCommand(cfg, gencommandOutDir, gencommandNode, gencommandExtraFlags)
 		if err != nil {
 			log.Fatalf("failed to generate talosctl upgrade-k8s command: %s", err)
 		}
