@@ -188,10 +188,15 @@ talhelper gencommand apply [flags]
 ### Options
 
 ```
+  -h, --help   help for apply
+```
+
+### Options inherited from parent commands
+
+```
   -c, --config-file string    File containing configurations for talhelper (default "talconfig.yaml")
       --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
       --extra-flags strings   List of additional flags that will be injected into the generated commands.
-  -h, --help                  help for apply
   -n, --node string           A specific node to generate the command for. If not specified, will generate for all nodes.
   -o, --out-dir string        Directory that contains the generated config files to apply. (default "./clusterconfig")
 ```
@@ -211,12 +216,17 @@ talhelper gencommand bootstrap [flags]
 ### Options
 
 ```
+  -h, --help   help for bootstrap
+```
+
+### Options inherited from parent commands
+
+```
   -c, --config-file string    File containing configurations for talhelper (default "talconfig.yaml")
       --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
       --extra-flags strings   List of additional flags that will be injected into the generated commands.
-  -h, --help                  help for bootstrap
   -n, --node string           A specific node to generate the command for. If not specified, will generate for all nodes.
-  -o, --out-dir genconfig     Directory where the generated files were dumped with genconfig. (default "./clusterconfig")
+  -o, --out-dir string        Directory that contains the generated config files to apply. (default "./clusterconfig")
 ```
 
 ### SEE ALSO
@@ -234,13 +244,46 @@ talhelper gencommand upgrade [flags]
 ### Options
 
 ```
+  -h, --help                  help for upgrade
+  -r, --registry-url string   Registry url of the image (default "factory.talos.dev/installer")
+```
+
+### Options inherited from parent commands
+
+```
   -c, --config-file string    File containing configurations for talhelper (default "talconfig.yaml")
       --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
       --extra-flags strings   List of additional flags that will be injected into the generated commands.
-  -h, --help                  help for upgrade
   -n, --node string           A specific node to generate the command for. If not specified, will generate for all nodes.
-  -o, --out-dir genconfig     Directory where the generated files were dumped with genconfig. (default "./clusterconfig")
-  -r, --registry-url string   Registry url of the image (default "factory.talos.dev/installer")
+  -o, --out-dir string        Directory that contains the generated config files to apply. (default "./clusterconfig")
+```
+
+### SEE ALSO
+
+* [talhelper gencommand](#talhelper-gencommand)	 - Generate commands for talosctl.
+
+## talhelper gencommand upgrade-k8s
+
+Generate talosctl upgrade-k8s commands.
+
+```
+talhelper gencommand upgrade-k8s [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for upgrade-k8s
+```
+
+### Options inherited from parent commands
+
+```
+  -c, --config-file string    File containing configurations for talhelper (default "talconfig.yaml")
+      --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
+      --extra-flags strings   List of additional flags that will be injected into the generated commands.
+  -n, --node string           A specific node to generate the command for. If not specified, will generate for all nodes.
+  -o, --out-dir string        Directory that contains the generated config files to apply. (default "./clusterconfig")
 ```
 
 ### SEE ALSO
@@ -254,7 +297,12 @@ Generate commands for talosctl.
 ### Options
 
 ```
-  -h, --help   help for gencommand
+  -c, --config-file string    File containing configurations for talhelper (default "talconfig.yaml")
+      --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
+      --extra-flags strings   List of additional flags that will be injected into the generated commands.
+  -h, --help                  help for gencommand
+  -n, --node string           A specific node to generate the command for. If not specified, will generate for all nodes.
+  -o, --out-dir string        Directory that contains the generated config files to apply. (default "./clusterconfig")
 ```
 
 ### SEE ALSO
@@ -263,6 +311,7 @@ Generate commands for talosctl.
 * [talhelper gencommand apply](#talhelper-gencommand-apply)	 - Generate talosctl apply-config commands.
 * [talhelper gencommand bootstrap](#talhelper-gencommand-bootstrap)	 - Generate talosctl bootstrap commands.
 * [talhelper gencommand upgrade](#talhelper-gencommand-upgrade)	 - Generate talosctl upgrade commands.
+* [talhelper gencommand upgrade-k8s](#talhelper-gencommand-upgrade-k8s)	 - Generate talosctl upgrade-k8s commands.
 
 ## talhelper genconfig
 
