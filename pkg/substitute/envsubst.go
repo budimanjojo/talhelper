@@ -24,6 +24,8 @@ func LoadEnvFromFiles(files []string) error {
 				return fmt.Errorf("trying to decrypt %s with sops: %s", file, err)
 			}
 
+			// See: https://github.com/budimanjojo/talhelper/issues/220
+			env = stripYAMLDocDelimiter(env)
 			if err := LoadEnv(env); err != nil {
 				return fmt.Errorf("trying to load env from %s: %s", file, err)
 			}
@@ -85,4 +87,9 @@ func stripYamlComment(file []byte) []byte {
 	}
 
 	return final.Bytes()
+}
+
+// stripYAMLDocDelimiter replace YAML document delimiter with empty line
+func stripYAMLDocDelimiter(src []byte) []byte {
+	return bytes.ReplaceAll(src, []byte("---\n"), []byte("\n"))
 }
