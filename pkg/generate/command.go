@@ -3,6 +3,7 @@ package generate
 import (
 	"fmt"
 	"strings"
+
 	"github.com/budimanjojo/talhelper/pkg/config"
 	"github.com/budimanjojo/talhelper/pkg/talos"
 	"github.com/siderolabs/image-factory/pkg/schematic"
@@ -10,7 +11,7 @@ import (
 
 func GenerateApplyCommand(cfg *config.TalhelperConfig, gencommandOutDir string, gencommandFlagNode string, gencommandExtraFlags []string) error {
 	for _, node := range cfg.Nodes {
-		isSelectedNode := ( (gencommandFlagNode != "") && (gencommandFlagNode == node.IPAddress) )
+		isSelectedNode := ((gencommandFlagNode != "") && (gencommandFlagNode == node.IPAddress))
 		allNodesSelected := (gencommandFlagNode == "")
 
 		if allNodesSelected || isSelectedNode {
@@ -29,7 +30,7 @@ func GenerateApplyCommand(cfg *config.TalhelperConfig, gencommandOutDir string, 
 
 func GenerateUpgradeCommand(cfg *config.TalhelperConfig, gencommandOutDir string, gencommandFlagNode string, gencommandInstallerRegistryURL string, gencommandExtraFlags []string) error {
 	for _, node := range cfg.Nodes {
-		isSelectedNode := ( (gencommandFlagNode != "") && (gencommandFlagNode == node.IPAddress) )
+		isSelectedNode := ((gencommandFlagNode != "") && (gencommandFlagNode == node.IPAddress))
 		allNodesSelected := (gencommandFlagNode == "")
 
 		if allNodesSelected || isSelectedNode {
@@ -51,6 +52,33 @@ func GenerateUpgradeCommand(cfg *config.TalhelperConfig, gencommandOutDir string
 			}
 			upgradeFlags = append(upgradeFlags, gencommandExtraFlags...)
 			fmt.Printf("talosctl upgrade %s;\n", strings.Join(upgradeFlags, " "))
+		}
+	}
+
+	return nil
+}
+
+func GenerateBootstrapCommand(cfg *config.TalhelperConfig, gencommandOutDir string, gencommandFlagNode string, gencommandExtraFlags []string) error {
+	for _, node := range cfg.Nodes {
+		isSelectedNode := ((gencommandFlagNode != "") && (gencommandFlagNode == node.IPAddress))
+		noNodeSelected := (gencommandFlagNode == "")
+		bootstrapFlags := []string{
+			"--talosconfig=" + gencommandOutDir + "/talosconfig",
+		}
+		if noNodeSelected && node.ControlPlane {
+			bootstrapFlags = append(bootstrapFlags, gencommandExtraFlags...)
+			bootstrapFlags = append(bootstrapFlags, "--nodes="+node.IPAddress)
+			fmt.Printf("talosctl bootstrap %s;\n", strings.Join(bootstrapFlags, " "))
+			break
+		}
+		if isSelectedNode {
+			if !node.ControlPlane {
+				return fmt.Errorf("%s is not a controlplane node", node.IPAddress)
+			}
+			bootstrapFlags = append(bootstrapFlags, gencommandExtraFlags...)
+			bootstrapFlags = append(bootstrapFlags, "--nodes="+node.IPAddress)
+			fmt.Printf("talosctl bootstrap %s;\n", strings.Join(bootstrapFlags, " "))
+			break
 		}
 	}
 
