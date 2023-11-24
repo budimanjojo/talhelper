@@ -158,6 +158,26 @@ Here's the simplified step by step to achieve this:
 2. In `doppler`, create a project named i.e "talhelper". In that project, create a config i.e "env" that stores key and value of the secret like `AESCBCENCYPTIONKEY: <secret>.`.
 3. Run `doppler` CLI command that sets environment variable before running the `talhelper` command i.e: `doppler run -p talhelper -c env talhelper genconfig`.
 
+## Generating `talosctl` commands for bash scripting
+
+Thanks to the idea and contribution of [mirceanton](https://github.com/mirceanton), you can generate `talosctl` commands for bash scripting in your workflow.
+For example, in the directory where a `talconfig.yaml` like this is located:
+
+```yaml
+---
+clusterName: my-cluster
+talosVersion: v1.5.5
+nodes:
+  - hostname: node1
+    ipAddress: 192.168.10.11
+    controlPlane: true
+```
+
+After running `talhelper genconfig`, you can run `talhelper gencommand apply | bash` in the terminal to apply the generated config into your machine(s) automatically.
+There are some other `gencommand` commands that you can use like `upgrade`, `upgrade-k8s`, `bootstrap`, etc,
+
+For more information about the available `gencommand` commands and flags you can use, head over to the [documentation](./reference/cli.md#talhelper-gencommand).
+
 ## Editing `talconfig.yaml` file
 
 If you're using a text editor with `yaml` LSP support, you can use `talhelper genschema` command to generate a `talconfig.json`.
