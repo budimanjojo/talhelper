@@ -9,97 +9,143 @@ import (
 	"github.com/siderolabs/image-factory/pkg/schematic"
 )
 
-func GenerateApplyCommand(cfg *config.TalhelperConfig, gencommandOutDir string, gencommandFlagNode string, gencommandExtraFlags []string) error {
-	for _, node := range cfg.Nodes {
-		isSelectedNode := ((gencommandFlagNode != "") && (gencommandFlagNode == node.IPAddress))
-		allNodesSelected := (gencommandFlagNode == "")
+// GenerateApplyCommand prints out `talosctl apply-config` command for selected node.
+// `outDir` is directory where generated talosconfig and node manifest files are located.
+// If `node` is empty string, it prints commands for all nodes in `cfg.Nodes`.
+// It returns error, if any.
+func GenerateApplyCommand(cfg *config.TalhelperConfig, outDir string, node string, extraFlags []string) error {
+	var result []string
+	for _, n := range cfg.Nodes {
+		isSelectedNode := ((node != "") && (node == n.IPAddress))
+		allNodesSelected := (node == "")
 
 		if allNodesSelected || isSelectedNode {
 			applyFlags := []string{
-				"--talosconfig=" + gencommandOutDir + "/talosconfig",
-				"--nodes=" + node.IPAddress,
-				"--file=" + gencommandOutDir + "/" + cfg.ClusterName + "-" + node.Hostname + ".yaml",
+				"--talosconfig=" + outDir + "/talosconfig",
+				"--nodes=" + n.IPAddress,
+				"--file=" + outDir + "/" + cfg.ClusterName + "-" + n.Hostname + ".yaml",
 			}
-			applyFlags = append(applyFlags, gencommandExtraFlags...)
-			fmt.Printf("talosctl apply-config %s;\n", strings.Join(applyFlags, " "))
+			applyFlags = append(applyFlags, extraFlags...)
+			result = append(result, fmt.Sprintf("talosctl apply-config %s;", strings.Join(applyFlags, " ")))
 		}
 	}
 
-	return nil
+	if len(result) > 0 {
+		for _, r := range result {
+			fmt.Printf("%s\n", r)
+		}
+		return nil
+	} else {
+		return fmt.Errorf("node with IP %s not found", node)
+	}
 }
 
-func GenerateUpgradeCommand(cfg *config.TalhelperConfig, gencommandOutDir string, gencommandFlagNode string, gencommandInstallerRegistryURL string, gencommandExtraFlags []string) error {
-	for _, node := range cfg.Nodes {
-		isSelectedNode := ((gencommandFlagNode != "") && (gencommandFlagNode == node.IPAddress))
-		allNodesSelected := (gencommandFlagNode == "")
+// GenerateUpgradeCommand prints out `talosctl upgrade` command for selected node.
+// `outDir` is directory where talosconfig is located.
+// If `node` is empty string, it prints commands for all nodes in `cfg.Nodes`.
+// It returns error, if any.
+func GenerateUpgradeCommand(cfg *config.TalhelperConfig, outDir string, node string, installerRegistryURL string, extraFlags []string) error {
+	var result []string
+	for _, n := range cfg.Nodes {
+		isSelectedNode := ((node != "") && (node == n.IPAddress))
+		allNodesSelected := (node == "")
 
 		if allNodesSelected || isSelectedNode {
 			var url string
-			if node.Schematic != nil {
+			if n.Schematic != nil {
 				var err error
-				url, err = talos.GetInstallerURL(node.Schematic, gencommandInstallerRegistryURL, cfg.GetTalosVersion())
+				url, err = talos.GetInstallerURL(n.Schematic, installerRegistryURL, cfg.GetTalosVersion())
 				if err != nil {
-					return fmt.Errorf("Failed to generate installer url for %s, %v", node.Hostname, err)
+					return fmt.Errorf("Failed to generate installer url for %s, %v", n.Hostname, err)
 				}
 			} else {
-				url, _ = talos.GetInstallerURL(&schematic.Schematic{}, gencommandInstallerRegistryURL, cfg.GetTalosVersion())
+				url, _ = talos.GetInstallerURL(&schematic.Schematic{}, installerRegistryURL, cfg.GetTalosVersion())
 			}
 
 			upgradeFlags := []string{
-				"--talosconfig=" + gencommandOutDir + "/talosconfig",
-				"--nodes=" + node.IPAddress,
+				"--talosconfig=" + outDir + "/talosconfig",
+				"--nodes=" + n.IPAddress,
 				"--image=" + url,
 			}
-			upgradeFlags = append(upgradeFlags, gencommandExtraFlags...)
-			fmt.Printf("talosctl upgrade %s;\n", strings.Join(upgradeFlags, " "))
+			upgradeFlags = append(upgradeFlags, extraFlags...)
+			result = append(result, fmt.Sprintf("talosctl upgrade %s;", strings.Join(upgradeFlags, " ")))
 		}
 	}
 
-	return nil
+	if len(result) > 0 {
+		for _, r := range result {
+			fmt.Printf("%s\n", r)
+		}
+		return nil
+	} else {
+		return fmt.Errorf("node with IP %s not found", node)
+	}
 }
 
-func GenerateUpgradeK8sCommand(cfg *config.TalhelperConfig, gencommandOutDir string, gencommandFlagNode string, gencommandExtraFlags []string) error {
-	for _, node := range cfg.Nodes {
-		isSelectedNode := ((gencommandFlagNode != "") && (gencommandFlagNode == node.IPAddress))
-		allNodesSelected := (gencommandFlagNode == "")
+// GenerateUpgradeK8sCommand prints out `talosctl upgrade-k8s` command for selected node.
+// `outDir` is directory where talosconfig is located.
+// If `node` is empty string, it prints commands for all nodes in `cfg.Nodes`.
+// It returns error, if any.
+func GenerateUpgradeK8sCommand(cfg *config.TalhelperConfig, outDir string, node string, extraFlags []string) error {
+	var result []string
+	for _, n := range cfg.Nodes {
+		isSelectedNode := ((node != "") && (node == n.IPAddress))
+		allNodesSelected := (node == "")
 
 		if allNodesSelected || isSelectedNode {
 			upgradeFlags := []string{
-				"--talosconfig=" + gencommandOutDir + "/talosconfig",
-				"--nodes=" + node.IPAddress,
+				"--talosconfig=" + outDir + "/talosconfig",
+				"--nodes=" + n.IPAddress,
 				"--to=v" + cfg.GetK8sVersion(),
 			}
-			upgradeFlags = append(upgradeFlags, gencommandExtraFlags...)
-			fmt.Printf("talosctl upgrade-k8s %s;\n", strings.Join(upgradeFlags, " "))
+			upgradeFlags = append(upgradeFlags, extraFlags...)
+			result = append(result, fmt.Sprintf("talosctl upgrade-k8s %s;", strings.Join(upgradeFlags, " ")))
 		}
 	}
 
-	return nil
+	if len(result) > 0 {
+		for _, r := range result {
+			fmt.Printf("%s\n", r)
+		}
+		return nil
+	} else {
+		return fmt.Errorf("node with IP %s not found", node)
+	}
 }
 
-func GenerateBootstrapCommand(cfg *config.TalhelperConfig, gencommandOutDir string, gencommandFlagNode string, gencommandExtraFlags []string) error {
-	for _, node := range cfg.Nodes {
-		isSelectedNode := ((gencommandFlagNode != "") && (gencommandFlagNode == node.IPAddress))
-		noNodeSelected := (gencommandFlagNode == "")
+// GenerateBootstrapCommand prints out `talosctl bootstrap` command for selected node.
+// `outDir` is directory where talosconfig is located.
+// If `node` is empty string, it prints command for the first controlplane node found
+// in `cfg.Nodes`. It returns error if `node` is not found or is not controlplane.
+func GenerateBootstrapCommand(cfg *config.TalhelperConfig, outDir string, node string, extraFlags []string) error {
+	var result string
+	for _, n := range cfg.Nodes {
+		isSelectedNode := ((node != "") && (node == n.IPAddress))
+		noNodeSelected := (node == "")
 		bootstrapFlags := []string{
-			"--talosconfig=" + gencommandOutDir + "/talosconfig",
+			"--talosconfig=" + outDir + "/talosconfig",
 		}
-		if noNodeSelected && node.ControlPlane {
-			bootstrapFlags = append(bootstrapFlags, gencommandExtraFlags...)
-			bootstrapFlags = append(bootstrapFlags, "--nodes="+node.IPAddress)
-			fmt.Printf("talosctl bootstrap %s;\n", strings.Join(bootstrapFlags, " "))
+		if noNodeSelected && n.ControlPlane {
+			bootstrapFlags = append(bootstrapFlags, extraFlags...)
+			bootstrapFlags = append(bootstrapFlags, "--nodes="+n.IPAddress)
+			result = fmt.Sprintf("talosctl bootstrap %s;", strings.Join(bootstrapFlags, " "))
 			break
 		}
 		if isSelectedNode {
-			if !node.ControlPlane {
-				return fmt.Errorf("%s is not a controlplane node", node.IPAddress)
+			if !n.ControlPlane {
+				return fmt.Errorf("node with IP %s is not a controlplane node", n.IPAddress)
 			}
-			bootstrapFlags = append(bootstrapFlags, gencommandExtraFlags...)
-			bootstrapFlags = append(bootstrapFlags, "--nodes="+node.IPAddress)
-			fmt.Printf("talosctl bootstrap %s;\n", strings.Join(bootstrapFlags, " "))
+			bootstrapFlags = append(bootstrapFlags, extraFlags...)
+			bootstrapFlags = append(bootstrapFlags, "--nodes="+n.IPAddress)
+			result = fmt.Sprintf("talosctl bootstrap %s;", strings.Join(bootstrapFlags, " "))
 			break
 		}
 	}
 
-	return nil
+	if result != "" {
+		fmt.Printf("%s\n", result)
+		return nil
+	} else {
+		return fmt.Errorf("node with IP %s not found", node)
+	}
 }
