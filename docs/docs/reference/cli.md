@@ -200,6 +200,29 @@ talhelper gencommand apply [flags]
 
 * [talhelper gencommand](#talhelper-gencommand)	 - Generate commands for talosctl.
 
+## talhelper gencommand bootstrap
+
+Generate talosctl bootstrap commands.
+
+```
+talhelper gencommand bootstrap [flags]
+```
+
+### Options
+
+```
+  -c, --config-file string    File containing configurations for talhelper (default "talconfig.yaml")
+      --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
+      --extra-flags strings   List of additional flags that will be injected into the generated commands.
+  -h, --help                  help for bootstrap
+  -n, --node string           A specific node to generate the command for. If not specified, will generate for all nodes.
+  -o, --out-dir genconfig     Directory where the generated files were dumped with genconfig. (default "./clusterconfig")
+```
+
+### SEE ALSO
+
+* [talhelper gencommand](#talhelper-gencommand)	 - Generate commands for talosctl.
+
 ## talhelper gencommand upgrade
 
 Generate talosctl upgrade commands.
@@ -238,6 +261,7 @@ Generate commands for talosctl.
 
 * [talhelper](#talhelper)	 - A tool to help with creating Talos cluster
 * [talhelper gencommand apply](#talhelper-gencommand-apply)	 - Generate talosctl apply-config commands.
+* [talhelper gencommand bootstrap](#talhelper-gencommand-bootstrap)	 - Generate talosctl bootstrap commands.
 * [talhelper gencommand upgrade](#talhelper-gencommand-upgrade)	 - Generate talosctl upgrade commands.
 
 ## talhelper genconfig
