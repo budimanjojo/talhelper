@@ -84,29 +84,37 @@ func GenerateUpgradeCommand(cfg *config.TalhelperConfig, outDir string, node str
 
 // GenerateUpgradeK8sCommand prints out `talosctl upgrade-k8s` command for selected node.
 // `outDir` is directory where talosconfig is located.
-// If `node` is empty string, it prints commands for all nodes in `cfg.Nodes`.
-// It returns error, if any.
+// If `node` is empty string, it prints command for the first controlplane node found
+// in `cfg.Nodes`. It returns error if `node` is not found or is not controlplane.
 func GenerateUpgradeK8sCommand(cfg *config.TalhelperConfig, outDir string, node string, extraFlags []string) error {
-	var result []string
+	var result string
 	for _, n := range cfg.Nodes {
 		isSelectedNode := ((node != "") && (node == n.IPAddress))
-		allNodesSelected := (node == "")
+		noNodeSelected := (node == "")
+		upgradeFlags := []string{
+			"--talosconfig=" + outDir + "/talosconfig",
+			"--to=v" + cfg.GetK8sVersion(),
+		}
 
-		if allNodesSelected || isSelectedNode {
-			upgradeFlags := []string{
-				"--talosconfig=" + outDir + "/talosconfig",
-				"--nodes=" + n.IPAddress,
-				"--to=v" + cfg.GetK8sVersion(),
+		if noNodeSelected && n.ControlPlane {
+			upgradeFlags = append(upgradeFlags, extraFlags...)
+			upgradeFlags = append(upgradeFlags, "--nodes="+n.IPAddress)
+			result = fmt.Sprintf("talosctl upgrade-k8s %s;", strings.Join(upgradeFlags, " "))
+			break
+		}
+		if isSelectedNode {
+			if !n.ControlPlane {
+				return fmt.Errorf("node with IP %s is not a controlplane node", n.IPAddress)
 			}
 			upgradeFlags = append(upgradeFlags, extraFlags...)
-			result = append(result, fmt.Sprintf("talosctl upgrade-k8s %s;", strings.Join(upgradeFlags, " ")))
+			upgradeFlags = append(upgradeFlags, "--nodes="+n.IPAddress)
+			result = fmt.Sprintf("talosctl upgrade-k8s %s;", strings.Join(upgradeFlags, " "))
+			break
 		}
 	}
 
-	if len(result) > 0 {
-		for _, r := range result {
-			fmt.Printf("%s\n", r)
-		}
+	if result != "" {
+		fmt.Printf("%s\n", result)
 		return nil
 	} else {
 		return fmt.Errorf("node with IP %s not found", node)
