@@ -11,17 +11,15 @@ import (
 	"github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1"
 )
 
-var defaultInstallerRegistry = "factory.talos.dev/installer"
-
-func GenerateNodeConfigBytes(node *config.Node, input *generate.Input) ([]byte, error) {
-	cfg, err := GenerateNodeConfig(node, input)
+func GenerateNodeConfigBytes(node *config.Node, input *generate.Input, iFactory *config.ImageFactory, offlineMode bool) ([]byte, error) {
+	cfg, err := GenerateNodeConfig(node, input, iFactory, offlineMode)
 	if err != nil {
 		return nil, err
 	}
 	return cfg.Bytes()
 }
 
-func GenerateNodeConfig(node *config.Node, input *generate.Input) (taloscfg.Provider, error) {
+func GenerateNodeConfig(node *config.Node, input *generate.Input, iFactory *config.ImageFactory, offlineMode bool) (taloscfg.Provider, error) {
 	var c taloscfg.Provider
 	var err error
 
@@ -45,7 +43,7 @@ func GenerateNodeConfig(node *config.Node, input *generate.Input) (taloscfg.Prov
 
 	cfg := applyNodeOverride(node, c)
 
-	installerURL, err := installerURL(node, c)
+	installerURL, err := installerURL(node, c, iFactory, offlineMode)
 	if err != nil {
 		return nil, err
 	}
@@ -101,11 +99,11 @@ func applyNodeOverride(node *config.Node, cfg taloscfg.Provider) taloscfg.Provid
 	return cfg
 }
 
-func installerURL(node *config.Node, cfg taloscfg.Provider) (string, error) {
+func installerURL(node *config.Node, cfg taloscfg.Provider, iFactory *config.ImageFactory, offlineMode bool) (string, error) {
 	version := strings.Split(cfg.Machine().Install().Image(), ":")
 
 	if node.Schematic != nil && node.TalosImageURL == "" {
-		url, err := GetInstallerURL(node.Schematic, defaultInstallerRegistry, version[1])
+		url, err := GetInstallerURL(node.Schematic, iFactory, version[1], offlineMode)
 		if err != nil {
 			return "", err
 		}
@@ -116,6 +114,5 @@ func installerURL(node *config.Node, cfg taloscfg.Provider) (string, error) {
 		return node.TalosImageURL + ":" + version[1], nil
 	}
 
-	s := &schematic.Schematic{}
-	return GetInstallerURL(s, defaultInstallerRegistry, version[1])
+	return GetInstallerURL(&schematic.Schematic{}, iFactory, version[1], offlineMode)
 }

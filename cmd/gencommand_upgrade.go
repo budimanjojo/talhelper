@@ -9,8 +9,6 @@ import (
 	"github.com/budimanjojo/talhelper/pkg/generate"
 )
 
-var gencommandUpgradeInstallerRegistryURL string
-
 var gencommandUpgradeCmd = &cobra.Command{
 	Use:   "upgrade",
 	Short: "Generate talosctl upgrade commands.",
@@ -21,7 +19,7 @@ var gencommandUpgradeCmd = &cobra.Command{
 			log.Fatalf("failed to parse config file: %s", err)
 		}
 
-		err = generate.GenerateUpgradeCommand(cfg, gencommandOutDir, gencommandNode, gencommandUpgradeInstallerRegistryURL, gencommandExtraFlags)
+		err = generate.GenerateUpgradeCommand(cfg, gencommandOutDir, gencommandNode, gencommandExtraFlags)
 		if err != nil {
 			log.Fatalf("failed to generate talosctl upgrade command: %s", err)
 		}
@@ -30,5 +28,4 @@ var gencommandUpgradeCmd = &cobra.Command{
 
 func init() {
 	gencommandCmd.AddCommand(gencommandUpgradeCmd)
-	gencommandUpgradeCmd.Flags().StringVarP(&gencommandUpgradeInstallerRegistryURL, "registry-url", "r", "factory.talos.dev/installer", "Registry url of the image")
 }

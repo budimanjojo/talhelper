@@ -21,6 +21,7 @@ type TalhelperConfig struct {
 	CNIConfig                      cniConfig    `yaml:"cniConfig,omitempty" jsonschema:"description=The CNI to be used for the cluster's network"`
 	Patches                        []string     `yaml:"patches,omitempty" jsonschema:"description=Patches to be applied to all nodes"`
 	Nodes                          []Node       `yaml:"nodes" jsonschema:"required,description=List of configurations for Node"`
+	ImageFactory                   ImageFactory `yaml:"imageFactory,omitempty" jsonschema:"Configuration for image factory"`
 	ControlPlane                   controlPlane `yaml:"controlPlane,omitempty" jsonschema:"description=Configurations targetted for controlplane nodes"`
 	Worker                         worker       `yaml:"worker,omitempty" jsonschema:"description=Configurations targetted for worker nodes"`
 }
@@ -63,4 +64,11 @@ type worker struct {
 	InlinePatch   map[string]interface{}   `yaml:"inlinePatch,omitempty" jsonschema:"description=DEPRECATED: use \"patches\" instead"`
 	Patches       []string                 `yaml:"patches,omitempty" jsonschema:"description=Patches to be applied to all worker nodes"`
 	Schematic     *schematic.Schematic     `yaml:"schematic,omitempty" jsonschema:"description=Talos image customization to be applied to all worker nodes"`
+}
+
+type ImageFactory struct {
+	RegistryURL       string `yaml:"registryURL,omitempty" jsonschema:"default=factory.talos.dev,description=Registry url or the image"`
+	SchematicEndpoint string `yaml:"schematicEndpoint,omitempty" jsonschema:"default=/schematics,description:Endpoint to get schematic ID from the registry"`
+	Protocol          string `yaml:"protocol,omitempty" jsonschema:"default=https,description=Protocol of the registry(https or http)"`
+	InstallerURLTmpl  string `yaml:"installerURLTmpl,omitempty" jsonschema:"default={{.RegistryURL}}/installer/{{.ID}}:{{.Version}},description=Template for installer image URL"`
 }
