@@ -244,8 +244,7 @@ talhelper gencommand upgrade [flags]
 ### Options
 
 ```
-  -h, --help                  help for upgrade
-  -r, --registry-url string   Registry url of the image (default "factory.talos.dev/installer")
+  -h, --help   help for upgrade
 ```
 
 ### Options inherited from parent commands
@@ -329,6 +328,7 @@ talhelper genconfig [flags]
   -e, --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
   -h, --help                  help for genconfig
       --no-gitignore          Create/update gitignore file too
+      --offline-mode          Generate schematic ID without doing POST request to image-factory
   -o, --out-dir string        Directory where to dump the generated files (default "./clusterconfig")
   -s, --secret-file strings   List of files containing secrets for the cluster (default [talsecret.yaml,talsecret.sops.yaml,talsecret.yml,talsecret.sops.yml])
   -m, --talos-mode string     Talos runtime mode to validate generated config (default "metal")
@@ -393,7 +393,8 @@ talhelper genurl installer [flags]
   -h, --help                  help for installer
   -k, --kernel-arg strings    Kernel arguments to be passed to the image kernel (ignored when talconfig.yaml is found)
   -n, --node string           A specific node to generate command for. If not specified, will generate for all nodes (ignored when talconfig.yaml is not found)
-  -r, --registry-url string   Registry url of the image (default "factory.talos.dev/installer")
+      --offline-mode          Generate schematic ID without doing POST request to image-factory
+  -r, --registry-url string   Registry url of the image (default "factory.talos.dev")
   -v, --version string        Talos version to generate (defaults to latest Talos version) (default "v1.5.5")
 ```
 
@@ -419,7 +420,8 @@ talhelper genurl iso [flags]
   -h, --help                  help for iso
   -k, --kernel-arg strings    Kernel arguments to be passed to the image kernel (ignored when talconfig.yaml is found)
   -n, --node string           A specific node to generate command for. If not specified, will generate for all nodes (ignored when talconfig.yaml is not found)
-  -r, --registry-url string   Registry url of the image (default "https://factory.talos.dev/image")
+      --offline-mode          Generate schematic ID without doing POST request to image-factory
+  -r, --registry-url string   Registry url of the image (default "factory.talos.dev")
   -m, --talos-mode string     Talos runtime mode to generate URL (default "metal")
   -v, --version string        Talos version to generate (defaults to latest Talos version) (default "v1.5.5")
 ```
