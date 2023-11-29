@@ -87,11 +87,12 @@ func (c *TalhelperConfig) GetInstallerURL() string {
 
 // GetImageFactory returns default `imageFactory` if not specified.
 func (c *TalhelperConfig) GetImageFactory() *ImageFactory {
-	result := ImageFactory{
+	result := &ImageFactory{
 		RegistryURL:       "factory.talos.dev",
 		SchematicEndpoint: "/schematics",
 		Protocol:          "https",
 		InstallerURLTmpl:  "{{.RegistryURL}}/installer/{{.ID}}:{{.Version}}",
+		ISOURLTmpl:        "{{.Protocol}}://{{.RegistryURL}}/image/{{.ID}}/{{.Version}}/{{.Mode}}-{{.Arch}}.iso",
 	}
 	if c.ImageFactory.RegistryURL != "" {
 		result.RegistryURL = c.ImageFactory.RegistryURL
@@ -105,7 +106,22 @@ func (c *TalhelperConfig) GetImageFactory() *ImageFactory {
 	if c.ImageFactory.InstallerURLTmpl != "" {
 		result.InstallerURLTmpl = c.ImageFactory.InstallerURLTmpl
 	}
-	return &result
+	return result
+}
+
+// GetMachineSpec returns default `MachineSpec` for `Node` if not specified.
+func (n *Node) GetMachineSpec() *MachineSpec {
+	result := &MachineSpec{
+		Mode: "metal",
+		Arch: "amd64",
+	}
+	if n.MachineSpec.Mode != "" {
+		result.Mode = n.MachineSpec.Mode
+	}
+	if n.MachineSpec.Arch != "" {
+		result.Arch = n.MachineSpec.Arch
+	}
+	return result
 }
 
 // endpointisIPv6 returns true if string is IPv6 address.

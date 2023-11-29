@@ -48,7 +48,7 @@ var genurlISOCmd = &cobra.Command{
 				}
 
 				if node.IPAddress == genurlISONode {
-					url, err := talos.GetISOURL(schema, genurlISORegistryURL, cfg.GetTalosVersion(), genurlISOTalosMode, genurlISOArch, genurlISOOfflineMode)
+					url, err := talos.GetISOURL(schema, cfg.GetImageFactory(), node.GetMachineSpec(), cfg.GetTalosVersion(), genurlISOOfflineMode)
 					if err != nil {
 						log.Fatalf("Failed to generate ISO url for %s, %v", node.Hostname, err)
 					}
@@ -56,7 +56,7 @@ var genurlISOCmd = &cobra.Command{
 					break
 				}
 
-				url, err := talos.GetISOURL(schema, genurlISORegistryURL, cfg.GetTalosVersion(), genurlISOTalosMode, genurlISOArch, genurlISOOfflineMode)
+				url, err := talos.GetISOURL(schema, cfg.GetImageFactory(), node.GetMachineSpec(), cfg.GetTalosVersion(), genurlISOOfflineMode)
 				if err != nil {
 					log.Fatalf("Failed to generate ISO url for %s, %v", node.Hostname, err)
 				}
@@ -83,7 +83,9 @@ var genurlISOCmd = &cobra.Command{
 					},
 				},
 			}
-			url, err := talos.GetISOURL(cfg, genurlISORegistryURL, genurlISOVersion, genurlISOTalosMode, genurlISOArch, genurlISOOfflineMode)
+			tcfg := &config.TalhelperConfig{}
+			node := &config.Node{}
+			url, err := talos.GetISOURL(cfg, tcfg.GetImageFactory(), node.GetMachineSpec(), genurlISOVersion, genurlISOOfflineMode)
 			if err != nil {
 				log.Fatalf("Failed to generate installer url, %v", err)
 			}
