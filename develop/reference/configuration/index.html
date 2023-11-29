@@ -69,6 +69,8 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#cniconfig">CNIConfig</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#imagefactory">ImageFactory</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#controlplane">ControlPlane</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#worker">Worker</a>
@@ -271,6 +273,20 @@
 <span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">custom</span>
 <span class="w">  </span><span class="nt">urls</span><span class="p">:</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://docs.projectcalico.org/archive/v3.20/manifests/canal.yaml</span>
+</code></pre></div>
+</details></td>
+<td align="center"><code>nil</code></td>
+<td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
+</tr>
+<tr>
+<td><code>imageFactory</code></td>
+<td><a href="#imagefactory">ImageFactory</a></td>
+<td>Configures selfhosted image factory.<details><summary><em>Show example</em></summary>
+<div class="highlight"><pre><span></span><code><span class="nt">imageFactory</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">registryURL</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">myfactory.com</span>
+<span class="w">  </span><span class="nt">schematicEndpoint</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/schematics</span>
+<span class="w">  </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https</span>
+<span class="w">  </span><span class="nt">installerURLTmpl</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{{</span><span class="nv">.RegistryURL</span><span class="p p-Indicator">}}</span><span class="l l-Scalar l-Scalar-Plain">/installer/{{.ID}}:{{.Version}}</span>
 </code></pre></div>
 </details></td>
 <td align="center"><code>nil</code></td>
@@ -595,6 +611,54 @@
 </code></pre></div>
 </summary></td>
 <td align="center"><code>[]</code></td>
+<td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
+</tr>
+</table>
+<h2 id="imagefactory">ImageFactory</h2>
+<p><code>ImageFactory</code> defines configuration for selfhosted image-factory.</p>
+<table>
+<tr>
+<th>Field</th>
+<p><th>Type</th><th>Description</th><th>Default Value</th><th>Required</th></p>
+</tr>
+<tr>
+<td><code>registryURL</code></td>
+<td>string</td>
+<td>Registry URL of the factory.<details><summary><em>Show example</em></summary>
+<div class="highlight"><pre><span></span><code><span class="nt">registryURL</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">myfactory.com</span>
+</code></pre></div>
+</details></td>
+<td align="center"><code>"factory.talos.dev"</code></td>
+<td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
+</tr>
+<tr>
+<td><code>protocol</code></td>
+<td>string</td>
+<td>Protocol the registry is listening to.<details><summary><em>Show example</em></summary>
+<div class="highlight"><pre><span></span><code><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">http</span>
+</code></pre></div>
+</summary></td>
+<td align="center"><code>https</code></td>
+<td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
+</tr>
+<tr>
+<td><code>schematicEndpoint</code></td>
+<td>string</td>
+<td>Path to do HTTP POST request to the registry.</details><details><summary><em>Show example</em></summary>
+<div class="highlight"><pre><span></span><code><span class="nt">schematicEndpoint</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/schematics</span>
+</code></pre></div>
+</summary></td>
+<td align="center"><code>/schematics</code></td>
+<td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
+</tr>
+<tr>
+<td><code>installerURLTmpl</code></td>
+<td>string</td>
+<td><details><summary>Go template to parse the full installer URL.</summary>Available placeholders: <code>RegistryURL</code>,<code>ID</code>,<code>Version</code></details><details><summary><em>Show example</em></summary>
+<div class="highlight"><pre><span></span><code><span class="nt">installerURLTmpl</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{.RegistryURL}}/installer/{{.ID}}:{{.Version}}&quot;</span>
+</code></pre></div>
+</summary></td>
+<td align="center"><code>{{.RegistryURL}}/installer/{{.ID}}:{{.Version}}</code></td>
 <td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
 </tr>
 </table>
