@@ -13,30 +13,19 @@ import (
 	"github.com/spf13/cobra"
 )
 
-var (
-	genurlInstallerCfgFile     string
-	genurlInstallerEnvFile     []string
-	genurlInstallerNode        string
-	genurlInstallerRegistryURL string
-	genurlInstallerVersion     string
-	genurlInstallerExtensions  []string
-	genurlInstallerKernelArgs  []string
-	genurlInstallerOfflineMode bool
-)
-
 var genurlInstallerCmd = &cobra.Command{
 	Use:   "installer",
 	Short: "Generate URL for Talos installer image",
 	Run: func(cmd *cobra.Command, args []string) {
-		if _, err := os.Stat(genurlInstallerCfgFile); err == nil {
-			cfg, err := config.LoadAndValidateFromFile(genurlInstallerCfgFile, genurlInstallerEnvFile)
+		if _, err := os.Stat(genurlCfgFile); err == nil {
+			cfg, err := config.LoadAndValidateFromFile(genurlCfgFile, genurlEnvFile)
 			if err != nil {
 				log.Fatalf("failed to parse config file: %s", err)
 			}
 
 			var urls []string
 			for _, node := range cfg.Nodes {
-				if genurlInstallerNode != "" && node.IPAddress != genurlInstallerNode {
+				if genurlNode != "" && node.IPAddress != genurlNode {
 					continue
 				}
 
@@ -45,8 +34,8 @@ var genurlInstallerCmd = &cobra.Command{
 					schema = node.Schematic
 				}
 
-				if node.IPAddress == genurlInstallerNode {
-					url, err := talos.GetInstallerURL(schema, cfg.GetImageFactory(), cfg.GetTalosVersion(), genurlInstallerOfflineMode)
+				if node.IPAddress == genurlNode {
+					url, err := talos.GetInstallerURL(schema, cfg.GetImageFactory(), cfg.GetTalosVersion(), genurlOfflineMode)
 					if err != nil {
 						log.Fatalf("Failed to generate installer url for %s, %v", node.Hostname, err)
 					}
@@ -54,7 +43,7 @@ var genurlInstallerCmd = &cobra.Command{
 					break
 				}
 
-				url, err := talos.GetInstallerURL(schema, cfg.GetImageFactory(), cfg.GetTalosVersion(), genurlInstallerOfflineMode)
+				url, err := talos.GetInstallerURL(schema, cfg.GetImageFactory(), cfg.GetTalosVersion(), genurlOfflineMode)
 				if err != nil {
 					log.Fatalf("Failed to generate installer url for %s, %v", node.Hostname, err)
 				}
@@ -63,7 +52,7 @@ var genurlInstallerCmd = &cobra.Command{
 
 			switch len(urls) {
 			case 0:
-				log.Fatalf("Node with IP address of %s is not found in the config file", genurlInstallerNode)
+				log.Fatalf("Node with IP address of %s is not found in the config file", genurlNode)
 			case 1:
 				s := strings.Split(urls[0], " ")
 				fmt.Printf("%s\n", s[len(s)-1])
@@ -75,36 +64,27 @@ var genurlInstallerCmd = &cobra.Command{
 		} else if errors.Is(err, os.ErrNotExist) {
 			cfg := &schematic.Schematic{
 				Customization: schematic.Customization{
-					ExtraKernelArgs: genurlInstallerKernelArgs,
+					ExtraKernelArgs: genurlKernelArgs,
 					SystemExtensions: schematic.SystemExtensions{
-						OfficialExtensions: genurlInstallerExtensions,
+						OfficialExtensions: genurlExtensions,
 					},
 				},
 			}
 			tconfig := &config.TalhelperConfig{}
-			tconfig.ImageFactory.RegistryURL = genurlInstallerRegistryURL
+			tconfig.ImageFactory.RegistryURL = genurlRegistryURL
 
-			url, err := talos.GetInstallerURL(cfg, tconfig.GetImageFactory(), genurlInstallerVersion, genurlInstallerOfflineMode)
+			url, err := talos.GetInstallerURL(cfg, tconfig.GetImageFactory(), genurlVersion, genurlOfflineMode)
 			if err != nil {
 				log.Fatalf("Failed to generate installer url, %v", err)
 			}
 
 			fmt.Println(url)
 		} else {
-			log.Fatalf("Failed to read Talhelper config file %s, %v", genurlInstallerCfgFile, err)
+			log.Fatalf("Failed to read Talhelper config file %s, %v", genurlCfgFile, err)
 		}
 	},
 }
 
 func init() {
 	genurlCmd.AddCommand(genurlInstallerCmd)
-
-	genurlInstallerCmd.Flags().StringVarP(&genurlInstallerCfgFile, "config-file", "c", "talconfig.yaml", "File containing configurations for talhelper")
-	genurlInstallerCmd.Flags().StringSliceVar(&genurlInstallerEnvFile, "env-file", []string{"talenv.yaml", "talenv.sops.yaml", "talenv.yml", "talenv.sops.yml"}, "List of files containing env variables for config file")
-	genurlInstallerCmd.Flags().StringVarP(&genurlInstallerNode, "node", "n", "", "A specific node to generate command for. If not specified, will generate for all nodes (ignored when talconfig.yaml is not found)")
-	genurlInstallerCmd.Flags().StringVarP(&genurlInstallerRegistryURL, "registry-url", "r", "factory.talos.dev", "Registry url of the image")
-	genurlInstallerCmd.Flags().StringVarP(&genurlInstallerVersion, "version", "v", config.LatestTalosVersion, "Talos version to generate (defaults to latest Talos version)")
-	genurlInstallerCmd.Flags().StringSliceVarP(&genurlInstallerExtensions, "extension", "e", []string{}, "Official extension image to be included in the image (ignored when talconfig.yaml is found)")
-	genurlInstallerCmd.Flags().StringSliceVarP(&genurlInstallerKernelArgs, "kernel-arg", "k", []string{}, "Kernel arguments to be passed to the image kernel (ignored when talconfig.yaml is found)")
-	genurlInstallerCmd.Flags().BoolVar(&genurlInstallerOfflineMode, "offline-mode", false, "Generate schematic ID without doing POST request to image-factory")
 }
