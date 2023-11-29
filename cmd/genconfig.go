@@ -19,6 +19,7 @@ var (
 	genconfigEnvFile     []string
 	genconfigSecretFile  []string
 	genconfigDryRun      bool
+	genconfigOfflineMode bool
 )
 
 var genconfigCmd = &cobra.Command{
@@ -42,7 +43,7 @@ var genconfigCmd = &cobra.Command{
 			}
 		}
 
-		err = generate.GenerateConfig(cfg, genconfigDryRun, genconfigOutDir, secretFile, genconfigTalosMode)
+		err = generate.GenerateConfig(cfg, genconfigDryRun, genconfigOutDir, secretFile, genconfigTalosMode, genconfigOfflineMode)
 		if err != nil {
 			log.Fatalf("failed to generate talos config: %s", err)
 		}
@@ -66,4 +67,5 @@ func init() {
 	genconfigCmd.Flags().StringVarP(&genconfigTalosMode, "talos-mode", "m", "metal", "Talos runtime mode to validate generated config")
 	genconfigCmd.Flags().BoolVar(&genconfigNoGitignore, "no-gitignore", false, "Create/update gitignore file too")
 	genconfigCmd.Flags().BoolVarP(&genconfigDryRun, "dry-run", "n", false, "Skip generating manifests and show diff instead")
+	genconfigCmd.Flags().BoolVar(&genconfigOfflineMode, "offline-mode", false, "Generate schematic ID without doing POST request to image-factory")
 }

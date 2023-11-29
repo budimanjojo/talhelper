@@ -175,6 +175,22 @@ cniConfig:
 </tr>
 
 <tr markdown="1">
+<td markdown="1">`imageFactory`</td>
+<td markdown="1">[ImageFactory](#imagefactory)</td>
+<td markdown="1">Configures selfhosted image factory.<details><summary>*Show example*</summary>
+```yaml
+imageFactory:
+  registryURL: myfactory.com
+  schematicEndpoint: /schematics
+  protocol: https
+  installerURLTmpl: {{.RegistryURL}}/installer/{{.ID}}:{{.Version}}
+```
+</details></td>
+<td markdown="1" align="center">`nil`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+</tr>
+
+<tr markdown="1">
 <td markdown="1">`patches`</td>
 <td markdown="1">[]string</td>
 <td markdown="1"><details><summary>Patches to be applied to all nodes.</summary>List of strings containing RFC6902 JSON patches, strategic merge patches,<br />or a file containing them</details><details><summary>*Show example*</summary>
@@ -542,6 +558,65 @@ urls:
 ```
 </summary></td>
 <td markdown="1" align="center">`[]`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+</tr>
+
+</table>
+
+## ImageFactory
+
+`ImageFactory` defines configuration for selfhosted image-factory.
+
+<table markdown="1">
+<tr markdown="1">
+<th markdown="1">Field</th><th>Type</th><th>Description</th><th>Default Value</th><th>Required</th>
+</tr>
+
+<tr markdown="1">
+<td markdown="1">`registryURL`</td>
+<td markdown="1">string</td>
+<td markdown="1">Registry URL of the factory.<details><summary>*Show example*</summary>
+```yaml
+registryURL: myfactory.com
+```
+</details></td>
+<td markdown="1" align="center">`"factory.talos.dev"`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+</tr>
+
+<tr markdown="1">
+<td markdown="1">`protocol`</td>
+<td markdown="1">string</td>
+<td markdown="1">Protocol the registry is listening to.<details><summary>*Show example*</summary>
+```yaml
+protocol: http
+```
+</summary></td>
+<td markdown="1" align="center">`https`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+</tr>
+
+<tr markdown="1">
+<td markdown="1">`schematicEndpoint`</td>
+<td markdown="1">string</td>
+<td markdown="1">Path to do HTTP POST request to the registry.</details><details><summary>*Show example*</summary>
+```yaml
+schematicEndpoint: /schematics
+```
+</summary></td>
+<td markdown="1" align="center">`/schematics`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+</tr>
+
+<tr markdown="1">
+<td markdown="1">`installerURLTmpl`</td>
+<td markdown="1">string</td>
+<td markdown="1"><details><summary>Go template to parse the full installer URL.</summary>Available placeholders: `RegistryURL`,`ID`,`Version`</details><details><summary>*Show example*</summary>
+```yaml
+installerURLTmpl: "{{.RegistryURL}}/installer/{{.ID}}:{{.Version}}"
+```
+</summary></td>
+<td markdown="1" align="center">`{{.RegistryURL}}/installer/{{.ID}}:{{.Version}}`</td>
 <td markdown="1" align="center">:negative_squared_cross_mark:</td>
 </tr>
 

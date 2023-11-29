@@ -81,12 +81,12 @@ nodes:
 		t.Fatal(err)
 	}
 
-	cp, err := GenerateNodeConfig(&m.Nodes[0], input)
+	cp, err := GenerateNodeConfig(&m.Nodes[0], input, m.GetImageFactory(), true)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	w, err := GenerateNodeConfig(&m.Nodes[1], input)
+	w, err := GenerateNodeConfig(&m.Nodes[1], input, m.GetImageFactory(), true)
 	if err != nil {
 		t.Fatal(err)
 	}

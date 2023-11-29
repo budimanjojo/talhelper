@@ -85,6 +85,29 @@ func (c *TalhelperConfig) GetInstallerURL() string {
 	return "ghcr.io/siderolabs/installer:" + c.GetTalosVersion()
 }
 
+// GetImageFactory returns default `imageFactory` if not specified.
+func (c *TalhelperConfig) GetImageFactory() *ImageFactory {
+	result := ImageFactory{
+		RegistryURL:       "factory.talos.dev",
+		SchematicEndpoint: "/schematics",
+		Protocol:          "https",
+		InstallerURLTmpl:  "{{.RegistryURL}}/installer/{{.ID}}:{{.Version}}",
+	}
+	if c.ImageFactory.RegistryURL != "" {
+		result.RegistryURL = c.ImageFactory.RegistryURL
+	}
+	if c.ImageFactory.SchematicEndpoint != "" {
+		result.SchematicEndpoint = c.ImageFactory.SchematicEndpoint
+	}
+	if c.ImageFactory.Protocol != "" {
+		result.Protocol = c.ImageFactory.Protocol
+	}
+	if c.ImageFactory.InstallerURLTmpl != "" {
+		result.InstallerURLTmpl = c.ImageFactory.InstallerURLTmpl
+	}
+	return &result
+}
+
 // endpointisIPv6 returns true if string is IPv6 address.
 func endpointisIPv6(ep string) bool {
 	addr, err := netip.ParseAddr(ep)

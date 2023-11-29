@@ -18,7 +18,7 @@ import (
 // GenerateConfig takes `TalhelperConfig` and path to encrypted `secretFile` and generates
 // Talos `machineconfig` files and a `talosconfig` file in `outDir`.
 // It returns an error, if any.
-func GenerateConfig(c *config.TalhelperConfig, dryRun bool, outDir, secretFile, mode string) error {
+func GenerateConfig(c *config.TalhelperConfig, dryRun bool, outDir, secretFile, mode string, offlineMode bool) error {
 	var cfg []byte
 	input, err := talos.NewClusterInput(c, secretFile)
 	if err != nil {
@@ -29,7 +29,7 @@ func GenerateConfig(c *config.TalhelperConfig, dryRun bool, outDir, secretFile, 
 		fileName := c.ClusterName + "-" + node.Hostname + ".yaml"
 		cfgFile := outDir + "/" + fileName
 
-		cfg, err = talos.GenerateNodeConfigBytes(&node, input)
+		cfg, err = talos.GenerateNodeConfigBytes(&node, input, c.GetImageFactory(), offlineMode)
 		if err != nil {
 			return err
 		}
