@@ -282,6 +282,31 @@
       "additionalProperties": false,
       "type": "object"
     },
+    "ImageFactory": {
+      "properties": {
+        "registryURL": {
+          "type": "string",
+          "description": "Registry url or the image",
+          "default": "factory.talos.dev"
+        },
+        "schematicEndpoint": {
+          "type": "string",
+          "default": "/schematics"
+        },
+        "protocol": {
+          "type": "string",
+          "description": "Protocol of the registry(https or http)",
+          "default": "https"
+        },
+        "installerURLTmpl": {
+          "type": "string",
+          "description": "Template for installer image URL",
+          "default": "{{.RegistryURL}}/installer/{{.ID}}:{{.Version}}"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
     "InstallDiskSelectorWrapper": {
       "properties": {
         "size": {
@@ -681,6 +706,9 @@
           },
           "type": "array",
           "description": "List of configurations for Node"
+        },
+        "imageFactory": {
+          "$ref": "#/$defs/ImageFactory"
         },
         "controlPlane": {
           "$ref": "#/$defs/controlPlane",
