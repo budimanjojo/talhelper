@@ -387,10 +387,15 @@ talhelper genurl installer [flags]
 ### Options
 
 ```
+  -h, --help   help for installer
+```
+
+### Options inherited from parent commands
+
+```
   -c, --config-file string    File containing configurations for talhelper (default "talconfig.yaml")
       --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
   -e, --extension strings     Official extension image to be included in the image (ignored when talconfig.yaml is found)
-  -h, --help                  help for installer
   -k, --kernel-arg strings    Kernel arguments to be passed to the image kernel (ignored when talconfig.yaml is found)
   -n, --node string           A specific node to generate command for. If not specified, will generate for all nodes (ignored when talconfig.yaml is not found)
       --offline-mode          Generate schematic ID without doing POST request to image-factory
@@ -413,16 +418,21 @@ talhelper genurl iso [flags]
 ### Options
 
 ```
-  -a, --arch string           CPU architecture support of the image (default "amd64")
+  -a, --arch string         CPU architecture support of the image (default "amd64")
+  -h, --help                help for iso
+  -m, --talos-mode string   Talos runtime mode to generate URL (default "metal")
+```
+
+### Options inherited from parent commands
+
+```
   -c, --config-file string    File containing configurations for talhelper (default "talconfig.yaml")
       --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
   -e, --extension strings     Official extension image to be included in the image (ignored when talconfig.yaml is found)
-  -h, --help                  help for iso
   -k, --kernel-arg strings    Kernel arguments to be passed to the image kernel (ignored when talconfig.yaml is found)
   -n, --node string           A specific node to generate command for. If not specified, will generate for all nodes (ignored when talconfig.yaml is not found)
       --offline-mode          Generate schematic ID without doing POST request to image-factory
   -r, --registry-url string   Registry url of the image (default "factory.talos.dev")
-  -m, --talos-mode string     Talos runtime mode to generate URL (default "metal")
   -v, --version string        Talos version to generate (defaults to latest Talos version) (default "v1.5.5")
 ```
 
@@ -437,7 +447,15 @@ Generate URL for Talos installer or ISO
 ### Options
 
 ```
-  -h, --help   help for genurl
+  -c, --config-file string    File containing configurations for talhelper (default "talconfig.yaml")
+      --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
+  -e, --extension strings     Official extension image to be included in the image (ignored when talconfig.yaml is found)
+  -h, --help                  help for genurl
+  -k, --kernel-arg strings    Kernel arguments to be passed to the image kernel (ignored when talconfig.yaml is found)
+  -n, --node string           A specific node to generate command for. If not specified, will generate for all nodes (ignored when talconfig.yaml is not found)
+      --offline-mode          Generate schematic ID without doing POST request to image-factory
+  -r, --registry-url string   Registry url of the image (default "factory.talos.dev")
+  -v, --version string        Talos version to generate (defaults to latest Talos version) (default "v1.5.5")
 ```
 
 ### SEE ALSO
