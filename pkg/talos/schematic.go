@@ -6,7 +6,6 @@ import (
 	"errors"
 	"fmt"
 	"net/http"
-	"strings"
 	"text/template"
 
 	"github.com/budimanjojo/talhelper/pkg/config"
@@ -23,6 +22,15 @@ type installerTmpl struct {
 	RegistryURL string
 	ID          string
 	Version     string
+}
+
+type isoTmpl struct {
+	Protocol    string
+	RegistryURL string
+	ID          string
+	Version     string
+	Mode        string
+	Arch        string
 }
 
 func GetInstallerURL(cfg *schematic.Schematic, factory *config.ImageFactory, version string, offlineMode bool) (string, error) {
@@ -50,26 +58,32 @@ func GetInstallerURL(cfg *schematic.Schematic, factory *config.ImageFactory, ver
 	return buf.String(), nil
 }
 
-func GetISOURL(cfg *schematic.Schematic, registryURL, version, mode, arch string, offlineMode bool) (string, error) {
-	url := "https://" + ensureSlashSuffix(registryURL) + "image"
-	if offlineMode {
-		id, err := cfg.ID()
-		if err != nil {
-			return "", err
-		}
-		return ensureSlashSuffix(url) + ensureSlashSuffix(id) + ensureSlashSuffix(version) + mode + "-" + arch + ".iso", nil
+func GetISOURL(cfg *schematic.Schematic, factory *config.ImageFactory, spec *config.MachineSpec, version string, offlineMode bool) (string, error) {
+	tmplData := isoTmpl{
+		Protocol:    factory.Protocol,
+		RegistryURL: factory.RegistryURL,
+		Version:     version,
+		Mode:        spec.Mode,
+		Arch:        spec.Arch,
 	}
 
-	body, err := cfg.Marshal()
+	id, err := getSchematicID(cfg, factory, offlineMode)
 	if err != nil {
 		return "", err
 	}
-	var result factoryPOSTResult
-	schematicURL := "https://" + registryURL + "/schematics"
-	if err := doHTTPPOSTRequest(body, schematicURL, &result); err != nil {
+	tmplData.ID = id
+
+	t, err := template.New("iso").Parse(factory.ISOURLTmpl)
+	if err != nil {
+		return "", nil
+	}
+
+	buf := new(bytes.Buffer)
+	if err := t.Execute(buf, tmplData); err != nil {
 		return "", err
 	}
-	return ensureSlashSuffix(url) + ensureSlashSuffix(result.ID) + ensureSlashSuffix(version) + mode + "-" + arch + ".iso", nil
+
+	return buf.String(), nil
 }
 
 func getSchematicID(cfg *schematic.Schematic, iFactory *config.ImageFactory, offlineMode bool) (string, error) {
@@ -90,13 +104,6 @@ func getSchematicID(cfg *schematic.Schematic, iFactory *config.ImageFactory, off
 		return "", err
 	}
 	return resp.ID, nil
-}
-
-func ensureSlashSuffix(s string) string {
-	if strings.HasSuffix(s, "/") {
-		return s
-	}
-	return s + "/"
 }
 
 func doHTTPPOSTRequest(body []byte, url string, out interface{}) error {

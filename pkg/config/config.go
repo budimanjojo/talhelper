@@ -45,6 +45,7 @@ type Node struct {
 	Patches             []string                          `yaml:"patches,omitempty" jsonschema:"description=Patches to be applied to the node"`
 	TalosImageURL       string                            `yaml:"talosImageURL" jsonschema:"example=factory.talos.dev/installer/e9c7ef96884d4fbc8c0a1304ccca4bb0287d766a8b4125997cb9dbe84262144e,description=Talos installer image url for the node"`
 	Schematic           *schematic.Schematic              `yaml:"schematic,omitempty" jsonschema:"description=Talos image customization to be used in the installer image"`
+	MachineSpec         MachineSpec                       `yaml:"machineSpec,omitempty" jsonschema:"description=Machine hardware specification"`
 }
 
 type cniConfig struct {
@@ -71,4 +72,10 @@ type ImageFactory struct {
 	SchematicEndpoint string `yaml:"schematicEndpoint,omitempty" jsonschema:"default=/schematics,description:Endpoint to get schematic ID from the registry"`
 	Protocol          string `yaml:"protocol,omitempty" jsonschema:"default=https,description=Protocol of the registry(https or http)"`
 	InstallerURLTmpl  string `yaml:"installerURLTmpl,omitempty" jsonschema:"default={{.RegistryURL}}/installer/{{.ID}}:{{.Version}},description=Template for installer image URL"`
+	ISOURLTmpl        string `yaml:"ISOURLTmpl,omitempty" jsonschema:"default={{.Protocol}}://{{.RegistryURL}}/image/{{.ID}}/{{.Version}}/{{.Mode}}-{{.Arch}}.iso,description=Template for ISO image URL"`
+}
+
+type MachineSpec struct {
+	Mode string `yaml:"mode,omitempty" jsonschema:"default=metal,description=Machine mode (e.g: metal)"`
+	Arch string `yaml:"arch,omitempty" jsonschema:"default=amd64,description=Machine architecture (e.g: amd64, arm64)"`
 }

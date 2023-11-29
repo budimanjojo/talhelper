@@ -184,6 +184,7 @@ imageFactory:
   schematicEndpoint: /schematics
   protocol: https
   installerURLTmpl: {{.RegistryURL}}/installer/{{.ID}}:{{.Version}}
+  ISOURLTmpl: {{.Protocol}}://{{.RegistryURL}}/image/{{.ID}}/{{.Version}}/{{.Mode}}/{{.Arch}}.iso
 ```
 </details></td>
 <td markdown="1" align="center">`nil`</td>
@@ -327,6 +328,20 @@ installDiskSelector:
   model: WDC*
   name: /sys/block/sda/device/name
   busPath: /pci0000:00/0000:00:17.0/ata1/host0/target0:0:0/0:0:0:0
+```
+</summary></td>
+<td markdown="1" align="center">`nil`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+</tr>
+
+<tr markdown="1">
+<td markdown="1">`machineSpec`</td>
+<td markdown="1">[MachineSpec](#machinespec)</td>
+<td markdown="1"><details><summary>Machine hardware specification for the node.</summary>Only used for `genurl iso` subcommand.</details><details><summary>*Show example*</summary>
+```yaml
+machineSpec:
+  mode: metal
+  arch: arm64
 ```
 </summary></td>
 <td markdown="1" align="center">`nil`</td>
@@ -617,6 +632,53 @@ installerURLTmpl: "{{.RegistryURL}}/installer/{{.ID}}:{{.Version}}"
 ```
 </summary></td>
 <td markdown="1" align="center">`{{.RegistryURL}}/installer/{{.ID}}:{{.Version}}`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+</tr>
+
+<tr markdown="1">
+<td markdown="1">`ISOURLTmpl`</td>
+<td markdown="1">string</td>
+<td markdown="1"><details><summary>Go template to parse the full ISO image URL.</summary>Available placeholders: `Protocol`,`RegistryURL`,`ID`,`Version`,`Mode`,`Arch`</details><details><summary>*Show example*</summary>
+```yaml
+installerURLTmpl: "{{.Protocol}}://{{.RegistryURL}}/image/{{.ID}}/{{.Version}}/{{.Mode}}-{{.Arch}}.iso"
+```
+</summary></td>
+<td markdown="1" align="center">`{{.Protocol}}://{{.RegistryURL}}/image/{{.ID}}/{{.Version}}/{{.Mode}}-{{.Arch}}.iso`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+</tr>
+
+</table>
+
+## MachineSpec
+
+`MachineSpec` defines machine hardware configurations for a node.
+
+<table markdown="1">
+<tr markdown="1">
+<th markdown="1">Field</th><th>Type</th><th>Description</th><th>Default Value</th><th>Required</th>
+</tr>
+
+<tr markdown="1">
+<td markdown="1">`mode`</td>
+<td markdown="1">string</td>
+<td markdown="1">Machine mode.<details><summary>*Show example*</summary>
+```yaml
+mode: metal
+```
+</details></td>
+<td markdown="1" align="center">`"metal"`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+</tr>
+
+<tr markdown="1">
+<td markdown="1">`arch`</td>
+<td markdown="1">string</td>
+<td markdown="1">Machine architecture.<details><summary>*Show example*</summary>
+```yaml
+arch: arm64
+```
+</summary></td>
+<td markdown="1" align="center">`amd64`</td>
 <td markdown="1" align="center">:negative_squared_cross_mark:</td>
 </tr>
 
