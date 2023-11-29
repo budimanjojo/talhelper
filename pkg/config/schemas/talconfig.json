@@ -302,6 +302,11 @@
           "type": "string",
           "description": "Template for installer image URL",
           "default": "{{.RegistryURL}}/installer/{{.ID}}:{{.Version}}"
+        },
+        "ISOURLTmpl": {
+          "type": "string",
+          "description": "Template for ISO image URL",
+          "default": "{{.Protocol}}://{{.RegistryURL}}/image/{{.ID}}/{{.Version}}/{{.Mode}}-{{.Arch}}.iso"
         }
       },
       "additionalProperties": false,
@@ -399,6 +404,22 @@
         },
         "op": {
           "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "MachineSpec": {
+      "properties": {
+        "mode": {
+          "type": "string",
+          "description": "Machine mode (e.g: metal)",
+          "default": "metal"
+        },
+        "arch": {
+          "type": "string",
+          "description": "Machine architecture (e.g: amd64",
+          "default": "amd64"
         }
       },
       "additionalProperties": false,
@@ -554,6 +575,10 @@
         "schematic": {
           "$ref": "#/$defs/Schematic",
           "description": "Talos image customization to be used in the installer image"
+        },
+        "machineSpec": {
+          "$ref": "#/$defs/MachineSpec",
+          "description": "Machine hardware specification"
         }
       },
       "additionalProperties": false,
