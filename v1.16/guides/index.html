@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="budimanjojo" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Guides - Talhelper</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link href="../css/extra.css" rel="stylesheet" />
+        <link href="../css/highlight.css" rel="stylesheet" />
+        <link href="../css/version-select.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Guides";
+        var mkdocs_page_input_path = "guides.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <script src="../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]--> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="..">
+          <img src="../img/logo.svg" class="logo" alt="Logo"/>
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Introduction</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../getting-started/">Getting Started</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../installation/">Installation</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Guides</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#example-talconfigyaml">Example talconfig.yaml</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#adding-talos-extensions-and-kernel-arguments">Adding Talos extensions and kernel arguments</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#configuring-sops-for-talhelper">Configuring SOPS for Talhelper</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#using-doppler-instead-of-sops">Using Doppler instead of SOPS</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#generating-talosctl-commands-for-bash-scripting">Generating talosctl commands for bash scripting</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#selfhosted-image-factory">Selfhosted Image Factory</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#editing-talconfigyaml-file">Editing talconfig.yaml file</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#shell-completion">Shell completion</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../reference/cli/">CLI</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../reference/configuration/">Configuration</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../reference/supported-version/">Supported Talos Versions</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">GitHub</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="" href="https://github.com/budimanjojo/talhelper">Homepage</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="https://github.com/budimanjojo/talhelper/issues">Issue Tracker</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../contributing/">Contributing</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="https://github.com/sponsors/budimanjojo">Sponsor Me</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Talhelper</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+      <li>Guides</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="guides">Guides</h1>
+<h2 id="example-talconfigyaml">Example talconfig.yaml</h2>
+<p>A minimal <code>talconfig.yaml</code> file will look like this:</p>
+<div class="highlight"><pre><span></span><code><span class="nn">---</span>
+<span class="nt">clusterName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-cluster</span>
+<span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://192.168.200.10:6443</span>
+<span class="nt">nodes</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">master</span>
+<span class="w">    </span><span class="nt">controlPlane</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">ipAddress</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">192.168.200.11</span>
+<span class="w">    </span><span class="nt">installDisk</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/dev/sda</span>
+</code></pre></div>
+<p>Let's say you want to add labels to the <code>master</code> node and add another worker node named <code>warmachine</code>, you can modify <code>talconfig.yaml</code> like so:</p>
+<div class="highlight"><pre><span></span><code><span class="nn">---</span>
+<span class="nt">clusterName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-cluster</span>
+<span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://192.168.200.10:6443</span>
+<span class="nt">nodes</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">master</span>
+<span class="w">    </span><span class="nt">controlPlane</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">ipAddress</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">192.168.200.11</span>
+<span class="w">    </span><span class="nt">installDisk</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/dev/sda</span>
+<span class="hll"><span class="w">    </span><span class="nt">nodeLabels</span><span class="p">:</span>
+</span><span class="hll"><span class="w">      </span><span class="nt">rack</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">rack1</span>
+</span><span class="hll"><span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">warmachine</span>
+</span><span class="hll"><span class="w">    </span><span class="nt">controlPlane</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+</span><span class="hll"><span class="w">    </span><span class="nt">ipAddress</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">192.168.200.12</span>
+</span><span class="hll"><span class="w">    </span><span class="nt">installDiskSelector</span><span class="p">:</span>
+</span><span class="hll"><span class="w">      </span><span class="nt">size</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">128GB</span>
+</span></code></pre></div>
+<p>Then you can run <code>talhelper genconfig</code>.
+Here's a more detailed example <a href="https://github.com/budimanjojo/talhelper/blob/bf3c112f168be583cfc658a5425427974796b2af/example/talconfig.yaml">talconfig.yaml</a>.</p>
+<p>To see all the available options of the configuration file, head over to <a href="../reference/configuration/">Configuration Reference</a>.</p>
+<h2 id="adding-talos-extensions-and-kernel-arguments">Adding Talos extensions and kernel arguments</h2>
+<p>Talos v1.5 introduced a new unified way to generate boot assets for installer container image that you can build yourself using their <code>imager</code> container or use <a href="https://factory.talos.dev/">image-factory</a> to dynamically build it for you.
+The old way of installing system extensions using <code>machine.install.extensions</code> in the configuration file is being deprecated, so it's not recommended to use it.</p>
+<p><code>Talhelper</code> can help you to generate the installer url like <code>image-factory</code> if you provide <code>schematic</code> for your nodes.
+Let's say your <code>warmachine</code> node is using Intel processor so you want to have <code>intel-ucode</code> extension and you also want to use traditional network interface naming by providing <code>net.ifnames=0</code> to the kernel argument.
+Your <code>talhelper.yaml</code> should be something like this:</p>
+<div class="highlight"><pre><span></span><code><span class="nn">---</span>
+<span class="nt">clusterName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-cluster</span>
+<span class="nt">talosVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1.5.4</span>
+<span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://192.168.200.10:6443</span>
+<span class="nt">nodes</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">warmachine</span>
+<span class="w">    </span><span class="nt">controlPlane</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">    </span><span class="nt">ipAddress</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">192.168.200.12</span>
+<span class="hll"><span class="w">    </span><span class="nt">schematic</span><span class="p">:</span>
+</span><span class="hll"><span class="w">      </span><span class="nt">customization</span><span class="p">:</span>
+</span><span class="hll"><span class="w">        </span><span class="nt">extraKernelArgs</span><span class="p">:</span>
+</span><span class="hll"><span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">net.ifnames=0</span>
+</span><span class="hll"><span class="w">        </span><span class="nt">systemExtensions</span><span class="p">:</span>
+</span><span class="hll"><span class="w">          </span><span class="nt">officialExtensions</span><span class="p">:</span>
+</span><span class="hll"><span class="w">            </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">siderolabs/intel-ucode</span>
+</span></code></pre></div>
+<p>When you run <code>talhelper genconfig</code>, the generated manifest file for <code>warmachine</code> will have <code>machine.install.image</code> value of <code>factory.talos.dev/installer/9e8cc193609699825d61c039c7738d81cf29c7b20f2a91d8f5c540511b9ea0b4:v1.5.4</code>, which will be the same url you'll get if using <code>image-factory</code>.</p>
+<p>If you don't want to use the url from <code>image-factory</code> or you want to use your own installer image, you can use per node <code>talosImageURL</code> like this:</p>
+<div class="highlight"><pre><span></span><code><span class="nn">---</span>
+<span class="nt">clusterName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-cluster</span>
+<span class="nt">talosVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1.5.4</span>
+<span class="nt">endpoint</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://192.168.200.10:6443</span>
+<span class="nt">nodes</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">warmachine</span>
+<span class="w">    </span><span class="nt">controlPlane</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">    </span><span class="nt">ipAddress</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">192.168.200.12</span>
+<span class="hll"><span class="w">    </span><span class="nt">talosImageURL</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my.registry/install/talos-installer-image</span>
+</span></code></pre></div>
+<p>This will result in <code>machine.install.image</code> value to be <code>my.registry/install/talos-installer-image:v1.5.4</code>.</p>
+<h2 id="configuring-sops-for-talhelper">Configuring SOPS for Talhelper</h2>
+<p><a href="https://github.com/getsops/sops">sops</a> is a simple and flexible tool for managing secrets.</p>
+<p>If you haven't used <code>sops</code> before, the easiest way to get started is by using <a href="https://github.com/FiloSottile/age">age</a> as the encryption tool of choice.
+To configure <code>talhelper</code> to use <code>sops</code> to encrypt and decrypt your secrets, here's the simplified step by step you can do:</p>
+<ol>
+<li>Install both <code>sops</code> and <code>age</code> into your system.</li>
+<li>Run <code>age-keygen -o &lt;sops-config-dir&gt;/age/keys.txt</code>. By default, <code>&lt;sops-config-dir&gt;</code> will be in <code>$XDG_CONFIG_HOME/sops</code> on Linux, <code>$HOME/Library/Application Support/sops</code> on MacOS, and <code>%AppData%\sops</code> on Windows.</li>
+<li>
+<p>In the directory where your <code>talenv.sops.yaml</code>, and <code>talsecrets.sops.yaml</code> lives, create a <code>.sops.yaml</code> file with this content:</p>
+<div class="highlight"><pre><span></span><code><span class="nn">---</span>
+<span class="nt">creation_rules</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">age</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">&gt;-</span>
+<span class="w">      </span><span class="no">&lt;age-public-key&gt; ## get this in the keys.txt file from previous step</span>
+</code></pre></div>
+</li>
+<li>
+<p>Now, if you encrypt your <code>talenv.sops.yaml</code> and <code>talsecret.sops.yaml</code> files with <code>sops</code>, <code>talhelper</code> will be able to decrypt it when generating config files.</p>
+</li>
+</ol>
+<h2 id="using-doppler-instead-of-sops">Using Doppler instead of SOPS</h2>
+<p>If you don't want to use <code>sops</code> as your secret management, you can use <a href="https://www.doppler.com/">Doppler</a> instead (or any other secret managers that can inject environment variables to the shell).</p>
+<p>Thanks to <a href="https://github.com/truxnell">@truxnell</a> for this genius idea.
+Here's the simplified step by step to achieve this:</p>
+<ol>
+<li>
+<p>In the place where you want to use environment secrets, put it in <code>talconfig.yaml</code> file with <code>${}</code> placeholder like this:</p>
+<div class="highlight"><pre><span></span><code><span class="nt">controlPlane</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">inlinePatch</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">cluster</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">aescbcEncryptionSecret</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${AESCBCENCYPTIONKEY}</span>
+</code></pre></div>
+</li>
+<li>
+<p>In <code>doppler</code>, create a project named i.e "talhelper". In that project, create a config i.e "env" that stores key and value of the secret like <code>AESCBCENCYPTIONKEY: &lt;secret&gt;.</code>.</p>
+</li>
+<li>Run <code>doppler</code> CLI command that sets environment variable before running the <code>talhelper</code> command i.e: <code>doppler run -p talhelper -c env talhelper genconfig</code>.</li>
+</ol>
+<p>Thanks to <a href="https://github.com/jtcressy">@jtcressy</a> you can also make use of <code>talsecret.yaml</code> file (which is a better way than doing <code>inlinePatch</code>).
+Note that you can only put the cluster secrets known by Talos here (you can use <code>talhelper gensecret</code> command and modify it).
+Here's the simplified step by step to achieve this:</p>
+<ol>
+<li>
+<p>In <code>talsecret.yaml</code> file, put all your secrets with <code>${}</code> placeholder like this:</p>
+<p><div class="highlight"><pre><span></span><code><span class="nt">cluster</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${CLUSTERNAME}</span>
+<span class="w">  </span><span class="nt">secret</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${CLUSTERSECRET}</span>
+<span class="nt">secrets</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">bootstraptoken</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${BOOTSTRAPTOKEN}</span>
+<span class="w">  </span><span class="nt">secretboxencryptionsecret</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${AESCBCENCYPTIONKEY}</span>
+<span class="nt">trustdinfo</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">token</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${TRUSTDTOKEN}</span>
+<span class="nt">certs</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">etcd</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">crt</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${ETCDCERT}</span>
+<span class="w">    </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${ETCDKEY}</span>
+<span class="w">  </span><span class="nt">k8s</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">crt</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${K8SCERT}</span>
+<span class="w">    </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${K8SKEY}</span>
+<span class="w">  </span><span class="nt">k8saggregator</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">crt</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${K8SAGGCERT}</span>
+<span class="w">    </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${K8SAGGKEY}</span>
+<span class="w">  </span><span class="nt">k8sserviceaccount</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${K8SSAKEY}</span>
+<span class="w">  </span><span class="nt">os</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">crt</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${OSCERT}</span>
+<span class="w">    </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${OSKEY}</span>
+</code></pre></div>
+2. In <code>doppler</code>, create a project named i.e "talhelper". In that project, create a config i.e "env" that stores key and value of the secret like <code>AESCBCENCYPTIONKEY: &lt;secret&gt;.</code>.
+3. Run <code>doppler</code> CLI command that sets environment variable before running the <code>talhelper</code> command i.e: <code>doppler run -p talhelper -c env talhelper genconfig</code>.</p>
+</li>
+</ol>
+<h2 id="generating-talosctl-commands-for-bash-scripting">Generating <code>talosctl</code> commands for bash scripting</h2>
+<p>Thanks to the idea and contribution of <a href="https://github.com/mirceanton">mirceanton</a>, you can generate <code>talosctl</code> commands for bash scripting in your workflow.
+For example, in the directory where a <code>talconfig.yaml</code> like this is located:</p>
+<div class="highlight"><pre><span></span><code><span class="nn">---</span>
+<span class="nt">clusterName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-cluster</span>
+<span class="nt">talosVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1.5.5</span>
+<span class="nt">nodes</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">node1</span>
+<span class="w">    </span><span class="nt">ipAddress</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">192.168.10.11</span>
+<span class="w">    </span><span class="nt">controlPlane</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</code></pre></div>
+<p>After running <code>talhelper genconfig</code>, you can run <code>talhelper gencommand apply | bash</code> in the terminal to apply the generated config into your machine(s) automatically.
+There are some other <code>gencommand</code> commands that you can use like <code>upgrade</code>, <code>upgrade-k8s</code>, <code>bootstrap</code>, etc,</p>
+<p>For more information about the available <code>gencommand</code> commands and flags you can use, head over to the <a href="../reference/cli/#talhelper-gencommand">documentation</a>.</p>
+<h2 id="selfhosted-image-factory">Selfhosted Image Factory</h2>
+<p>By default, the generated manifests will use the official <a href="https://factory.talos.dev">image-factory</a> to pull the installer image.
+If you're self hosting your own image-factory, you can change your <code>talconfig.yaml</code> like so:</p>
+<div class="highlight"><pre><span></span><code><span class="nn">---</span>
+<span class="nt">clusterName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-cluster</span>
+<span class="nt">imageFactory</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">registryURL</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">myfactory.com</span>
+<span class="w">  </span><span class="nt">schematicEndpoint</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/schematics</span>
+<span class="w">  </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">http</span>
+<span class="w">  </span><span class="nt">installerURLTmpl</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{{</span><span class="nv">.RegistryURL</span><span class="p p-Indicator">}}</span><span class="l l-Scalar l-Scalar-Plain">/installer/{{.ID}}:{{.Version}}</span>
+</code></pre></div>
+<p>The <code>schematicEndpoint</code> is used to do HTTP POST request to get the schematic ID.
+If your selfhosted image factory doesn't do schematic ID like the official one does, you can pass <code>--offline</code> flag to <code>talhelper genconfig</code> command and modify the <code>installerURLTmpl</code> to your needs.</p>
+<h2 id="editing-talconfigyaml-file">Editing <code>talconfig.yaml</code> file</h2>
+<p>If you're using a text editor with <code>yaml</code> LSP support, you can use <code>talhelper genschema</code> command to generate a <code>talconfig.json</code>.
+You can then feed that file to the language server so you can get autocompletion when editing <code>talconfig.yaml</code> file.</p>
+<p>If your LSP is configured to use <a href="https://www.schemastore.org/json/">JSON schema store</a>, you should get auto-completion working immediately.</p>
+<h2 id="shell-completion">Shell completion</h2>
+<p>Depending on how you install <code>talhelper</code>, you might not need to do anything to get autocompletion for <code>talhelper</code> commands i.e if you install using the Nix Flakes or AUR.</p>
+<p>If you don't get it working out of the box, you can use <code>talhelper completion</code> command to generate autocompletion for your shell.</p>
+<div class="tabbed-set" data-tabs="1:4"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><label for="__tabbed_1_1">bash</label><div class="tabbed-content">
+<p>You will need <a href="https://github.com/scop/bash-completion">bash-completion</a> installed and configured on your system first.</p>
+<p>And then you can put this line somewhere inside your <code>~/.bashrc</code> file:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">source</span><span class="w"> </span>&lt;<span class="o">(</span>talhelper<span class="w"> </span>completion<span class="w"> </span>bash<span class="o">)</span>
+</code></pre></div>
+<p>After reloading your shell, autocompletion should be working. To enable bash autocompletion in current session of shell, source the <code>~/.bashrc</code> file:
+<div class="highlight"><pre><span></span><code><span class="nb">source</span><span class="w"> </span>~/.bashrc
+</code></pre></div></p>
+</div>
+<input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><label for="__tabbed_1_2">fish</label><div class="tabbed-content">
+<p>Put this line somewhere inside your <code>~/.config/fish/config.fish</code> file:</p>
+<div class="highlight"><pre><span></span><code>talhelper completion <span class="nb">fish</span> <span class="o">|</span> <span class="nb">source</span>
+</code></pre></div>
+<p>Another way is to put the generated file into <code>~/.config/fish/completions/talhelper.fish</code> file:</p>
+<div class="highlight"><pre><span></span><code>talhelper completion <span class="nb">fish</span> <span class="o">&gt;</span> ~/.config/fish/completions/talhelper.fish
+</code></pre></div>
+<p>After reloading your shell, autocompletion should be working.</p>
+</div>
+<input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><label for="__tabbed_1_3">zsh</label><div class="tabbed-content">
+<p>Put this line somewhere inside your <code>~/.zshrc</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="nb">source</span><span class="w"> </span>&lt;<span class="o">(</span>talhelper<span class="w"> </span>completion<span class="w"> </span>zsh<span class="o">)</span>
+</code></pre></div>
+<p>After reloading your shell, autocompletion should be working. To enable zsh autocompletion in current session of shell, source the <code>~/.zshrc</code> file:
+<div class="highlight"><pre><span></span><code><span class="nb">source</span><span class="w"> </span>~/.zshrc
+</code></pre></div></p>
+</div>
+<input id="__tabbed_1_4" name="__tabbed_1" type="radio" /><label for="__tabbed_1_4">powershell</label><div class="tabbed-content">
+<p>Append the generated file into <code>$PROFILE</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="n">talhelper</span> <span class="n">completion</span> <span class="n">powershell</span> <span class="p">&gt;&gt;</span> <span class="nv">$PROFILE</span>
+</code></pre></div>
+<p>After reloading your shell, autocompletion should be working.</p>
+</div>
+</div>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../installation/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../reference/cli/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../js/version-select.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
