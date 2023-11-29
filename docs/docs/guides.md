@@ -178,6 +178,24 @@ There are some other `gencommand` commands that you can use like `upgrade`, `upg
 
 For more information about the available `gencommand` commands and flags you can use, head over to the [documentation](./reference/cli.md#talhelper-gencommand).
 
+## Selfhosted Image Factory
+
+By default, the generated manifests will use the official [image-factory](https://factory.talos.dev) to pull the installer image.
+If you're self hosting your own image-factory, you can change your `talconfig.yaml` like so:
+
+```yaml
+---
+clusterName: my-cluster
+imageFactory:
+  registryURL: myfactory.com
+  schematicEndpoint: /schematics
+  protocol: http
+  installerURLTmpl: {{.RegistryURL}}/installer/{{.ID}}:{{.Version}}
+```
+
+The `schematicEndpoint` is used to do HTTP POST request to get the schematic ID.
+If your selfhosted image factory doesn't do schematic ID like the official one does, you can pass `--offline` flag to `talhelper genconfig` command and modify the `installerURLTmpl` to your needs.
+
 ## Editing `talconfig.yaml` file
 
 If you're using a text editor with `yaml` LSP support, you can use `talhelper genschema` command to generate a `talconfig.json`.
