@@ -71,6 +71,8 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#imagefactory">ImageFactory</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#machinespec">MachineSpec</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#controlplane">ControlPlane</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#worker">Worker</a>
@@ -287,6 +289,7 @@
 <span class="w">  </span><span class="nt">schematicEndpoint</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/schematics</span>
 <span class="w">  </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https</span>
 <span class="w">  </span><span class="nt">installerURLTmpl</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{{</span><span class="nv">.RegistryURL</span><span class="p p-Indicator">}}</span><span class="l l-Scalar l-Scalar-Plain">/installer/{{.ID}}:{{.Version}}</span>
+<span class="w">  </span><span class="nt">ISOURLTmpl</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{{</span><span class="nv">.Protocol</span><span class="p p-Indicator">}}</span><span class="l l-Scalar l-Scalar-Plain">://{{.RegistryURL}}/image/{{.ID}}/{{.Version}}/{{.Mode}}/{{.Arch}}.iso</span>
 </code></pre></div>
 </details></td>
 <td align="center"><code>nil</code></td>
@@ -411,6 +414,18 @@
 <span class="w">  </span><span class="nt">model</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">WDC*</span>
 <span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/sys/block/sda/device/name</span>
 <span class="w">  </span><span class="nt">busPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/pci0000:00/0000:00:17.0/ata1/host0/target0:0:0/0:0:0:0</span>
+</code></pre></div>
+</summary></td>
+<td align="center"><code>nil</code></td>
+<td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
+</tr>
+<tr>
+<td><code>machineSpec</code></td>
+<td><a href="#machinespec">MachineSpec</a></td>
+<td><details><summary>Machine hardware specification for the node.</summary>Only used for <code>genurl iso</code> subcommand.</details><details><summary><em>Show example</em></summary>
+<div class="highlight"><pre><span></span><code><span class="nt">machineSpec</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">metal</span>
+<span class="w">  </span><span class="nt">arch</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">arm64</span>
 </code></pre></div>
 </summary></td>
 <td align="center"><code>nil</code></td>
@@ -659,6 +674,44 @@
 </code></pre></div>
 </summary></td>
 <td align="center"><code>{{.RegistryURL}}/installer/{{.ID}}:{{.Version}}</code></td>
+<td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
+</tr>
+<tr>
+<td><code>ISOURLTmpl</code></td>
+<td>string</td>
+<td><details><summary>Go template to parse the full ISO image URL.</summary>Available placeholders: <code>Protocol</code>,<code>RegistryURL</code>,<code>ID</code>,<code>Version</code>,<code>Mode</code>,<code>Arch</code></details><details><summary><em>Show example</em></summary>
+<div class="highlight"><pre><span></span><code><span class="nt">installerURLTmpl</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{.Protocol}}://{{.RegistryURL}}/image/{{.ID}}/{{.Version}}/{{.Mode}}-{{.Arch}}.iso&quot;</span>
+</code></pre></div>
+</summary></td>
+<td align="center"><code>{{.Protocol}}://{{.RegistryURL}}/image/{{.ID}}/{{.Version}}/{{.Mode}}-{{.Arch}}.iso</code></td>
+<td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
+</tr>
+</table>
+<h2 id="machinespec">MachineSpec</h2>
+<p><code>MachineSpec</code> defines machine hardware configurations for a node.</p>
+<table>
+<tr>
+<th>Field</th>
+<p><th>Type</th><th>Description</th><th>Default Value</th><th>Required</th></p>
+</tr>
+<tr>
+<td><code>mode</code></td>
+<td>string</td>
+<td>Machine mode.<details><summary><em>Show example</em></summary>
+<div class="highlight"><pre><span></span><code><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">metal</span>
+</code></pre></div>
+</details></td>
+<td align="center"><code>"metal"</code></td>
+<td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
+</tr>
+<tr>
+<td><code>arch</code></td>
+<td>string</td>
+<td>Machine architecture.<details><summary><em>Show example</em></summary>
+<div class="highlight"><pre><span></span><code><span class="nt">arch</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">arm64</span>
+</code></pre></div>
+</summary></td>
+<td align="center"><code>amd64</code></td>
 <td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
 </tr>
 </table>
