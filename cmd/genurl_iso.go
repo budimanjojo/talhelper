@@ -84,8 +84,11 @@ var genurlISOCmd = &cobra.Command{
 				},
 			}
 			tcfg := &config.TalhelperConfig{}
-			node := &config.Node{}
-			url, err := talos.GetISOURL(cfg, tcfg.GetImageFactory(), node.GetMachineSpec(), genurlISOVersion, genurlISOOfflineMode)
+			spec := &config.MachineSpec{
+				Mode: genurlISOTalosMode,
+				Arch: genurlISOArch,
+			}
+			url, err := talos.GetISOURL(cfg, tcfg.GetImageFactory(), spec, genurlISOVersion, genurlISOOfflineMode)
 			if err != nil {
 				log.Fatalf("Failed to generate installer url, %v", err)
 			}
