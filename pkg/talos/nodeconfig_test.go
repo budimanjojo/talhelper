@@ -129,6 +129,7 @@ nodes:
 		},
 	}
 	expectedNode1InstallImage := "factory.talos.dev/installer/647a0a54bff662aa12051bc0312097f29d3562107d8e6a8e87ab85b643e25bc0:v1.5.4"
+	expectedNode1InstallExtraKernelArgs := []string{"hello", "hihi"}
 	expectedNode2Type := "worker"
 	expectedNode2InstallDiskSelector := &v1alpha1.InstallDiskSelector{
 		Size: &v1alpha1.InstallDiskSizeMatcher{
@@ -167,6 +168,7 @@ nodes:
 	compare(cpCfg.MachineNetwork.NetworkInterfaces, expectedNode1NetworkInterfaces, t)
 	compare(cpCfg.MachineKernel, expectedNode1KernelModules, t)
 	compare(cpCfg.MachineInstall.InstallImage, expectedNode1InstallImage, t)
+	compare(cpCfg.MachineInstall.ExtraKernelArgs(), expectedNode1InstallExtraKernelArgs, t)
 	compare(wCfg.MachineType, expectedNode2Type, t)
 	compare(wCfg.MachineInstall.InstallDiskSelector, expectedNode2InstallDiskSelector, t)
 	compare(wCfg.MachineDisks, expectedNode2MachineDisks, t)
