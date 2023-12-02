@@ -96,6 +96,10 @@ func applyNodeOverride(node *config.Node, cfg taloscfg.Provider) taloscfg.Provid
 		cfg.RawV1Alpha1().MachineConfig.MachineFiles = node.MachineFiles
 	}
 
+	if len(node.Schematic.Customization.ExtraKernelArgs) > 0 {
+		cfg.RawV1Alpha1().MachineConfig.MachineInstall.InstallExtraKernelArgs = append(cfg.RawV1Alpha1().MachineConfig.MachineInstall.InstallExtraKernelArgs, node.Schematic.Customization.ExtraKernelArgs...)
+	}
+
 	return cfg
 }
 
