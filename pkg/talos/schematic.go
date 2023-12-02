@@ -75,7 +75,7 @@ func GetISOURL(cfg *schematic.Schematic, factory *config.ImageFactory, spec *con
 
 	t, err := template.New("iso").Parse(factory.ISOURLTmpl)
 	if err != nil {
-		return "", nil
+		return "", err
 	}
 
 	buf := new(bytes.Buffer)
