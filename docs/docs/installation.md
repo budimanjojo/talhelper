@@ -46,6 +46,14 @@ You can get `talhelper` as [Nix Flakes](https://nixos.wiki/wiki/Flakes) from the
 
 - The package is now available at `packages.<system>.default` of the flake. You can call it in your `home.packages` or `environment.systemPackages` or `devShell` by referencing the input as `inputs.talhelper.packages.<system>.default`.
 
+## Using Pacman
+
+Thanks to [grawlinson](https://github.com/grawlinson), you can get `talhelper` from official Arch Linux "Extra" repository.
+
+```
+sudo pacman -S talhelper
+```
+
 ## Using AUR
 
 You can get `talhelper` from [AUR](https://aur.archlinux.org/packages/talhelper-bin) using any [AUR helper](https://wiki.archlinux.org/title/AUR_helpers) if you're Arch Linux user btw.
