@@ -60,6 +60,8 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#using-nix-flakes">Using Nix Flakes</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#using-pacman">Using Pacman</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#using-aur">Using AUR</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#using-scoop">Using Scoop</a>
@@ -156,6 +158,10 @@
 <p>The package is now available at <code>packages.&lt;system&gt;.default</code> of the flake. You can call it in your <code>home.packages</code> or <code>environment.systemPackages</code> or <code>devShell</code> by referencing the input as <code>inputs.talhelper.packages.&lt;system&gt;.default</code>.</p>
 </li>
 </ul>
+<h2 id="using-pacman">Using Pacman</h2>
+<p>Thanks to <a href="https://github.com/grawlinson">grawlinson</a>, you can get <code>talhelper</code> from official Arch Linux "Extra" repository.</p>
+<div class="highlight"><pre><span></span><code>sudo pacman -S talhelper
+</code></pre></div>
 <h2 id="using-aur">Using AUR</h2>
 <p>You can get <code>talhelper</code> from <a href="https://aur.archlinux.org/packages/talhelper-bin">AUR</a> using any <a href="https://wiki.archlinux.org/title/AUR_helpers">AUR helper</a> if you're Arch Linux user btw.</p>
 <p>Example using <a href="https://github.com/Jguer/yay"><code>yay</code></a>:
