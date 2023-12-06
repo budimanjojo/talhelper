@@ -13,7 +13,7 @@
 		},
 		"ghcr.io/devcontainers-contrib/features/mkdocs:2": {
 			"version": "latest",
-			"plugins": "mkdocs-material pymdown-extensions mkdocstrings[crystal,python] mkdocs-monorepo-plugin mkdocs-pdf-export-plugin mkdocs-awesome-pages-plugin"
+			"plugins": "mkdocs-material pymdown-extensions mkdocstrings[crystal,python] mkdocs-monorepo-plugin mkdocs-pdf-export-plugin mkdocs-awesome-pages-plugin mike"
 		},
 		"ghcr.io/devcontainers-contrib/features/sops:1": {
 			"version": "latest"
