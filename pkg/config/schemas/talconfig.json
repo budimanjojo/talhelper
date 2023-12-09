@@ -117,6 +117,24 @@
       "additionalProperties": false,
       "type": "object"
     },
+    "CNIConfig": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "urls": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        },
+        "flannel": {
+          "$ref": "#/$defs/FlannelCNIConfig"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
     "Customization": {
       "properties": {
         "extraKernelArgs": {
@@ -277,6 +295,18 @@
         },
         "mountpoint": {
           "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "FlannelCNIConfig": {
+      "properties": {
+        "extraArgs": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
         }
       },
       "additionalProperties": false,
@@ -715,7 +745,7 @@
           "description": "The service subnet CIDR list"
         },
         "cniConfig": {
-          "$ref": "#/$defs/cniConfig",
+          "$ref": "#/$defs/CNIConfig",
           "description": "The CNI to be used for the cluster's network"
         },
         "patches": {
@@ -811,26 +841,6 @@
         "$ref": "#/$defs/Vlan"
       },
       "type": "array"
-    },
-    "cniConfig": {
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "The name of CNI to use"
-        },
-        "urls": {
-          "items": {
-            "type": "string"
-          },
-          "type": "array",
-          "description": "List of URLs containing manifests to apply for the CNI"
-        }
-      },
-      "additionalProperties": false,
-      "type": "object",
-      "required": [
-        "name"
-      ]
     },
     "controlPlane": {
       "properties": {
