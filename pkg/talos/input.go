@@ -7,7 +7,6 @@ import (
 	tconfig "github.com/siderolabs/talos/pkg/machinery/config"
 	"github.com/siderolabs/talos/pkg/machinery/config/generate"
 	"github.com/siderolabs/talos/pkg/machinery/config/generate/secrets"
-	"github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1"
 	"gopkg.in/yaml.v3"
 )
 
@@ -74,8 +73,8 @@ func parseOptions(c *config.TalhelperConfig, versionContract *tconfig.VersionCon
 		opts = append(opts, generate.WithAllowSchedulingOnControlPlanes(true))
 	}
 
-	if c.CNIConfig.Name != "" {
-		opts = append(opts, generate.WithClusterCNIConfig(&v1alpha1.CNIConfig{CNIName: c.CNIConfig.Name, CNIUrls: c.CNIConfig.Urls}))
+	if c.CNIConfig != nil {
+		opts = append(opts, generate.WithClusterCNIConfig(c.CNIConfig))
 	}
 
 	if c.Domain != "" {

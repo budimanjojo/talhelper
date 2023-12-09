@@ -6,24 +6,24 @@ import (
 )
 
 type TalhelperConfig struct {
-	ClusterName                    string       `yaml:"clusterName" jsonschema:"required,description=Name of the cluster"`
-	TalosImageURL                  string       `yaml:"talosImageURL" jsonschema:"default=ghcr.io/siderolabs/installer,description=The image URL used to perform installation"`
-	TalosVersion                   string       `yaml:"talosVersion,omitempty" jsonschema:"example=v1.5.4,description=Talos version to perform installation"`
-	KubernetesVersion              string       `yaml:"kubernetesVersion,omitempty" jsonschema:"example=v1.27.0,description=Kubernetes version to use"`
-	Endpoint                       string       `yaml:"endpoint" jsonschema:"required,example=https://192.168.200.10:6443,description=Cluster's controlplane endpoint"`
-	Domain                         string       `yaml:"domain,omitempty" jsonschema:"example=cluster.local,description=The domain to be used by Kubernetes DNS"`
-	AllowSchedulingOnMasters       bool         `yaml:"allowSchedulingOnMasters,omitempty" jsonschema:"description=Whether to allow running workload on controlplane nodes"`
-	AllowSchedulingOnControlPlanes bool         `yaml:"allowSchedulingOnControlPlanes,omitempty" jsonschema:"description=Whether to allow running workload on controlplane nodes. It is an alias to \"AllowSchedulingOnMasters\""`
-	AdditionalMachineCertSans      []string     `yaml:"additionalMachineCertSans,omitempty" jsonschema:"description=Extra certificate SANs for the machine's certificate"`
-	AdditionalApiServerCertSans    []string     `yaml:"additionalApiServerCertSans,omitempty" jsonschema:"description=Extra certificate SANs for the API server's certificate"`
-	ClusterPodNets                 []string     `yaml:"clusterPodNets,omitempty" jsonschema:"description=The pod subnet CIDR list"`
-	ClusterSvcNets                 []string     `yaml:"clusterSvcNets,omitempty" jsonschema:"description=The service subnet CIDR list"`
-	CNIConfig                      cniConfig    `yaml:"cniConfig,omitempty" jsonschema:"description=The CNI to be used for the cluster's network"`
-	Patches                        []string     `yaml:"patches,omitempty" jsonschema:"description=Patches to be applied to all nodes"`
-	Nodes                          []Node       `yaml:"nodes" jsonschema:"required,description=List of configurations for Node"`
-	ImageFactory                   ImageFactory `yaml:"imageFactory,omitempty" jsonschema:"Configuration for image factory"`
-	ControlPlane                   controlPlane `yaml:"controlPlane,omitempty" jsonschema:"description=Configurations targetted for controlplane nodes"`
-	Worker                         worker       `yaml:"worker,omitempty" jsonschema:"description=Configurations targetted for worker nodes"`
+	ClusterName                    string              `yaml:"clusterName" jsonschema:"required,description=Name of the cluster"`
+	TalosImageURL                  string              `yaml:"talosImageURL" jsonschema:"default=ghcr.io/siderolabs/installer,description=The image URL used to perform installation"`
+	TalosVersion                   string              `yaml:"talosVersion,omitempty" jsonschema:"example=v1.5.4,description=Talos version to perform installation"`
+	KubernetesVersion              string              `yaml:"kubernetesVersion,omitempty" jsonschema:"example=v1.27.0,description=Kubernetes version to use"`
+	Endpoint                       string              `yaml:"endpoint" jsonschema:"required,example=https://192.168.200.10:6443,description=Cluster's controlplane endpoint"`
+	Domain                         string              `yaml:"domain,omitempty" jsonschema:"example=cluster.local,description=The domain to be used by Kubernetes DNS"`
+	AllowSchedulingOnMasters       bool                `yaml:"allowSchedulingOnMasters,omitempty" jsonschema:"description=Whether to allow running workload on controlplane nodes"`
+	AllowSchedulingOnControlPlanes bool                `yaml:"allowSchedulingOnControlPlanes,omitempty" jsonschema:"description=Whether to allow running workload on controlplane nodes. It is an alias to \"AllowSchedulingOnMasters\""`
+	AdditionalMachineCertSans      []string            `yaml:"additionalMachineCertSans,omitempty" jsonschema:"description=Extra certificate SANs for the machine's certificate"`
+	AdditionalApiServerCertSans    []string            `yaml:"additionalApiServerCertSans,omitempty" jsonschema:"description=Extra certificate SANs for the API server's certificate"`
+	ClusterPodNets                 []string            `yaml:"clusterPodNets,omitempty" jsonschema:"description=The pod subnet CIDR list"`
+	ClusterSvcNets                 []string            `yaml:"clusterSvcNets,omitempty" jsonschema:"description=The service subnet CIDR list"`
+	CNIConfig                      *v1alpha1.CNIConfig `yaml:"cniConfig,omitempty" jsonschema:"description=The CNI to be used for the cluster's network"`
+	Patches                        []string            `yaml:"patches,omitempty" jsonschema:"description=Patches to be applied to all nodes"`
+	Nodes                          []Node              `yaml:"nodes" jsonschema:"required,description=List of configurations for Node"`
+	ImageFactory                   ImageFactory        `yaml:"imageFactory,omitempty" jsonschema:"Configuration for image factory"`
+	ControlPlane                   controlPlane        `yaml:"controlPlane,omitempty" jsonschema:"description=Configurations targetted for controlplane nodes"`
+	Worker                         worker              `yaml:"worker,omitempty" jsonschema:"description=Configurations targetted for worker nodes"`
 }
 
 type Node struct {
@@ -46,11 +46,6 @@ type Node struct {
 	TalosImageURL       string                            `yaml:"talosImageURL" jsonschema:"example=factory.talos.dev/installer/e9c7ef96884d4fbc8c0a1304ccca4bb0287d766a8b4125997cb9dbe84262144e,description=Talos installer image url for the node"`
 	Schematic           *schematic.Schematic              `yaml:"schematic,omitempty" jsonschema:"description=Talos image customization to be used in the installer image"`
 	MachineSpec         MachineSpec                       `yaml:"machineSpec,omitempty" jsonschema:"description=Machine hardware specification"`
-}
-
-type cniConfig struct {
-	Name string   `yaml:"name" jsonschema:"required,description=The name of CNI to use"`
-	Urls []string `yaml:"urls,omitempty" jsonschema:"description=List of URLs containing manifests to apply for the CNI"`
 }
 
 type controlPlane struct {

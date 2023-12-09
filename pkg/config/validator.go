@@ -185,27 +185,13 @@ func checkClusterNets(c TalhelperConfig, result *Errors) *Errors {
 }
 
 func checkCNIConfig(c TalhelperConfig, result *Errors) *Errors {
-	if c.CNIConfig.Name != "" {
+	if c.CNIConfig != nil {
 		var messages *multierror.Error
 
-		switch c.CNIConfig.Name {
-		case "flannel":
-			fallthrough
-		case "none":
-			if len(c.CNIConfig.Urls) != 0 {
-				messages = multierror.Append(messages, fmt.Errorf(`"Urls" field should be empty for %q CNI`, c.CNIConfig.Name))
-			}
-		case "custom":
-			if len(c.CNIConfig.Urls) == 0 {
-				messages = multierror.Append(messages, fmt.Errorf(`"Urls" field should not be empty for %q CNI`, c.CNIConfig.Name))
-			}
-			for _, url := range c.CNIConfig.Urls {
-				if !validate.IsURL(url) {
-					messages = multierror.Append(messages, fmt.Errorf(`%q in "Urls" field is not a valid url`, url))
-				}
-			}
-		default:
-			messages = multierror.Append(messages, fmt.Errorf("%q is not a valid CNI name (none,flannel,custom)", c.CNIConfig.Name))
+		warnings, err := v1alpha1.ValidateCNI(c.CNIConfig)
+		messages = multierror.Append(messages, err)
+		for _, w := range warnings {
+			messages = multierror.Append(messages, fmt.Errorf(w))
 		}
 
 		if messages.ErrorOrNil() != nil {

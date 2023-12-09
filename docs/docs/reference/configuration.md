@@ -542,42 +542,6 @@ inlinePatch:
 
 </table>
 
-## CNIConfig
-
-`CNIConfig` defines the CNI to be used for the cluster's network.
-
-<table markdown="1">
-<tr markdown="1">
-<th markdown="1">Field</th><th>Type</th><th>Description</th><th>Default Value</th><th>Required</th>
-</tr>
-
-<tr markdown="1">
-<td markdown="1">`name`</td>
-<td markdown="1">string</td>
-<td markdown="1"><details><summary>Configures the name of CNI to use</summary>Can be `flannel`, `custom` `none`.</details><details><summary>*Show example*</summary>
-```yaml
-name: flannel
-```
-</details></td>
-<td markdown="1" align="center">`""`</td>
-<td markdown="1" align="center">:white_check_mark:</td>
-</tr>
-
-<tr markdown="1">
-<td markdown="1">`urls`</td>
-<td markdown="1">[]string</td>
-<td markdown="1"><details><summary>URLs containing manifests to apply for the CNI.</summary>Must be empty for `flannel` and `none`.</details><details><summary>*Show example*</summary>
-```yaml
-urls:
-  - https://docs.projectcalico.org/archive/v3.20/manifests/canal.yaml
-```
-</summary></td>
-<td markdown="1" align="center">`[]`</td>
-<td markdown="1" align="center">:negative_squared_cross_mark:</td>
-</tr>
-
-</table>
-
 ## ImageFactory
 
 `ImageFactory` defines configuration for selfhosted image-factory.
@@ -853,6 +817,10 @@ schematic:
 </tr>
 
 </table>
+
+## CNIConfig
+
+`CNIConfig` is type of upstream Talos <a href="https://www.talos.dev/latest/reference/configuration/#cniconfig" target="_blank">`v1alpha1.CNIConfig`</a>
 
 ## InstallDiskSelector
 
