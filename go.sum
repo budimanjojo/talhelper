@@ -399,6 +399,8 @@ github.com/siderolabs/talos/pkg/machinery v1.6.0-alpha.2 h1:+pJGNTChGdnqW3omuWyK
 github.com/siderolabs/talos/pkg/machinery v1.6.0-alpha.2/go.mod h1:qjQj6Ae5x/60zrR2NA5o2abCuRPx6jzIrP2E57V5mHU=
 github.com/siderolabs/talos/pkg/machinery v1.6.0-beta.0 h1:kYHuR7JalYkZZ2Jjpx80kTrgzaDY095WwI2nZTMbWmA=
 github.com/siderolabs/talos/pkg/machinery v1.6.0-beta.0/go.mod h1:WZ/yDqQLHDfol/gf2qcD2u47+CDX819kEB+RQpAKWAU=
+github.com/siderolabs/talos/pkg/machinery v1.6.0-beta.1 h1:RnjTCOJPWqpQ4J/jPSd4CY9GtV2Sk38+369tEkGj2rY=
+github.com/siderolabs/talos/pkg/machinery v1.6.0-beta.1/go.mod h1:WZ/yDqQLHDfol/gf2qcD2u47+CDX819kEB+RQpAKWAU=
 github.com/sirupsen/logrus v1.9.3 h1:dueUQJ1C2q9oE3F7wvmSGAaVtTmUizReu6fjN8uqzbQ=
 github.com/sirupsen/logrus v1.9.3/go.mod h1:naHLuLoDiP4jHNo9R0sCBMtWGeIprob74mVsIT4qYEQ=
 github.com/spf13/cobra v1.8.0 h1:7aJaZx1B85qltLMc546zn58BxxfZdR/W22ej9CFoEf0=
