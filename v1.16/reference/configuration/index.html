@@ -67,8 +67,6 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#node">Node</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#cniconfig">CNIConfig</a>
-    </li>
     <li class="toctree-l2"><a class="reference internal" href="#imagefactory">ImageFactory</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#machinespec">MachineSpec</a>
@@ -76,6 +74,8 @@
     <li class="toctree-l2"><a class="reference internal" href="#controlplane">ControlPlane</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#worker">Worker</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#cniconfig">CNIConfig</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#installdiskselector">InstallDiskSelector</a>
     </li>
@@ -600,35 +600,6 @@
 <td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
 </tr>
 </table>
-<h2 id="cniconfig">CNIConfig</h2>
-<p><code>CNIConfig</code> defines the CNI to be used for the cluster's network.</p>
-<table>
-<tr>
-<th>Field</th>
-<p><th>Type</th><th>Description</th><th>Default Value</th><th>Required</th></p>
-</tr>
-<tr>
-<td><code>name</code></td>
-<td>string</td>
-<td><details><summary>Configures the name of CNI to use</summary>Can be <code>flannel</code>, <code>custom</code> <code>none</code>.</details><details><summary><em>Show example</em></summary>
-<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">flannel</span>
-</code></pre></div>
-</details></td>
-<td align="center"><code>""</code></td>
-<td align="center"><img align="center" alt="✅" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/2705.png" title=":white_check_mark:" width="20px" /></td>
-</tr>
-<tr>
-<td><code>urls</code></td>
-<td>[]string</td>
-<td><details><summary>URLs containing manifests to apply for the CNI.</summary>Must be empty for <code>flannel</code> and <code>none</code>.</details><details><summary><em>Show example</em></summary>
-<div class="highlight"><pre><span></span><code><span class="nt">urls</span><span class="p">:</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://docs.projectcalico.org/archive/v3.20/manifests/canal.yaml</span>
-</code></pre></div>
-</summary></td>
-<td align="center"><code>[]</code></td>
-<td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
-</tr>
-</table>
 <h2 id="imagefactory">ImageFactory</h2>
 <p><code>ImageFactory</code> defines configuration for selfhosted image-factory.</p>
 <table>
@@ -863,6 +834,8 @@
 <td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
 </tr>
 </table>
+<h2 id="cniconfig">CNIConfig</h2>
+<p><code>CNIConfig</code> is type of upstream Talos <a href="https://www.talos.dev/latest/reference/configuration/#cniconfig" target="_blank"><code>v1alpha1.CNIConfig</code></a></p>
 <h2 id="installdiskselector">InstallDiskSelector</h2>
 <p><code>InstallDiskSelector</code> is type of upstream Talos <a href="https://www.talos.dev/latest/reference/configuration/#installdiskselector" target="_blank"><code>v1alpha1.InstallDiskSelector</code></a>.</p>
 <h2 id="machinedisk">MachineDisk</h2>
