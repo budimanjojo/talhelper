@@ -8,7 +8,7 @@ import (
 )
 
 // renovate: depName=siderolabs/talos datasource=github-releases
-var LatestTalosVersion = "v1.5.5"
+var LatestTalosVersion = "v1.6.0"
 
 var OfficialExtensions = []string{
 	"siderolabs/amd-ucode",
