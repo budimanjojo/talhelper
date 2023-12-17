@@ -7,7 +7,7 @@ import (
 
 type TalhelperConfig struct {
 	ClusterName                    string              `yaml:"clusterName" jsonschema:"required,description=Name of the cluster"`
-	TalosImageURL                  string              `yaml:"talosImageURL" jsonschema:"default=ghcr.io/siderolabs/installer,description=The image URL used to perform installation"`
+	TalosImageURL                  string              `yaml:"talosImageURL" jsonschema:"default=ghcr.io/siderolabs/installer,description=DEPRECATED: will not do anything, use \"nodes[].talosImageURL\" instead"`
 	TalosVersion                   string              `yaml:"talosVersion,omitempty" jsonschema:"example=v1.5.4,description=Talos version to perform installation"`
 	KubernetesVersion              string              `yaml:"kubernetesVersion,omitempty" jsonschema:"example=v1.27.0,description=Kubernetes version to use"`
 	Endpoint                       string              `yaml:"endpoint" jsonschema:"required,example=https://192.168.200.10:6443,description=Cluster's controlplane endpoint"`

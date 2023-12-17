@@ -60,7 +60,7 @@ nodes:
 <tr markdown="1">
 <td markdown="1">`talosImageURL`</td>
 <td markdown="1">string</td>
-<td markdown="1">Allows for supplying the image used to perform the installation.<details><summary>*Show example*</summary>
+<td markdown="1">**DEPRECATED, won't do anything, use `nodes[].talosImageURL` instead**.<details><summary>*Show example*</summary>
 ```yaml
 talosImageURL: ghcr.io/siderolabs/installer
 ```
