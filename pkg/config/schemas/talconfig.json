@@ -677,7 +677,7 @@
         },
         "talosImageURL": {
           "type": "string",
-          "description": "The image URL used to perform installation",
+          "description": "DEPRECATED: will not do anything",
           "default": "ghcr.io/siderolabs/installer"
         },
         "talosVersion": {
