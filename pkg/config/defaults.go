@@ -1,6 +1,9 @@
 package config
 
 import (
+	_ "embed"
+	"encoding/json"
+	"log"
 	"net/netip"
 	"strings"
 
@@ -10,26 +13,17 @@ import (
 // renovate: depName=siderolabs/talos datasource=github-releases
 var LatestTalosVersion = "v1.6.0"
 
-var OfficialExtensions = []string{
-	"siderolabs/amd-ucode",
-	"siderolabs/bnx2-bnx2x",
-	"siderolabs/drbd",
-	"siderolabs/gasket-driver",
-	"siderolabs/gvisor",
-	"siderolabs/hello-world-service",
-	"siderolabs/i915-ucode",
-	"siderolabs/intel-ucode",
-	"siderolabs/iscsi-tools",
-	"siderolabs/nut-client",
-	"siderolabs/nvidia-container-toolkit",
-	"siderolabs/nvidia-fabricmanager",
-	"siderolabs/nvidia-open-gpu-kernel-modules",
-	"siderolabs/qemu-guest-agent",
-	"siderolabs/tailscale",
-	"siderolabs/thunderbolt",
-	"siderolabs/usb-modem-drivers",
-	"siderolabs/zfs",
-	"siderolabs/nonfree-kmod-nvidia",
+//go:embed schemas/extensions-version-schema.json
+var schemaFile []byte
+
+var OfficialExtensions = generateExtensionSchema(schemaFile)
+
+func generateExtensionSchema(data []byte) map[string][]string {
+	result := make(map[string][]string)
+	if err := json.Unmarshal(data, &result); err != nil {
+		log.Fatal(err)
+	}
+	return result
 }
 
 // GetK8sVersion returns Kubernetes version string without `v` prefix.

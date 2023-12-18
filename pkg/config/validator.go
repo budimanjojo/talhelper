@@ -380,12 +380,17 @@ func checkNodeExtensions(node Node, idx int, errs *Errors, warns *Warnings) (*Er
 	return errs, warns
 }
 
-func checkNodeSchematic(node Node, idx int, result *Errors) *Errors {
+func checkNodeSchematic(node Node, idx int, talosVersion string, result *Errors) *Errors {
 	var messages *multierror.Error
 	extensions := map[string]struct{}{}
+
+	if _, ok := OfficialExtensions[talosVersion]; !ok {
+		talosVersion = "default"
+	}
+
 	if node.Schematic != nil {
 		for _, ext := range node.Schematic.Customization.SystemExtensions.OfficialExtensions {
-			if !slices.Contains(OfficialExtensions, ext) {
+			if !slices.Contains(OfficialExtensions[talosVersion], ext) {
 				messages = multierror.Append(messages, fmt.Errorf("%q is not a supported Talos extension", ext))
 			}
 			if _, exists := extensions[ext]; exists {
