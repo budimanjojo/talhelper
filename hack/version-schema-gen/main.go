@@ -2,126 +2,111 @@ package main
 
 import (
 	"encoding/json"
-	"flag"
-	"io"
-	"log"
-	"net/http"
+	"fmt"
+
 	"os"
-	"path/filepath"
 	"sort"
+
+	log "github.com/sirupsen/logrus"
 )
 
-var (
-	factoryUrl        = "https://factory.talos.dev"
-	defaultExtensions = []string{
-		"siderolabs/amd-ucode",
-		"siderolabs/bnx2-bnx2x",
-		"siderolabs/drbd",
-		"siderolabs/gasket-driver",
-		"siderolabs/gvisor",
-		"siderolabs/hello-world-service",
-		"siderolabs/i915-ucode",
-		"siderolabs/intel-ucode",
-		"siderolabs/iscsi-tools",
-		"siderolabs/nut-client",
-		"siderolabs/nvidia-container-toolkit",
-		"siderolabs/nvidia-fabricmanager",
-		"siderolabs/nvidia-open-gpu-kernel-modules",
-		"siderolabs/qemu-guest-agent",
-		"siderolabs/tailscale",
-		"siderolabs/thunderbolt",
-		"siderolabs/usb-modem-drivers",
-		"siderolabs/zfs",
-		"siderolabs/nonfree-kmod-nvidia",
+func init() {
+	// Initialize logger
+	log.SetFormatter(&log.TextFormatter{})
+	log.SetOutput(os.Stdout)
+	if level, err := log.ParseLevel(getEnv("LOG_LEVEL", "info")); err == nil {
+		log.SetLevel(level)
+		log.Debugf("LOG_LEVEL: %s", level)
 	}
-)
-
-type Version struct {
-	Name string
 }
 
-func getVersions() []string {
-	url := factoryUrl + "/versions"
-	response, err := http.Get(url)
-	if err != nil {
-		log.Fatalf("Error doing GET request to %s: %s", url, err)
-	}
-	defer response.Body.Close()
-
-	if response.StatusCode != 200 {
-		log.Fatalf("%s returned %s", url, response.Status)
-	}
-
-	body, err := io.ReadAll(response.Body)
-	if err != nil {
-		log.Fatalf("Error reading response body from %s: %s", url, err)
-	}
-
-	var versions []string
-
-	if err := json.Unmarshal(body, &versions); err != nil {
-		log.Fatalf("Error unmarshalling JSON: %s", err)
-	}
-
-	sort.Strings(versions)
-
-	return versions
-}
-
-func getExtensions(versions []string) map[string][]string {
-	result := make(map[string][]string)
-	result["default"] = defaultExtensions
-	for _, version := range versions {
-		url := factoryUrl + "/version/" + version + "/extensions/official"
-		response, err := http.Get(url)
-		if err != nil {
-			log.Fatalf("Error doing GET request to %s, %s", url, err)
-		}
-		defer response.Body.Close()
-
-		if response.StatusCode == http.StatusInternalServerError {
-			result[version] = defaultExtensions
-			continue
-		}
-
-		body, err := io.ReadAll(response.Body)
-		if err != nil {
-			log.Fatalf("Error reading response body from %s, %s", url, err)
-		}
-
-		var r []Version
-
-		if err := json.Unmarshal(body, &r); err != nil {
-			log.Fatalf("Error unmarshalling JSON: %s %s", body, err)
-		}
-
-		for _, a := range r {
-			result[version] = append(result[version], a.Name)
-		}
-
-	}
-	return result
-}
-
+// main does the business
 func main() {
-	flag.Parse()
-	if flag.NArg() == 0 {
-		log.Fatalf("no output file")
+	// Check if purge flag is set
+	log.Debugf("purge cache: %t", purge)
+	if purge {
+		purgeCache()
+		log.Info("cache purged successfully")
 	}
 
-	if _, err := os.Stat(filepath.Dir(flag.Arg(0))); os.IsNotExist(err) {
-		log.Fatalf("%s", err)
+	var tags TalosVersionTags
+
+	// Check if the cache file exists
+	if checkCache() {
+		// Load the cache file
+		log.Debugf("cache exists, loading...")
+		tags, err := loadCache(&tags)
+		if err != nil {
+			log.Errorf("error loading cache: %s", err)
+			os.Exit(1)
+		}
+
+		// Check for missing talos versions
+		if missingVersions := getMissingVersions(&tags); len(missingVersions.Versions) > 0 {
+			// Populate missing versions with system extensions
+			if err := getSystemExtensions(&missingVersions); err != nil {
+				log.Errorf("error parsing tags for system extensions: %s", err)
+				os.Exit(1)
+			}
+
+			// Append the newly resolved versions to the cache
+			tags.Versions = append(tags.Versions, missingVersions.Versions...)
+
+			// Sort the cache
+			sort.Sort(&tags)
+			// Write the cache file
+			writeCache(&tags)
+			log.Info("missing versions added and cache written successfully")
+		}
+	} else {
+		// No cache, fetch all tags
+		log.Debugf("cache not found, fetching all tags...")
+		tags, err := getMissingTags(tags)
+		if err != nil {
+			log.Errorf("error fetching tags: %s", err)
+			os.Exit(1)
+		}
+
+		// Parse the tags for system extensions
+		if err := getSystemExtensions(&tags); err != nil {
+			log.Errorf("error parsing tags for system extensions: %s", err)
+			os.Exit(1)
+		}
+
+		// Sort the cache
+		sort.Sort(&tags)
+		// Save the cache file
+		writeCache(&tags)
+		log.Info("tags fetched, system extensions parsed, and cache written successfully")
 	}
+	log.Debugf("finished updating and loading cache")
 
-	versions := getVersions()
-	result := getExtensions(versions)
-
-	final, err := json.MarshalIndent(result, "", "  ")
+	log.Debug("preparing to output to stdout...")
+	// Read the cache file
+	tags, err := loadCache(&tags)
 	if err != nil {
-		log.Fatalf("%s", err)
+		log.Errorf("error loading cache: %s", err)
+		os.Exit(1)
 	}
 
-	if err := os.WriteFile(flag.Arg(0), final, 0o755); err != nil {
-		log.Fatal(err)
+	log.Debug("cleaning strings...")
+	// For each Talos version, call cleanString for each SystemExtensions
+	for i, version := range tags.Versions {
+		for j, extension := range version.SystemExtensions {
+			tags.Versions[i].SystemExtensions[j] = cleanString(extension)
+		}
 	}
+
+	log.Debug("preparing to marshal to JSON...")
+	// Marshal tags to JSON with indentation
+	bytes, err := json.MarshalIndent(tags, "", "    ")
+	if err != nil {
+		log.Errorf("error marshalling tags: %s", err)
+		os.Exit(1)
+	}
+	log.Debug("printing JSON to stdout...")
+	fmt.Println(string(bytes))
+
+	// Exit successfully!
+	os.Exit(0)
 }
