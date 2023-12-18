@@ -54,7 +54,7 @@ func (c TalhelperConfig) Validate() (Errors, Warnings) {
 		checkNodeMachineDisks(node, k, &result)
 		checkNodeMachineFiles(node, k, &result)
 		checkNodeExtensions(node, k, &result, &warns)
-		checkNodeSchematic(node, k, &result)
+		checkNodeSchematic(node, k, c.GetTalosVersion(), &result)
 		checkNodeNameServers(node, k, &result)
 		checkNodeNetworkInterfaces(node, k, &result)
 		checkNodeConfigPatches(node, k, &result)

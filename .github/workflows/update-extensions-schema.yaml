@@ -1,0 +1,43 @@
+---
+name: Update Extensions schema
+on:
+  workflow_dispatch: {}
+  schedule:
+    - cron: "0 0 * * *"
+jobs:
+  update-json-schema:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/setup-go@v5
+        with:
+          go-version: stable
+      - uses: actions/checkout@v4
+      - run: |
+          cd hack/version-schema-gen
+          go run main.go ../../pkg/config/schemas/extensions-version-schema.json
+
+      - name: Generate token
+        uses: tibdex/github-app-token@v2
+        id: generate-token
+        with:
+          app_id: "${{ secrets.BOT_APP_ID }}"
+          private_key: "${{ secrets.BOT_APP_PRIVATE_KEY }}"
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
+        id: cpr
+        with:
+          token: "${{ steps.generate-token.outputs.token }}"
+          title: "chore(schema): update extensions-version-schema.yaml JSON schema"
+          commit-message: "chore(schema): update extensions-version-schema.yaml JSON schema"
+          delete-branch: true
+          committer: budimanjojo-bot <111944664+budimanjojo-bot[bot]@users.noreply.github.com>
+          author: budimanjojo-bot <111944664+budimanjojo-bot[bot]@users.noreply.github.com>
+
+      - name: Automerge
+        if: steps.cpr.outputs.pull-request-operation == 'created'
+        uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          token: "${{ steps.generate-token.outputs.token }}"
+          pull-request-number: "${{ steps.cpr.outputs.pull-request-number }}"
+          merge-method: squash
