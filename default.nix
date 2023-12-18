@@ -2,20 +2,22 @@
 
 buildGo121Module rec {
   pname = "talhelper";
-  version = "1.16.2";
+  version = "1.16.3";
 
   src = fetchFromGitHub {
     owner = "budimanjojo";
     repo = pname;
     rev = "v${version}";
-    sha256 = "sha256-m+yGPVTfLwJAtr4w6S7Du8lyh395HMhI6EWhGqOn8VQ=";
+    sha256 = "sha256-DIFYI7v8faOcIxxtgHf1Fign0SN7pjE2H0+jFcDK48s=";
   };
 
-  vendorHash = "sha256-eshCEsGYYwQif9cTGC3gsrwOjNlA0eECW9sB0PZBjLc=";
+  vendorHash = "sha256-q6KQnNrc0IFykaE40aIrKUEyCtiL6Gpb1Jp97LRCn0k=";
 
   ldflags = [ "-s -w -X github.com/budimanjojo/talhelper/cmd.version=v${version}" ];
 
   doCheck = false; # no tests
+
+  subPackages = [ "." "./cmd" ];
 
   nativeBuildInputs = [ installShellFiles ];
 
