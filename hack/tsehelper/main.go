@@ -56,7 +56,11 @@ func main() {
 				// Sort the cache
 				sort.Sort(&tags)
 				// Write the cache file
-				writeCache(&tags)
+				err := writeCache(&tags)
+				if err != nil {
+					log.Errorf("error writing cache file: %s", err)
+					os.Exit(1)
+				}
 				log.Debug("missing versions added and cache written successfully")
 			}
 		}
@@ -87,7 +91,12 @@ func main() {
 		// Sort the cache
 		sort.Sort(&tags)
 		// Save the cache file
-		writeCache(&tags)
+		err := writeCache(&tags)
+		if err != nil {
+			log.Errorf("error writing cache file: %s", err)
+			os.Exit(1)
+		}
+
 		log.Debug("missing tags fetched, extensions parsed, and cache written successfully")
 	}
 

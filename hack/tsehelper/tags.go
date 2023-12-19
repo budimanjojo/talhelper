@@ -85,7 +85,11 @@ func getMissingVersions(versionsTags *TalosVersionTags) TalosVersionTags {
 	// Check if the cache file exists
 	if !checkCache() {
 		// Load the cache file
-		loadCache(versionsTags)
+		_, err := loadCache(versionsTags)
+		if err != nil {
+			log.Errorf("error loading cache: %s", err)
+			os.Exit(1)
+		}
 	}
 
 	// Fetch the missing tags

@@ -17,7 +17,10 @@ func purgeCache() {
 	path := getCachePath()
 	os.Remove(path)
 	// Write blank cache file
-	writeCache(&TalosVersionTags{})
+	err := writeCache(&TalosVersionTags{})
+	if err != nil {
+		log.Errorf("error writing empty cache file: %s", err)
+	}
 }
 
 // getCachePath returns the path to the cache directory based on the OS.
