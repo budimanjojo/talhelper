@@ -22,11 +22,14 @@ There are four environment variables that can be used to configure the tool:
 - TSEHELPER_TALOS_EXTENSIONS_CACHE_DIR: The filename to write the generated system extensions cache file to. Defaults to `talos-extensions.json`.
 - TSEHELPER_TALOS_EXTENSIONS_CACHE_FILE: Override the regex used to parse the talos system extension container tags. Defaults to `^(?P<registry>[\w\.\-0-9]+)\/(?P<org>[\w\.\-0-9]+)\/(?P<repo>[\w\.\-0-9]+):(?P<tag>[\w\.\-0-9]+)@sha256:(?P<shasum>[a-f0-9]+)$`.
 
-There are five flags that can be used to change the output format:
+There are seven flags that can be used to change the output format:
 
 - `-minimal`: Flag to indicate whether to output minimal json consisting of only the org/repo, e.g. `siderolabs/amd-ucode`. Minimal is mutually exclusive from `-trimRegistry` and `-trimSha256`.
 
 - `-purgecache`: Flag to indicate whether to purge the cache file before generating the schema.
+
+- `-onlyVersions`: Flag to indicate whether to only output the versions, e.g. `v1.5.5`.
+- `-version <version>`: Return the system extensions for a specific version, e.g. `v1.4.1`. If not specified, all versions will be returned.
 
 - `-trimRegistry`: Flag to indicate whether to trim the registry prefix, e.g. `ghcr.io/siderolabs/extensions/siderolabs/amd-ucode:v1.2.0@sha256:1234567890abcdef` -> `siderolabs/amd-ucode:v1.2.0@sha256:1234567890abcdef`
 - `-trimSha256`: Flag to indicate whether to trim the sha256 suffix e.g. `ghcr.io/siderolabs/amd-ucode:v1.2.0@sha256:1234567890abcdef` -> `ghcr.io/siderolabs/amd-ucode:v1.2.0`
