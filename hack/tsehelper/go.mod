@@ -1,4 +1,4 @@
-module github.com/goprosloyo/tsehelper
+module tsehelper
 
 go 1.21
 

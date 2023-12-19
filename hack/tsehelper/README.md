@@ -24,9 +24,10 @@ There are four environment variables that can be used to configure the tool:
 
 There are seven flags that can be used to change the output format:
 
-- `-minimal`: Flag to indicate whether to output minimal json consisting of only the org/repo, e.g. `siderolabs/amd-ucode`. Minimal is mutually exclusive from `-trimRegistry` and `-trimSha256`.
+- `-minimal`: Flag to indicate whether to output minimal json consisting of only the org/repo, e.g. `siderolabs/amd-ucode`. Minimal is mutually exclusive from `-trimRegistry`, `-trimSha256`, and `-trimTag`.
 
 - `-purgecache`: Flag to indicate whether to purge the cache file before generating the schema.
+- `-skipUpdate`: Flag to skip the upstream check and load directly from cache.
 
 - `-onlyVersions`: Flag to indicate whether to only output the versions, e.g. `v1.5.5`.
 - `-version <version>`: Return the system extensions for a specific version, e.g. `v1.4.1`. If not specified, all versions will be returned.

@@ -5,6 +5,7 @@ import "flag"
 var minimal bool
 
 var purge bool
+var skipUpdate bool
 
 var onlyVersions bool
 var specificVersion string
@@ -17,6 +18,7 @@ func init() {
 	flag.BoolVar(&minimal, "minimal", false, "output minimal json consisting of only the org/repo, e.g. 'siderolabs/amd-ucode' -- flag is mutually exclusive to '-trimRegistry', '-trimSha256', and '-trimTag'.")
 
 	flag.BoolVar(&purge, "purgecache", false, "purge the cache file")
+	flag.BoolVar(&skipUpdate, "skipUpdate", false, "skip the upstream check and load directly from cache")
 
 	flag.BoolVar(&onlyVersions, "onlyVersions", false, "only output the versions, e.g. 'v1.5.5' -- flag is mutually exclusive to '-trimRegistry', '-trimSha256', and '-trimTag'.")
 	flag.StringVar(&specificVersion, "version", "", "only output the version specified, e.g. 'v1.5.5' -- flag is mutually exclusive to '-trimRegistry', '-trimSha256', and '-trimTag'.")
