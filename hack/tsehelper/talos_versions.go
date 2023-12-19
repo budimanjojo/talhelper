@@ -8,6 +8,8 @@ import (
 	"strings"
 	"sync"
 
+	versiontags "tsehelper/pkg"
+
 	"github.com/google/go-containerregistry/pkg/crane"
 	v1 "github.com/google/go-containerregistry/pkg/v1"
 	log "github.com/sirupsen/logrus"
@@ -16,7 +18,7 @@ import (
 // Functions related to fetching system extensions
 // getSystemExtensions fetches the system extensions for each Talos version and updates the TalosVersionTags struct.
 // This function uses goroutines and channels to limit concurrency and collect errors.
-func getSystemExtensions(tags *TalosVersionTags) error {
+func getSystemExtensions(tags *versiontags.TalosVersionTags) error {
 	var wg sync.WaitGroup
 	var mu sync.Mutex
 	maxWorkers := runtime.GOMAXPROCS(0)
@@ -41,7 +43,6 @@ func getSystemExtensions(tags *TalosVersionTags) error {
 			sysExt := &tags.Versions[i]
 			imageName := TSEHelperTalosExtensionsRepository + ":" + sysExt.Version
 			desc, err := crane.Get(imageName)
-
 			if err != nil {
 				errors <- fmt.Errorf("error getting image %s: %s", imageName, err)
 				return

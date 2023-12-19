@@ -4,6 +4,8 @@ import (
 	"encoding/json"
 	"os"
 
+	versiontags "tsehelper/pkg"
+
 	log "github.com/sirupsen/logrus"
 )
 
@@ -11,7 +13,7 @@ type Versions struct {
 	Versions []string `json:"versions"`
 }
 
-func generateOutput(givenVersionTags TalosVersionTags) string {
+func generateOutput(givenVersionTags versiontags.TalosVersionTags) string {
 	// Log all flags in trace.
 	log.Tracef("minimal: %t", minimal)
 
@@ -37,7 +39,7 @@ func generateOutput(givenVersionTags TalosVersionTags) string {
 		}
 		return string(bytes)
 	} else if specificVersion != "" {
-		var theOne TalosVersionTags
+		var theOne versiontags.TalosVersionTags
 		for _, val := range givenVersionTags.Versions {
 			if val.Version == specificVersion {
 				for i, extension := range val.SystemExtensions {

@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-
 	"os"
 	"sort"
+
+	versiontags "tsehelper/pkg"
 
 	log "github.com/sirupsen/logrus"
 )
@@ -28,7 +29,7 @@ func main() {
 		log.Debug("cache purged successfully")
 	}
 
-	var tags TalosVersionTags
+	var tags versiontags.TalosVersionTags
 
 	// Check if the cache file exists
 	if checkCache() {

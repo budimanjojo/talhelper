@@ -8,6 +8,8 @@ import (
 	"path/filepath"
 	"runtime"
 
+	versiontags "tsehelper/pkg"
+
 	log "github.com/sirupsen/logrus"
 )
 
@@ -17,7 +19,7 @@ func purgeCache() {
 	path := getCachePath()
 	os.Remove(path)
 	// Write blank cache file
-	err := writeCache(&TalosVersionTags{})
+	err := writeCache(&versiontags.TalosVersionTags{})
 	if err != nil {
 		log.Errorf("error writing empty cache file: %s", err)
 	}
@@ -55,8 +57,8 @@ func checkCache() bool {
 }
 
 // loadCache loads the cache file into a TalosVersionTags struct.
-func loadCache(versionTags *TalosVersionTags) (TalosVersionTags, error) {
-	var talosVersionTags TalosVersionTags
+func loadCache(versionTags *versiontags.TalosVersionTags) (versiontags.TalosVersionTags, error) {
+	var talosVersionTags versiontags.TalosVersionTags
 
 	// Read the cache file
 	log.Debugf("reading from cache file: %s", TSEHelperTalosExtensionsCachePath)
@@ -70,10 +72,10 @@ func loadCache(versionTags *TalosVersionTags) (TalosVersionTags, error) {
 }
 
 // writeCache writes the TalosVersionTags struct to the cache file.
-func writeCache(versionTags *TalosVersionTags) error {
+func writeCache(versionTags *versiontags.TalosVersionTags) error {
 	// Check if the cache directory exists or create
 	if _, err := os.Stat(TSEHelperTalosExtensionsCachePath); os.IsNotExist(err) {
-		if err := os.MkdirAll(TSEHelperTalosExtensionsCacheDir, 0755); err != nil {
+		if err := os.MkdirAll(TSEHelperTalosExtensionsCacheDir, 0o755); err != nil {
 			return err
 		}
 	}
@@ -85,7 +87,7 @@ func writeCache(versionTags *TalosVersionTags) error {
 	}
 
 	// Write the pretty-printed JSON to the cache file
-	if err := os.WriteFile(TSEHelperTalosExtensionsCachePath, bytes, 0644); err != nil {
+	if err := os.WriteFile(TSEHelperTalosExtensionsCachePath, bytes, 0o644); err != nil {
 		return err
 	}
 
