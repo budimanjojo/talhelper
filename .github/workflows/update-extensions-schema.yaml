@@ -2,8 +2,6 @@
 name: Update Extensions schema
 on:
   workflow_dispatch: {}
-  schedule:
-    - cron: "0 0 * * *"
 jobs:
   update-json-schema:
     runs-on: ubuntu-latest
