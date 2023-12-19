@@ -1,7 +1,6 @@
 package main
 
 import (
-	"encoding/json"
 	"fmt"
 
 	"os"
@@ -89,23 +88,9 @@ func main() {
 		os.Exit(1)
 	}
 
-	log.Debug("cleaning strings...")
-	// For each Talos version, call cleanString for each SystemExtensions
-	for i, version := range tags.Versions {
-		for j, extension := range version.SystemExtensions {
-			tags.Versions[i].SystemExtensions[j] = cleanString(extension)
-		}
-	}
-
-	log.Debug("preparing to marshal to JSON...")
-	// Marshal tags to JSON with indentation
-	bytes, err := json.MarshalIndent(tags, "", "    ")
-	if err != nil {
-		log.Errorf("error marshalling tags: %s", err)
-		os.Exit(1)
-	}
-	log.Debug("printing JSON to stdout...")
-	fmt.Println(string(bytes))
+	// Generate the output
+	bytes := generateOutput(tags)
+	fmt.Println(bytes)
 
 	// Exit successfully!
 	os.Exit(0)

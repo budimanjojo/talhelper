@@ -100,13 +100,6 @@ func getMissingVersions(versionsTags *TalosVersionTags) TalosVersionTags {
 
 // cleanString takes a string and returns a cleaned string based on the flags passed.
 func cleanString(line string) string {
-	// Log all flags
-	log.Tracef("minimal: %t", minimal)
-
-	log.Tracef("trimRegistry: %t", trimRegistry)
-	log.Tracef("trimSha256: %t", trimSha256)
-	log.Tracef("trimTag: %t", trimTag)
-
 	// Create a new regexp from the TalHelperTalosExtensionsRegex
 	regexp := regexp.MustCompile(TSEHelperTalosExtensionsRegex)
 
