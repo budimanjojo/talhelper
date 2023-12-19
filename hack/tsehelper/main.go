@@ -5,7 +5,7 @@ import (
 	"os"
 	"sort"
 
-	versiontags "tsehelper/pkg"
+	"tsehelper/pkg/versiontags"
 
 	log "github.com/sirupsen/logrus"
 )

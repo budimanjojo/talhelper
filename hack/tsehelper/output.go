@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"os"
 
-	versiontags "tsehelper/pkg"
+	"tsehelper/pkg/versiontags"
 
 	log "github.com/sirupsen/logrus"
 )

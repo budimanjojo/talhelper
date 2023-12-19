@@ -26,7 +26,7 @@ func (v TalosVersionTags) Contains(s string) bool {
 	return false
 }
 
-// Implement Sort interface on TalosVersionsTags.Versions
+// Implement Len interface on TalosVersionsTags.Versions
 func (v TalosVersionTags) Len() int {
 	return len(v.Versions)
 }
@@ -37,4 +37,13 @@ func (v TalosVersionTags) Less(i, j int) bool {
 
 func (v TalosVersionTags) Swap(i, j int) {
 	v.Versions[i], v.Versions[j] = v.Versions[j], v.Versions[i]
+}
+
+func (v TalosVersionTags) SliceIndex(s string) int {
+	for i, a := range v.Versions {
+		if a.Version == s {
+			return i
+		}
+	}
+	return -1
 }

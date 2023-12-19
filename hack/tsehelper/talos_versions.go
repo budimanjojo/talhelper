@@ -8,7 +8,7 @@ import (
 	"strings"
 	"sync"
 
-	versiontags "tsehelper/pkg"
+	"tsehelper/pkg/versiontags"
 
 	"github.com/google/go-containerregistry/pkg/crane"
 	v1 "github.com/google/go-containerregistry/pkg/v1"

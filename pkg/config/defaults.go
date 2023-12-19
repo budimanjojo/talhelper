@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/netip"
 	"strings"
+	"tsehelper/pkg/versiontags"
 
 	"github.com/siderolabs/talos/pkg/machinery/constants"
 )
@@ -13,17 +14,17 @@ import (
 // renovate: depName=siderolabs/talos datasource=github-releases
 var LatestTalosVersion = "v1.6.0"
 
-//go:embed schemas/extensions-version-schema.json
+//go:embed schemas/talos-extensions.json
 var schemaFile []byte
 
 var OfficialExtensions = generateExtensionSchema(schemaFile)
 
-func generateExtensionSchema(data []byte) map[string][]string {
-	result := make(map[string][]string)
-	if err := json.Unmarshal(data, &result); err != nil {
+func generateExtensionSchema(data []byte) versiontags.TalosVersionTags {
+	var vTags versiontags.TalosVersionTags
+	if err := json.Unmarshal(data, &vTags); err != nil {
 		log.Fatal(err)
 	}
-	return result
+	return vTags
 }
 
 // GetK8sVersion returns Kubernetes version string without `v` prefix.

@@ -384,14 +384,17 @@ func checkNodeSchematic(node Node, idx int, talosVersion string, result *Errors)
 	var messages *multierror.Error
 	extensions := map[string]struct{}{}
 
-	if _, ok := OfficialExtensions[talosVersion]; !ok {
-		talosVersion = "default"
+	// So it doesn't go crazy when version is not found, version validator is being done
+	// in checkSupportedTalosVersion function anyway
+	if !OfficialExtensions.Contains(talosVersion) {
+		// fallback to v1.5.5
+		talosVersion = "v1.5.5"
 	}
 
 	if node.Schematic != nil {
 		for _, ext := range node.Schematic.Customization.SystemExtensions.OfficialExtensions {
-			if !slices.Contains(OfficialExtensions[talosVersion], ext) {
-				messages = multierror.Append(messages, fmt.Errorf("%q is not a supported Talos extension", ext))
+			if !slices.Contains(OfficialExtensions.Versions[OfficialExtensions.SliceIndex(talosVersion)].SystemExtensions, ext) {
+				messages = multierror.Append(messages, fmt.Errorf("%q is not a supported Talos extension for %q", ext, talosVersion))
 			}
 			if _, exists := extensions[ext]; exists {
 				messages = multierror.Append(messages, fmt.Errorf("duplicate system extension %q", ext))
