@@ -25,7 +25,7 @@ var genurlInstallerCmd = &cobra.Command{
 
 			var urls []string
 			for _, node := range cfg.Nodes {
-				if genurlNode != "" && node.IPAddress != genurlNode {
+				if genurlNode != "" && node.IPAddress != genurlNode && node.Hostname != genurlNode {
 					continue
 				}
 
@@ -34,7 +34,7 @@ var genurlInstallerCmd = &cobra.Command{
 					schema = node.Schematic
 				}
 
-				if node.IPAddress == genurlNode {
+				if node.IPAddress == genurlNode || node.Hostname == genurlNode {
 					url, err := talos.GetInstallerURL(schema, cfg.GetImageFactory(), cfg.GetTalosVersion(), genurlOfflineMode)
 					if err != nil {
 						log.Fatalf("Failed to generate installer url for %s, %v", node.Hostname, err)
@@ -52,7 +52,7 @@ var genurlInstallerCmd = &cobra.Command{
 
 			switch len(urls) {
 			case 0:
-				log.Fatalf("Node with IP address of %s is not found in the config file", genurlNode)
+				log.Fatalf("Node with IP address or hostname of %s is not found in the config file", genurlNode)
 			case 1:
 				s := strings.Split(urls[0], " ")
 				fmt.Printf("%s\n", s[len(s)-1])
