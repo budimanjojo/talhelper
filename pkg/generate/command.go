@@ -16,7 +16,7 @@ import (
 func GenerateApplyCommand(cfg *config.TalhelperConfig, outDir string, node string, extraFlags []string) error {
 	var result []string
 	for _, n := range cfg.Nodes {
-		isSelectedNode := ((node != "") && (node == n.IPAddress))
+		isSelectedNode := ((node != "") && (node == n.IPAddress)) || ((node != "") && (node == n.Hostname))
 		allNodesSelected := (node == "")
 
 		if allNodesSelected || isSelectedNode {
@@ -36,7 +36,7 @@ func GenerateApplyCommand(cfg *config.TalhelperConfig, outDir string, node strin
 		}
 		return nil
 	} else {
-		return fmt.Errorf("node with IP %s not found", node)
+		return fmt.Errorf("node with IP or hostname %s not found", node)
 	}
 }
 
@@ -47,7 +47,7 @@ func GenerateApplyCommand(cfg *config.TalhelperConfig, outDir string, node strin
 func GenerateUpgradeCommand(cfg *config.TalhelperConfig, outDir string, node string, extraFlags []string) error {
 	var result []string
 	for _, n := range cfg.Nodes {
-		isSelectedNode := ((node != "") && (node == n.IPAddress))
+		isSelectedNode := ((node != "") && (node == n.IPAddress)) || ((node != "") && (node == n.Hostname))
 		allNodesSelected := (node == "")
 
 		if allNodesSelected || isSelectedNode {
@@ -78,7 +78,7 @@ func GenerateUpgradeCommand(cfg *config.TalhelperConfig, outDir string, node str
 		}
 		return nil
 	} else {
-		return fmt.Errorf("node with IP %s not found", node)
+		return fmt.Errorf("node with IP or hostname %s not found", node)
 	}
 }
 
@@ -89,7 +89,7 @@ func GenerateUpgradeCommand(cfg *config.TalhelperConfig, outDir string, node str
 func GenerateUpgradeK8sCommand(cfg *config.TalhelperConfig, outDir string, node string, extraFlags []string) error {
 	var result string
 	for _, n := range cfg.Nodes {
-		isSelectedNode := ((node != "") && (node == n.IPAddress))
+		isSelectedNode := ((node != "") && (node == n.IPAddress)) || ((node != "") && (node == n.Hostname))
 		noNodeSelected := (node == "")
 		upgradeFlags := []string{
 			"--talosconfig=" + outDir + "/talosconfig",
@@ -117,7 +117,7 @@ func GenerateUpgradeK8sCommand(cfg *config.TalhelperConfig, outDir string, node 
 		fmt.Printf("%s\n", result)
 		return nil
 	} else {
-		return fmt.Errorf("node with IP %s not found", node)
+		return fmt.Errorf("node with IP or hostname %s not found", node)
 	}
 }
 
@@ -128,7 +128,7 @@ func GenerateUpgradeK8sCommand(cfg *config.TalhelperConfig, outDir string, node 
 func GenerateBootstrapCommand(cfg *config.TalhelperConfig, outDir string, node string, extraFlags []string) error {
 	var result string
 	for _, n := range cfg.Nodes {
-		isSelectedNode := ((node != "") && (node == n.IPAddress))
+		isSelectedNode := ((node != "") && (node == n.IPAddress)) || ((node != "") && (node == n.Hostname))
 		noNodeSelected := (node == "")
 		bootstrapFlags := []string{
 			"--talosconfig=" + outDir + "/talosconfig",
@@ -154,6 +154,6 @@ func GenerateBootstrapCommand(cfg *config.TalhelperConfig, outDir string, node s
 		fmt.Printf("%s\n", result)
 		return nil
 	} else {
-		return fmt.Errorf("node with IP %s not found", node)
+		return fmt.Errorf("node with IP or hostname %s not found", node)
 	}
 }
