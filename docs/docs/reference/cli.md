@@ -400,7 +400,7 @@ talhelper genurl installer [flags]
   -n, --node string           A specific node to generate command for. If not specified, will generate for all nodes (ignored when talconfig.yaml is not found)
       --offline-mode          Generate schematic ID without doing POST request to image-factory
   -r, --registry-url string   Registry url of the image (default "factory.talos.dev")
-  -v, --version string        Talos version to generate (defaults to latest Talos version) (default "v1.5.5")
+  -v, --version string        Talos version to generate (defaults to latest Talos version) (default "v1.6.0")
 ```
 
 ### SEE ALSO
@@ -433,7 +433,7 @@ talhelper genurl iso [flags]
   -n, --node string           A specific node to generate command for. If not specified, will generate for all nodes (ignored when talconfig.yaml is not found)
       --offline-mode          Generate schematic ID without doing POST request to image-factory
   -r, --registry-url string   Registry url of the image (default "factory.talos.dev")
-  -v, --version string        Talos version to generate (defaults to latest Talos version) (default "v1.5.5")
+  -v, --version string        Talos version to generate (defaults to latest Talos version) (default "v1.6.0")
 ```
 
 ### SEE ALSO
@@ -455,7 +455,7 @@ Generate URL for Talos installer or ISO
   -n, --node string           A specific node to generate command for. If not specified, will generate for all nodes (ignored when talconfig.yaml is not found)
       --offline-mode          Generate schematic ID without doing POST request to image-factory
   -r, --registry-url string   Registry url of the image (default "factory.talos.dev")
-  -v, --version string        Talos version to generate (defaults to latest Talos version) (default "v1.5.5")
+  -v, --version string        Talos version to generate (defaults to latest Talos version) (default "v1.6.0")
 ```
 
 ### SEE ALSO
