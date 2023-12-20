@@ -2,6 +2,8 @@
 name: Update Extensions schema
 on:
   workflow_dispatch: {}
+  schedule:
+    - cron: 0 0 * * *
 jobs:
   update-json-schema:
     runs-on: ubuntu-latest
@@ -11,8 +13,8 @@ jobs:
           go-version: stable
       - uses: actions/checkout@v4
       - run: |
-          cd hack/version-schema-gen
-          go run main.go ../../pkg/config/schemas/extensions-version-schema.json
+          cd hack/tsehelper
+          go run . -minimal ../../pkg/config/schemas/talos-extensions.json
 
       - name: Generate token
         uses: tibdex/github-app-token@v2
@@ -26,8 +28,8 @@ jobs:
         id: cpr
         with:
           token: "${{ steps.generate-token.outputs.token }}"
-          title: "chore(schema): update extensions-version-schema.yaml JSON schema"
-          commit-message: "chore(schema): update extensions-version-schema.yaml JSON schema"
+          title: "chore(schema): update talos-extensions.yaml JSON schema"
+          commit-message: "chore(schema): update talos-extensions.yaml JSON schema"
           delete-branch: true
           committer: budimanjojo-bot <111944664+budimanjojo-bot[bot]@users.noreply.github.com>
           author: budimanjojo-bot <111944664+budimanjojo-bot[bot]@users.noreply.github.com>
