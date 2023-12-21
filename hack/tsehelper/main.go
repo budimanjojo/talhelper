@@ -71,7 +71,10 @@ func main() {
 		} else {
 			// No cache, fetch all tags
 			log.Debugf("cache not found, fetching all tags...")
-			tags, err := getMissingTags(tags)
+			// this is needed so `go` doesn't think `tags` is a
+			// new variable inside the scope of this block
+			var err error
+			tags, err = getMissingTags(tags)
 			if err != nil {
 				log.Errorf("error fetching tags: %s", err)
 				os.Exit(1)
