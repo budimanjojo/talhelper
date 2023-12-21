@@ -429,6 +429,83 @@
             ]
         },
         {
+            "version": "v1.5.0-alpha.0",
+            "systemExtensions": [
+                "siderolabs/amd-ucode",
+                "siderolabs/bnx2-bnx2x",
+                "siderolabs/drbd",
+                "siderolabs/gasket-driver",
+                "siderolabs/gvisor",
+                "siderolabs/hello-world-service",
+                "siderolabs/i915-ucode",
+                "siderolabs/intel-ucode",
+                "siderolabs/nut-client",
+                "siderolabs/nvidia-container-toolkit",
+                "siderolabs/nvidia-fabricmanager",
+                "siderolabs/nvidia-open-gpu-kernel-modules"
+            ]
+        },
+        {
+            "version": "v1.5.0-alpha.1",
+            "systemExtensions": [
+                "siderolabs/amd-ucode",
+                "siderolabs/bnx2-bnx2x",
+                "siderolabs/drbd",
+                "siderolabs/gasket-driver",
+                "siderolabs/gvisor",
+                "siderolabs/hello-world-service",
+                "siderolabs/i915-ucode",
+                "siderolabs/intel-ucode",
+                "siderolabs/nut-client",
+                "siderolabs/nvidia-container-toolkit",
+                "siderolabs/nvidia-fabricmanager",
+                "siderolabs/nvidia-open-gpu-kernel-modules",
+                "siderolabs/usb-modem-drivers"
+            ]
+        },
+        {
+            "version": "v1.5.0-alpha.2",
+            "systemExtensions": [
+                "siderolabs/amd-ucode",
+                "siderolabs/bnx2-bnx2x",
+                "siderolabs/drbd",
+                "siderolabs/gasket-driver",
+                "siderolabs/gvisor",
+                "siderolabs/hello-world-service",
+                "siderolabs/i915-ucode",
+                "siderolabs/intel-ucode",
+                "siderolabs/nut-client",
+                "siderolabs/nvidia-container-toolkit",
+                "siderolabs/nvidia-fabricmanager",
+                "siderolabs/nvidia-open-gpu-kernel-modules",
+                "siderolabs/qemu-guest-agent",
+                "siderolabs/tailscale",
+                "siderolabs/usb-modem-drivers"
+            ]
+        },
+        {
+            "version": "v1.5.0-alpha.3",
+            "systemExtensions": [
+                "siderolabs/amd-ucode",
+                "siderolabs/bnx2-bnx2x",
+                "siderolabs/drbd",
+                "siderolabs/gasket-driver",
+                "siderolabs/gvisor",
+                "siderolabs/hello-world-service",
+                "siderolabs/i915-ucode",
+                "siderolabs/intel-ucode",
+                "siderolabs/nut-client",
+                "siderolabs/nvidia-container-toolkit",
+                "siderolabs/nvidia-fabricmanager",
+                "siderolabs/nvidia-open-gpu-kernel-modules",
+                "siderolabs/qemu-guest-agent",
+                "siderolabs/tailscale",
+                "siderolabs/thunderbolt",
+                "siderolabs/usb-modem-drivers",
+                "siderolabs/zfs"
+            ]
+        },
+        {
             "version": "v1.5.0-beta.0",
             "systemExtensions": [
                 "siderolabs/amd-ucode",
@@ -1450,6 +1527,43 @@
         },
         {
             "version": "v1.6.0-alpha.2-7-g32f106f",
+            "systemExtensions": [
+                "siderolabs/amdgpu-firmware",
+                "siderolabs/amd-ucode",
+                "siderolabs/binfmt-misc",
+                "siderolabs/bnx2-bnx2x",
+                "siderolabs/btrfs",
+                "siderolabs/chelsio-drivers",
+                "siderolabs/chelsio-firmware",
+                "siderolabs/drbd",
+                "siderolabs/ecr-credential-provider",
+                "siderolabs/fuse3",
+                "siderolabs/gasket-driver",
+                "siderolabs/gvisor",
+                "siderolabs/hello-world-service",
+                "siderolabs/i915-ucode",
+                "siderolabs/intel-ice-firmware",
+                "siderolabs/intel-ucode",
+                "siderolabs/iscsi-tools",
+                "siderolabs/mdadm",
+                "siderolabs/nut-client",
+                "siderolabs/nvidia-container-toolkit",
+                "siderolabs/nvidia-fabricmanager",
+                "siderolabs/nvidia-open-gpu-kernel-modules",
+                "siderolabs/qemu-guest-agent",
+                "siderolabs/qlogic-firmware",
+                "siderolabs/stargz-snapshotter",
+                "siderolabs/tailscale",
+                "siderolabs/thunderbolt",
+                "siderolabs/usb-modem-drivers",
+                "siderolabs/util-linux-tools",
+                "siderolabs/xe-guest-utilities",
+                "siderolabs/zfs",
+                "siderolabs/nonfree-kmod-nvidia"
+            ]
+        },
+        {
+            "version": "v1.6.0-alpha.2-8-g3104df1",
             "systemExtensions": [
                 "siderolabs/amdgpu-firmware",
                 "siderolabs/amd-ucode",
