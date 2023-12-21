@@ -5,8 +5,10 @@ on:
   schedule:
     - cron: 0 0 * * *
 jobs:
-  update-json-schema:
+  update-extensions-schema:
     runs-on: ubuntu-latest
+    env:
+      LOG_LEVEL: debug
     steps:
       - uses: actions/setup-go@v5
         with:
@@ -14,7 +16,8 @@ jobs:
       - uses: actions/checkout@v4
       - run: |
           cd hack/tsehelper
-          go run . -minimal ../../pkg/config/schemas/talos-extensions.json
+          go install
+          tsehelper -minimal > ../../pkg/config/schemas/talos-extensions.json | tee /dev/stderr
 
       - name: Generate token
         uses: tibdex/github-app-token@v2
