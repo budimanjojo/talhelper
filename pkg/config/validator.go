@@ -15,7 +15,6 @@ import (
 	"github.com/siderolabs/talos/pkg/machinery/compatibility"
 	"github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1"
 	"github.com/siderolabs/talos/pkg/machinery/labels"
-	"golang.org/x/mod/semver"
 )
 
 func checkRequiredCfg(c TalhelperConfig, result *Errors) *Errors {
@@ -54,19 +53,7 @@ func checkSupportedTalosVersion(c TalhelperConfig, result *Errors) *Errors {
 		if !strings.HasPrefix(c.TalosVersion, "v") {
 			c.TalosVersion = "v" + c.TalosVersion
 		}
-		majorMinor := semver.MajorMinor(c.TalosVersion)
-		switch majorMinor {
-		case "v1.2":
-			return result
-		case "v1.3":
-			return result
-		case "v1.4":
-			return result
-		case "v1.5":
-			return result
-		case "v1.6":
-			return result
-		default:
+		if !OfficialExtensions.Contains(c.TalosVersion) {
 			return result.Append(&Error{
 				Kind:    "InvalidTalosVersion",
 				Field:   getFieldYamlTag(c, "TalosVersion"),
