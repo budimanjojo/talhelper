@@ -15,11 +15,12 @@ require (
 	github.com/sabhiram/go-gitignore v0.0.0-20210923224102-525f6e181f06
 	github.com/siderolabs/image-factory v0.2.0
 	github.com/siderolabs/net v0.4.0
-	github.com/siderolabs/talos/pkg/machinery v1.6.0
+	github.com/siderolabs/talos/pkg/machinery v1.6.1
 	github.com/spf13/cobra v1.8.0
 	golang.org/x/mod v0.14.0
 	gopkg.in/yaml.v3 v3.0.1
 	sigs.k8s.io/yaml v1.4.0
+	tsehelper v0.0.0-00010101000000-000000000000
 )
 
 require (
@@ -139,7 +140,6 @@ require (
 	google.golang.org/protobuf v1.31.0 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
-	tsehelper v0.0.0-00010101000000-000000000000 // indirect
 )
 
 replace tsehelper => ./hack/tsehelper
