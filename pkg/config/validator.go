@@ -302,6 +302,20 @@ func checkNodeLabels(node Node, idx int, result *Errors) *Errors {
 	return result
 }
 
+func checkNodeTaints(node Node, idx int, result *Errors) *Errors {
+	if node.NodeTaints != nil {
+		var messages *multierror.Error
+		if err := labels.ValidateTaints(node.NodeTaints); err != nil {
+			return result.Append(&Error{
+				Kind:    "InvalidNodeTaints",
+				Field:   getNodeFieldYamlTag(node, idx, "NodeTaints"),
+				Message: formatError(multierror.Append(messages, err)),
+			})
+		}
+	}
+	return result
+}
+
 func checkNodeMachineDisks(node Node, idx int, result *Errors) *Errors {
 	if node.MachineDisks != nil {
 		var messages *multierror.Error

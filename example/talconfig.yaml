@@ -49,6 +49,8 @@ nodes:
     nodeLabels:
       rack: rack1a
       zone: us-east-1a
+    nodeTaints:
+      mytaint: mytaints:NoSchedule
     disableSearchDomain: true
     kernelModules:
       - name: br_netfilter

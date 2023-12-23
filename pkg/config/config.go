@@ -31,6 +31,7 @@ type Node struct {
 	IPAddress           string                            `yaml:"ipAddress,omitempty" jsonschema:"required,example=192.168.200.11,description=IP address where the node can be reached"`
 	ControlPlane        bool                              `yaml:"controlPlane" jsonschema:"description=Whether the node is a controlplane"`
 	NodeLabels          map[string]string                 `yaml:"nodeLabels" jsonschema:"description=Labels to be added to the node"`
+	NodeTaints          map[string]string                 `yaml:"nodeTaints" jsonschema:"description=Node taints for the node. Effect is optional"`
 	InstallDisk         string                            `yaml:"installDisk,omitempty" jsonschema:"oneof_required=installDiskSelector,description=The disk used for installation"`
 	InstallDiskSelector *v1alpha1.InstallDiskSelector     `yaml:"installDiskSelector,omitempty" jsonschema:"oneof_required=installDisk,description=Look up disk used for installation"`
 	MachineDisks        []*v1alpha1.MachineDisk           `yaml:"machineDisks,omitempty" jsonschema:"description=List of additional disks to partition, format, mount"`

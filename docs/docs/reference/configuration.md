@@ -361,6 +361,18 @@ controlPlane: true
 </tr>
 
 <tr markdown="1">
+<td markdown="1">`nodeTaints`</td>
+<td markdown="1">map[string]string</td>
+<td markdown="1">Node taints for the node.<details><summary>*Show example*</summary>
+```yaml
+exampleTaint: exampleTaintValue:NoSchedule
+```
+</summary></td>
+<td markdown="1" align="center">`false`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+</tr>
+
+<tr markdown="1">
 <td markdown="1">`disableSearchDomain`</td>
 <td markdown="1">bool</td>
 <td markdown="1">Whether to disable generating default search domain.<details><summary>*Show example*</summary>

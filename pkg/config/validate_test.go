@@ -38,6 +38,8 @@ nodes:
   - nodeLabels:
       ra*ck: rack1a
       z***: hahaha
+    nodeTaints:
+      test: test:Noschedule
     machineFiles:
       - op: ccreate
     schematic:
@@ -71,6 +73,7 @@ nodes:
 		"nodes[1].ipAddress":         true,
 		"nodes[1].installDisk":       true,
 		"nodes[1].nodeLabels":        true,
+		"nodes[1].nodeTaints":        true,
 		"nodes[1].machineFiles":      true,
 		"nodes[1].schematic":         true,
 	}
