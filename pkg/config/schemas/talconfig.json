@@ -523,6 +523,13 @@
           "type": "object",
           "description": "Labels to be added to the node"
         },
+        "nodeTaints": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Node taints for the node. Effect is optional"
+        },
         "installDisk": {
           "type": "string",
           "description": "The disk used for installation"
