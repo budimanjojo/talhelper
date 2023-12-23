@@ -1778,6 +1778,42 @@
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
             ]
+        },
+        {
+            "version": "v1.6.1",
+            "systemExtensions": [
+                "siderolabs/amdgpu-firmware",
+                "siderolabs/amd-ucode",
+                "siderolabs/binfmt-misc",
+                "siderolabs/bnx2-bnx2x",
+                "siderolabs/btrfs",
+                "siderolabs/chelsio-drivers",
+                "siderolabs/chelsio-firmware",
+                "siderolabs/drbd",
+                "siderolabs/ecr-credential-provider",
+                "siderolabs/fuse3",
+                "siderolabs/gasket-driver",
+                "siderolabs/gvisor",
+                "siderolabs/hello-world-service",
+                "siderolabs/i915-ucode",
+                "siderolabs/intel-ice-firmware",
+                "siderolabs/intel-ucode",
+                "siderolabs/iscsi-tools",
+                "siderolabs/mdadm",
+                "siderolabs/nut-client",
+                "siderolabs/nvidia-container-toolkit",
+                "siderolabs/nvidia-fabricmanager",
+                "siderolabs/nvidia-open-gpu-kernel-modules",
+                "siderolabs/qemu-guest-agent",
+                "siderolabs/stargz-snapshotter",
+                "siderolabs/tailscale",
+                "siderolabs/thunderbolt",
+                "siderolabs/usb-modem-drivers",
+                "siderolabs/util-linux-tools",
+                "siderolabs/xe-guest-utilities",
+                "siderolabs/zfs",
+                "siderolabs/nonfree-kmod-nvidia"
+            ]
         }
     ]
 }
