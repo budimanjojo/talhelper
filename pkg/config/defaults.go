@@ -12,7 +12,7 @@ import (
 )
 
 // renovate: depName=siderolabs/talos datasource=github-releases
-var LatestTalosVersion = "v1.6.0"
+var LatestTalosVersion = "v1.6.1"
 
 //go:embed schemas/talos-extensions.json
 var schemaFile []byte
