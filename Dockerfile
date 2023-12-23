@@ -1,4 +1,4 @@
-FROM golang:1.21.4-alpine3.18 as builder
+FROM golang:1.21.5-alpine3.18 as builder
 WORKDIR /build
 COPY . .
 RUN go build -o /usr/local/bin/talhelper
