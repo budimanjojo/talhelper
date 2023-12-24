@@ -7,13 +7,19 @@ on:
 jobs:
   update-extensions-schema:
     env:
-      TSEHELPER_TALOS_EXTENSIONS_CACHE_DIR: "./run-cache"
+      TSEHELPER_TALOS_EXTENSIONS_CACHE_DIR: "~/.cache/talhelper"
     runs-on: ubuntu-latest
     steps:
       - uses: actions/setup-go@v5
         with:
           go-version: stable
       - uses: actions/checkout@v4
+
+      - uses: actions/cache@v3
+        with:
+          path: ${{ env.TSEHELPER_TALOS_EXTENSIONS_CACHE_DIR }}
+          key: ${{ runner.os }}-tsehelper
+
       - run: |
           cd hack/tsehelper
           go run . -minimal > ../../pkg/config/schemas/talos-extensions.json
