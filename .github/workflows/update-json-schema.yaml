@@ -13,10 +13,10 @@ jobs:
   update-json-schema:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - uses: actions/setup-go@v5
         with:
           go-version: stable
-      - uses: actions/checkout@v4
       - run: go run main.go genschema -f pkg/config/schemas/talconfig.json
 
       - name: Generate token
