@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"os"
 	"sort"
 
@@ -119,8 +118,8 @@ func main() {
 		log.Info("no versions found")
 		os.Exit(1)
 	}
-	bytes := generateOutput(tags)
-	fmt.Println(bytes)
+
+	os.WriteFile(output, generateOutput(tags), 0o755)
 
 	// Exit successfully!
 	os.Exit(0)

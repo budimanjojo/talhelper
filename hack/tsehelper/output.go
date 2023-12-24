@@ -13,7 +13,7 @@ type Versions struct {
 	Versions []string `json:"versions"`
 }
 
-func generateOutput(givenVersionTags versiontags.TalosVersionTags) string {
+func generateOutput(givenVersionTags versiontags.TalosVersionTags) []byte {
 	// Log all flags in trace.
 	log.Tracef("minimal: %t", minimal)
 
@@ -37,7 +37,7 @@ func generateOutput(givenVersionTags versiontags.TalosVersionTags) string {
 			log.Errorf("error marshalling tags: %s", err)
 			os.Exit(1)
 		}
-		return string(bytes)
+		return bytes
 	} else if specificVersion != "" {
 		var theOne versiontags.TalosVersionTags
 		for _, val := range givenVersionTags.Versions {
@@ -58,7 +58,7 @@ func generateOutput(givenVersionTags versiontags.TalosVersionTags) string {
 			log.Errorf("error marshalling tags: %s", err)
 			os.Exit(1)
 		}
-		return string(bytes)
+		return bytes
 	}
 
 	for i, val := range givenVersionTags.Versions {
@@ -74,6 +74,6 @@ func generateOutput(givenVersionTags versiontags.TalosVersionTags) string {
 		log.Errorf("error marshalling tags: %s", err)
 		os.Exit(1)
 	}
-	log.Debug("printing JSON to stdout...")
-	return string(bytes)
+	log.Debugf("writing JSON to %s...", output)
+	return bytes
 }

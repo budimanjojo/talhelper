@@ -7,6 +7,8 @@ on:
 jobs:
   update-extensions-schema:
     runs-on: ubuntu-latest
+    env:
+      LOG_LEVEL: debug
     steps:
       - uses: actions/setup-go@v5
         with:
@@ -20,7 +22,7 @@ jobs:
 
       - run: |
           cd hack/tsehelper
-          go run . -minimal > ../../pkg/config/schemas/talos-extensions.json
+          go run . -minimal --output ../../pkg/config/schemas/talos-extensions.json
 
       - name: Generate token
         uses: tibdex/github-app-token@v2
