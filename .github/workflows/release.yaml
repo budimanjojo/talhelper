@@ -15,7 +15,7 @@ jobs:
           go-version: stable
       - uses: goreleaser/goreleaser-action@v5
         with:
-          args: release --rm-dist
+          args: release --clean
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           AUR_KEY: ${{ secrets.AUR_KEY }}
