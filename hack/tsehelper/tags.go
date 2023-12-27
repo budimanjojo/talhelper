@@ -77,6 +77,10 @@ func cleanString(line string) string {
 
 	// Find the sub-matches
 	matches := regexp.FindStringSubmatch(line)
+	if len(matches) == 0 {
+		log.Tracef("no matches found for line: %s", line)
+		return ""
+	}
 	log.Tracef("regexp matches: %s", matches)
 
 	// Map results to capture group names
