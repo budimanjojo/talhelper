@@ -452,8 +452,7 @@ schematic:
       - net.ifnames=0
     systemExtensions:
       officialExtensions:
-        officialExtensions:
-          - siderolabs/intel-ucode
+        - siderolabs/intel-ucode
 ```
 </summary></td>
 <td markdown="1" align="center">`nil`</td>
@@ -747,8 +746,7 @@ schematic:
       - net.ifnames=0
     systemExtensions:
       officialExtensions:
-        officialExtensions:
-          - siderolabs/intel-ucode
+        - siderolabs/intel-ucode
 ```
 </summary></td>
 <td markdown="1" align="center">`nil`</td>
@@ -832,8 +830,7 @@ schematic:
       - net.ifnames=0
     systemExtensions:
       officialExtensions:
-        officialExtensions:
-          - siderolabs/intel-ucode
+        - siderolabs/intel-ucode
 ```
 </summary></td>
 <td markdown="1" align="center">`nil`</td>
