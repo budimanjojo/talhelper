@@ -119,7 +119,10 @@ func main() {
 		os.Exit(1)
 	}
 
-	os.WriteFile(output, generateOutput(tags), 0o755)
+	if err := os.WriteFile(output, generateOutput(tags), 0o755); err != nil {
+		log.Errorf("failed to write file to %s: %s", output, err)
+		os.Exit(1)
+	}
 
 	// Exit successfully!
 	os.Exit(0)
