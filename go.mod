@@ -1,6 +1,6 @@
 module github.com/budimanjojo/talhelper
 
-go 1.21.5
+go 1.21.6
 
 require (
 	github.com/a8m/envsubst v1.4.2
