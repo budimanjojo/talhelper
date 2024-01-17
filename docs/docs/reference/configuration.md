@@ -349,6 +349,28 @@ machineSpec:
 </tr>
 
 <tr markdown="1">
+<td markdown="1">`ingressFirewall`</td>
+<td markdown="1">[IngressFirewall](#ingressfirewall)</td>
+<td markdown="1">Machine firewall specification for the node.<details><summary>*Show example*</summary>
+```yaml
+ingressFirewall:
+  defaultAction: block
+  rules:
+    - name: kubelet-ingress
+      portSelector:
+        ports:
+          - 10250
+        protocol: tcp
+      ingress:
+        - subnet: 172.20.0.0/24
+          except: 172.20.0.1/32
+```
+</summary></td>
+<td markdown="1" align="center">`nil`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+</tr>
+
+<tr markdown="1">
 <td markdown="1">`controlPlane`</td>
 <td markdown="1">bool</td>
 <td markdown="1">Whether the node is a controlplane.<details><summary>*Show example*</summary>
@@ -671,6 +693,101 @@ arch: arm64
 
 </table>
 
+## IngressFirewall
+
+`IngressFirewall` defines machine firewall configuration for a node.
+
+<table markdown="1">
+<tr markdown="1">
+<th markdown="1">Field</th><th>Type</th><th>Description</th><th>Default Value</th><th>Required</th>
+</tr>
+
+<tr markdown="1">
+<td markdown="1">`defaultAction`</td>
+<td markdown="1">`string`</td>
+<td markdown="1"><details><summary>Default action for all not explicitly configured traffic.</summary>Can be "accept" or "block"</details><details><summary>*Show example*</summary>
+```yaml
+defaultAction: accept
+```
+</details></td>
+<td markdown="1" align="center">`nil`</td>
+<td markdown="1" align="center">:white_check_mark:</td>
+</tr>
+
+<tr markdown="1">
+<td markdown="1">`rules`</td>
+<td markdown="1">[][NetworkRule](#networkrule)</td>
+<td markdown="1"><details><summary>List of matching network rules to allow or block against the defaultAction.</summary>If `defaultAction` is set to block, matching rules will be allowed vice versa.</details><details><summary>*Show example*</summary>
+```yaml
+rules:
+  - name: kubelet-ingress
+    portSelector:
+      ports:
+        - 10250
+      protocol: tcp
+    ingress:
+      - subnet: 172.20.0.0/24
+        except: 172.20.0.1/32
+```
+</details></td>
+<td markdown="1" align="center">`nil`</td>
+<td markdown="1" align="center">:white_check_mark:</td>
+</tr>
+
+</table>
+
+## NetworkRule
+
+`NetworkRule` defines the firewall rules to match.
+
+<table markdown="1">
+<tr markdown="1">
+<th markdown="1">Field</th><th>Type</th><th>Description</th><th>Default Value</th><th>Required</th>
+</tr>
+
+<tr markdown="1">
+<td markdown="1">`name`</td>
+<td markdown="1">`string`</td>
+<td markdown="1">Name of the rule.<details><summary>*Show example*</summary>
+```yaml
+name: kubelet-ingress
+```
+</details></td>
+<td markdown="1" align="center">`nil`</td>
+<td markdown="1" align="center">:white_check_mark:</td>
+</tr>
+
+<tr markdown="1">
+<td markdown="1">`portSelector`</td>
+<td markdown="1">[PortSelector](#portselector)</td>
+<td markdown="1">Ports and protocols on the host affected by the rule.<details><summary>*Show example*</summary>
+```yaml
+portSelector:
+  ports:
+    - 10250
+  protocol: tcp
+```
+</details></td>
+<td markdown="1" align="center">`nil`</td>
+<td markdown="1" align="center">:white_check_mark:</td>
+</tr>
+
+<tr markdown="1">
+<td markdown="1">`ingress`</td>
+<td markdown="1">[][IngressConfig](#ingressconfig)</td>
+<td markdown="1">List of source subnets allowed to access the host ports/protocols.<details><summary>*Show example*</summary>
+```yaml
+ingress:
+  - subnet: 172.20.0.0/24
+    except: 172.20.0.1/32
+```
+</details></td>
+<td markdown="1" align="center">`nil`</td>
+<td markdown="1" align="center">:white_check_mark:</td>
+</tr>
+
+</table>
+
 ## ControlPlane
 
 `ControlPlane` defines machine configurations for controlplane type nodes.
@@ -870,3 +987,11 @@ schematic:
 ## Device
 
 `Device` is type of upstream Talos <a href="https://www.talos.dev/latest/reference/configuration/#device" target="_blank">`v1alpha1.Device`</a>
+
+## PortSelector
+
+`PortSelector` is type of upstream Talos <a href="https://www.talos.dev/latest/reference/configuration/network/networkruleconfig/#NetworkRuleConfig.portSelector" target="_blank">`network.RulePortSelector`</a>
+
+## IngressConfig
+
+`IngressConfig` is type of upstream Talos <a href="https://www.talos.dev/latest/reference/configuration/network/networkruleconfig/#NetworkRuleConfig.ingress" target="_blank">`network.IngressConfig`</a>

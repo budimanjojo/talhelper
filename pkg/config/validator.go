@@ -510,6 +510,53 @@ func checkNodeConfigPatches(node Node, idx int, result *Errors) *Errors {
 	return result
 }
 
+func checkNodeIngressFirewall(node Node, idx int, result *Errors) *Errors {
+	if node.IngressFirewall != nil {
+		var messages *multierror.Error
+
+		if len(node.IngressFirewall.NetworkRules) > 0 {
+			for k, v := range node.IngressFirewall.NetworkRules {
+				if v.Name == "" {
+					messages = multierror.Append(messages, fmt.Errorf("rules[%d]: name is required", k))
+				}
+
+				if !v.PortSelector.Protocol.IsAProtocol() {
+					messages = multierror.Append(messages, fmt.Errorf("rules[%d]: %q is not a valid protocol", k, v.PortSelector.Protocol))
+				}
+
+				if len(v.PortSelector.Ports) == 0 {
+					messages = multierror.Append(messages, fmt.Errorf("rules[%d]: portSelector.ports is required", k))
+				}
+
+				if err := v.PortSelector.Ports.Validate(); err != nil {
+					messages = multierror.Append(messages, fmt.Errorf("rules[%d]: %q", k, err))
+				}
+
+				for _, rule := range v.Ingress {
+					if !rule.Subnet.IsValid() {
+						messages = multierror.Append(messages, fmt.Errorf("rules[%d]: invalid subnet: %s", k, rule.Subnet))
+					}
+					if !rule.Except.IsZero() && !rule.Except.IsValid() {
+						messages = multierror.Append(messages, fmt.Errorf("rules[%d]: invalid except: %s", k, rule.Except))
+					}
+				}
+			}
+		}
+		if !node.IngressFirewall.DefaultAction.IsADefaultAction() {
+			messages = multierror.Append(messages, fmt.Errorf("%q is not a valid default action", node.IngressFirewall.DefaultAction))
+		}
+
+		if messages.ErrorOrNil() != nil {
+			return result.Append(&Error{
+				Kind:    "InvalidNodeIngressFirewall",
+				Field:   getNodeFieldYamlTag(node, idx, "IngressFirewall"),
+				Message: formatError(messages),
+			})
+		}
+	}
+	return result
+}
+
 var hostnamePattern = sync.OnceValue(func() *regexp.Regexp {
 	return regexp.MustCompile(`^([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]{0,61}[a-zA-Z0-9])(\.([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9\-]{0,61}[a-zA-Z0-9]))*$`)
 })

@@ -19,13 +19,14 @@ import (
 // Talos `machineconfig` files and a `talosconfig` file in `outDir`.
 // It returns an error, if any.
 func GenerateConfig(c *config.TalhelperConfig, dryRun bool, outDir, secretFile, mode string, offlineMode bool) error {
-	var cfg []byte
 	input, err := talos.NewClusterInput(c, secretFile)
 	if err != nil {
 		return err
 	}
 
 	for _, node := range c.Nodes {
+		var cfg []byte
+
 		fileName := c.ClusterName + "-" + node.Hostname + ".yaml"
 		cfgFile := outDir + "/" + fileName
 
@@ -98,6 +99,14 @@ func GenerateConfig(c *config.TalhelperConfig, dryRun bool, outDir, secretFile, 
 		cfg, err = talos.ReEncodeTalosConfig(cfg)
 		if err != nil {
 			return err
+		}
+
+		if node.IngressFirewall != nil {
+			nc, err := talos.GenerateNodeNetworkConfigBytes(&node)
+			if err != nil {
+				return err
+			}
+			cfg = append(cfg, nc...)
 		}
 
 		if !dryRun {
