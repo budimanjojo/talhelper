@@ -342,6 +342,38 @@
       "additionalProperties": false,
       "type": "object"
     },
+    "IngressConfigWrapper": {
+      "properties": {
+        "subnet": {
+          "type": "string",
+          "description": "Source subnet"
+        },
+        "except": {
+          "type": "string",
+          "description": "Source subnet to exclude from the subnet"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "IngressFirewallWrapper": {
+      "properties": {
+        "defaultAction": {
+          "type": "string",
+          "description": "Default action for all not explicitly configured traffic",
+          "default": "block"
+        },
+        "rules": {
+          "items": {
+            "$ref": "#/$defs/NetworkRuleWrapper"
+          },
+          "type": "array",
+          "description": "List of matching network rules to allow or block against the defaultAction"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
     "InstallDiskSelectorWrapper": {
       "properties": {
         "size": {
@@ -485,6 +517,27 @@
       "additionalProperties": false,
       "type": "object"
     },
+    "NetworkRuleWrapper": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the rule"
+        },
+        "portSelector": {
+          "$ref": "#/$defs/PortSelectorWrapper",
+          "description": "Ports and protocols on the host affected by the rule"
+        },
+        "ingress": {
+          "items": {
+            "$ref": "#/$defs/IngressConfigWrapper"
+          },
+          "type": "array",
+          "description": "List of source subnets allowed to access the host ports/protocols"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
     "Node": {
       "oneOf": [
         {
@@ -616,6 +669,10 @@
         "machineSpec": {
           "$ref": "#/$defs/MachineSpec",
           "description": "Machine hardware specification"
+        },
+        "ingressFirewall": {
+          "$ref": "#/$defs/IngressFirewallWrapper",
+          "description": "Machine firewall specification"
         }
       },
       "additionalProperties": false,
@@ -624,6 +681,21 @@
         "hostname",
         "ipAddress"
       ]
+    },
+    "PortSelectorWrapper": {
+      "properties": {
+        "ports": {
+          "items": true,
+          "type": "array",
+          "description": "List of ports or port ranges"
+        },
+        "protocol": {
+          "type": "string",
+          "description": "Protocol (can be tcp or udp)"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
     },
     "Route": {
       "properties": {
