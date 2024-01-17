@@ -71,6 +71,10 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#machinespec">MachineSpec</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#ingressfirewall">IngressFirewall</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#networkrule">NetworkRule</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#controlplane">ControlPlane</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#worker">Worker</a>
@@ -90,6 +94,10 @@
     <li class="toctree-l2"><a class="reference internal" href="#kernelmoduleconfig">KernelModuleConfig</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#device">Device</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#portselector">PortSelector</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#ingressconfig">IngressConfig</a>
     </li>
     </ul>
                   </li>
@@ -432,6 +440,26 @@
 <td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
 </tr>
 <tr>
+<td><code>ingressFirewall</code></td>
+<td><a href="#ingressfirewall">IngressFirewall</a></td>
+<td>Machine firewall specification for the node.<details><summary><em>Show example</em></summary>
+<div class="highlight"><pre><span></span><code><span class="nt">ingressFirewall</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">defaultAction</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">block</span>
+<span class="w">  </span><span class="nt">rules</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kubelet-ingress</span>
+<span class="w">      </span><span class="nt">portSelector</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">          </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10250</span>
+<span class="w">        </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tcp</span>
+<span class="w">      </span><span class="nt">ingress</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">subnet</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">172.20.0.0/24</span>
+<span class="w">          </span><span class="nt">except</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">172.20.0.1/32</span>
+</code></pre></div>
+</summary></td>
+<td align="center"><code>nil</code></td>
+<td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
+</tr>
+<tr>
 <td><code>controlPlane</code></td>
 <td>bool</td>
 <td>Whether the node is a controlplane.<details><summary><em>Show example</em></summary>
@@ -705,6 +733,85 @@
 <td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
 </tr>
 </table>
+<h2 id="ingressfirewall">IngressFirewall</h2>
+<p><code>IngressFirewall</code> defines machine firewall configuration for a node.</p>
+<table>
+<tr>
+<th>Field</th>
+<p><th>Type</th><th>Description</th><th>Default Value</th><th>Required</th></p>
+</tr>
+<tr>
+<td><code>defaultAction</code></td>
+<td><code>string</code></td>
+<td><details><summary>Default action for all not explicitly configured traffic.</summary>Can be "accept" or "block"</details><details><summary><em>Show example</em></summary>
+<div class="highlight"><pre><span></span><code><span class="nt">defaultAction</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">accept</span>
+</code></pre></div>
+</details></td>
+<td align="center"><code>nil</code></td>
+<td align="center"><img align="center" alt="✅" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/2705.png" title=":white_check_mark:" width="20px" /></td>
+</tr>
+<tr>
+<td><code>rules</code></td>
+<td>[]<a href="#networkrule">NetworkRule</a></td>
+<td><details><summary>List of matching network rules to allow or block against the defaultAction.</summary>If <code>defaultAction</code> is set to block, matching rules will be allowed vice versa.</details><details><summary><em>Show example</em></summary>
+<div class="highlight"><pre><span></span><code><span class="nt">rules</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kubelet-ingress</span>
+<span class="w">    </span><span class="nt">portSelector</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10250</span>
+<span class="w">      </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tcp</span>
+<span class="w">    </span><span class="nt">ingress</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">subnet</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">172.20.0.0/24</span>
+<span class="w">        </span><span class="nt">except</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">172.20.0.1/32</span>
+</code></pre></div>
+</details></td>
+<td align="center"><code>nil</code></td>
+<td align="center"><img align="center" alt="✅" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/2705.png" title=":white_check_mark:" width="20px" /></td>
+</tr>
+</table>
+<h2 id="networkrule">NetworkRule</h2>
+<p><code>NetworkRule</code> defines the firewall rules to match.</p>
+<table>
+<tr>
+<th>Field</th>
+<p><th>Type</th><th>Description</th><th>Default Value</th><th>Required</th></p>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>Name of the rule.<details><summary><em>Show example</em></summary>
+<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kubelet-ingress</span>
+</code></pre></div>
+</details></td>
+<td align="center"><code>nil</code></td>
+<td align="center"><img align="center" alt="✅" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/2705.png" title=":white_check_mark:" width="20px" /></td>
+</tr>
+<tr>
+<td><code>portSelector</code></td>
+<td><a href="#portselector">PortSelector</a></td>
+<td>Ports and protocols on the host affected by the rule.<details><summary><em>Show example</em></summary>
+<div class="highlight"><pre><span></span><code><span class="nt">portSelector</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10250</span>
+<span class="w">  </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tcp</span>
+</code></pre></div>
+</details></td>
+<td align="center"><code>nil</code></td>
+<td align="center"><img align="center" alt="✅" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/2705.png" title=":white_check_mark:" width="20px" /></td>
+</tr>
+<tr>
+<td><code>ingress</code></td>
+<td>[]<a href="#ingressconfig">IngressConfig</a></td>
+<td>List of source subnets allowed to access the host ports/protocols.<details><summary><em>Show example</em></summary>
+<div class="highlight"><pre><span></span><code><span class="nt">ingress</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">subnet</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">172.20.0.0/24</span>
+<span class="w">    </span><span class="nt">except</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">172.20.0.1/32</span>
+</code></pre></div>
+</details></td>
+<td align="center"><code>nil</code></td>
+<td align="center"><img align="center" alt="✅" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/2705.png" title=":white_check_mark:" width="20px" /></td>
+</tr>
+</table>
 <h2 id="controlplane">ControlPlane</h2>
 <p><code>ControlPlane</code> defines machine configurations for controlplane type nodes.</p>
 <table>
@@ -867,6 +974,10 @@
 <p><code>KernelModuleConfig</code> is type of upstream Talos <a href="https://www.talos.dev/latest/reference/configuration/#kernelmoduleconfig" target="_blank"><code>v1alpha1.KernelModuleConfig</code></a></p>
 <h2 id="device">Device</h2>
 <p><code>Device</code> is type of upstream Talos <a href="https://www.talos.dev/latest/reference/configuration/#device" target="_blank"><code>v1alpha1.Device</code></a></p>
+<h2 id="portselector">PortSelector</h2>
+<p><code>PortSelector</code> is type of upstream Talos <a href="https://www.talos.dev/latest/reference/configuration/network/networkruleconfig/#NetworkRuleConfig.portSelector" target="_blank"><code>network.RulePortSelector</code></a></p>
+<h2 id="ingressconfig">IngressConfig</h2>
+<p><code>IngressConfig</code> is type of upstream Talos <a href="https://www.talos.dev/latest/reference/configuration/network/networkruleconfig/#NetworkRuleConfig.ingress" target="_blank"><code>network.IngressConfig</code></a></p>
               
             </div>
           </div><footer>
