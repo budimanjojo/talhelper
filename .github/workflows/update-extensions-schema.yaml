@@ -16,7 +16,7 @@ jobs:
           go-version: stable
           cache-dependency-path: hack/tsehelper/go.sum
 
-      - uses: actions/cache@v3
+      - uses: actions/cache@v4
         with:
           path: ~/.cache/talhelper
           key: ${{ runner.os }}-tsehelper
