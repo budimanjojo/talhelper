@@ -2,7 +2,9 @@ package config
 
 import (
 	"github.com/siderolabs/image-factory/pkg/schematic"
+	"github.com/siderolabs/talos/pkg/machinery/config/types/network"
 	"github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1"
+	"github.com/siderolabs/talos/pkg/machinery/nethelpers"
 )
 
 type TalhelperConfig struct {
@@ -47,6 +49,7 @@ type Node struct {
 	TalosImageURL       string                            `yaml:"talosImageURL" jsonschema:"example=factory.talos.dev/installer/e9c7ef96884d4fbc8c0a1304ccca4bb0287d766a8b4125997cb9dbe84262144e,description=Talos installer image url for the node"`
 	Schematic           *schematic.Schematic              `yaml:"schematic,omitempty" jsonschema:"description=Talos image customization to be used in the installer image"`
 	MachineSpec         MachineSpec                       `yaml:"machineSpec,omitempty" jsonschema:"description=Machine hardware specification"`
+	IngressFirewall     *IngressFirewall                  `yaml:"ingressFirewall,omitempty" jsonschema:"description=Machine firewall specification"`
 }
 
 type controlPlane struct {
@@ -74,4 +77,15 @@ type ImageFactory struct {
 type MachineSpec struct {
 	Mode string `yaml:"mode,omitempty" jsonschema:"default=metal,description=Machine mode (e.g: metal)"`
 	Arch string `yaml:"arch,omitempty" jsonschema:"default=amd64,description=Machine architecture (e.g: amd64, arm64)"`
+}
+
+type IngressFirewall struct {
+	DefaultAction nethelpers.DefaultAction `yaml:"defaultAction,omitempty" jsonschema:"default=block,description=Default action for all not explicitly configured traffic"`
+	NetworkRules  []NetworkRule            `yaml:"rules,omitempty" jsonschema:"description=List of matching network rules to allow or block against the defaultAction"`
+}
+
+type NetworkRule struct {
+	Name         string                   `yaml:"name" jsonschema:"description=Name of the rule"`
+	PortSelector network.RulePortSelector `yaml:"portSelector" jsonschema:"description=Ports and protocols on the host affected by the rule"`
+	Ingress      network.IngressConfig    `yaml:"ingress" jsonschema:"description=List of source subnets allowed to access the host ports/protocols"`
 }

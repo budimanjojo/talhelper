@@ -35,6 +35,17 @@ nodes:
     configPatches:
       - op: del
         path: /cluster
+    firewallSpec:
+      ingress:
+        defaultAction: block
+        rules:
+          - name: kubelet-ingress
+            portSelector:
+              ports:
+                - 10250
+              protocol: tcp
+            ingress:
+              - subnet: 172.20.0.0/24
   - nodeLabels:
       ra*ck: rack1a
       z***: hahaha
@@ -67,6 +78,7 @@ nodes:
 		"nodes[0].controlPlane":      false,
 		"nodes[0].installDisk":       false,
 		"nodes[0].nameservers":       false,
+		"nodes[0].firewallSpec":      false,
 		"nodes[0].networkInterfaces": true,
 		"nodes[0].configPatches":     true,
 		"nodes[1].hostname":          true,
