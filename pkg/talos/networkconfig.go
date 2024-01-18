@@ -33,7 +33,7 @@ func GenerateNodeNetworkConfigBytes(node *config.Node) ([]byte, error) {
 		result = append(result, ruleBytes)
 	}
 
-	return combineYamlBytes(result), nil
+	return CombineYamlBytes(result), nil
 }
 
 func GenerateNodeDefaultActionConfig(node *config.Node) *network.DefaultActionConfigV1Alpha1 {
@@ -76,8 +76,8 @@ func marshalYaml(in interface{}) ([]byte, error) {
 	return buf.Bytes(), nil
 }
 
-// combineYamlBytes prepends and returns `---\n` before `input`
-func combineYamlBytes(input [][]byte) []byte {
+// CombineYamlBytes prepends and returns `---\n` before `input`
+func CombineYamlBytes(input [][]byte) []byte {
 	delimiter := []byte("---\n")
 	var result []byte
 	for k := range input {
