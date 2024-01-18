@@ -43,6 +43,7 @@ type Node struct {
 	KernelModules       []*v1alpha1.KernelModuleConfig    `yaml:"kernelModules,omitempty" jsonschema:"description=List of additional kernel modules to load inside the node"`
 	Nameservers         []string                          `yaml:"nameservers,omitempty" jsonschema:"description=List of nameservers for the node"`
 	NetworkInterfaces   []*v1alpha1.Device                `yaml:"networkInterfaces,omitempty" jsonschema:"description=List of network interface configuration for the node"`
+	ExtraManifests      []string                          `yaml:"extraManifests,omitempty" jsonschema:"description=List of manifest files to be added to the node"`
 	ConfigPatches       []map[string]interface{}          `yaml:"configPatches,omitempty" jsonschema:"description=DEPRECATED: use \"patches\" instead"`
 	InlinePatch         map[string]interface{}            `yaml:"inlinePatch,omitempty" jsonschema:"description=DEPRECATED: use \"patches\" instead"`
 	Patches             []string                          `yaml:"patches,omitempty" jsonschema:"description=Patches to be applied to the node"`

@@ -531,6 +531,20 @@ networkInterfaces:
 </tr>
 
 <tr markdown="1">
+<td markdown="1">`extraManifests`</td>
+<td markdown="1">[]string</td>
+<td markdown="1">List of manifest files to be added for the node.<details><summary>*Show example*</summary>
+```yaml
+extraManifests:
+  - etcd-firewall.yaml
+  - kubelet-firewall.yaml
+```
+</summary></td>
+<td markdown="1" align="center">`[]`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+</tr>
+
+<tr markdown="1">
 <td markdown="1">`patches`</td>
 <td markdown="1">[]string</td>
 <td markdown="1"><details><summary>Patches to be applied to the node.</summary>List of strings containing RFC6902 JSON patches, strategic merge patches,<br />or a file containing them.</details><details><summary>*Show example*</summary>

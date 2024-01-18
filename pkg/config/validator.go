@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	"os"
 	"reflect"
 	"regexp"
 	"slices"
@@ -554,6 +555,29 @@ func checkNodeIngressFirewall(node Node, idx int, result *Errors) *Errors {
 			})
 		}
 	}
+	return result
+}
+
+func checkNodeExtraManifests(node Node, idx int, result *Errors) *Errors {
+	if len(node.ExtraManifests) > 0 {
+		var messages *multierror.Error
+
+		for k, manifest := range node.ExtraManifests {
+			if _, osErr := os.Stat(manifest); osErr != nil {
+				messages = multierror.Append(messages, fmt.Errorf("extraManifests[%d]: %q", k, osErr))
+			}
+		}
+
+		if messages.ErrorOrNil() != nil {
+			return result.Append(&Error{
+				Kind:    "InvalidNodeExtraManifests",
+				Field:   getNodeFieldYamlTag(node, idx, "extraManifests"),
+				Message: formatError(messages),
+			})
+		}
+
+	}
+
 	return result
 }
 

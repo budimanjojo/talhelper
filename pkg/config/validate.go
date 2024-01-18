@@ -32,8 +32,8 @@ func ValidateFromFile(path string) (Errors, Warnings, error) {
 	return runValidate(byte)
 }
 
-// Validate returns `Errors` if the given `TalhelperConfig` is not
-// correct
+// Validate returns `Errors` and `Warnings` if the given
+// `TalhelperConfig` is not correct
 func (c TalhelperConfig) Validate() (Errors, Warnings) {
 	var result Errors
 	var warns Warnings
@@ -60,6 +60,7 @@ func (c TalhelperConfig) Validate() (Errors, Warnings) {
 		checkNodeNetworkInterfaces(node, k, &result)
 		checkNodeConfigPatches(node, k, &result)
 		checkNodeIngressFirewall(node, k, &result)
+		checkNodeExtraManifests(node, k, &result)
 	}
 	return result, warns
 }

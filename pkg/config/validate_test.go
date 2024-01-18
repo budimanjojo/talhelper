@@ -58,6 +58,8 @@ nodes:
         systemExtensions:
           officialExtensions:
             - siderolabs/aaa
+    extraManifests:
+     - test.yaml
 `)
 
 	errs, warns, err := ValidateFromByte(data)
@@ -88,6 +90,7 @@ nodes:
 		"nodes[1].nodeTaints":        true,
 		"nodes[1].machineFiles":      true,
 		"nodes[1].schematic":         true,
+		"nodes[1].extraManifests":    true,
 	}
 
 	expectedWarnings := map[string]bool{

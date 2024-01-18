@@ -109,6 +109,18 @@ func GenerateConfig(c *config.TalhelperConfig, dryRun bool, outDir, secretFile, 
 			cfg = append(cfg, nc...)
 		}
 
+		if len(node.ExtraManifests) > 0 {
+			var result [][]byte
+			for _, manifest := range node.ExtraManifests {
+				content, err := getFileContentByte(manifest)
+				if err != nil {
+					return err
+				}
+				result = append(result, content)
+			}
+			cfg = append(cfg, talos.CombineYamlBytes(result)...)
+		}
+
 		if !dryRun {
 			err = dumpFile(cfgFile, cfg)
 			if err != nil {
@@ -155,19 +167,26 @@ func GenerateConfig(c *config.TalhelperConfig, dryRun bool, outDir, secretFile, 
 	return nil
 }
 
-// getFileContent returns content of file. It also returns an error,
-// if any
+// getFileContent returns content of file as string.
+// It also returns an error, if any
 func getFileContent(path string) (string, error) {
+	content, err := getFileContentByte(path)
+	return string(content), err
+}
+
+// getFileContentByte returns content of file. It also returns an error,
+// if any
+func getFileContentByte(path string) ([]byte, error) {
 	if _, osErr := os.Stat(path); osErr == nil {
 		content, err := os.ReadFile(path)
 		if err != nil {
-			return "", err
+			return nil, err
 		}
-		return string(content), nil
+		return content, nil
 	} else if errors.Is(osErr, os.ErrNotExist) {
-		return "", nil
+		return nil, nil
 	} else {
-		return "", osErr
+		return nil, osErr
 	}
 }
 
