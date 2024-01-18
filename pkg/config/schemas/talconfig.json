@@ -951,6 +951,17 @@
         "schematic": {
           "$ref": "#/$defs/Schematic",
           "description": "Talos image customization to be applied to all controlplane nodes"
+        },
+        "ingressFirewall": {
+          "$ref": "#/$defs/IngressFirewallWrapper",
+          "description": "Firewall specification for all controlplane nodes"
+        },
+        "extraManifests": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "List of manifest files to be added to all controlplane nodes"
         }
       },
       "additionalProperties": false,
@@ -979,6 +990,17 @@
         "schematic": {
           "$ref": "#/$defs/Schematic",
           "description": "Talos image customization to be applied to all worker nodes"
+        },
+        "ingressFirewall": {
+          "$ref": "#/$defs/IngressFirewallWrapper",
+          "description": "Firewall specification for all worker nodes"
+        },
+        "extraManifests": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "List of manifest files to be added to all worker nodes"
         }
       },
       "additionalProperties": false,
