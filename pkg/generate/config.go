@@ -102,7 +102,7 @@ func GenerateConfig(c *config.TalhelperConfig, dryRun bool, outDir, secretFile, 
 		}
 
 		if node.IngressFirewall != nil {
-			nc, err := talos.GenerateNodeNetworkConfigBytes(&node)
+			nc, err := talos.GenerateNetworkConfigBytes(node.IngressFirewall)
 			if err != nil {
 				return err
 			}
@@ -110,15 +110,43 @@ func GenerateConfig(c *config.TalhelperConfig, dryRun bool, outDir, secretFile, 
 		}
 
 		if len(node.ExtraManifests) > 0 {
-			var result [][]byte
-			for _, manifest := range node.ExtraManifests {
-				content, err := getFileContentByte(manifest)
+			content, err := combineExtraManifests(node.ExtraManifests)
+			if err != nil {
+				return err
+			}
+			cfg = append(cfg, content...)
+		}
+
+		if node.ControlPlane {
+			if c.ControlPlane.IngressFirewall != nil {
+				nc, err := talos.GenerateNetworkConfigBytes(c.ControlPlane.IngressFirewall)
 				if err != nil {
 					return err
 				}
-				result = append(result, content)
+				cfg = append(cfg, nc...)
 			}
-			cfg = append(cfg, talos.CombineYamlBytes(result)...)
+			if len(c.ControlPlane.ExtraManifests) > 0 {
+				content, err := combineExtraManifests(c.ControlPlane.ExtraManifests)
+				if err != nil {
+					return err
+				}
+				cfg = append(cfg, content...)
+			}
+		} else {
+			if c.Worker.IngressFirewall != nil {
+				nc, err := talos.GenerateNetworkConfigBytes(c.Worker.IngressFirewall)
+				if err != nil {
+					return err
+				}
+				cfg = append(cfg, nc...)
+			}
+			if len(c.Worker.ExtraManifests) > 0 {
+				content, err := combineExtraManifests(c.Worker.ExtraManifests)
+				if err != nil {
+					return err
+				}
+				cfg = append(cfg, content...)
+			}
 		}
 
 		if !dryRun {
@@ -188,6 +216,21 @@ func getFileContentByte(path string) ([]byte, error) {
 	} else {
 		return nil, osErr
 	}
+}
+
+// combineExtraManifests takes list of filepaths, combines them into
+// a single file in bytes with `---\n` prepended. It also returns an
+// error, if any
+func combineExtraManifests(extraFiles []string) ([]byte, error) {
+	var result [][]byte
+	for _, file := range extraFiles {
+		content, err := getFileContentByte(file)
+		if err != nil {
+			return nil, err
+		}
+		result = append(result, content)
+	}
+	return talos.CombineYamlBytes(result), nil
 }
 
 // computeDiff returns diff between before and after string

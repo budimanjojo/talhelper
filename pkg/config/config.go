@@ -54,17 +54,21 @@ type Node struct {
 }
 
 type controlPlane struct {
-	ConfigPatches []map[string]interface{} `yaml:"configPatches,omitempty" jsonschema:"description=DEPRECATED: use \"patches\" instead"`
-	InlinePatch   map[string]interface{}   `yaml:"inlinePatch,omitempty" jsonschema:"description=DEPRECATED: use \"patches\" instead"`
-	Patches       []string                 `yaml:"patches,omitempty" jsonschema:"description=Patches to be applied to all controlplane nodes"`
-	Schematic     *schematic.Schematic     `yaml:"schematic,omitempty" jsonschema:"description=Talos image customization to be applied to all controlplane nodes"`
+	ConfigPatches   []map[string]interface{} `yaml:"configPatches,omitempty" jsonschema:"description=DEPRECATED: use \"patches\" instead"`
+	InlinePatch     map[string]interface{}   `yaml:"inlinePatch,omitempty" jsonschema:"description=DEPRECATED: use \"patches\" instead"`
+	Patches         []string                 `yaml:"patches,omitempty" jsonschema:"description=Patches to be applied to all controlplane nodes"`
+	Schematic       *schematic.Schematic     `yaml:"schematic,omitempty" jsonschema:"description=Talos image customization to be applied to all controlplane nodes"`
+	IngressFirewall *IngressFirewall         `yaml:"ingressFirewall,omitempty" jsonschema:"description=Firewall specification for all controlplane nodes"`
+	ExtraManifests  []string                 `yaml:"extraManifests,omitempty" jsonschema:"description=List of manifest files to be added to all controlplane nodes"`
 }
 
 type worker struct {
-	ConfigPatches []map[string]interface{} `yaml:"configPatches,omitempty" jsonschema:"description=DEPRECATED: use \"patches\" instead"`
-	InlinePatch   map[string]interface{}   `yaml:"inlinePatch,omitempty" jsonschema:"description=DEPRECATED: use \"patches\" instead"`
-	Patches       []string                 `yaml:"patches,omitempty" jsonschema:"description=Patches to be applied to all worker nodes"`
-	Schematic     *schematic.Schematic     `yaml:"schematic,omitempty" jsonschema:"description=Talos image customization to be applied to all worker nodes"`
+	ConfigPatches   []map[string]interface{} `yaml:"configPatches,omitempty" jsonschema:"description=DEPRECATED: use \"patches\" instead"`
+	InlinePatch     map[string]interface{}   `yaml:"inlinePatch,omitempty" jsonschema:"description=DEPRECATED: use \"patches\" instead"`
+	Patches         []string                 `yaml:"patches,omitempty" jsonschema:"description=Patches to be applied to all worker nodes"`
+	Schematic       *schematic.Schematic     `yaml:"schematic,omitempty" jsonschema:"description=Talos image customization to be applied to all worker nodes"`
+	IngressFirewall *IngressFirewall         `yaml:"ingressFirewall,omitempty" jsonschema:"description=Firewall specification for all worker nodes"`
+	ExtraManifests  []string                 `yaml:"extraManifests,omitempty" jsonschema:"description=List of manifest files to be added to all worker nodes"`
 }
 
 type ImageFactory struct {

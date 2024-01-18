@@ -128,6 +128,16 @@ controlPlane:
           rotate-server-certificates: "true"
     - "@./extraKernelArgs-patch.yaml"
 worker:
+  ingressFirewall:
+    defaultAction: block
+    rules:
+      - name: apid-ingress
+        portSelector:
+          ports:
+            - 50000
+          protocol: tcp
+        ingress:
+          - subnet: 10.96.0.0/12
   patches:
     - |-
       - op: add

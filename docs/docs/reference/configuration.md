@@ -884,6 +884,42 @@ schematic:
 <td markdown="1" align="center">:negative_squared_cross_mark:</td>
 </tr>
 
+<tr markdown="1">
+<td markdown="1">`ingressFirewall`</td>
+<td markdown="1">[IngressFirewall](#ingressfirewall)</td>
+<td markdown="1">Firewall specification for all controlplane nodes.<details><summary>*Show example*</summary>
+```yaml
+ingressFirewall:
+  defaultAction: block
+  rules:
+    - name: kubelet-ingress
+      portSelector:
+        ports:
+          - 10250
+        protocol: tcp
+      ingress:
+        - subnet: 172.20.0.0/24
+          except: 172.20.0.1/32
+```
+</summary></td>
+<td markdown="1" align="center">`nil`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+</tr>
+
+<tr markdown="1">
+<td markdown="1">`extraManifests`</td>
+<td markdown="1">[]string</td>
+<td markdown="1">List of manifest files to be added to all controlplane nodes.<details><summary>*Show example*</summary>
+```yaml
+extraManifests:
+  - etcd-firewall.yaml
+  - kubelet-firewall.yaml
+```
+</summary></td>
+<td markdown="1" align="center">`[]`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+</tr>
+
 </table>
 
 ## Worker
@@ -965,6 +1001,42 @@ schematic:
 ```
 </summary></td>
 <td markdown="1" align="center">`nil`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+</tr>
+
+<tr markdown="1">
+<td markdown="1">`ingressFirewall`</td>
+<td markdown="1">[IngressFirewall](#ingressfirewall)</td>
+<td markdown="1">Firewall specification for all worker nodes.<details><summary>*Show example*</summary>
+```yaml
+ingressFirewall:
+  defaultAction: block
+  rules:
+    - name: kubelet-ingress
+      portSelector:
+        ports:
+          - 10250
+        protocol: tcp
+      ingress:
+        - subnet: 172.20.0.0/24
+          except: 172.20.0.1/32
+```
+</summary></td>
+<td markdown="1" align="center">`nil`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+</tr>
+
+<tr markdown="1">
+<td markdown="1">`extraManifests`</td>
+<td markdown="1">[]string</td>
+<td markdown="1">List of manifest files to be added to all worker nodes.<details><summary>*Show example*</summary>
+```yaml
+extraManifests:
+  - etcd-firewall.yaml
+  - kubelet-firewall.yaml
+```
+</summary></td>
+<td markdown="1" align="center">`[]`</td>
 <td markdown="1" align="center">:negative_squared_cross_mark:</td>
 </tr>
 

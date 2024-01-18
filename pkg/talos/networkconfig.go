@@ -8,10 +8,10 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-func GenerateNodeNetworkConfigBytes(node *config.Node) ([]byte, error) {
+func GenerateNetworkConfigBytes(ifCfg *config.IngressFirewall) ([]byte, error) {
 	var result [][]byte
 
-	defaultAction := GenerateNodeDefaultActionConfig(node)
+	defaultAction := GenerateNodeDefaultActionConfig(ifCfg)
 	defaultActionBytes, err := marshalYaml(defaultAction)
 	if err != nil {
 		return nil, err
@@ -19,7 +19,7 @@ func GenerateNodeNetworkConfigBytes(node *config.Node) ([]byte, error) {
 
 	result = append(result, defaultActionBytes)
 
-	rules, err := GenerateNodeRuleConfig(node)
+	rules, err := GenerateNodeRuleConfig(ifCfg)
 	if err != nil {
 		return nil, err
 	}
@@ -36,17 +36,17 @@ func GenerateNodeNetworkConfigBytes(node *config.Node) ([]byte, error) {
 	return CombineYamlBytes(result), nil
 }
 
-func GenerateNodeDefaultActionConfig(node *config.Node) *network.DefaultActionConfigV1Alpha1 {
+func GenerateNodeDefaultActionConfig(ifCfg *config.IngressFirewall) *network.DefaultActionConfigV1Alpha1 {
 	result := network.NewDefaultActionConfigV1Alpha1()
-	result.Ingress = node.IngressFirewall.DefaultAction
+	result.Ingress = ifCfg.DefaultAction
 
 	return result
 }
 
-func GenerateNodeRuleConfig(node *config.Node) ([]*network.RuleConfigV1Alpha1, error) {
+func GenerateNodeRuleConfig(ifCfg *config.IngressFirewall) ([]*network.RuleConfigV1Alpha1, error) {
 	var result []*network.RuleConfigV1Alpha1
 
-	for _, v := range node.IngressFirewall.NetworkRules {
+	for _, v := range ifCfg.NetworkRules {
 		rule := network.NewRuleConfigV1Alpha1()
 		rule.MetaName = v.Name
 		rule.PortSelector = v.PortSelector
