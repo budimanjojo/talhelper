@@ -85,6 +85,49 @@ nodes:
 
 This will result in `machine.install.image` value to be `my.registry/install/talos-installer-image:v1.5.4`.
 
+## Adding Ingress Firewall and extra manifests for each node
+
+With the addition of Ingress Firewall in Talos v1.6 and their future plan of multi-document machine configuration, you can now add firewall rules and extra manifests for each node.
+Let's say you want to strengthen your nodes like described in the [recommended rules](https://www.talos.dev/v1.6/talos-guides/network/ingress-firewall/#recommended-rules).
+You can achieve it like so:
+
+```{.yaml hl_lines="7-25 30-31"}
+---
+clusterName: my-cluster
+endpoint: https://192.168.200.10:6443
+clusterSvcNets:
+  - ${CLUSTER_SUBNET} ## Define this in your talenv.yaml file
+controlPlane:
+ingressFirewall:
+  defaultAction: block
+  rules:
+    - name: kubelet-ingress
+      portSelector:
+        ports:
+          - 10250
+        protocol: tcp
+      ingress:
+        - subnet: ${CLUSTER_SUBNET}
+    - name: apid-ingress
+      portSelector:
+        ports:
+          - 50000
+        protocol: tcp
+      ingress:
+        - subnet: 0.0.0.0/0
+        - subnet: ::/0
+    - ...
+nodes:
+  - name: worker1
+    controlPlane: false
+    ipAddress: 192.168.200.12
+    extraManifests:
+      - worker1-firewall.yaml
+```
+
+You can add `ingressFirewall` and `extraManifests` below `controlPlane` or `worker` field for node groups that you want to apply.
+Or you can add them to `nodes[]` field for specific node you want to apply.
+
 ## Configuring SOPS for Talhelper
 
 [sops](https://github.com/getsops/sops) is a simple and flexible tool for managing secrets.
