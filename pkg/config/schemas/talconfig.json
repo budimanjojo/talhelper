@@ -637,6 +637,13 @@
           "type": "array",
           "description": "List of network interface configuration for the node"
         },
+        "extraManifests": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "List of manifest files to be added to the node"
+        },
         "configPatches": {
           "items": {
             "type": "object"
