@@ -16,6 +16,18 @@ clusterPodNets:
 clusterSvcNets:
   - 10.244.0.0/16
   - 10.10.0.0/166
+controlPlane:
+  ingressFirewall:
+    defaultAction: block
+    rules:
+      - portSelector:
+          ports:
+            - 10250
+        ingress:
+          - subnet: 172.20.0.0/24
+worker:
+  extraManifests:
+    - test.yaml
 nodes:
   - hostname: master1
     ipAddress: 1.2.3.4.5
@@ -35,17 +47,16 @@ nodes:
     configPatches:
       - op: del
         path: /cluster
-    firewallSpec:
-      ingress:
-        defaultAction: block
-        rules:
-          - name: kubelet-ingress
-            portSelector:
-              ports:
-                - 10250
-              protocol: tcp
-            ingress:
-              - subnet: 172.20.0.0/24
+    ingressFirewall:
+      defaultAction: block
+      rules:
+        - name: kubelet-ingress
+          portSelector:
+            ports:
+              - 10250
+            protocol: tcp
+          ingress:
+            - subnet: 172.20.0.0/24
   - nodeLabels:
       ra*ck: rack1a
       z***: hahaha
@@ -68,29 +79,31 @@ nodes:
 	}
 
 	expectedErrors := map[string]bool{
-		"clusterName":                false,
-		"talosVersion":               true,
-		"kubernetesVersion":          true,
-		"endpoint":                   true,
-		"cniConfig":                  true,
-		"clusterPodNets":             false,
-		"clusterSvcNets":             true,
-		"nodes[0].hostname":          false,
-		"nodes[0].ipAddress":         false,
-		"nodes[0].controlPlane":      false,
-		"nodes[0].installDisk":       false,
-		"nodes[0].nameservers":       false,
-		"nodes[0].firewallSpec":      false,
-		"nodes[0].networkInterfaces": true,
-		"nodes[0].configPatches":     true,
-		"nodes[1].hostname":          true,
-		"nodes[1].ipAddress":         true,
-		"nodes[1].installDisk":       true,
-		"nodes[1].nodeLabels":        true,
-		"nodes[1].nodeTaints":        true,
-		"nodes[1].machineFiles":      true,
-		"nodes[1].schematic":         true,
-		"nodes[1].extraManifests":    true,
+		"clusterName":                  false,
+		"talosVersion":                 true,
+		"kubernetesVersion":            true,
+		"endpoint":                     true,
+		"cniConfig":                    true,
+		"clusterPodNets":               false,
+		"clusterSvcNets":               true,
+		"controlPlane.ingressFirewall": true,
+		"worker.extraManifests":        true,
+		"nodes[0].hostname":            false,
+		"nodes[0].ipAddress":           false,
+		"nodes[0].controlPlane":        false,
+		"nodes[0].installDisk":         false,
+		"nodes[0].nameservers":         false,
+		"nodes[0].ingressFirewall":     false,
+		"nodes[0].networkInterfaces":   true,
+		"nodes[0].configPatches":       true,
+		"nodes[1].hostname":            true,
+		"nodes[1].ipAddress":           true,
+		"nodes[1].installDisk":         true,
+		"nodes[1].nodeLabels":          true,
+		"nodes[1].nodeTaints":          true,
+		"nodes[1].machineFiles":        true,
+		"nodes[1].schematic":           true,
+		"nodes[1].extraManifests":      true,
 	}
 
 	expectedWarnings := map[string]bool{

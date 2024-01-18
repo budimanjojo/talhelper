@@ -24,8 +24,8 @@ func TestGenerateNodeDefaultActionConfig(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	node1Result := GenerateNodeDefaultActionConfig(&m.Nodes[0])
-	node2Result := GenerateNodeDefaultActionConfig(&m.Nodes[1])
+	node1Result := GenerateNodeDefaultActionConfig(m.Nodes[0].IngressFirewall)
+	node2Result := GenerateNodeDefaultActionConfig(m.Nodes[1].IngressFirewall)
 
 	compare(node1Result.Ingress.String(), "accept", t)
 	compare(node2Result.Ingress.String(), "block", t)
@@ -82,7 +82,7 @@ func TestGenerateNodeRuleConfig(t *testing.T) {
 		{Subnet: netip.MustParsePrefix("10.10.10.3/32")},
 	}
 
-	result, err := GenerateNodeRuleConfig(&m.Nodes[0])
+	result, err := GenerateNodeRuleConfig(m.Nodes[0].IngressFirewall)
 	if err != nil {
 		t.Fatal(err)
 	}
