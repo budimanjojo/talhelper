@@ -3,7 +3,7 @@ module tsehelper
 go 1.21
 
 require (
-	github.com/google/go-containerregistry v0.17.0
+	github.com/google/go-containerregistry v0.18.0
 	github.com/sirupsen/logrus v1.9.3
 	golang.org/x/mod v0.14.0
 )
