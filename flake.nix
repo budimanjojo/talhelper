@@ -17,19 +17,19 @@
         pkgs,
         ...
       }: {
-        # _module.args.pkgs = import inputs.nixpkgs {
-        #   inherit system;
-        #   overlays = [
-        #     (final: prev: {
-        #       go_1_21 = prev.go_1_21.overrideAttrs (old: {
-        #         src = prev.fetchurl {
-        #           url = "https://go.dev/dl/go1.21.3.src.tar.gz";
-        #           hash = "sha256-GG8rb4yLcE5paCGwmrIEGlwe4T3LwxVqE63PdZMe5Ig=";
-        #         };
-        #       });
-        #     })
-        #   ];
-        # };
+        _module.args.pkgs = import inputs.nixpkgs {
+          inherit system;
+          overlays = [
+            (final: prev: {
+              go_1_21 = prev.go_1_21.overrideAttrs (old: {
+                src = prev.fetchurl {
+                  url = "https://go.dev/dl/go1.21.6.src.tar.gz";
+                  hash = "sha256-Ekkmpi5F942qu67bnAEdl2MxhqM8I4/8HiUyDAIEYkg=";
+                };
+              });
+            })
+          ];
+        };
         packages.default = pkgs.callPackage ./default.nix {};
         devShells.default = with pkgs; mkShell {
           name = "talhelper-dev";
