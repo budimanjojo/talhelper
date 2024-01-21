@@ -40,6 +40,45 @@ Here's a more detailed example [talconfig.yaml](https://github.com/budimanjojo/t
 
 To see all the available options of the configuration file, head over to [Configuration Reference](reference/configuration.md).
 
+## DRY (Don't Repeat Yourself) in `talconfig.yaml`
+
+A lot of times, you have similar configurations for all your nodes.
+Instead of writing them multiple times for each node, you can make use of `controlPlane` and `worker` fields as "global configurations" for all your node group.
+
+```{.yaml hl_lines="12-22"}
+---
+clusterName: my-cluster
+nodes:
+  - hostname: cp1
+    controlPlane: true
+    ipAddress: 192.168.200.11
+    installDisk: /dev/sda
+  - hostname: cp2
+    controlPlane: true
+    ipAddress: 192.168.200.12
+    installDisk: /dev/sda
+controlPlane:
+  schematic:
+    customization:
+      extraKernelArgs:
+        - net.ifnames=0
+  patches:
+    - |-
+      - op: add
+        path: /machine/kubelet/extraArgs
+        value:
+          rotate-server-certificates: "true"
+```
+
+The `schematic` and `patches` defined in `controlPlane` will be applied to both `cp1` and `cp2` because they're both in the group of `controlPlane` nodes.
+
+!!! note
+
+    [NodeConfigs](./reference/configuration.md#nodeconfigs) you define in `controlPlane` or `worker` will be overwritten if you define them per node in `nodes[]` section.
+    But, for `patches` and `extraManifests` they are appended instead because it makes more sense.
+
+    You **can** modify the default behavior by adding `overridePatches: true` and `overrideExtraManifests: true` inside `nodes[]` for node you don't want the default behavior.
+
 ## Adding Talos extensions and kernel arguments
 
 Talos v1.5 introduced a new unified way to generate boot assets for installer container image that you can build yourself using their `imager` container or use [image-factory](https://factory.talos.dev/) to dynamically build it for you.

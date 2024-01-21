@@ -44,8 +44,6 @@ func (c TalhelperConfig) Validate() (Errors, Warnings) {
 	checkDomain(c, &result)
 	checkClusterNets(c, &result)
 	checkCNIConfig(c, &result)
-	checkControlPlane(c, &result)
-	checkWorker(c, &result)
 	for k, node := range c.Nodes {
 		checkNodeRequiredCfg(node, k, &result)
 		checkNodeIPAddress(node, k, &result)
@@ -54,11 +52,9 @@ func (c TalhelperConfig) Validate() (Errors, Warnings) {
 		checkNodeTaints(node, k, &result)
 		checkNodeMachineDisks(node, k, &result)
 		checkNodeMachineFiles(node, k, &result)
-		checkNodeExtensions(node, k, &result, &warns)
 		checkNodeSchematic(node, k, c.GetTalosVersion(), &result)
 		checkNodeNameServers(node, k, &result)
 		checkNodeNetworkInterfaces(node, k, &result)
-		checkNodeConfigPatches(node, k, &result)
 		checkNodeIngressFirewall(node, k, &result)
 		checkNodeExtraManifests(node, k, &result)
 	}

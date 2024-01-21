@@ -35,13 +35,9 @@ func LoadAndValidateFromFile(filePath string, envPaths []string) (*TalhelperConf
 	for k, node := range cfg.Nodes {
 		switch node.ControlPlane {
 		case true:
-			if cfg.ControlPlane.Schematic != nil && node.Schematic == nil {
-				cfg.Nodes[k].Schematic = cfg.ControlPlane.Schematic
-			}
+			cfg.Nodes[k].OverrideGlobalCfg(cfg.ControlPlane)
 		case false:
-			if cfg.Worker.Schematic != nil && node.Schematic == nil {
-				cfg.Nodes[k].Schematic = cfg.Worker.Schematic
-			}
+			cfg.Nodes[k].OverrideGlobalCfg(cfg.Worker)
 		}
 	}
 

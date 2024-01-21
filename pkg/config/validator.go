@@ -193,72 +193,6 @@ func checkCNIConfig(c TalhelperConfig, result *Errors) *Errors {
 	return result
 }
 
-func checkControlPlane(c TalhelperConfig, result *Errors) *Errors {
-	if len(c.ControlPlane.ConfigPatches) > 0 {
-		if !isRFC6902List(c.ControlPlane.ConfigPatches) {
-			result = result.Append(&Error{
-				Kind:    "InvalidControlPlaneConfigPatches",
-				Field:   getFieldYamlTag(c, "ControlPlane.ConfigPatches"),
-				Message: formatError(multierror.Append(fmt.Errorf("doesn't look like list of RFC6902 JSON patches"))),
-			})
-		}
-	}
-
-	if c.ControlPlane.IngressFirewall != nil {
-		if err := checkIngressFirewall(c.ControlPlane.IngressFirewall); err != nil {
-			result = result.Append(&Error{
-				Kind:    "InvalidControlPlaneIngressFirewall",
-				Field:   getFieldYamlTag(c, "ControlPlane.IngressFirewall"),
-				Message: formatError(multierror.Append(err)),
-			})
-		}
-	}
-
-	if len(c.ControlPlane.ExtraManifests) > 0 {
-		if err := checkExtraManifests(c.ControlPlane.ExtraManifests); err != nil {
-			result = result.Append(&Error{
-				Kind:    "InvalidControlPlaneExtraManifests",
-				Field:   getFieldYamlTag(c, "ControlPlane.ExtraManifests"),
-				Message: formatError(multierror.Append(err)),
-			})
-		}
-	}
-	return result
-}
-
-func checkWorker(c TalhelperConfig, result *Errors) *Errors {
-	if len(c.Worker.ConfigPatches) > 0 {
-		if !isRFC6902List(c.Worker.ConfigPatches) {
-			result = result.Append(&Error{
-				Kind:    "InvalidWorkerConfigPatches",
-				Field:   getFieldYamlTag(c, "Worker.ConfigPatches"),
-				Message: formatError(multierror.Append(fmt.Errorf("doesn't look like list of RFC6902 JSON patches"))),
-			})
-		}
-	}
-
-	if c.Worker.IngressFirewall != nil {
-		if err := checkIngressFirewall(c.Worker.IngressFirewall); err != nil {
-			result = result.Append(&Error{
-				Kind:    "InvalidWorkerIngressFirewall",
-				Field:   getFieldYamlTag(c, "Worker.IngressFirewall"),
-				Message: formatError(multierror.Append(err)),
-			})
-		}
-	}
-
-	if len(c.Worker.ExtraManifests) > 0 {
-		if err := checkExtraManifests(c.Worker.ExtraManifests); err != nil {
-			result = result.Append(&Error{
-				Kind:    "InvalidWorkerExtraManifests",
-				Field:   getFieldYamlTag(c, "Worker.ExtraManifests"),
-				Message: formatError(multierror.Append(err)),
-			})
-		}
-	}
-	return result
-}
-
 func checkNodeRequiredCfg(node Node, idx int, result *Errors) *Errors {
 	if node.Hostname == "" {
 		e := &Error{
@@ -393,35 +327,6 @@ func checkNodeMachineFiles(node Node, idx int, result *Errors) *Errors {
 	return result
 }
 
-func checkNodeExtensions(node Node, idx int, errs *Errors, warns *Warnings) (*Errors, *Warnings) {
-	if len(node.Extensions) > 0 {
-		warns.Append(&Warning{
-			Kind:    "DeprecatedNodeExtensions",
-			Field:   getNodeFieldYamlTag(node, idx, "Extensions"),
-			Message: formatWarning("`extensions` is deprecated, please use `schematic.customization.systemExtensions` instead"),
-		})
-		var messages *multierror.Error
-		extensions := map[string]struct{}{}
-
-		for _, ext := range node.Extensions {
-			if _, exists := extensions[ext.Image()]; exists {
-				messages = multierror.Append(messages, fmt.Errorf("duplicate system extension %q", ext.Image()))
-			}
-			extensions[ext.Image()] = struct{}{}
-		}
-
-		if messages.ErrorOrNil() != nil {
-			return errs.Append(&Error{
-				Kind:    "InvalidNodeExtensions",
-				Field:   getNodeFieldYamlTag(node, idx, "Extensions"),
-				Message: formatError(messages),
-			}), warns
-		}
-	}
-
-	return errs, warns
-}
-
 func checkNodeSchematic(node Node, idx int, talosVersion string, result *Errors) *Errors {
 	var messages *multierror.Error
 	extensions := map[string]struct{}{}
@@ -537,23 +442,42 @@ func checkNodeNetworkInterfaces(node Node, idx int, result *Errors) *Errors {
 	return result
 }
 
-func checkNodeConfigPatches(node Node, idx int, result *Errors) *Errors {
-	if len(node.ConfigPatches) > 0 {
-		if !isRFC6902List(node.ConfigPatches) {
-			e := fmt.Errorf("doesn't look like list of RFC6902 JSON patches")
-			return result.Append(&Error{
-				Kind:    "InvalidNodeConfigPatches",
-				Field:   getNodeFieldYamlTag(node, idx, "ConfigPatches"),
-				Message: formatError(multierror.Append(e)),
-			})
-		}
-	}
-	return result
-}
-
 func checkNodeIngressFirewall(node Node, idx int, result *Errors) *Errors {
 	if node.IngressFirewall != nil {
-		messages := checkIngressFirewall(node.IngressFirewall)
+		var messages *multierror.Error
+
+		if len(node.IngressFirewall.NetworkRules) > 0 {
+			for k, v := range node.IngressFirewall.NetworkRules {
+				if v.Name == "" {
+					messages = multierror.Append(messages, fmt.Errorf("rules[%d]: name is required", k))
+				}
+
+				if !v.PortSelector.Protocol.IsAProtocol() {
+					messages = multierror.Append(messages, fmt.Errorf("rules[%d]: %q is not a valid protocol", k, v.PortSelector.Protocol))
+				}
+
+				if len(v.PortSelector.Ports) == 0 {
+					messages = multierror.Append(messages, fmt.Errorf("rules[%d]: portSelector.ports is required", k))
+				}
+
+				if err := v.PortSelector.Ports.Validate(); err != nil {
+					messages = multierror.Append(messages, fmt.Errorf("rules[%d]: %q", k, err))
+				}
+
+				for _, rule := range v.Ingress {
+					if !rule.Subnet.IsValid() {
+						messages = multierror.Append(messages, fmt.Errorf("rules[%d]: invalid subnet: %s", k, rule.Subnet))
+					}
+					if !rule.Except.IsZero() && !rule.Except.IsValid() {
+						messages = multierror.Append(messages, fmt.Errorf("rules[%d]: invalid except: %s", k, rule.Except))
+					}
+				}
+			}
+		}
+		if !node.IngressFirewall.DefaultAction.IsADefaultAction() {
+			messages = multierror.Append(messages, fmt.Errorf("%q is not a valid default action", node.IngressFirewall.DefaultAction))
+		}
+
 		if messages.ErrorOrNil() != nil {
 			return result.Append(&Error{
 				Kind:    "InvalidNodeIngressFirewall",
@@ -567,7 +491,13 @@ func checkNodeIngressFirewall(node Node, idx int, result *Errors) *Errors {
 
 func checkNodeExtraManifests(node Node, idx int, result *Errors) *Errors {
 	if len(node.ExtraManifests) > 0 {
-		messages := checkExtraManifests(node.ExtraManifests)
+		var messages *multierror.Error
+
+		for k, manifest := range node.ExtraManifests {
+			if _, osErr := os.Stat(manifest); osErr != nil {
+				messages = multierror.Append(messages, fmt.Errorf("extraManifests[%d], %q", k, osErr))
+			}
+		}
 
 		if messages.ErrorOrNil() != nil {
 			return result.Append(&Error{
@@ -576,60 +506,9 @@ func checkNodeExtraManifests(node Node, idx int, result *Errors) *Errors {
 				Message: formatError(messages),
 			})
 		}
-
 	}
 
 	return result
-}
-
-func checkIngressFirewall(ifCfg *IngressFirewall) *multierror.Error {
-	var messages *multierror.Error
-
-	if len(ifCfg.NetworkRules) > 0 {
-		for k, v := range ifCfg.NetworkRules {
-			if v.Name == "" {
-				messages = multierror.Append(messages, fmt.Errorf("rules[%d]: name is required", k))
-			}
-
-			if !v.PortSelector.Protocol.IsAProtocol() {
-				messages = multierror.Append(messages, fmt.Errorf("rules[%d]: %q is not a valid protocol", k, v.PortSelector.Protocol))
-			}
-
-			if len(v.PortSelector.Ports) == 0 {
-				messages = multierror.Append(messages, fmt.Errorf("rules[%d]: portSelector.ports is required", k))
-			}
-
-			if err := v.PortSelector.Ports.Validate(); err != nil {
-				messages = multierror.Append(messages, fmt.Errorf("rules[%d]: %q", k, err))
-			}
-
-			for _, rule := range v.Ingress {
-				if !rule.Subnet.IsValid() {
-					messages = multierror.Append(messages, fmt.Errorf("rules[%d]: invalid subnet: %s", k, rule.Subnet))
-				}
-				if !rule.Except.IsZero() && !rule.Except.IsValid() {
-					messages = multierror.Append(messages, fmt.Errorf("rules[%d]: invalid except: %s", k, rule.Except))
-				}
-			}
-		}
-	}
-	if !ifCfg.DefaultAction.IsADefaultAction() {
-		messages = multierror.Append(messages, fmt.Errorf("%q is not a valid default action", ifCfg.DefaultAction))
-	}
-
-	return messages
-}
-
-func checkExtraManifests(extraManifests []string) *multierror.Error {
-	var messages *multierror.Error
-
-	for k, manifest := range extraManifests {
-		if _, osErr := os.Stat(manifest); osErr != nil {
-			messages = multierror.Append(messages, fmt.Errorf("extraManifests[%d], %q", k, osErr))
-		}
-	}
-
-	return messages
 }
 
 var hostnamePattern = sync.OnceValue(func() *regexp.Regexp {
@@ -706,9 +585,9 @@ func formatError(e *multierror.Error) *multierror.Error {
 	return e
 }
 
-func formatWarning(w string) string {
-	return fmt.Sprintf("  * WARNING: %s", w)
-}
+// func formatWarning(w string) string {
+// 	return fmt.Sprintf("  * WARNING: %s", w)
+// }
 
 func getNodeFieldYamlTag(node Node, idx int, fieldPath string) string {
 	return "nodes[" + fmt.Sprintf("%v", idx) + "]." + getFieldYamlTag(node, fieldPath)

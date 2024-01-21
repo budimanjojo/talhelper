@@ -19,12 +19,15 @@ func TestLoadAndValidateFromFile(t *testing.T) {
 		IPAddress:    "192.168.200.10",
 		ControlPlane: true,
 		InstallDisk:  "/dev/sda",
-		Schematic: &schematic.Schematic{
-			Customization: schematic.Customization{
-				SystemExtensions: schematic.SystemExtensions{
-					OfficialExtensions: []string{"siderolabs/tailscale"},
+		NodeConfigs: NodeConfigs{
+			Schematic: &schematic.Schematic{
+				Customization: schematic.Customization{
+					SystemExtensions: schematic.SystemExtensions{
+						OfficialExtensions: []string{"siderolabs/tailscale"},
+					},
 				},
 			},
+			DisableSearchDomain: true,
 		},
 	}
 	expectedNode1 := Node{
@@ -32,9 +35,11 @@ func TestLoadAndValidateFromFile(t *testing.T) {
 		IPAddress:    "192.168.200.11",
 		ControlPlane: false,
 		InstallDisk:  "/dev/sda",
-		Schematic: &schematic.Schematic{
-			Customization: schematic.Customization{
-				ExtraKernelArgs: []string{"net.ifnames=0"},
+		NodeConfigs: NodeConfigs{
+			Schematic: &schematic.Schematic{
+				Customization: schematic.Customization{
+					ExtraKernelArgs: []string{"net.ifnames=0"},
+				},
 			},
 		},
 	}

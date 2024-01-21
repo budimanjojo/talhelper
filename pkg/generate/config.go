@@ -35,50 +35,8 @@ func GenerateConfig(c *config.TalhelperConfig, dryRun bool, outDir, secretFile, 
 			return err
 		}
 
-		if node.InlinePatch != nil {
-			cfg, err = patcher.YAMLInlinePatcher(node.InlinePatch, cfg)
-			if err != nil {
-				return err
-			}
-		}
-
-		if len(node.ConfigPatches) != 0 {
-			cfg, err = patcher.YAMLPatcher(node.ConfigPatches, cfg)
-			if err != nil {
-				return err
-			}
-		}
-
 		if len(node.Patches) != 0 {
 			cfg, err = patcher.PatchesPatcher(node.Patches, cfg)
-			if err != nil {
-				return err
-			}
-		}
-
-		if node.ControlPlane {
-			cfg, err = patcher.YAMLInlinePatcher(c.ControlPlane.InlinePatch, cfg)
-			if err != nil {
-				return err
-			}
-			cfg, err = patcher.YAMLPatcher(c.ControlPlane.ConfigPatches, cfg)
-			if err != nil {
-				return err
-			}
-			cfg, err = patcher.PatchesPatcher(c.ControlPlane.Patches, cfg)
-			if err != nil {
-				return err
-			}
-		} else {
-			cfg, err = patcher.YAMLInlinePatcher(c.Worker.InlinePatch, cfg)
-			if err != nil {
-				return err
-			}
-			cfg, err = patcher.YAMLPatcher(c.Worker.ConfigPatches, cfg)
-			if err != nil {
-				return err
-			}
-			cfg, err = patcher.PatchesPatcher(c.Worker.Patches, cfg)
 			if err != nil {
 				return err
 			}
@@ -115,38 +73,6 @@ func GenerateConfig(c *config.TalhelperConfig, dryRun bool, outDir, secretFile, 
 				return err
 			}
 			cfg = append(cfg, content...)
-		}
-
-		if node.ControlPlane {
-			if c.ControlPlane.IngressFirewall != nil {
-				nc, err := talos.GenerateNetworkConfigBytes(c.ControlPlane.IngressFirewall)
-				if err != nil {
-					return err
-				}
-				cfg = append(cfg, nc...)
-			}
-			if len(c.ControlPlane.ExtraManifests) > 0 {
-				content, err := combineExtraManifests(c.ControlPlane.ExtraManifests)
-				if err != nil {
-					return err
-				}
-				cfg = append(cfg, content...)
-			}
-		} else {
-			if c.Worker.IngressFirewall != nil {
-				nc, err := talos.GenerateNetworkConfigBytes(c.Worker.IngressFirewall)
-				if err != nil {
-					return err
-				}
-				cfg = append(cfg, nc...)
-			}
-			if len(c.Worker.ExtraManifests) > 0 {
-				content, err := combineExtraManifests(c.Worker.ExtraManifests)
-				if err != nil {
-					return err
-				}
-				cfg = append(cfg, content...)
-			}
 		}
 
 		if !dryRun {
