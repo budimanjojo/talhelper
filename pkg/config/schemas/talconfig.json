@@ -414,15 +414,6 @@
       "additionalProperties": false,
       "type": "object"
     },
-    "InstallExtensionConfig": {
-      "properties": {
-        "image": {
-          "type": "string"
-        }
-      },
-      "additionalProperties": false,
-      "type": "object"
-    },
     "KernelModuleConfig": {
       "properties": {
         "name": {
@@ -569,6 +560,22 @@
           "type": "boolean",
           "description": "Whether the node is a controlplane"
         },
+        "installDisk": {
+          "type": "string",
+          "description": "The disk used for installation"
+        },
+        "installDiskSelector": {
+          "$ref": "#/$defs/InstallDiskSelectorWrapper",
+          "description": "Look up disk used for installation"
+        },
+        "overridePatches": {
+          "type": "boolean",
+          "description": "Whether \"patches\" defined here should override the one defined in node group"
+        },
+        "overrideExtraManifests": {
+          "type": "boolean",
+          "description": "Whether \"extraManifests\" defined here should override the one defined in node group"
+        },
         "nodeLabels": {
           "additionalProperties": {
             "type": "string"
@@ -583,14 +590,6 @@
           "type": "object",
           "description": "Node taints for the node. Effect is optional"
         },
-        "installDisk": {
-          "type": "string",
-          "description": "The disk used for installation"
-        },
-        "installDiskSelector": {
-          "$ref": "#/$defs/InstallDiskSelectorWrapper",
-          "description": "Look up disk used for installation"
-        },
         "machineDisks": {
           "items": {
             "$ref": "#/$defs/MachineDisk"
@@ -604,13 +603,6 @@
           },
           "type": "array",
           "description": "List of files to create inside the node"
-        },
-        "extensions": {
-          "items": {
-            "$ref": "#/$defs/InstallExtensionConfig"
-          },
-          "type": "array",
-          "description": "DEPRECATED: use \"schematic\" instead"
         },
         "disableSearchDomain": {
           "type": "boolean",
@@ -643,17 +635,6 @@
           },
           "type": "array",
           "description": "List of manifest files to be added to the node"
-        },
-        "configPatches": {
-          "items": {
-            "type": "object"
-          },
-          "type": "array",
-          "description": "DEPRECATED: use \"patches\" instead"
-        },
-        "inlinePatch": {
-          "type": "object",
-          "description": "DEPRECATED: use \"patches\" instead"
         },
         "patches": {
           "items": {
@@ -688,6 +669,98 @@
         "hostname",
         "ipAddress"
       ]
+    },
+    "NodeConfigs": {
+      "properties": {
+        "nodeLabels": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Labels to be added to the node"
+        },
+        "nodeTaints": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Node taints for the node. Effect is optional"
+        },
+        "machineDisks": {
+          "items": {
+            "$ref": "#/$defs/MachineDisk"
+          },
+          "type": "array",
+          "description": "List of additional disks to partition"
+        },
+        "machineFiles": {
+          "items": {
+            "$ref": "#/$defs/MachineFile"
+          },
+          "type": "array",
+          "description": "List of files to create inside the node"
+        },
+        "disableSearchDomain": {
+          "type": "boolean",
+          "description": "Whether to disable generating default search domain"
+        },
+        "kernelModules": {
+          "items": {
+            "$ref": "#/$defs/KernelModuleConfig"
+          },
+          "type": "array",
+          "description": "List of additional kernel modules to load inside the node"
+        },
+        "nameservers": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "List of nameservers for the node"
+        },
+        "networkInterfaces": {
+          "items": {
+            "$ref": "#/$defs/Device"
+          },
+          "type": "array",
+          "description": "List of network interface configuration for the node"
+        },
+        "extraManifests": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "List of manifest files to be added to the node"
+        },
+        "patches": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Patches to be applied to the node"
+        },
+        "talosImageURL": {
+          "type": "string",
+          "description": "Talos installer image url for the node",
+          "examples": [
+            "factory.talos.dev/installer/e9c7ef96884d4fbc8c0a1304ccca4bb0287d766a8b4125997cb9dbe84262144e"
+          ]
+        },
+        "schematic": {
+          "$ref": "#/$defs/Schematic",
+          "description": "Talos image customization to be used in the installer image"
+        },
+        "machineSpec": {
+          "$ref": "#/$defs/MachineSpec",
+          "description": "Machine hardware specification"
+        },
+        "ingressFirewall": {
+          "$ref": "#/$defs/IngressFirewallWrapper",
+          "description": "Machine firewall specification"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
     },
     "PortSelectorWrapper": {
       "properties": {
@@ -760,11 +833,6 @@
         "clusterName": {
           "type": "string",
           "description": "Name of the cluster"
-        },
-        "talosImageURL": {
-          "type": "string",
-          "description": "DEPRECATED: will not do anything",
-          "default": "ghcr.io/siderolabs/installer"
         },
         "talosVersion": {
           "type": "string",
@@ -852,12 +920,12 @@
           "$ref": "#/$defs/ImageFactory"
         },
         "controlPlane": {
-          "$ref": "#/$defs/controlPlane",
-          "description": "Configurations targetted for controlplane nodes"
+          "$ref": "#/$defs/NodeConfigs",
+          "description": "Configurations targetted for all controlplane nodes"
         },
         "worker": {
-          "$ref": "#/$defs/worker",
-          "description": "Configurations targetted for worker nodes"
+          "$ref": "#/$defs/NodeConfigs",
+          "description": "Configurations targetted for all worker nodes"
         }
       },
       "additionalProperties": false,
@@ -927,84 +995,6 @@
         "$ref": "#/$defs/Vlan"
       },
       "type": "array"
-    },
-    "controlPlane": {
-      "properties": {
-        "configPatches": {
-          "items": {
-            "type": "object"
-          },
-          "type": "array",
-          "description": "DEPRECATED: use \"patches\" instead"
-        },
-        "inlinePatch": {
-          "type": "object",
-          "description": "DEPRECATED: use \"patches\" instead"
-        },
-        "patches": {
-          "items": {
-            "type": "string"
-          },
-          "type": "array",
-          "description": "Patches to be applied to all controlplane nodes"
-        },
-        "schematic": {
-          "$ref": "#/$defs/Schematic",
-          "description": "Talos image customization to be applied to all controlplane nodes"
-        },
-        "ingressFirewall": {
-          "$ref": "#/$defs/IngressFirewallWrapper",
-          "description": "Firewall specification for all controlplane nodes"
-        },
-        "extraManifests": {
-          "items": {
-            "type": "string"
-          },
-          "type": "array",
-          "description": "List of manifest files to be added to all controlplane nodes"
-        }
-      },
-      "additionalProperties": false,
-      "type": "object"
-    },
-    "worker": {
-      "properties": {
-        "configPatches": {
-          "items": {
-            "type": "object"
-          },
-          "type": "array",
-          "description": "DEPRECATED: use \"patches\" instead"
-        },
-        "inlinePatch": {
-          "type": "object",
-          "description": "DEPRECATED: use \"patches\" instead"
-        },
-        "patches": {
-          "items": {
-            "type": "string"
-          },
-          "type": "array",
-          "description": "Patches to be applied to all worker nodes"
-        },
-        "schematic": {
-          "$ref": "#/$defs/Schematic",
-          "description": "Talos image customization to be applied to all worker nodes"
-        },
-        "ingressFirewall": {
-          "$ref": "#/$defs/IngressFirewallWrapper",
-          "description": "Firewall specification for all worker nodes"
-        },
-        "extraManifests": {
-          "items": {
-            "type": "string"
-          },
-          "type": "array",
-          "description": "List of manifest files to be added to all worker nodes"
-        }
-      },
-      "additionalProperties": false,
-      "type": "object"
     }
   }
 }
