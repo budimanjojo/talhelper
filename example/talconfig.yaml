@@ -38,6 +38,11 @@ nodes:
               except: 172.20.0.1/32
     ipAddress: 192.168.200.11
     controlPlane: true
+    machineSpec:
+      mode: metal
+      arch: amd64
+      useUKI: true
+      secureboot: true
     schematic:
       customization:
         extraKernelArgs:

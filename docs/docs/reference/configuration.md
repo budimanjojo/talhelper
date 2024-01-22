@@ -651,24 +651,24 @@ schematicEndpoint: /schematics
 <tr markdown="1">
 <td markdown="1">`installerURLTmpl`</td>
 <td markdown="1">string</td>
-<td markdown="1"><details><summary>Go template to parse the full installer URL.</summary>Available placeholders: `RegistryURL`,`ID`,`Version`</details><details><summary>*Show example*</summary>
+<td markdown="1"><details><summary>Go template to parse the full installer URL.</summary>Available placeholders: `RegistryURL`,`ID`,`Version`, `Secureboot`</details><details><summary>*Show example*</summary>
 ```yaml
 installerURLTmpl: "{{.RegistryURL}}/installer/{{.ID}}:{{.Version}}"
 ```
 </summary></td>
-<td markdown="1" align="center">`{{.RegistryURL}}/installer/{{.ID}}:{{.Version}}`</td>
+<td markdown="1" align="center">`{{.RegistryURL}}/installer{{if .Secureboot}}-secureboot{{end}}/{{.ID}}:{{.Version}}`</td>
 <td markdown="1" align="center">:negative_squared_cross_mark:</td>
 </tr>
 
 <tr markdown="1">
 <td markdown="1">`ISOURLTmpl`</td>
 <td markdown="1">string</td>
-<td markdown="1"><details><summary>Go template to parse the full ISO image URL.</summary>Available placeholders: `Protocol`,`RegistryURL`,`ID`,`Version`,`Mode`,`Arch`</details><details><summary>*Show example*</summary>
+<td markdown="1"><details><summary>Go template to parse the full ISO image URL.</summary>Available placeholders: `Protocol`,`RegistryURL`,`ID`,`Version`,`Mode`,`Arch`, `Secureboot`, `UseUKI`</details><details><summary>*Show example*</summary>
 ```yaml
-installerURLTmpl: "{{.Protocol}}://{{.RegistryURL}}/image/{{.ID}}/{{.Version}}/{{.Mode}}-{{.Arch}}.iso"
+ISOURLTmpl: "{{.Protocol}}://{{.RegistryURL}}/image/{{.ID}}/{{.Version}}/{{.Mode}}-{{.Arch}}.iso"
 ```
 </summary></td>
-<td markdown="1" align="center">`{{.Protocol}}://{{.RegistryURL}}/image/{{.ID}}/{{.Version}}/{{.Mode}}-{{.Arch}}.iso`</td>
+<td markdown="1" align="center">`{{.Protocol}}://{{.RegistryURL}}/image/{{.ID}}/{{.Version}}/{{.Mode}}-{{.Arch}}{{if .Secureboot}}-secureboot{{end}}{{if and .Secureboot .UseUKI}}-uki.efi{{else}}.iso{{end}}`</td>
 <td markdown="1" align="center">:negative_squared_cross_mark:</td>
 </tr>
 
@@ -704,6 +704,30 @@ arch: arm64
 ```
 </summary></td>
 <td markdown="1" align="center">`amd64`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+</tr>
+
+<tr markdown="1">
+<td markdown="1">`secureboot`</td>
+<td markdown="1">bool</td>
+<td markdown="1">Whether to enable Secure Boot.<details><summary>*Show example*</summary>
+```yaml
+secureboot: true
+```
+</summary></td>
+<td markdown="1" align="center">`false`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+</tr>
+
+<tr markdown="1">
+<td markdown="1">`useUKI`</td>
+<td markdown="1">bool</td>
+<td markdown="1">Whether to use UKI if Secure Boot is enabled.<details><summary>*Show example*</summary>
+```yaml
+useUKI: true
+```
+</summary></td>
+<td markdown="1" align="center">`false`</td>
 <td markdown="1" align="center">:negative_squared_cross_mark:</td>
 </tr>
 
