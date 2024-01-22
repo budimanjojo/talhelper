@@ -52,7 +52,9 @@ func GenerateUpgradeCommand(cfg *config.TalhelperConfig, outDir string, node str
 
 		if allNodesSelected || isSelectedNode {
 			var url string
-			if n.Schematic != nil {
+			if n.TalosImageURL != "" {
+				url = n.TalosImageURL + ":" + cfg.GetTalosVersion()
+			} else if n.Schematic != nil {
 				var err error
 				url, err = talos.GetInstallerURL(n.Schematic, cfg.GetImageFactory(), cfg.GetTalosVersion(), true)
 				if err != nil {
