@@ -58,6 +58,8 @@
     <ul class="current">
     <li class="toctree-l2"><a class="reference internal" href="#example-talconfigyaml">Example talconfig.yaml</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#dry-dont-repeat-yourself-in-talconfigyaml">DRY (Don't Repeat Yourself) in talconfig.yaml</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#adding-talos-extensions-and-kernel-arguments">Adding Talos extensions and kernel arguments</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#adding-ingress-firewall-and-extra-manifests-for-each-node">Adding Ingress Firewall and extra manifests for each node</a>
@@ -152,6 +154,39 @@
 <p>Then you can run <code>talhelper genconfig</code>.
 Here's a more detailed example <a href="https://github.com/budimanjojo/talhelper/blob/bf3c112f168be583cfc658a5425427974796b2af/example/talconfig.yaml">talconfig.yaml</a>.</p>
 <p>To see all the available options of the configuration file, head over to <a href="../reference/configuration/">Configuration Reference</a>.</p>
+<h2 id="dry-dont-repeat-yourself-in-talconfigyaml">DRY (Don't Repeat Yourself) in <code>talconfig.yaml</code></h2>
+<p>A lot of times, you have similar configurations for all your nodes.
+Instead of writing them multiple times for each node, you can make use of <code>controlPlane</code> and <code>worker</code> fields as "global configurations" for all your node group.</p>
+<div class="highlight"><pre><span></span><code><span class="nn">---</span>
+<span class="nt">clusterName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-cluster</span>
+<span class="nt">nodes</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cp1</span>
+<span class="w">    </span><span class="nt">controlPlane</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">ipAddress</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">192.168.200.11</span>
+<span class="w">    </span><span class="nt">installDisk</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/dev/sda</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cp2</span>
+<span class="w">    </span><span class="nt">controlPlane</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">ipAddress</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">192.168.200.12</span>
+<span class="w">    </span><span class="nt">installDisk</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/dev/sda</span>
+<span class="hll"><span class="nt">controlPlane</span><span class="p">:</span>
+</span><span class="hll"><span class="w">  </span><span class="nt">schematic</span><span class="p">:</span>
+</span><span class="hll"><span class="w">    </span><span class="nt">customization</span><span class="p">:</span>
+</span><span class="hll"><span class="w">      </span><span class="nt">extraKernelArgs</span><span class="p">:</span>
+</span><span class="hll"><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">net.ifnames=0</span>
+</span><span class="hll"><span class="w">  </span><span class="nt">patches</span><span class="p">:</span>
+</span><span class="hll"><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">|-</span>
+</span><span class="hll"><span class="w">      </span><span class="no">- op: add</span>
+</span><span class="hll"><span class="w">        </span><span class="no">path: /machine/kubelet/extraArgs</span>
+</span><span class="hll"><span class="w">        </span><span class="no">value:</span>
+</span><span class="hll"><span class="w">          </span><span class="no">rotate-server-certificates: &quot;true&quot;</span>
+</span></code></pre></div>
+<p>The <code>schematic</code> and <code>patches</code> defined in <code>controlPlane</code> will be applied to both <code>cp1</code> and <code>cp2</code> because they're both in the group of <code>controlPlane</code> nodes.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><a href="../reference/configuration/#nodeconfigs">NodeConfigs</a> you define in <code>controlPlane</code> or <code>worker</code> will be overwritten if you define them per node in <code>nodes[]</code> section.
+But, for <code>patches</code> and <code>extraManifests</code> they are appended instead because it makes more sense.</p>
+<p>You <strong>can</strong> modify the default behavior by adding <code>overridePatches: true</code> and <code>overrideExtraManifests: true</code> inside <code>nodes[]</code> for node you don't want the default behavior.</p>
+</div>
 <h2 id="adding-talos-extensions-and-kernel-arguments">Adding Talos extensions and kernel arguments</h2>
 <p>Talos v1.5 introduced a new unified way to generate boot assets for installer container image that you can build yourself using their <code>imager</code> container or use <a href="https://factory.talos.dev/">image-factory</a> to dynamically build it for you.
 The old way of installing system extensions using <code>machine.install.extensions</code> in the configuration file is being deprecated, so it's not recommended to use it.</p>
