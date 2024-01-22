@@ -33,8 +33,6 @@ nodes:
     ipAddress: 1.2.3.4.5
     installDisk: /dev/sda
     disableSearchDomain: true
-    extensions:
-      - image: hehe
     nameservers:
       - 8.8.8.8
     networkInterfaces:
@@ -44,9 +42,6 @@ nodes:
         routes:
           - network: 0.0.0.0/0
             gateway: 1.2.3.4.5.6
-    configPatches:
-      - op: del
-        path: /cluster
     ingressFirewall:
       defaultAction: block
       rules:
@@ -73,52 +68,39 @@ nodes:
      - test.yaml
 `)
 
-	errs, warns, err := ValidateFromByte(data)
+	errs, _, err := ValidateFromByte(data)
 	if err != nil {
 		t.Fatal(err)
 	}
 
 	expectedErrors := map[string]bool{
-		"clusterName":                  false,
-		"talosVersion":                 true,
-		"kubernetesVersion":            true,
-		"endpoint":                     true,
-		"cniConfig":                    true,
-		"clusterPodNets":               false,
-		"clusterSvcNets":               true,
-		"controlPlane.ingressFirewall": true,
-		"worker.extraManifests":        true,
-		"nodes[0].hostname":            false,
-		"nodes[0].ipAddress":           false,
-		"nodes[0].controlPlane":        false,
-		"nodes[0].installDisk":         false,
-		"nodes[0].nameservers":         false,
-		"nodes[0].ingressFirewall":     false,
-		"nodes[0].networkInterfaces":   true,
-		"nodes[0].configPatches":       true,
-		"nodes[1].hostname":            true,
-		"nodes[1].ipAddress":           true,
-		"nodes[1].installDisk":         true,
-		"nodes[1].nodeLabels":          true,
-		"nodes[1].nodeTaints":          true,
-		"nodes[1].machineFiles":        true,
-		"nodes[1].schematic":           true,
-		"nodes[1].extraManifests":      true,
-	}
-
-	expectedWarnings := map[string]bool{
-		"nodes[0].extensions": true,
+		"clusterName":                false,
+		"talosVersion":               true,
+		"kubernetesVersion":          true,
+		"endpoint":                   true,
+		"cniConfig":                  true,
+		"clusterPodNets":             false,
+		"clusterSvcNets":             true,
+		"nodes[0].hostname":          false,
+		"nodes[0].ipAddress":         false,
+		"nodes[0].controlPlane":      false,
+		"nodes[0].installDisk":       false,
+		"nodes[0].nameservers":       false,
+		"nodes[0].ingressFirewall":   false,
+		"nodes[0].networkInterfaces": true,
+		"nodes[1].hostname":          true,
+		"nodes[1].ipAddress":         true,
+		"nodes[1].installDisk":       true,
+		"nodes[1].nodeLabels":        true,
+		"nodes[1].nodeTaints":        true,
+		"nodes[1].machineFiles":      true,
+		"nodes[1].schematic":         true,
+		"nodes[1].extraManifests":    true,
 	}
 
 	for k, v := range expectedErrors {
 		if errs.HasField(k) != v {
 			t.Errorf("%s: got %t, want %t", k, errs.HasField(k), v)
-		}
-	}
-
-	for k, v := range expectedWarnings {
-		if warns.HasField(k) != v {
-			t.Errorf("%s: got %t, want %t", k, warns.HasField(k), v)
 		}
 	}
 }

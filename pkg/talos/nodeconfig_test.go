@@ -95,11 +95,6 @@ nodes:
 	expectedNode1Hostname := "node1"
 	expectedNode1InstallDisk := "/dev/sda"
 	expectedNode1DisableSearchDomain := true
-	expectedNode1Extensions := []v1alpha1.InstallExtensionConfig{
-		{
-			ExtensionImage: "ghcr.io/siderolabs/tailscale:1.44.0",
-		},
-	}
 	expectedNode1MachineFiles := []*v1alpha1.MachineFile{
 		{
 			FileContent:     "TS_AUTHKEY=123456",
@@ -163,7 +158,6 @@ nodes:
 	compare(cpCfg.MachineNetwork.Hostname(), expectedNode1Hostname, t)
 	compare(cpCfg.MachineInstall.InstallDisk, expectedNode1InstallDisk, t)
 	compare(cpCfg.MachineNetwork.DisableSearchDomain(), expectedNode1DisableSearchDomain, t)
-	compare(cpCfg.MachineInstall.InstallExtensions, expectedNode1Extensions, t)
 	compare(cpCfg.MachineFiles, expectedNode1MachineFiles, t)
 	compare(cpCfg.MachineNetwork.NetworkInterfaces, expectedNode1NetworkInterfaces, t)
 	compare(cpCfg.MachineKernel, expectedNode1KernelModules, t)

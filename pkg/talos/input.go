@@ -67,7 +67,7 @@ func parseOptions(c *config.TalhelperConfig, versionContract *tconfig.VersionCon
 
 	opts = append(opts, generate.WithVersionContract(versionContract))
 	opts = append(opts, generate.WithSecretsBundle(sb))
-	opts = append(opts, generate.WithInstallImage(c.GetInstallerURL()))
+	opts = append(opts, generate.WithInstallImage("ghcr.io/siderolabs/installer:"+c.GetTalosVersion()))
 
 	if c.AllowSchedulingOnMasters || c.AllowSchedulingOnControlPlanes {
 		opts = append(opts, generate.WithAllowSchedulingOnControlPlanes(true))

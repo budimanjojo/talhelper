@@ -92,10 +92,6 @@ func applyNodeOverride(node *config.Node, cfg taloscfg.Provider) taloscfg.Provid
 		cfg.RawV1Alpha1().MachineConfig.MachineNodeTaints = node.NodeTaints
 	}
 
-	if len(node.Extensions) > 0 {
-		cfg.RawV1Alpha1().MachineConfig.MachineInstall.InstallExtensions = node.Extensions
-	}
-
 	if len(node.MachineFiles) > 0 {
 		cfg.RawV1Alpha1().MachineConfig.MachineFiles = node.MachineFiles
 	}

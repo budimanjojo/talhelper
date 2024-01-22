@@ -58,18 +58,6 @@ nodes:
 </tr>
 
 <tr markdown="1">
-<td markdown="1">`talosImageURL`</td>
-<td markdown="1">string</td>
-<td markdown="1">**DEPRECATED, won't do anything, use `nodes[].talosImageURL` instead**.<details><summary>*Show example*</summary>
-```yaml
-talosImageURL: ghcr.io/siderolabs/installer
-```
-</details></td>
-<td markdown="1" align="center">`"ghcr.io/siderolabs/installer"`</td>
-<td markdown="1" align="center">:negative_squared_cross_mark:</td>
-</tr>
-
-<tr markdown="1">
 <td markdown="1">`talosVersion`</td>
 <td markdown="1">string</td>
 <td markdown="1"><details><summary>Talos version to perform the installation.</summary>Image reference for each Talos release can be found on <br />[Talos GitHub release page](https://github.com)</details><details><summary>*Show example*</summary>
@@ -215,10 +203,14 @@ patches:
 
 <tr markdown="1">
 <td markdown="1">`controlPlane`</td>
-<td markdown="1">[ControlPlane](#controlplane)</td>
-<td markdown="1">Configurations targetted for controlplane nodes.</details><details><summary>*Show example*</summary>
+<td markdown="1">[NodeConfigs](#nodeconfigs)</td>
+<td markdown="1">Configurations targetted for all controlplane nodes.</details><details><summary>*Show example*</summary>
 ```yaml
 controlPlane:
+  kernelModules:
+    - name: br_netfilter
+      parameters:
+        - nf_conntrack_max=131072
   patches:
     - |-
       - op: add
@@ -238,10 +230,14 @@ controlPlane:
 
 <tr markdown="1">
 <td markdown="1">`worker`</td>
-<td markdown="1">[Worker](#worker)</td>
-<td markdown="1">Configurations targetted for worker nodes.</details><details><summary>*Show example*</summary>
+<td markdown="1">[NodeConfigs](#nodeconfigs)</td>
+<td markdown="1">Configurations targetted for all worker nodes.</details><details><summary>*Show example*</summary>
 ```yaml
 worker:
+  kernelModules:
+    - name: br_netfilter
+      parameters:
+        - nf_conntrack_max=131072
   patches:
     - |-
       - op: add
@@ -307,18 +303,6 @@ installDisk: /dev/sda
 </tr>
 
 <tr markdown="1">
-<td markdown="1">`talosImageURL`</td>
-<td markdown="1">string</td>
-<td markdown="1">Allows for supplying the node level image used to perform the installation.<details><summary>*Show example*</summary>
-```yaml
-talosImageURL: factory.talos.dev/installer/e9c7ef96884d4fbc8c0a1304ccca4bb0287d766a8b4125997cb9dbe84262144e
-```
-</details></td>
-<td markdown="1" align="center">`""`</td>
-<td markdown="1" align="center">:negative_squared_cross_mark:</td>
-</tr>
-
-<tr markdown="1">
 <td markdown="1">`installDiskSelector`</td>
 <td markdown="1">[InstallDiskSelector](#installdiskselector)</td>
 <td markdown="1"><details><summary>Look up disk used for installation.</summary>Required if `installDisk` is not specified.</details><details><summary>*Show example*</summary>
@@ -331,6 +315,82 @@ installDiskSelector:
 ```
 </summary></td>
 <td markdown="1" align="center">`nil`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+</tr>
+
+<tr markdown="1">
+<td markdown="1">`controlPlane`</td>
+<td markdown="1">bool</td>
+<td markdown="1">Whether the node is a controlplane.<details><summary>*Show example*</summary>
+```yaml
+controlPlane: true
+```
+</summary></td>
+<td markdown="1" align="center">`false`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+</tr>
+
+<tr markdown="1">
+<td markdown="1">`overridePatches`</td>
+<td markdown="1">bool</td>
+<td markdown="1"><details><summary>Whether `patches` defined here should override the one defined in node group.</summary>By default they will get appended instead.</details><details><summary>*Show example*</summary>
+```yaml
+overridePatches: true
+```
+</summary></td>
+<td markdown="1" align="center">`false`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+</tr>
+
+<tr markdown="1">
+<td markdown="1">`overrideExtraManifests`</td>
+<td markdown="1">bool</td>
+<td markdown="1"><details><summary>Whether `extraManifests` defined here should override the one defined in node group.</summary>By default they will get appended instead.</details><details><summary>*Show example*</summary>
+```yaml
+overrideExtraManifests: true
+```
+</summary></td>
+<td markdown="1" align="center">`false`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+</tr>
+
+<tr markdown="1">
+<td markdown="1">-</td>
+<td markdown="1">[NodeConfigs](#nodeconfigs)</td>
+<td markdown="1">Node specific configurations that will override node group configurations.<details><summary>*Show example*</summary>
+```yaml
+talosImageURL: factory.talos.dev/installer/e9c7ef96884d4fbc8c0a1304ccca4bb0287d766a8b4125997cb9dbe84262144e
+nodeLabels:
+  rack: rack1a
+nodeTaints:
+  exampleTaint: exampletaintValue:NoSchedule
+disableSearchDomain: true
+```
+</summary></td>
+<td markdown="1" align="center">`nil`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+</tr>
+
+</table>
+
+## NodeConfigs
+
+`NodeConfigs` defines machine configurations.
+
+<table markdown="1">
+<tr markdown="1">
+<th markdown="1">Field</th><th>Type</th><th>Description</th><th>Default Value</th><th>Required</th>
+</tr>
+
+<tr markdown="1">
+<td markdown="1">`talosImageURL`</td>
+<td markdown="1">string</td>
+<td markdown="1">Allows for supplying the node level image used to perform the installation.<details><summary>*Show example*</summary>
+```yaml
+talosImageURL: factory.talos.dev/installer/e9c7ef96884d4fbc8c0a1304ccca4bb0287d766a8b4125997cb9dbe84262144e
+```
+</details></td>
+<td markdown="1" align="center">`""`</td>
 <td markdown="1" align="center">:negative_squared_cross_mark:</td>
 </tr>
 
@@ -367,18 +427,6 @@ ingressFirewall:
 ```
 </summary></td>
 <td markdown="1" align="center">`nil`</td>
-<td markdown="1" align="center">:negative_squared_cross_mark:</td>
-</tr>
-
-<tr markdown="1">
-<td markdown="1">`controlPlane`</td>
-<td markdown="1">bool</td>
-<td markdown="1">Whether the node is a controlplane.<details><summary>*Show example*</summary>
-```yaml
-controlPlane: true
-```
-</summary></td>
-<td markdown="1" align="center">`false`</td>
 <td markdown="1" align="center">:negative_squared_cross_mark:</td>
 </tr>
 
@@ -444,19 +492,6 @@ machineFiles:
     permissions: 0o644
     path: /var/etc/tailscale/auth.env
     op: create
-```
-</summary></td>
-<td markdown="1" align="center">`[]`</td>
-<td markdown="1" align="center">:negative_squared_cross_mark:</td>
-</tr>
-
-<tr markdown="1">
-<td markdown="1">`extensions`</td>
-<td markdown="1">[][InstallExtensionConfig](#installextensionconfig)</td>
-<td markdown="1"><details><summary>**DEPRECATED, use `schematic` instead**.</summary>List of additional system extensions image to install.</details><details><summary>*Show example*</summary>
-```yaml
-extensions:
-  - image: ghcr.io/siderolabs/tailscale:1.44.0
 ```
 </summary></td>
 <td markdown="1" align="center">`[]`</td>
@@ -563,39 +598,6 @@ patches:
 ```
 </details></td>
 <td markdown="1" align="center">`[]`</td>
-<td markdown="1" align="center">:negative_squared_cross_mark:</td>
-</tr>
-
-<tr markdown="1">
-<td markdown="1">`configPatches`</td>
-<td markdown="1">[]map[string]interface{}</td>
-<td markdown="1"><details><summary>**DEPRECATED, use `patches` instead**.</summary>List of RFC6902 JSON patches to be applied to the node.</details><details><summary>*Show example*</summary>
-```yaml
-configPatches:
-  - op: add
-    path: /machine/install/extraKernelArgs
-    value:
-      - console=ttyS1
-```
-</summary></td>
-<td markdown="1" align="center">`[]`</td>
-<td markdown="1" align="center">:negative_squared_cross_mark:</td>
-</tr>
-
-<tr markdown="1">
-<td markdown="1">`inlinePatch`</td>
-<td markdown="1">map[string]interface{}</td>
-<td markdown="1"><details><summary>**DEPRECATED, use `patches` instead**.</summary>Strategic merge patches to be applied to the node.</details><details><summary>*Show example*</summary>
-```yaml
-inlinePatch:
-  machine:
-    network:
-      interfaces:
-        - interface: eth0
-          addresses: [192.168.200.11/24]
-```
-</summary></td>
-<td markdown="1" align="center">`map[]`</td>
 <td markdown="1" align="center">:negative_squared_cross_mark:</td>
 </tr>
 
@@ -798,246 +800,6 @@ ingress:
 </details></td>
 <td markdown="1" align="center">`nil`</td>
 <td markdown="1" align="center">:white_check_mark:</td>
-</tr>
-
-</table>
-
-## ControlPlane
-
-`ControlPlane` defines machine configurations for controlplane type nodes.
-
-<table markdown="1">
-<tr markdown="1">
-<th markdown="1">Field</th><th>Type</th><th>Description</th><th>Default Value</th><th>Required</th>
-</tr>
-
-<tr markdown="1">
-<td markdown="1">`patches`</td>
-<td markdown="1">[]string</td>
-<td markdown="1"><details><summary>Patches to be applied to all controlplane nodes.</summary>List of strings containing RFC6902 JSON patches, strategic merge patches,<br />or a file containing them.</details><details><summary>*Show example*</summary>
-```yaml
-patches:
-  - |-
-    - op: add
-      path: /machine/kubelet/extraArgs
-      value:
-        rotate-server-certificates: "true"
-  - |-
-    machine:
-      env:
-        MYENV: value
-  - "@./a-patch.yaml"
-```
-</details></td>
-<td markdown="1" align="center">`[]`</td>
-<td markdown="1" align="center">:negative_squared_cross_mark:</td>
-</tr>
-
-<tr markdown="1">
-<td markdown="1">`configPatches`</td>
-<td markdown="1">[]map[string]interface{}</td>
-<td markdown="1"><details><summary>**DEPRECATED, use `patches` instead**.</summary>List of RFC6902 JSON patches to be applied to all controlplane nodes.</details><details><summary>*Show example*</summary>
-```yaml
-configPatches:
-  - op: add
-    path: /machine/install/extraKernelArgs
-    value:
-      - console=ttyS1
-```
-</summary></td>
-<td markdown="1" align="center">`[]`</td>
-<td markdown="1" align="center">:negative_squared_cross_mark:</td>
-</tr>
-
-<tr markdown="1">
-<td markdown="1">`inlinePatch`</td>
-<td markdown="1">map[string]interface{}</td>
-<td markdown="1"><details><summary>**DEPRECATED, use `patches` instead**.</summary>Strategic merge patches to be applied to all controlplane nodes.</details><details><summary>*Show example*</summary>
-```yaml
-inlinePatch:
-  machine:
-    network:
-      interfaces:
-        - interface: eth0
-          addresses: [192.168.200.11/24]
-```
-</summary></td>
-<td markdown="1" align="center">`map[]`</td>
-<td markdown="1" align="center">:negative_squared_cross_mark:</td>
-</tr>
-
-<tr markdown="1">
-<td markdown="1">`schematic`</td>
-<td markdown="1">[Schematic](#schematic)</td>
-<td markdown="1">Configure Talos image customization to be applied to all controlplane nodes<details><summary>*Show example*</summary>
-```yaml
-schematic:
-  customization:
-    extraKernelArgs:
-      - net.ifnames=0
-    systemExtensions:
-      officialExtensions:
-        - siderolabs/intel-ucode
-```
-</summary></td>
-<td markdown="1" align="center">`nil`</td>
-<td markdown="1" align="center">:negative_squared_cross_mark:</td>
-</tr>
-
-<tr markdown="1">
-<td markdown="1">`ingressFirewall`</td>
-<td markdown="1">[IngressFirewall](#ingressfirewall)</td>
-<td markdown="1">Firewall specification for all controlplane nodes.<details><summary>*Show example*</summary>
-```yaml
-ingressFirewall:
-  defaultAction: block
-  rules:
-    - name: kubelet-ingress
-      portSelector:
-        ports:
-          - 10250
-        protocol: tcp
-      ingress:
-        - subnet: 172.20.0.0/24
-          except: 172.20.0.1/32
-```
-</summary></td>
-<td markdown="1" align="center">`nil`</td>
-<td markdown="1" align="center">:negative_squared_cross_mark:</td>
-</tr>
-
-<tr markdown="1">
-<td markdown="1">`extraManifests`</td>
-<td markdown="1">[]string</td>
-<td markdown="1">List of manifest files to be added to all controlplane nodes.<details><summary>*Show example*</summary>
-```yaml
-extraManifests:
-  - etcd-firewall.yaml
-  - kubelet-firewall.yaml
-```
-</summary></td>
-<td markdown="1" align="center">`[]`</td>
-<td markdown="1" align="center">:negative_squared_cross_mark:</td>
-</tr>
-
-</table>
-
-## Worker
-
-`Worker` defines machine configurations for worker type nodes.
-
-<table markdown="1">
-<tr markdown="1">
-<th markdown="1">Field</th><th>Type</th><th>Description</th><th>Default Value</th><th>Required</th>
-</tr>
-
-<tr markdown="1">
-<td markdown="1">`patches`</td>
-<td markdown="1">[]string</td>
-<td markdown="1"><details><summary>Patches to be applied to all worker nodes.</summary>List of strings containing RFC6902 JSON patches, strategic merge patches,<br />or a file containing them.</details><details><summary>*Show example*</summary>
-```yaml
-patches:
-  - |-
-    - op: add
-      path: /machine/kubelet/extraArgs
-      value:
-        rotate-server-certificates: "true"
-  - |-
-    machine:
-      env:
-        MYENV: value
-  - "@./a-patch.yaml"
-```
-</details></td>
-<td markdown="1" align="center">`[]`</td>
-<td markdown="1" align="center">:negative_squared_cross_mark:</td>
-</tr>
-
-<tr markdown="1">
-<td markdown="1">`configPatches`</td>
-<td markdown="1">[]map[string]interface{}</td>
-<td markdown="1"><details><summary>**DEPRECATED, use `patches` instead**.</summary>List of RFC6902 JSON patches to be applied to all worker nodes.</details><details><summary>*Show example*</summary>
-```yaml
-configPatches:
-  - op: add
-    path: /machine/install/extraKernelArgs
-    value:
-      - console=ttyS1
-```
-</summary></td>
-<td markdown="1" align="center">`[]`</td>
-<td markdown="1" align="center">:negative_squared_cross_mark:</td>
-</tr>
-
-<tr markdown="1">
-<td markdown="1">`inlinePatch`</td>
-<td markdown="1">map[string]interface{}</td>
-<td markdown="1"><details><summary>**DEPRECATED, use `patches` instead**.</summary>Strategic merge patches to be applied to all worker nodes.</details><details><summary>*Show example*</summary>
-```yaml
-inlinePatch:
-  machine:
-    network:
-      interfaces:
-        - interface: eth0
-          addresses: [192.168.200.11/24]
-```
-</summary></td>
-<td markdown="1" align="center">`map[]`</td>
-<td markdown="1" align="center">:negative_squared_cross_mark:</td>
-</tr>
-
-<tr markdown="1">
-<td markdown="1">`schematic`</td>
-<td markdown="1">[Schematic](#schematic)</td>
-<td markdown="1">Configure Talos image customization to be applied to all worker nodes<details><summary>*Show example*</summary>
-```yaml
-schematic:
-  customization:
-    extraKernelArgs:
-      - net.ifnames=0
-    systemExtensions:
-      officialExtensions:
-        - siderolabs/intel-ucode
-```
-</summary></td>
-<td markdown="1" align="center">`nil`</td>
-<td markdown="1" align="center">:negative_squared_cross_mark:</td>
-</tr>
-
-<tr markdown="1">
-<td markdown="1">`ingressFirewall`</td>
-<td markdown="1">[IngressFirewall](#ingressfirewall)</td>
-<td markdown="1">Firewall specification for all worker nodes.<details><summary>*Show example*</summary>
-```yaml
-ingressFirewall:
-  defaultAction: block
-  rules:
-    - name: kubelet-ingress
-      portSelector:
-        ports:
-          - 10250
-        protocol: tcp
-      ingress:
-        - subnet: 172.20.0.0/24
-          except: 172.20.0.1/32
-```
-</summary></td>
-<td markdown="1" align="center">`nil`</td>
-<td markdown="1" align="center">:negative_squared_cross_mark:</td>
-</tr>
-
-<tr markdown="1">
-<td markdown="1">`extraManifests`</td>
-<td markdown="1">[]string</td>
-<td markdown="1">List of manifest files to be added to all worker nodes.<details><summary>*Show example*</summary>
-```yaml
-extraManifests:
-  - etcd-firewall.yaml
-  - kubelet-firewall.yaml
-```
-</summary></td>
-<td markdown="1" align="center">`[]`</td>
-<td markdown="1" align="center">:negative_squared_cross_mark:</td>
 </tr>
 
 </table>

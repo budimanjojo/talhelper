@@ -71,15 +71,6 @@ func (c *TalhelperConfig) GetClusterSvcNets() []string {
 	return c.ClusterSvcNets
 }
 
-// GetInstallerURL returns installer URL string.
-func (c *TalhelperConfig) GetInstallerURL() string {
-	if c.TalosImageURL != "" {
-		return c.TalosImageURL + ":" + c.GetTalosVersion()
-	}
-
-	return "ghcr.io/siderolabs/installer:" + c.GetTalosVersion()
-}
-
 // GetImageFactory returns default `imageFactory` if not specified.
 func (c *TalhelperConfig) GetImageFactory() *ImageFactory {
 	result := &ImageFactory{

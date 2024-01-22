@@ -16,6 +16,7 @@ nodes:
     installDisk: /dev/sda
     controlPlane: false
 controlPlane:
+  disableSearchDomain: true
   schematic:
     customization:
       systemExtensions:
