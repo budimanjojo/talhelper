@@ -14,6 +14,7 @@ var (
 	genurlExtensions  []string
 	genurlKernelArgs  []string
 	genurlOfflineMode bool
+	genurlSecureboot  bool
 )
 
 var genurlCmd = &cobra.Command{
@@ -32,4 +33,5 @@ func init() {
 	genurlCmd.PersistentFlags().StringSliceVarP(&genurlExtensions, "extension", "e", []string{}, "Official extension image to be included in the image (ignored when talconfig.yaml is found)")
 	genurlCmd.PersistentFlags().StringSliceVarP(&genurlKernelArgs, "kernel-arg", "k", []string{}, "Kernel arguments to be passed to the image kernel (ignored when talconfig.yaml is found)")
 	genurlCmd.PersistentFlags().BoolVar(&genurlOfflineMode, "offline-mode", false, "Generate schematic ID without doing POST request to image-factory")
+	genurlCmd.PersistentFlags().BoolVar(&genurlSecureboot, "secure-boot", false, "Whether to generate Secure Boot enabled URL")
 }

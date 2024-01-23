@@ -77,8 +77,8 @@ func (c *TalhelperConfig) GetImageFactory() *ImageFactory {
 		RegistryURL:       "factory.talos.dev",
 		SchematicEndpoint: "/schematics",
 		Protocol:          "https",
-		InstallerURLTmpl:  "{{.RegistryURL}}/installer/{{.ID}}:{{.Version}}",
-		ISOURLTmpl:        "{{.Protocol}}://{{.RegistryURL}}/image/{{.ID}}/{{.Version}}/{{.Mode}}-{{.Arch}}.iso",
+		InstallerURLTmpl:  "{{.RegistryURL}}/installer{{if .Secureboot}}-secureboot{{end}}/{{.ID}}:{{.Version}}",
+		ISOURLTmpl:        "{{.Protocol}}://{{.RegistryURL}}/image/{{.ID}}/{{.Version}}/{{.Mode}}-{{.Arch}}{{if .Secureboot}}-secureboot{{end}}{{if and .Secureboot .UseUKI}}-uki.efi{{else}}.iso{{end}}",
 	}
 	if c.ImageFactory.RegistryURL != "" {
 		result.RegistryURL = c.ImageFactory.RegistryURL
@@ -107,6 +107,8 @@ func (n *Node) GetMachineSpec() *MachineSpec {
 	if n.MachineSpec.Arch != "" {
 		result.Arch = n.MachineSpec.Arch
 	}
+	result.Secureboot = n.MachineSpec.Secureboot
+	result.UseUKI = n.MachineSpec.UseUKI
 	return result
 }
 

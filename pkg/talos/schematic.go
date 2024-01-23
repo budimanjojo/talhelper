@@ -22,6 +22,7 @@ type installerTmpl struct {
 	RegistryURL string
 	ID          string
 	Version     string
+	Secureboot  bool
 }
 
 type isoTmpl struct {
@@ -31,12 +32,15 @@ type isoTmpl struct {
 	Version     string
 	Mode        string
 	Arch        string
+	Secureboot  bool
+	UseUKI      bool
 }
 
-func GetInstallerURL(cfg *schematic.Schematic, factory *config.ImageFactory, version string, offlineMode bool) (string, error) {
+func GetInstallerURL(cfg *schematic.Schematic, factory *config.ImageFactory, spec *config.MachineSpec, version string, offlineMode bool) (string, error) {
 	tmplData := installerTmpl{
 		RegistryURL: factory.RegistryURL,
 		Version:     version,
+		Secureboot:  spec.Secureboot,
 	}
 
 	id, err := getSchematicID(cfg, factory, offlineMode)
@@ -65,6 +69,8 @@ func GetISOURL(cfg *schematic.Schematic, factory *config.ImageFactory, spec *con
 		Version:     version,
 		Mode:        spec.Mode,
 		Arch:        spec.Arch,
+		Secureboot:  spec.Secureboot,
+		UseUKI:      spec.UseUKI,
 	}
 
 	id, err := getSchematicID(cfg, factory, offlineMode)

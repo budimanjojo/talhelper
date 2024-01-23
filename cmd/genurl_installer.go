@@ -35,7 +35,7 @@ var genurlInstallerCmd = &cobra.Command{
 				}
 
 				if node.IPAddress == genurlNode || node.Hostname == genurlNode {
-					url, err := talos.GetInstallerURL(schema, cfg.GetImageFactory(), cfg.GetTalosVersion(), genurlOfflineMode)
+					url, err := talos.GetInstallerURL(schema, cfg.GetImageFactory(), node.GetMachineSpec(), cfg.GetTalosVersion(), genurlOfflineMode)
 					if err != nil {
 						log.Fatalf("Failed to generate installer url for %s, %v", node.Hostname, err)
 					}
@@ -43,7 +43,7 @@ var genurlInstallerCmd = &cobra.Command{
 					break
 				}
 
-				url, err := talos.GetInstallerURL(schema, cfg.GetImageFactory(), cfg.GetTalosVersion(), genurlOfflineMode)
+				url, err := talos.GetInstallerURL(schema, cfg.GetImageFactory(), node.GetMachineSpec(), cfg.GetTalosVersion(), genurlOfflineMode)
 				if err != nil {
 					log.Fatalf("Failed to generate installer url for %s, %v", node.Hostname, err)
 				}
@@ -70,10 +70,15 @@ var genurlInstallerCmd = &cobra.Command{
 					},
 				},
 			}
+
 			tconfig := &config.TalhelperConfig{}
 			tconfig.ImageFactory.RegistryURL = genurlRegistryURL
 
-			url, err := talos.GetInstallerURL(cfg, tconfig.GetImageFactory(), genurlVersion, genurlOfflineMode)
+			spec := &config.MachineSpec{
+				Secureboot: genurlSecureboot,
+			}
+
+			url, err := talos.GetInstallerURL(cfg, tconfig.GetImageFactory(), spec, genurlVersion, genurlOfflineMode)
 			if err != nil {
 				log.Fatalf("Failed to generate installer url, %v", err)
 			}

@@ -107,7 +107,7 @@ func installerURL(node *config.Node, cfg taloscfg.Provider, iFactory *config.Ima
 	version := strings.Split(cfg.Machine().Install().Image(), ":")
 
 	if node.Schematic != nil && node.TalosImageURL == "" {
-		url, err := GetInstallerURL(node.Schematic, iFactory, version[1], offlineMode)
+		url, err := GetInstallerURL(node.Schematic, iFactory, node.GetMachineSpec(), version[1], offlineMode)
 		if err != nil {
 			return "", err
 		}
@@ -118,5 +118,5 @@ func installerURL(node *config.Node, cfg taloscfg.Provider, iFactory *config.Ima
 		return node.TalosImageURL + ":" + version[1], nil
 	}
 
-	return GetInstallerURL(&schematic.Schematic{}, iFactory, version[1], offlineMode)
+	return GetInstallerURL(&schematic.Schematic{}, iFactory, node.GetMachineSpec(), version[1], offlineMode)
 }

@@ -43,6 +43,7 @@ func TestGetInstallerURL(t *testing.T) {
 		name        string
 		cfg         *schematic.Schematic
 		iFactory    *config.ImageFactory
+		machineSpec *config.MachineSpec
 		version     string
 		expectedURL string
 	}
@@ -54,6 +55,7 @@ func TestGetInstallerURL(t *testing.T) {
 			iFactory: &config.ImageFactory{
 				RegistryURL: "factory.talos.dev",
 			},
+			machineSpec: &config.MachineSpec{},
 			version:     "v1.5.4",
 			expectedURL: "factory.talos.dev/installer/376567988ad370138ad8b2698212367b8edcb69b5fd68c80be1f2ec7d603b4ba:v1.5.4",
 		},
@@ -70,6 +72,7 @@ func TestGetInstallerURL(t *testing.T) {
 			iFactory: &config.ImageFactory{
 				RegistryURL: "",
 			},
+			machineSpec: &config.MachineSpec{},
 			version:     "v1.5.4",
 			expectedURL: "factory.talos.dev/installer/98442b5bb4e8d050f30978ce3e6ec22e7bf534d57cafcd51313235128057e612:v1.5.4",
 		},
@@ -82,6 +85,7 @@ func TestGetInstallerURL(t *testing.T) {
 				},
 			},
 			iFactory:    &config.ImageFactory{},
+			machineSpec: &config.MachineSpec{},
 			expectedURL: "factory.talos.dev/installer/ff5083b14ccb03821ea738d712ac08a82b44d2693013622059edaae286665239:",
 		},
 
@@ -98,14 +102,17 @@ func TestGetInstallerURL(t *testing.T) {
 			iFactory: &config.ImageFactory{
 				RegistryURL: "test.registry/",
 			},
+			machineSpec: &config.MachineSpec{
+				Secureboot: true,
+			},
 			version:     "1.5.4",
-			expectedURL: "test.registry//installer/104c23dfe7c5bfeff6a4cc7e166d8b3bba0f371760592c7677c90c822bb1d109:1.5.4",
+			expectedURL: "test.registry//installer-secureboot/104c23dfe7c5bfeff6a4cc7e166d8b3bba0f371760592c7677c90c822bb1d109:1.5.4",
 		},
 	} {
 		t.Run(test.name, func(t *testing.T) {
 			cfg := &config.TalhelperConfig{}
 			cfg.ImageFactory = *test.iFactory
-			url, err := GetInstallerURL(test.cfg, cfg.GetImageFactory(), test.version, true)
+			url, err := GetInstallerURL(test.cfg, cfg.GetImageFactory(), test.machineSpec, test.version, true)
 			if err != nil {
 				t.Fatal(err)
 			}
