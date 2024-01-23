@@ -331,12 +331,12 @@
         "installerURLTmpl": {
           "type": "string",
           "description": "Template for installer image URL",
-          "default": "{{.RegistryURL}}/installer/{{.ID}}:{{.Version}}"
+          "default": "{{.RegistryURL}}/installer{{if .Secureboot}}-secureboot{{end}}/{{.ID}}:{{.Version}}"
         },
         "ISOURLTmpl": {
           "type": "string",
           "description": "Template for ISO image URL",
-          "default": "{{.Protocol}}://{{.RegistryURL}}/image/{{.ID}}/{{.Version}}/{{.Mode}}-{{.Arch}}.iso"
+          "default": "{{.Protocol}}://{{.RegistryURL}}/image/{{.ID}}/{{.Version}}/{{.Mode}}-{{.Arch}}{{if .Secureboot}}-secureboot{{end}}{{if and .Secureboot .UseUKI}}-uki.efi{{else}}.iso{{end}}"
         }
       },
       "additionalProperties": false,
@@ -473,6 +473,16 @@
           "type": "string",
           "description": "Machine architecture (e.g: amd64",
           "default": "amd64"
+        },
+        "secureboot": {
+          "type": "boolean",
+          "description": "Whether to enable Secure Boot",
+          "default": false
+        },
+        "useUKI": {
+          "type": "boolean",
+          "description": "Whether to use UKI if Secure Boot is enabled",
+          "default": false
         }
       },
       "additionalProperties": false,
