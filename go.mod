@@ -4,7 +4,7 @@ go 1.21.6
 
 require (
 	github.com/a8m/envsubst v1.4.2
-	github.com/evanphx/json-patch v5.8.1+incompatible
+	github.com/evanphx/json-patch v5.9.0+incompatible
 	github.com/fatih/color v1.16.0
 	github.com/getsops/sops/v3 v3.8.1
 	github.com/gookit/validate v1.5.2
