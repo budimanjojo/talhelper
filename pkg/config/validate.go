@@ -38,7 +38,7 @@ func (c TalhelperConfig) Validate() (Errors, Warnings) {
 	var result Errors
 	var warns Warnings
 	checkRequiredCfg(c, &result)
-	checkSupportedTalosVersion(c, &result)
+	checkSupportedTalosVersion(c, &result, &warns)
 	checkSupportedK8sVersion(c, &result)
 	checkTalosEndpoint(c, &result)
 	checkDomain(c, &result)

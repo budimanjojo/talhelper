@@ -16,6 +16,7 @@ import (
 	"github.com/siderolabs/talos/pkg/machinery/compatibility"
 	"github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1"
 	"github.com/siderolabs/talos/pkg/machinery/labels"
+	"golang.org/x/mod/semver"
 )
 
 func checkRequiredCfg(c TalhelperConfig, result *Errors) *Errors {
@@ -49,20 +50,37 @@ func checkRequiredCfg(c TalhelperConfig, result *Errors) *Errors {
 	return result
 }
 
-func checkSupportedTalosVersion(c TalhelperConfig, result *Errors) *Errors {
+func checkSupportedTalosVersion(c TalhelperConfig, errs *Errors, warns *Warnings) (*Errors, *Warnings) {
 	if c.TalosVersion != "" {
 		if !strings.HasPrefix(c.TalosVersion, "v") {
 			c.TalosVersion = "v" + c.TalosVersion
 		}
+		supportedMajorMinor := []string{
+			"v1.2",
+			"v1.3",
+			"v1.4",
+			"v1.5",
+			"v1.6",
+			"v1.7",
+		}
+		majorMinor := semver.MajorMinor(c.TalosVersion)
 		if !OfficialExtensions.Contains(c.TalosVersion) {
-			return result.Append(&Error{
-				Kind:    "InvalidTalosVersion",
-				Field:   getFieldYamlTag(c, "TalosVersion"),
-				Message: formatError(multierror.Append(fmt.Errorf("%q is not a supported Talos version", c.TalosVersion))),
-			})
+			if slices.Contains(supportedMajorMinor, majorMinor) {
+				warns.Append(&Warning{
+					Kind:    "UnreleasedTalosVersion",
+					Field:   getFieldYamlTag(c, "TalosVersion"),
+					Message: formatWarning(fmt.Sprintf("%q might not be compatible with this Talhelper version you're using", c.TalosVersion)),
+				})
+			} else {
+				errs.Append(&Error{
+					Kind:    "InvalidTalosVersion",
+					Field:   getFieldYamlTag(c, "TalosVersion"),
+					Message: formatError(multierror.Append(fmt.Errorf("%q is not a supported Talos version", c.TalosVersion))),
+				})
+			}
 		}
 	}
-	return result
+	return errs, warns
 }
 
 func checkSupportedK8sVersion(c TalhelperConfig, result *Errors) *Errors {
@@ -334,8 +352,8 @@ func checkNodeSchematic(node Node, idx int, talosVersion string, result *Errors)
 	// So it doesn't go crazy when version is not found, version validator is being done
 	// in checkSupportedTalosVersion function anyway
 	if !OfficialExtensions.Contains(talosVersion) {
-		// fallback to v1.5.5
-		talosVersion = "v1.5.5"
+		// fallback to LatestTalosVersion
+		talosVersion = LatestTalosVersion
 	}
 
 	if node.Schematic != nil {
@@ -585,9 +603,9 @@ func formatError(e *multierror.Error) *multierror.Error {
 	return e
 }
 
-// func formatWarning(w string) string {
-// 	return fmt.Sprintf("  * WARNING: %s", w)
-// }
+func formatWarning(w string) string {
+	return fmt.Sprintf("  * WARNING: %s", w)
+}
 
 func getNodeFieldYamlTag(node Node, idx int, fieldPath string) string {
 	return "nodes[" + fmt.Sprintf("%v", idx) + "]." + getFieldYamlTag(node, fieldPath)
