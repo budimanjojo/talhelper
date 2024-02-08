@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="description" content="Talhelper documentation" /><meta name="author" content="budimanjojo" />
+      <link rel="shortcut icon" href="img/favicon.ico" />
+    <title>Talhelper</title>
+    <link rel="stylesheet" href="css/theme.css" />
+    <link rel="stylesheet" href="css/theme_extra.css" />
+        <link href="css/extra.css" rel="stylesheet" />
+        <link href="css/highlight.css" rel="stylesheet" />
+        <link href="css/version-select.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Introduction";
+        var mkdocs_page_input_path = "index.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <script src="js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="js/html5shiv.min.js"></script>
+    <![endif]--> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href=".">
+          <img src="img/logo.svg" class="logo" alt="Logo"/>
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="./search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href=".">Introduction</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#why-should-i-use-talhelper">Why should I use Talhelper</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#alternatives">Alternatives</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#bug-report-and-feature-request">Bug report and feature request</a>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="getting-started/">Getting Started</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="installation/">Installation</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="guides/">Guides</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="reference/cli/">CLI</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="reference/configuration/">Configuration</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="reference/supported-version/">Supported Talos Versions</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">GitHub</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="" href="https://github.com/budimanjojo/talhelper">Homepage</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="https://github.com/budimanjojo/talhelper/issues">Issue Tracker</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="contributing/">Contributing</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="https://github.com/sponsors/budimanjojo">Sponsor Me</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href=".">Talhelper</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+      <li>Introduction</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="introduction">Introduction</h1>
+<h2 id="overview">Overview</h2>
+<p><code>talhelper</code> is a tool to help creating <a href="https://talos.dev">Talos</a> configuration files declaratively.
+It was inspired by a <code>python</code> script written by <a href="https://github.com/bjw-s">@bjw-s</a>.</p>
+<p>In a nutshell, this is what <code>talhelper</code> does step by step behind the door:</p>
+<ul>
+<li>Read and validate <code>talconfig.yaml</code>.</li>
+<li>Read and decrypt <code>talsecret.yaml</code> or <code>talsecret.sops.yaml</code> with <code>sops</code> if needed.</li>
+<li>Read and decrypt <code>talenv.yaml</code> or <code>talenv.sops.yaml</code> with <code>sops</code> if needed and load them into environment variables.</li>
+<li>Do <a href="https://linux.die.net/man/1/envsubst">envsubst</a> if needed.</li>
+<li>Validate and generate Talos and machine config files inside <code>./clusterconfig</code> directory.</li>
+<li>Generate <code>.gitignore</code> file so you don't commit the generated files to the public.</li>
+</ul>
+<h2 id="why-should-i-use-talhelper">Why should I use Talhelper</h2>
+<p>The main reason to use <code>talhelper</code> instead of <code>talosctl gen config</code> command to generate Talos <code>machineconfig</code> files is because you want to have them version controlled in your git repository which is currently not possible yet with <code>talosctl</code>.</p>
+<p>Currently, to create <code>Talos</code> configuration files using the official <code>talosctl</code> tool your steps are:</p>
+<ul>
+<li>Run <code>talosctl gen config &lt;cluster-name&gt; &lt;cluster-endpoint&gt;</code> and it will generate <code>controlplane.yaml</code>, <code>worker.yaml</code>, <code>talosconfig</code> in the current working directory.</li>
+<li>Copy and modify those files manually according to your nodes.</li>
+<li>Run <code>talosctl apply-config --insecure -n &lt;ip-address&gt; --file &lt;your-modified-file.yaml&gt;</code> for each node.</li>
+</ul>
+<p>This process is fine if you just want to do this once and forget about it. But if you're like me (and many <a href="https://discord.com/invite/k8s-at-home">others</a>), you might want to "GitOpsified" this process. So here's where you might want to use <code>talhelper</code>.</p>
+<p>With <code>talhelper</code>, the steps will become like this:</p>
+<ul>
+<li>Create a <code>talconfig.yaml</code>.</li>
+<li>Run <code>talhelper gensecret &gt; talsecret.sops.yaml</code> and encrypt it with <a href="https://github.com/getsops/sops">sops</a> <code>sops -e -i talsecret.sops.yaml</code>.</li>
+<li>Run <code>talhelper genconfig</code>.</li>
+<li>Run <code>talosctl apply-config --insecure -n &lt;ip-address&gt; --file ./clusterconfig/&lt;cluster-name&gt;-&lt;hostname&gt;.yaml</code> for each node.</li>
+</ul>
+<p>Yes there are more steps needed.
+But now you can commit your <code>talconfig.yaml</code> and the encrypted <code>talsecret.sops.yaml</code> to your repository and get your whole cluster version controlled.</p>
+<p>To get started, hop over to the <a href="getting-started/">Getting Started</a> section.</p>
+<h2 id="alternatives">Alternatives</h2>
+<p>There are some alternatives you can consider instead of <code>talhelper</code>.</p>
+<ul>
+<li>The official <a href="https://registry.terraform.io/providers/siderolabs/talos/latest">Terraform provider</a></li>
+<li>The official <a href="https://github.com/siderolabs/pulumi-provider-talos">Pulumi provider</a></li>
+</ul>
+<h2 id="bug-report-and-feature-request">Bug report and feature request</h2>
+<p>If you have encountered any bug or you want to request a new feature, please <a href="https://github.com/budimanjojo/talhelper/issues/new">open an issue</a> at GitHub.</p>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+    
+      <span><a href="getting-started/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '.';</script>
+    <script src="js/theme_extra.js" defer></script>
+    <script src="js/theme.js" defer></script>
+      <script src="js/version-select.js" defer></script>
+      <script src="search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
+
+<!--
+MkDocs version : 1.4.2
+Build Date UTC : 1980-01-01 00:00:00+00:00
+-->
