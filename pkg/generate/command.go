@@ -159,3 +159,33 @@ func GenerateBootstrapCommand(cfg *config.TalhelperConfig, outDir string, node s
 		return fmt.Errorf("node with IP or hostname %s not found", node)
 	}
 }
+
+// GenarateResetCommand prints out `talosctl reset` command for selected node.
+// `outDir` is directory where generated talosconfig and node manifest files are located.
+// If `node` is empty string, it prints commands for all nodes in `cfg.Nodes`.
+// It returns error, if any.
+func GenerateResetCommand(cfg *config.TalhelperConfig, outDir string, node string, extraFlags []string) error {
+	var result []string
+	for _, n := range cfg.Nodes {
+		isSelectedNode := ((node != "") && (node == n.IPAddress)) || ((node != "") && (node == n.Hostname))
+		allNodesSelected := (node == "")
+
+		if allNodesSelected || isSelectedNode {
+			resetFlags := []string{
+				"--talosconfig=" + outDir + "/talosconfig",
+				"--nodes=" + n.IPAddress,
+			}
+			resetFlags = append(resetFlags, extraFlags...)
+			result = append(result, fmt.Sprintf("talosctl reset %s;", strings.Join(resetFlags, " ")))
+		}
+	}
+
+	if len(result) > 0 {
+		for _, r := range result {
+			fmt.Printf("%s\n", r)
+		}
+		return nil
+	} else {
+		return fmt.Errorf("node with IP or hostname %s not found", node)
+	}
+}
