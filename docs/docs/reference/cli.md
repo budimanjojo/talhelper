@@ -233,6 +233,34 @@ talhelper gencommand bootstrap [flags]
 
 * [talhelper gencommand](#talhelper-gencommand)	 - Generate commands for talosctl.
 
+## talhelper gencommand reset
+
+Generate talosctl reset commands.
+
+```
+talhelper gencommand reset [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for reset
+```
+
+### Options inherited from parent commands
+
+```
+  -c, --config-file string    File containing configurations for talhelper (default "talconfig.yaml")
+      --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
+      --extra-flags strings   List of additional flags that will be injected into the generated commands.
+  -n, --node string           A specific node to generate the command for. If not specified, will generate for all nodes.
+  -o, --out-dir string        Directory that contains the generated config files to apply. (default "./clusterconfig")
+```
+
+### SEE ALSO
+
+* [talhelper gencommand](#talhelper-gencommand)	 - Generate commands for talosctl.
+
 ## talhelper gencommand upgrade
 
 Generate talosctl upgrade commands.
@@ -309,6 +337,7 @@ Generate commands for talosctl.
 * [talhelper](#talhelper)	 - A tool to help with creating Talos cluster
 * [talhelper gencommand apply](#talhelper-gencommand-apply)	 - Generate talosctl apply-config commands.
 * [talhelper gencommand bootstrap](#talhelper-gencommand-bootstrap)	 - Generate talosctl bootstrap commands.
+* [talhelper gencommand reset](#talhelper-gencommand-reset)	 - Generate talosctl reset commands.
 * [talhelper gencommand upgrade](#talhelper-gencommand-upgrade)	 - Generate talosctl upgrade commands.
 * [talhelper gencommand upgrade-k8s](#talhelper-gencommand-upgrade-k8s)	 - Generate talosctl upgrade-k8s commands.
 
@@ -401,7 +430,7 @@ talhelper genurl installer [flags]
       --offline-mode          Generate schematic ID without doing POST request to image-factory
   -r, --registry-url string   Registry url of the image (default "factory.talos.dev")
       --secure-boot           Whether to generate Secure Boot enabled URL
-  -v, --version string        Talos version to generate (defaults to latest Talos version) (default "v1.6.2")
+  -v, --version string        Talos version to generate (defaults to latest Talos version) (default "v1.6.4")
 ```
 
 ### SEE ALSO
@@ -436,7 +465,7 @@ talhelper genurl iso [flags]
       --offline-mode          Generate schematic ID without doing POST request to image-factory
   -r, --registry-url string   Registry url of the image (default "factory.talos.dev")
       --secure-boot           Whether to generate Secure Boot enabled URL
-  -v, --version string        Talos version to generate (defaults to latest Talos version) (default "v1.6.2")
+  -v, --version string        Talos version to generate (defaults to latest Talos version) (default "v1.6.4")
 ```
 
 ### SEE ALSO
@@ -459,7 +488,7 @@ Generate URL for Talos installer or ISO
       --offline-mode          Generate schematic ID without doing POST request to image-factory
   -r, --registry-url string   Registry url of the image (default "factory.talos.dev")
       --secure-boot           Whether to generate Secure Boot enabled URL
-  -v, --version string        Talos version to generate (defaults to latest Talos version) (default "v1.6.2")
+  -v, --version string        Talos version to generate (defaults to latest Talos version) (default "v1.6.4")
 ```
 
 ### SEE ALSO
