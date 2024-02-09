@@ -21,7 +21,7 @@ var gencommandResetCmd = &cobra.Command{
 
 		err = generate.GenerateResetCommand(cfg, gencommandOutDir, gencommandNode, gencommandExtraFlags)
 		if err != nil {
-			log.Fatalf("failed to generate talosctl apply command: %s", err)
+			log.Fatalf("failed to generate talosctl reset command: %s", err)
 		}
 	},
 }
