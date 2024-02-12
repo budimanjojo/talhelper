@@ -160,6 +160,43 @@ func GenerateBootstrapCommand(cfg *config.TalhelperConfig, outDir string, node s
 	}
 }
 
+// GenerateKubeconfigCommand prints out `talosctl kubeconfig` command for selected node.
+// `outDir` is directory where talosconfig is located.
+// If `node` is empty string, it prints command for the first controlplane node found
+// in `cfg.Nodes`. It returns error if `node` is not found or is not controlplane.
+func GenerateKubeconfigCommand(cfg *config.TalhelperConfig, outDir string, node string, extraFlags []string) error {
+	var result string
+	for _, n := range cfg.Nodes {
+		isSelectedNode := ((node != "") && (node == n.IPAddress)) || ((node != "") && (node == n.Hostname))
+		noNodeSelected := (node == "")
+		kubeconfigFlags := []string{
+			"--talosconfig=" + outDir + "/talosconfig",
+		}
+		if noNodeSelected && n.ControlPlane {
+			kubeconfigFlags = append(kubeconfigFlags, extraFlags...)
+			kubeconfigFlags = append(kubeconfigFlags, "--nodes="+n.IPAddress)
+			result = fmt.Sprintf("talosctl kubeconfig %s;", strings.Join(kubeconfigFlags, " "))
+			break
+		}
+		if isSelectedNode {
+			if !n.ControlPlane {
+				return fmt.Errorf("node with IP %s is not a controlplane node", n.IPAddress)
+			}
+			kubeconfigFlags = append(kubeconfigFlags, extraFlags...)
+			kubeconfigFlags = append(kubeconfigFlags, "--nodes="+n.IPAddress)
+			result = fmt.Sprintf("talosctl kubeconfig %s;", strings.Join(kubeconfigFlags, " "))
+			break
+		}
+	}
+
+	if result != "" {
+		fmt.Printf("%s\n", result)
+		return nil
+	} else {
+		return fmt.Errorf("node with IP or hostname %s not found", node)
+	}
+}
+
 // GenarateResetCommand prints out `talosctl reset` command for selected node.
 // `outDir` is directory where generated talosconfig and node manifest files are located.
 // If `node` is empty string, it prints commands for all nodes in `cfg.Nodes`.
