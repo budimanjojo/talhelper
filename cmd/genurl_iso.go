@@ -31,7 +31,7 @@ var genurlISOCmd = &cobra.Command{
 
 			var urls []string
 			for _, node := range cfg.Nodes {
-				if genurlNode != "" && node.IPAddress != genurlNode && node.Hostname != genurlNode {
+				if genurlNode != "" && !node.ContainsIP(genurlNode) && node.Hostname != genurlNode {
 					continue
 				}
 
@@ -40,7 +40,7 @@ var genurlISOCmd = &cobra.Command{
 					schema = node.Schematic
 				}
 
-				if node.IPAddress == genurlNode || node.Hostname == genurlNode {
+				if node.ContainsIP(genurlNode) || node.Hostname == genurlNode {
 					url, err := talos.GetISOURL(schema, cfg.GetImageFactory(), node.GetMachineSpec(), cfg.GetTalosVersion(), genurlOfflineMode)
 					if err != nil {
 						log.Fatalf("Failed to generate ISO url for %s, %v", node.Hostname, err)

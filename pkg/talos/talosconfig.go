@@ -9,7 +9,7 @@ func GenerateClientConfigBytes(c *config.TalhelperConfig, input *generate.Input)
 	var endpoints []string
 	for _, node := range c.Nodes {
 		if node.ControlPlane {
-			endpoints = append(endpoints, node.IPAddress)
+			endpoints = append(endpoints, node.GetIPAddresses()...)
 		}
 	}
 	input.Options.EndpointList = endpoints

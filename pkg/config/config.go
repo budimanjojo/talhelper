@@ -29,7 +29,7 @@ type TalhelperConfig struct {
 
 type Node struct {
 	Hostname               string                        `yaml:"hostname" jsonschema:"required,description=Hostname of the node"`
-	IPAddress              string                        `yaml:"ipAddress,omitempty" jsonschema:"required,example=192.168.200.11,description=IP address where the node can be reached"`
+	IPAddress              string                        `yaml:"ipAddress,omitempty" jsonschema:"required,example=192.168.200.11,description=IP address where the node can be reached, can also be a comma separated IP addresses"`
 	ControlPlane           bool                          `yaml:"controlPlane" jsonschema:"description=Whether the node is a controlplane"`
 	InstallDisk            string                        `yaml:"installDisk,omitempty" jsonschema:"oneof_required=installDiskSelector,description=The disk used for installation"`
 	InstallDiskSelector    *v1alpha1.InstallDiskSelector `yaml:"installDiskSelector,omitempty" jsonschema:"oneof_required=installDisk,description=Look up disk used for installation"`

@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"log"
 	"net/netip"
+	"slices"
 	"strings"
 	"tsehelper/pkg/versiontags"
 
@@ -110,6 +111,21 @@ func (n *Node) GetMachineSpec() *MachineSpec {
 	result.Secureboot = n.MachineSpec.Secureboot
 	result.UseUKI = n.MachineSpec.UseUKI
 	return result
+}
+
+// GetIPAddresses returns list of IPaddresses
+func (n *Node) GetIPAddresses() []string {
+	var result []string
+	ips := strings.Split(n.IPAddress, ",")
+	for _, ip := range ips {
+		result = append(result, strings.TrimSpace(ip))
+	}
+	return result
+}
+
+// ContainsIP returns true if `n.IPAddress` contains `ip`
+func (n *Node) ContainsIP(ip string) bool {
+	return slices.Contains(n.GetIPAddresses(), ip)
 }
 
 // endpointisIPv6 returns true if string is IPv6 address.

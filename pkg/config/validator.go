@@ -244,11 +244,18 @@ func checkNodeRequiredCfg(node Node, idx int, result *Errors) *Errors {
 
 func checkNodeIPAddress(node Node, idx int, result *Errors) *Errors {
 	if node.IPAddress != "" {
-		if !isDomainOrIP(node.IPAddress) {
+		var messages *multierror.Error
+		for _, ip := range node.GetIPAddresses() {
+			if !isDomainOrIP(ip) {
+				messages = multierror.Append(messages, fmt.Errorf("%q is not a valid domain or IP address", ip))
+			}
+		}
+
+		if messages.ErrorOrNil() != nil {
 			return result.Append(&Error{
 				Kind:    "InvalidNodeIPAddress",
 				Field:   getNodeFieldYamlTag(node, idx, "IPAddress"),
-				Message: formatError(multierror.Append(fmt.Errorf("%q is not a valid domain or IP address", node.IPAddress))),
+				Message: formatError(messages),
 			})
 		}
 	}
