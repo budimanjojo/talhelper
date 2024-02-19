@@ -331,6 +331,18 @@ controlPlane: true
 </tr>
 
 <tr markdown="1">
+<td markdown="1">`ignoreHostname`</td>
+<td markdown="1">bool</td>
+<td markdown="1">Whether to set `machine.network.hostname` to the generated config file.<details><summary>*Show example*</summary>
+```yaml
+ignoreHostname: true
+```
+</summary></td>
+<td markdown="1" align="center">`false`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+</tr>
+
+<tr markdown="1">
 <td markdown="1">`overridePatches`</td>
 <td markdown="1">bool</td>
 <td markdown="1"><details><summary>Whether `patches` defined here should override the one defined in node group.</summary>By default they will get appended instead.</details><details><summary>*Show example*</summary>
