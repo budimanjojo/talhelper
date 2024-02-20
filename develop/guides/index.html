@@ -70,6 +70,8 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#generating-talosctl-commands-for-bash-scripting">Generating talosctl commands for bash scripting</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#generate-single-config-file-for-multiple-nodes">Generate single config file for multiple nodes</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#selfhosted-image-factory">Selfhosted Image Factory</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#editing-talconfigyaml-file">Editing talconfig.yaml file</a>
@@ -345,6 +347,24 @@ For example, in the directory where a <code>talconfig.yaml</code> like this is l
 <p>After running <code>talhelper genconfig</code>, you can run <code>talhelper gencommand apply | bash</code> in the terminal to apply the generated config into your machine(s) automatically.
 There are some other <code>gencommand</code> commands that you can use like <code>upgrade</code>, <code>upgrade-k8s</code>, <code>bootstrap</code>, etc,</p>
 <p>For more information about the available <code>gencommand</code> commands and flags you can use, head over to the <a href="../reference/cli/#talhelper-gencommand">documentation</a>.</p>
+<h2 id="generate-single-config-file-for-multiple-nodes">Generate single config file for multiple nodes</h2>
+<p>Thanks to the idea from <a href="https://github.com/onedr0p">onedr0p</a>, you can generate a single config file for multiple nodes.
+This is useful if you have identical hardware for all your nodes and you use DHCP server to manage your node's IP address and hostname.
+The idea is to set <code>nodes[].ignoreHostname</code> to <code>true</code> and set <code>nodes[].ipAddress</code> to multiple IP addresses separated by comma:</p>
+<div class="highlight"><pre><span></span><code><span class="nn">---</span>
+<span class="nt">clusterName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-cluster</span>
+<span class="nt">nodes</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">controller</span>
+<span class="w">    </span><span class="nt">ipAddress</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">192.168.10.11, 192.168.10.12, 192.168.10.13</span>
+<span class="w">    </span><span class="nt">controlPlane</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">ignoreHostname</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">worker</span>
+<span class="w">    </span><span class="nt">ipAddress</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">192.168.10.14, 192.168.10.15, 192.168.10.16</span>
+<span class="w">    </span><span class="nt">controlPlane</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">    </span><span class="nt">ignoreHostname</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</code></pre></div>
+<p>This will generate <code>my-cluster-controller.yaml</code> and <code>my-cluster-worker.yaml</code> that you can apply with <code>talosctl apply-config</code> command.
+You can also use <code>talhelper gencommand &lt;command&gt; -n &lt;hostname/IP&gt;</code> to generate the <code>talosctl</code> commands for your nodes.</p>
 <h2 id="selfhosted-image-factory">Selfhosted Image Factory</h2>
 <p>By default, the generated manifests will use the official <a href="https://factory.talos.dev">image-factory</a> to pull the installer image.
 If you're self hosting your own image-factory, you can change your <code>talconfig.yaml</code> like so:</p>

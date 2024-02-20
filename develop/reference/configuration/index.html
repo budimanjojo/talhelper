@@ -382,7 +382,7 @@
 <tr>
 <td><code>ipAddress</code></td>
 <td>string</td>
-<td><details><summary>IP address where the node can be reached.</summary>Needed for endpoint and node address inside <code>talosconfig</code>.</details><details><summary><em>Show example</em></summary>
+<td><details><summary>IP address where the node can be reached, can be IP or comma separated list of IPs.</summary>Needed for endpoint and node address inside <code>talosconfig</code>.</details><details><summary><em>Show example</em></summary>
 <div class="highlight"><pre><span></span><code><span class="nt">ipAddress</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">192.168.200.11</span>
 </code></pre></div>
 </summary></td>
@@ -418,6 +418,16 @@
 <td>bool</td>
 <td>Whether the node is a controlplane.<details><summary><em>Show example</em></summary>
 <div class="highlight"><pre><span></span><code><span class="nt">controlPlane</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</code></pre></div>
+</summary></td>
+<td align="center"><code>false</code></td>
+<td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
+</tr>
+<tr>
+<td><code>ignoreHostname</code></td>
+<td>bool</td>
+<td>Whether to set <code>machine.network.hostname</code> to the generated config file.<details><summary><em>Show example</em></summary>
+<div class="highlight"><pre><span></span><code><span class="nt">ignoreHostname</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 </code></pre></div>
 </summary></td>
 <td align="center"><code>false</code></td>
