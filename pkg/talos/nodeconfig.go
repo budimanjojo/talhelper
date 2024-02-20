@@ -53,7 +53,9 @@ func GenerateNodeConfig(node *config.Node, input *generate.Input, iFactory *conf
 }
 
 func applyNodeOverride(node *config.Node, cfg taloscfg.Provider) taloscfg.Provider {
-	cfg.RawV1Alpha1().MachineConfig.MachineNetwork.NetworkHostname = node.Hostname
+	if !node.IgnoreHostname {
+		cfg.RawV1Alpha1().MachineConfig.MachineNetwork.NetworkHostname = node.Hostname
+	}
 
 	if len(node.Nameservers) > 0 {
 		cfg.RawV1Alpha1().MachineConfig.MachineNetwork.NameServers = node.Nameservers

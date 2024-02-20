@@ -281,7 +281,7 @@ hostname: kmaster1
 <tr markdown="1">
 <td markdown="1">`ipAddress`</td>
 <td markdown="1">string</td>
-<td markdown="1"><details><summary>IP address where the node can be reached.</summary>Needed for endpoint and node address inside `talosconfig`.</details><details><summary>*Show example*</summary>
+<td markdown="1"><details><summary>IP address where the node can be reached, can be IP or comma separated list of IPs.</summary>Needed for endpoint and node address inside `talosconfig`.</details><details><summary>*Show example*</summary>
 ```yaml
 ipAddress: 192.168.200.11
 ```
@@ -324,6 +324,18 @@ installDiskSelector:
 <td markdown="1">Whether the node is a controlplane.<details><summary>*Show example*</summary>
 ```yaml
 controlPlane: true
+```
+</summary></td>
+<td markdown="1" align="center">`false`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+</tr>
+
+<tr markdown="1">
+<td markdown="1">`ignoreHostname`</td>
+<td markdown="1">bool</td>
+<td markdown="1">Whether to set `machine.network.hostname` to the generated config file.<details><summary>*Show example*</summary>
+```yaml
+ignoreHostname: true
 ```
 </summary></td>
 <td markdown="1" align="center">`false`</td>

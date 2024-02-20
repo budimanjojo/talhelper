@@ -260,6 +260,29 @@ There are some other `gencommand` commands that you can use like `upgrade`, `upg
 
 For more information about the available `gencommand` commands and flags you can use, head over to the [documentation](./reference/cli.md#talhelper-gencommand).
 
+## Generate single config file for multiple nodes
+
+Thanks to the idea from [onedr0p](https://github.com/onedr0p), you can generate a single config file for multiple nodes.
+This is useful if you have identical hardware for all your nodes and you use DHCP server to manage your node's IP address and hostname.
+The idea is to set `nodes[].ignoreHostname` to `true` and set `nodes[].ipAddress` to multiple IP addresses separated by comma:
+
+```yaml
+---
+clusterName: my-cluster
+nodes:
+  - hostname: controller
+    ipAddress: 192.168.10.11, 192.168.10.12, 192.168.10.13
+    controlPlane: true
+    ignoreHostname: true
+  - hostname: worker
+    ipAddress: 192.168.10.14, 192.168.10.15, 192.168.10.16
+    controlPlane: false
+    ignoreHostname: true
+```
+
+This will generate `my-cluster-controller.yaml` and `my-cluster-worker.yaml` that you can apply with `talosctl apply-config` command.
+You can also use `talhelper gencommand <command> -n <hostname/IP>` to generate the `talosctl` commands for your nodes.
+
 ## Selfhosted Image Factory
 
 By default, the generated manifests will use the official [image-factory](https://factory.talos.dev) to pull the installer image.

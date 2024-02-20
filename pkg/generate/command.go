@@ -16,17 +16,28 @@ import (
 func GenerateApplyCommand(cfg *config.TalhelperConfig, outDir string, node string, extraFlags []string) error {
 	var result []string
 	for _, n := range cfg.Nodes {
-		isSelectedNode := ((node != "") && (node == n.IPAddress)) || ((node != "") && (node == n.Hostname))
+		isSelectedByIP := ((node != "") && (n.ContainsIP(node)))
+		isSelectedByHostname := ((node != "") && (node == n.Hostname))
 		allNodesSelected := (node == "")
 
-		if allNodesSelected || isSelectedNode {
+		if isSelectedByIP {
 			applyFlags := []string{
 				"--talosconfig=" + outDir + "/talosconfig",
-				"--nodes=" + n.IPAddress,
+				"--nodes=" + node,
 				"--file=" + outDir + "/" + cfg.ClusterName + "-" + n.Hostname + ".yaml",
 			}
 			applyFlags = append(applyFlags, extraFlags...)
 			result = append(result, fmt.Sprintf("talosctl apply-config %s;", strings.Join(applyFlags, " ")))
+		} else if allNodesSelected || isSelectedByHostname {
+			for _, ip := range n.GetIPAddresses() {
+				applyFlags := []string{
+					"--talosconfig=" + outDir + "/talosconfig",
+					"--nodes=" + ip,
+					"--file=" + outDir + "/" + cfg.ClusterName + "-" + n.Hostname + ".yaml",
+				}
+				applyFlags = append(applyFlags, extraFlags...)
+				result = append(result, fmt.Sprintf("talosctl apply-config %s;", strings.Join(applyFlags, " ")))
+			}
 		}
 	}
 
@@ -47,30 +58,41 @@ func GenerateApplyCommand(cfg *config.TalhelperConfig, outDir string, node strin
 func GenerateUpgradeCommand(cfg *config.TalhelperConfig, outDir string, node string, extraFlags []string) error {
 	var result []string
 	for _, n := range cfg.Nodes {
-		isSelectedNode := ((node != "") && (node == n.IPAddress)) || ((node != "") && (node == n.Hostname))
+		isSelectedByIP := ((node != "") && (n.ContainsIP(node)))
+		isSelectedByHostname := ((node != "") && (node == n.Hostname))
 		allNodesSelected := (node == "")
 
-		if allNodesSelected || isSelectedNode {
-			var url string
-			if n.TalosImageURL != "" {
-				url = n.TalosImageURL + ":" + cfg.GetTalosVersion()
-			} else if n.Schematic != nil {
-				var err error
-				url, err = talos.GetInstallerURL(n.Schematic, cfg.GetImageFactory(), n.GetMachineSpec(), cfg.GetTalosVersion(), true)
-				if err != nil {
-					return fmt.Errorf("Failed to generate installer url for %s, %v", n.Hostname, err)
-				}
-			} else {
-				url, _ = talos.GetInstallerURL(&schematic.Schematic{}, cfg.GetImageFactory(), n.GetMachineSpec(), cfg.GetTalosVersion(), true)
+		var url string
+		if n.TalosImageURL != "" {
+			url = n.TalosImageURL + ":" + cfg.GetTalosVersion()
+		} else if n.Schematic != nil {
+			var err error
+			url, err = talos.GetInstallerURL(n.Schematic, cfg.GetImageFactory(), n.GetMachineSpec(), cfg.GetTalosVersion(), true)
+			if err != nil {
+				return fmt.Errorf("Failed to generate installer url for %s, %v", n.Hostname, err)
 			}
+		} else {
+			url, _ = talos.GetInstallerURL(&schematic.Schematic{}, cfg.GetImageFactory(), n.GetMachineSpec(), cfg.GetTalosVersion(), true)
+		}
 
+		if isSelectedByIP {
 			upgradeFlags := []string{
 				"--talosconfig=" + outDir + "/talosconfig",
-				"--nodes=" + n.IPAddress,
+				"--nodes=" + node,
 				"--image=" + url,
 			}
 			upgradeFlags = append(upgradeFlags, extraFlags...)
 			result = append(result, fmt.Sprintf("talosctl upgrade %s;", strings.Join(upgradeFlags, " ")))
+		} else if allNodesSelected || isSelectedByHostname {
+			for _, ip := range n.GetIPAddresses() {
+				upgradeFlags := []string{
+					"--talosconfig=" + outDir + "/talosconfig",
+					"--nodes=" + ip,
+					"--image=" + url,
+				}
+				upgradeFlags = append(upgradeFlags, extraFlags...)
+				result = append(result, fmt.Sprintf("talosctl upgrade %s;", strings.Join(upgradeFlags, " ")))
+			}
 		}
 	}
 
@@ -91,7 +113,8 @@ func GenerateUpgradeCommand(cfg *config.TalhelperConfig, outDir string, node str
 func GenerateUpgradeK8sCommand(cfg *config.TalhelperConfig, outDir string, node string, extraFlags []string) error {
 	var result string
 	for _, n := range cfg.Nodes {
-		isSelectedNode := ((node != "") && (node == n.IPAddress)) || ((node != "") && (node == n.Hostname))
+		isSelectedByIP := ((node != "") && (n.ContainsIP(node)))
+		isSelectedByHostname := ((node != "") && (node == n.Hostname))
 		noNodeSelected := (node == "")
 		upgradeFlags := []string{
 			"--talosconfig=" + outDir + "/talosconfig",
@@ -100,16 +123,27 @@ func GenerateUpgradeK8sCommand(cfg *config.TalhelperConfig, outDir string, node 
 
 		if noNodeSelected && n.ControlPlane {
 			upgradeFlags = append(upgradeFlags, extraFlags...)
-			upgradeFlags = append(upgradeFlags, "--nodes="+n.IPAddress)
+			// Use the first IP address of the node
+			upgradeFlags = append(upgradeFlags, "--nodes="+n.GetIPAddresses()[0])
 			result = fmt.Sprintf("talosctl upgrade-k8s %s;", strings.Join(upgradeFlags, " "))
 			break
 		}
-		if isSelectedNode {
+
+		if isSelectedByIP {
 			if !n.ControlPlane {
-				return fmt.Errorf("node with IP %s is not a controlplane node", n.IPAddress)
+				return fmt.Errorf("node with IP %s is not a controlplane node", node)
 			}
 			upgradeFlags = append(upgradeFlags, extraFlags...)
-			upgradeFlags = append(upgradeFlags, "--nodes="+n.IPAddress)
+			upgradeFlags = append(upgradeFlags, "--nodes="+node)
+			result = fmt.Sprintf("talosctl upgrade-k8s %s;", strings.Join(upgradeFlags, " "))
+			break
+		} else if isSelectedByHostname {
+			if !n.ControlPlane {
+				return fmt.Errorf("node with hostname %s is not a controlplane node", node)
+			}
+			upgradeFlags = append(upgradeFlags, extraFlags...)
+			// Use the first IP address of the hostname
+			upgradeFlags = append(upgradeFlags, "--nodes="+n.GetIPAddresses()[0])
 			result = fmt.Sprintf("talosctl upgrade-k8s %s;", strings.Join(upgradeFlags, " "))
 			break
 		}
@@ -130,23 +164,34 @@ func GenerateUpgradeK8sCommand(cfg *config.TalhelperConfig, outDir string, node 
 func GenerateBootstrapCommand(cfg *config.TalhelperConfig, outDir string, node string, extraFlags []string) error {
 	var result string
 	for _, n := range cfg.Nodes {
-		isSelectedNode := ((node != "") && (node == n.IPAddress)) || ((node != "") && (node == n.Hostname))
+		isSelectedByIP := ((node != "") && (n.ContainsIP(node)))
+		isSelectedByHostname := ((node != "") && (node == n.Hostname))
 		noNodeSelected := (node == "")
 		bootstrapFlags := []string{
 			"--talosconfig=" + outDir + "/talosconfig",
 		}
 		if noNodeSelected && n.ControlPlane {
 			bootstrapFlags = append(bootstrapFlags, extraFlags...)
-			bootstrapFlags = append(bootstrapFlags, "--nodes="+n.IPAddress)
+			// Use the first IP address of the node
+			bootstrapFlags = append(bootstrapFlags, "--nodes="+n.GetIPAddresses()[0])
 			result = fmt.Sprintf("talosctl bootstrap %s;", strings.Join(bootstrapFlags, " "))
 			break
 		}
-		if isSelectedNode {
+		if isSelectedByIP {
 			if !n.ControlPlane {
-				return fmt.Errorf("node with IP %s is not a controlplane node", n.IPAddress)
+				return fmt.Errorf("node with IP %s is not a controlplane node", node)
 			}
 			bootstrapFlags = append(bootstrapFlags, extraFlags...)
-			bootstrapFlags = append(bootstrapFlags, "--nodes="+n.IPAddress)
+			bootstrapFlags = append(bootstrapFlags, "--nodes="+node)
+			result = fmt.Sprintf("talosctl bootstrap %s;", strings.Join(bootstrapFlags, " "))
+			break
+		} else if isSelectedByHostname {
+			if !n.ControlPlane {
+				return fmt.Errorf("node with hostname %s is not a controlplane node", node)
+			}
+			bootstrapFlags = append(bootstrapFlags, extraFlags...)
+			// Use the first IP address of the hostname
+			bootstrapFlags = append(bootstrapFlags, "--nodes="+n.GetIPAddresses()[0])
 			result = fmt.Sprintf("talosctl bootstrap %s;", strings.Join(bootstrapFlags, " "))
 			break
 		}
@@ -167,23 +212,34 @@ func GenerateBootstrapCommand(cfg *config.TalhelperConfig, outDir string, node s
 func GenerateKubeconfigCommand(cfg *config.TalhelperConfig, outDir string, node string, extraFlags []string) error {
 	var result string
 	for _, n := range cfg.Nodes {
-		isSelectedNode := ((node != "") && (node == n.IPAddress)) || ((node != "") && (node == n.Hostname))
+		isSelectedByIP := ((node != "") && (n.ContainsIP(node)))
+		isSelectedByHostname := ((node != "") && (node == n.Hostname))
 		noNodeSelected := (node == "")
 		kubeconfigFlags := []string{
 			"--talosconfig=" + outDir + "/talosconfig",
 		}
 		if noNodeSelected && n.ControlPlane {
 			kubeconfigFlags = append(kubeconfigFlags, extraFlags...)
-			kubeconfigFlags = append(kubeconfigFlags, "--nodes="+n.IPAddress)
+			// Use the first IP address of the node
+			kubeconfigFlags = append(kubeconfigFlags, "--nodes="+n.GetIPAddresses()[0])
 			result = fmt.Sprintf("talosctl kubeconfig %s;", strings.Join(kubeconfigFlags, " "))
 			break
 		}
-		if isSelectedNode {
+		if isSelectedByIP {
 			if !n.ControlPlane {
-				return fmt.Errorf("node with IP %s is not a controlplane node", n.IPAddress)
+				return fmt.Errorf("node with IP %s is not a controlplane node", node)
 			}
 			kubeconfigFlags = append(kubeconfigFlags, extraFlags...)
-			kubeconfigFlags = append(kubeconfigFlags, "--nodes="+n.IPAddress)
+			kubeconfigFlags = append(kubeconfigFlags, "--nodes="+node)
+			result = fmt.Sprintf("talosctl kubeconfig %s;", strings.Join(kubeconfigFlags, " "))
+			break
+		} else if isSelectedByHostname {
+			if !n.ControlPlane {
+				return fmt.Errorf("node with hostname %s is not a controlplane node", node)
+			}
+			kubeconfigFlags = append(kubeconfigFlags, extraFlags...)
+			// Use the first IP address of the hostname
+			kubeconfigFlags = append(kubeconfigFlags, "--nodes="+n.GetIPAddresses()[0])
 			result = fmt.Sprintf("talosctl kubeconfig %s;", strings.Join(kubeconfigFlags, " "))
 			break
 		}
@@ -204,16 +260,26 @@ func GenerateKubeconfigCommand(cfg *config.TalhelperConfig, outDir string, node 
 func GenerateResetCommand(cfg *config.TalhelperConfig, outDir string, node string, extraFlags []string) error {
 	var result []string
 	for _, n := range cfg.Nodes {
-		isSelectedNode := ((node != "") && (node == n.IPAddress)) || ((node != "") && (node == n.Hostname))
+		isSelectedByIP := ((node != "") && (n.ContainsIP(node)))
+		isSelectedByHostname := ((node != "") && (node == n.Hostname))
 		allNodesSelected := (node == "")
 
-		if allNodesSelected || isSelectedNode {
+		if isSelectedByIP {
 			resetFlags := []string{
 				"--talosconfig=" + outDir + "/talosconfig",
-				"--nodes=" + n.IPAddress,
+				"--nodes=" + node,
 			}
 			resetFlags = append(resetFlags, extraFlags...)
 			result = append(result, fmt.Sprintf("talosctl reset %s;", strings.Join(resetFlags, " ")))
+		} else if allNodesSelected || isSelectedByHostname {
+			for _, ip := range n.GetIPAddresses() {
+				resetFlags := []string{
+					"--talosconfig=" + outDir + "/talosconfig",
+					"--nodes=" + ip,
+				}
+				resetFlags = append(resetFlags, extraFlags...)
+				result = append(result, fmt.Sprintf("talosctl reset %s;", strings.Join(resetFlags, " ")))
+			}
 		}
 	}
 
