@@ -513,6 +513,9 @@
         },
         "driver": {
           "type": "string"
+        },
+        "physical": {
+          "type": "boolean"
         }
       },
       "additionalProperties": false,
@@ -577,6 +580,10 @@
         "installDiskSelector": {
           "$ref": "#/$defs/InstallDiskSelectorWrapper",
           "description": "Look up disk used for installation"
+        },
+        "ignoreHostname": {
+          "type": "boolean",
+          "description": "Whether to set \"machine.network.hostname\" to the generated config file"
         },
         "overridePatches": {
           "type": "boolean",
