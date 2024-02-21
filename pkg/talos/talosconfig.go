@@ -19,6 +19,10 @@ func GenerateClientConfigBytes(c *config.TalhelperConfig, input *generate.Input)
 		return nil, err
 	}
 
+	for _, node := range c.Nodes {
+		cfg.Contexts[cfg.Context].Nodes = append(cfg.Contexts[cfg.Context].Nodes, node.GetIPAddresses()...)
+	}
+
 	finalCfg, err := cfg.Bytes()
 	if err != nil {
 		return nil, err
