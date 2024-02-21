@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="budimanjojo" />
+      <link rel="shortcut icon" href="../../img/favicon.ico" />
+    <title>CLI - Talhelper</title>
+    <link rel="stylesheet" href="../../css/theme.css" />
+    <link rel="stylesheet" href="../../css/theme_extra.css" />
+        <link href="../../css/extra.css" rel="stylesheet" />
+        <link href="../../css/highlight.css" rel="stylesheet" />
+        <link href="../../css/version-select.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "CLI";
+        var mkdocs_page_input_path = "reference/cli.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <script src="../../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../../js/html5shiv.min.js"></script>
+    <![endif]--> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="../..">
+          <img src="../../img/logo.svg" class="logo" alt="Logo"/>
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../..">Introduction</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../getting-started/">Getting Started</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../installation/">Installation</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../../guides/">Guides</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul class="current">
+                  <li class="toctree-l1 current"><a class="reference internal current" href="./">CLI</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#talhelper-completion-bash">talhelper completion bash</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#synopsis">Synopsis</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#linux">Linux:</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#macos">macOS:</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#options">Options</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#see-also">SEE ALSO</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#talhelper-completion-fish">talhelper completion fish</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#synopsis_1">Synopsis</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#options_1">Options</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#see-also_1">SEE ALSO</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#talhelper-completion-powershell">talhelper completion powershell</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#synopsis_2">Synopsis</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#options_2">Options</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#see-also_2">SEE ALSO</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#talhelper-completion-zsh">talhelper completion zsh</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#synopsis_3">Synopsis</a>
+        <ul>
+    <li class="toctree-l4"><a class="reference internal" href="#linux_1">Linux:</a>
+    </li>
+    <li class="toctree-l4"><a class="reference internal" href="#macos_1">macOS:</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#options_3">Options</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#see-also_3">SEE ALSO</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#talhelper-completion">talhelper completion</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#synopsis_4">Synopsis</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#options_4">Options</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#see-also_4">SEE ALSO</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#talhelper-gencommand-apply">talhelper gencommand apply</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#options_5">Options</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#options-inherited-from-parent-commands">Options inherited from parent commands</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#see-also_5">SEE ALSO</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#talhelper-gencommand-bootstrap">talhelper gencommand bootstrap</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#options_6">Options</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#options-inherited-from-parent-commands_1">Options inherited from parent commands</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#see-also_6">SEE ALSO</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#talhelper-gencommand-kubeconfig">talhelper gencommand kubeconfig</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#options_7">Options</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#options-inherited-from-parent-commands_2">Options inherited from parent commands</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#see-also_7">SEE ALSO</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#talhelper-gencommand-reset">talhelper gencommand reset</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#options_8">Options</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#options-inherited-from-parent-commands_3">Options inherited from parent commands</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#see-also_8">SEE ALSO</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#talhelper-gencommand-upgrade">talhelper gencommand upgrade</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#options_9">Options</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#options-inherited-from-parent-commands_4">Options inherited from parent commands</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#see-also_9">SEE ALSO</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#talhelper-gencommand-upgrade-k8s">talhelper gencommand upgrade-k8s</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#options_10">Options</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#options-inherited-from-parent-commands_5">Options inherited from parent commands</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#see-also_10">SEE ALSO</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#talhelper-gencommand">talhelper gencommand</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#options_11">Options</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#see-also_11">SEE ALSO</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#talhelper-genconfig">talhelper genconfig</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#options_12">Options</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#see-also_12">SEE ALSO</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#talhelper-genschema">talhelper genschema</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#options_13">Options</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#see-also_13">SEE ALSO</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#talhelper-gensecret">talhelper gensecret</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#options_14">Options</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#see-also_14">SEE ALSO</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#talhelper-genurl-installer">talhelper genurl installer</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#options_15">Options</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#options-inherited-from-parent-commands_6">Options inherited from parent commands</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#see-also_15">SEE ALSO</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#talhelper-genurl-iso">talhelper genurl iso</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#options_16">Options</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#options-inherited-from-parent-commands_7">Options inherited from parent commands</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#see-also_16">SEE ALSO</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#talhelper-genurl">talhelper genurl</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#options_17">Options</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#see-also_17">SEE ALSO</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#talhelper-validate-nodeconfig">talhelper validate nodeconfig</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#options_18">Options</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#see-also_18">SEE ALSO</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#talhelper-validate-talconfig">talhelper validate talconfig</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#options_19">Options</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#see-also_19">SEE ALSO</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#talhelper-validate">talhelper validate</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#options_20">Options</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#see-also_20">SEE ALSO</a>
+    </li>
+        </ul>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#talhelper">talhelper</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#synopsis_5">Synopsis</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#options_21">Options</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#see-also_21">SEE ALSO</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../configuration/">Configuration</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../supported-version/">Supported Talos Versions</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">GitHub</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="" href="https://github.com/budimanjojo/talhelper">Homepage</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="https://github.com/budimanjojo/talhelper/issues">Issue Tracker</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../../contributing/">Contributing</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="https://github.com/sponsors/budimanjojo">Sponsor Me</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../..">Talhelper</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href="../.." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+          <li>Reference &raquo;</li>
+      <li>CLI</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="cli">CLI</h1>
+<h2 id="talhelper-completion-bash">talhelper completion bash</h2>
+<p>Generate the autocompletion script for bash</p>
+<h3 id="synopsis">Synopsis</h3>
+<p>Generate the autocompletion script for the bash shell.</p>
+<p>This script depends on the 'bash-completion' package.
+If it is not installed already, you can install it via your OS's package manager.</p>
+<p>To load completions in your current shell session:</p>
+<div class="highlight"><pre><span></span><code>source &lt;(talhelper completion bash)
+</code></pre></div>
+<p>To load completions for every new session, execute once:</p>
+<h4 id="linux">Linux:</h4>
+<div class="highlight"><pre><span></span><code>talhelper completion bash &gt; /etc/bash_completion.d/talhelper
+</code></pre></div>
+<h4 id="macos">macOS:</h4>
+<div class="highlight"><pre><span></span><code>talhelper completion bash &gt; $(brew --prefix)/etc/bash_completion.d/talhelper
+</code></pre></div>
+<p>You will need to start a new shell for this setup to take effect.</p>
+<div class="highlight"><pre><span></span><code>talhelper completion bash
+</code></pre></div>
+<h3 id="options">Options</h3>
+<div class="highlight"><pre><span></span><code>  -h, --help              help for bash
+      --no-descriptions   disable completion descriptions
+</code></pre></div>
+<h3 id="see-also">SEE ALSO</h3>
+<ul>
+<li><a href="#talhelper-completion">talhelper completion</a>  - Generate the autocompletion script for the specified shell</li>
+</ul>
+<h2 id="talhelper-completion-fish">talhelper completion fish</h2>
+<p>Generate the autocompletion script for fish</p>
+<h3 id="synopsis_1">Synopsis</h3>
+<p>Generate the autocompletion script for the fish shell.</p>
+<p>To load completions in your current shell session:</p>
+<div class="highlight"><pre><span></span><code>talhelper completion fish | source
+</code></pre></div>
+<p>To load completions for every new session, execute once:</p>
+<div class="highlight"><pre><span></span><code>talhelper completion fish &gt; ~/.config/fish/completions/talhelper.fish
+</code></pre></div>
+<p>You will need to start a new shell for this setup to take effect.</p>
+<div class="highlight"><pre><span></span><code>talhelper completion fish [flags]
+</code></pre></div>
+<h3 id="options_1">Options</h3>
+<div class="highlight"><pre><span></span><code>  -h, --help              help for fish
+      --no-descriptions   disable completion descriptions
+</code></pre></div>
+<h3 id="see-also_1">SEE ALSO</h3>
+<ul>
+<li><a href="#talhelper-completion">talhelper completion</a>  - Generate the autocompletion script for the specified shell</li>
+</ul>
+<h2 id="talhelper-completion-powershell">talhelper completion powershell</h2>
+<p>Generate the autocompletion script for powershell</p>
+<h3 id="synopsis_2">Synopsis</h3>
+<p>Generate the autocompletion script for powershell.</p>
+<p>To load completions in your current shell session:</p>
+<div class="highlight"><pre><span></span><code>talhelper completion powershell | Out-String | Invoke-Expression
+</code></pre></div>
+<p>To load completions for every new session, add the output of the above command
+to your powershell profile.</p>
+<div class="highlight"><pre><span></span><code>talhelper completion powershell [flags]
+</code></pre></div>
+<h3 id="options_2">Options</h3>
+<div class="highlight"><pre><span></span><code>  -h, --help              help for powershell
+      --no-descriptions   disable completion descriptions
+</code></pre></div>
+<h3 id="see-also_2">SEE ALSO</h3>
+<ul>
+<li><a href="#talhelper-completion">talhelper completion</a>  - Generate the autocompletion script for the specified shell</li>
+</ul>
+<h2 id="talhelper-completion-zsh">talhelper completion zsh</h2>
+<p>Generate the autocompletion script for zsh</p>
+<h3 id="synopsis_3">Synopsis</h3>
+<p>Generate the autocompletion script for the zsh shell.</p>
+<p>If shell completion is not already enabled in your environment you will need
+to enable it.  You can execute the following once:</p>
+<div class="highlight"><pre><span></span><code>echo &quot;autoload -U compinit; compinit&quot; &gt;&gt; ~/.zshrc
+</code></pre></div>
+<p>To load completions in your current shell session:</p>
+<div class="highlight"><pre><span></span><code>source &lt;(talhelper completion zsh)
+</code></pre></div>
+<p>To load completions for every new session, execute once:</p>
+<h4 id="linux_1">Linux:</h4>
+<div class="highlight"><pre><span></span><code>talhelper completion zsh &gt; &quot;${fpath[1]}/_talhelper&quot;
+</code></pre></div>
+<h4 id="macos_1">macOS:</h4>
+<div class="highlight"><pre><span></span><code>talhelper completion zsh &gt; $(brew --prefix)/share/zsh/site-functions/_talhelper
+</code></pre></div>
+<p>You will need to start a new shell for this setup to take effect.</p>
+<div class="highlight"><pre><span></span><code>talhelper completion zsh [flags]
+</code></pre></div>
+<h3 id="options_3">Options</h3>
+<div class="highlight"><pre><span></span><code>  -h, --help              help for zsh
+      --no-descriptions   disable completion descriptions
+</code></pre></div>
+<h3 id="see-also_3">SEE ALSO</h3>
+<ul>
+<li><a href="#talhelper-completion">talhelper completion</a>  - Generate the autocompletion script for the specified shell</li>
+</ul>
+<h2 id="talhelper-completion">talhelper completion</h2>
+<p>Generate the autocompletion script for the specified shell</p>
+<h3 id="synopsis_4">Synopsis</h3>
+<p>Generate the autocompletion script for talhelper for the specified shell.
+See each sub-command's help for details on how to use the generated script.</p>
+<h3 id="options_4">Options</h3>
+<div class="highlight"><pre><span></span><code>  -h, --help   help for completion
+</code></pre></div>
+<h3 id="see-also_4">SEE ALSO</h3>
+<ul>
+<li><a href="#talhelper">talhelper</a>    - A tool to help with creating Talos cluster</li>
+<li><a href="#talhelper-completion-bash">talhelper completion bash</a>    - Generate the autocompletion script for bash</li>
+<li><a href="#talhelper-completion-fish">talhelper completion fish</a>    - Generate the autocompletion script for fish</li>
+<li><a href="#talhelper-completion-powershell">talhelper completion powershell</a>    - Generate the autocompletion script for powershell</li>
+<li><a href="#talhelper-completion-zsh">talhelper completion zsh</a>  - Generate the autocompletion script for zsh</li>
+</ul>
+<h2 id="talhelper-gencommand-apply">talhelper gencommand apply</h2>
+<p>Generate talosctl apply-config commands.</p>
+<div class="highlight"><pre><span></span><code>talhelper gencommand apply [flags]
+</code></pre></div>
+<h3 id="options_5">Options</h3>
+<div class="highlight"><pre><span></span><code>  -h, --help   help for apply
+</code></pre></div>
+<h3 id="options-inherited-from-parent-commands">Options inherited from parent commands</h3>
+<div class="highlight"><pre><span></span><code>  -c, --config-file string    File containing configurations for talhelper (default &quot;talconfig.yaml&quot;)
+      --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
+      --extra-flags strings   List of additional flags that will be injected into the generated commands.
+  -n, --node string           A specific node to generate the command for. If not specified, will generate for all nodes.
+  -o, --out-dir string        Directory that contains the generated config files to apply. (default &quot;./clusterconfig&quot;)
+</code></pre></div>
+<h3 id="see-also_5">SEE ALSO</h3>
+<ul>
+<li><a href="#talhelper-gencommand">talhelper gencommand</a>  - Generate commands for talosctl.</li>
+</ul>
+<h2 id="talhelper-gencommand-bootstrap">talhelper gencommand bootstrap</h2>
+<p>Generate talosctl bootstrap commands.</p>
+<div class="highlight"><pre><span></span><code>talhelper gencommand bootstrap [flags]
+</code></pre></div>
+<h3 id="options_6">Options</h3>
+<div class="highlight"><pre><span></span><code>  -h, --help   help for bootstrap
+</code></pre></div>
+<h3 id="options-inherited-from-parent-commands_1">Options inherited from parent commands</h3>
+<div class="highlight"><pre><span></span><code>  -c, --config-file string    File containing configurations for talhelper (default &quot;talconfig.yaml&quot;)
+      --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
+      --extra-flags strings   List of additional flags that will be injected into the generated commands.
+  -n, --node string           A specific node to generate the command for. If not specified, will generate for all nodes.
+  -o, --out-dir string        Directory that contains the generated config files to apply. (default &quot;./clusterconfig&quot;)
+</code></pre></div>
+<h3 id="see-also_6">SEE ALSO</h3>
+<ul>
+<li><a href="#talhelper-gencommand">talhelper gencommand</a>  - Generate commands for talosctl.</li>
+</ul>
+<h2 id="talhelper-gencommand-kubeconfig">talhelper gencommand kubeconfig</h2>
+<p>Generate talosctl kubeconfig commands.</p>
+<div class="highlight"><pre><span></span><code>talhelper gencommand kubeconfig [flags]
+</code></pre></div>
+<h3 id="options_7">Options</h3>
+<div class="highlight"><pre><span></span><code>  -h, --help   help for kubeconfig
+</code></pre></div>
+<h3 id="options-inherited-from-parent-commands_2">Options inherited from parent commands</h3>
+<div class="highlight"><pre><span></span><code>  -c, --config-file string    File containing configurations for talhelper (default &quot;talconfig.yaml&quot;)
+      --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
+      --extra-flags strings   List of additional flags that will be injected into the generated commands.
+  -n, --node string           A specific node to generate the command for. If not specified, will generate for all nodes.
+  -o, --out-dir string        Directory that contains the generated config files to apply. (default &quot;./clusterconfig&quot;)
+</code></pre></div>
+<h3 id="see-also_7">SEE ALSO</h3>
+<ul>
+<li><a href="#talhelper-gencommand">talhelper gencommand</a>  - Generate commands for talosctl.</li>
+</ul>
+<h2 id="talhelper-gencommand-reset">talhelper gencommand reset</h2>
+<p>Generate talosctl reset commands.</p>
+<div class="highlight"><pre><span></span><code>talhelper gencommand reset [flags]
+</code></pre></div>
+<h3 id="options_8">Options</h3>
+<div class="highlight"><pre><span></span><code>  -h, --help   help for reset
+</code></pre></div>
+<h3 id="options-inherited-from-parent-commands_3">Options inherited from parent commands</h3>
+<div class="highlight"><pre><span></span><code>  -c, --config-file string    File containing configurations for talhelper (default &quot;talconfig.yaml&quot;)
+      --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
+      --extra-flags strings   List of additional flags that will be injected into the generated commands.
+  -n, --node string           A specific node to generate the command for. If not specified, will generate for all nodes.
+  -o, --out-dir string        Directory that contains the generated config files to apply. (default &quot;./clusterconfig&quot;)
+</code></pre></div>
+<h3 id="see-also_8">SEE ALSO</h3>
+<ul>
+<li><a href="#talhelper-gencommand">talhelper gencommand</a>  - Generate commands for talosctl.</li>
+</ul>
+<h2 id="talhelper-gencommand-upgrade">talhelper gencommand upgrade</h2>
+<p>Generate talosctl upgrade commands.</p>
+<div class="highlight"><pre><span></span><code>talhelper gencommand upgrade [flags]
+</code></pre></div>
+<h3 id="options_9">Options</h3>
+<div class="highlight"><pre><span></span><code>  -h, --help   help for upgrade
+</code></pre></div>
+<h3 id="options-inherited-from-parent-commands_4">Options inherited from parent commands</h3>
+<div class="highlight"><pre><span></span><code>  -c, --config-file string    File containing configurations for talhelper (default &quot;talconfig.yaml&quot;)
+      --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
+      --extra-flags strings   List of additional flags that will be injected into the generated commands.
+  -n, --node string           A specific node to generate the command for. If not specified, will generate for all nodes.
+  -o, --out-dir string        Directory that contains the generated config files to apply. (default &quot;./clusterconfig&quot;)
+</code></pre></div>
+<h3 id="see-also_9">SEE ALSO</h3>
+<ul>
+<li><a href="#talhelper-gencommand">talhelper gencommand</a>  - Generate commands for talosctl.</li>
+</ul>
+<h2 id="talhelper-gencommand-upgrade-k8s">talhelper gencommand upgrade-k8s</h2>
+<p>Generate talosctl upgrade-k8s commands.</p>
+<div class="highlight"><pre><span></span><code>talhelper gencommand upgrade-k8s [flags]
+</code></pre></div>
+<h3 id="options_10">Options</h3>
+<div class="highlight"><pre><span></span><code>  -h, --help   help for upgrade-k8s
+</code></pre></div>
+<h3 id="options-inherited-from-parent-commands_5">Options inherited from parent commands</h3>
+<div class="highlight"><pre><span></span><code>  -c, --config-file string    File containing configurations for talhelper (default &quot;talconfig.yaml&quot;)
+      --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
+      --extra-flags strings   List of additional flags that will be injected into the generated commands.
+  -n, --node string           A specific node to generate the command for. If not specified, will generate for all nodes.
+  -o, --out-dir string        Directory that contains the generated config files to apply. (default &quot;./clusterconfig&quot;)
+</code></pre></div>
+<h3 id="see-also_10">SEE ALSO</h3>
+<ul>
+<li><a href="#talhelper-gencommand">talhelper gencommand</a>  - Generate commands for talosctl.</li>
+</ul>
+<h2 id="talhelper-gencommand">talhelper gencommand</h2>
+<p>Generate commands for talosctl.</p>
+<h3 id="options_11">Options</h3>
+<div class="highlight"><pre><span></span><code>  -c, --config-file string    File containing configurations for talhelper (default &quot;talconfig.yaml&quot;)
+      --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
+      --extra-flags strings   List of additional flags that will be injected into the generated commands.
+  -h, --help                  help for gencommand
+  -n, --node string           A specific node to generate the command for. If not specified, will generate for all nodes.
+  -o, --out-dir string        Directory that contains the generated config files to apply. (default &quot;./clusterconfig&quot;)
+</code></pre></div>
+<h3 id="see-also_11">SEE ALSO</h3>
+<ul>
+<li><a href="#talhelper">talhelper</a>    - A tool to help with creating Talos cluster</li>
+<li><a href="#talhelper-gencommand-apply">talhelper gencommand apply</a>  - Generate talosctl apply-config commands.</li>
+<li><a href="#talhelper-gencommand-bootstrap">talhelper gencommand bootstrap</a>  - Generate talosctl bootstrap commands.</li>
+<li><a href="#talhelper-gencommand-kubeconfig">talhelper gencommand kubeconfig</a>    - Generate talosctl kubeconfig commands.</li>
+<li><a href="#talhelper-gencommand-reset">talhelper gencommand reset</a>  - Generate talosctl reset commands.</li>
+<li><a href="#talhelper-gencommand-upgrade">talhelper gencommand upgrade</a>  - Generate talosctl upgrade commands.</li>
+<li><a href="#talhelper-gencommand-upgrade-k8s">talhelper gencommand upgrade-k8s</a>  - Generate talosctl upgrade-k8s commands.</li>
+</ul>
+<h2 id="talhelper-genconfig">talhelper genconfig</h2>
+<p>Generate Talos cluster config YAML files</p>
+<div class="highlight"><pre><span></span><code>talhelper genconfig [flags]
+</code></pre></div>
+<h3 id="options_12">Options</h3>
+<div class="highlight"><pre><span></span><code>  -c, --config-file string    File containing configurations for talhelper (default &quot;talconfig.yaml&quot;)
+  -n, --dry-run               Skip generating manifests and show diff instead
+  -e, --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
+  -h, --help                  help for genconfig
+      --no-gitignore          Create/update gitignore file too
+      --offline-mode          Generate schematic ID without doing POST request to image-factory
+  -o, --out-dir string        Directory where to dump the generated files (default &quot;./clusterconfig&quot;)
+  -s, --secret-file strings   List of files containing secrets for the cluster (default [talsecret.yaml,talsecret.sops.yaml,talsecret.yml,talsecret.sops.yml])
+  -m, --talos-mode string     Talos runtime mode to validate generated config (default &quot;metal&quot;)
+</code></pre></div>
+<h3 id="see-also_12">SEE ALSO</h3>
+<ul>
+<li><a href="#talhelper">talhelper</a>    - A tool to help with creating Talos cluster</li>
+</ul>
+<h2 id="talhelper-genschema">talhelper genschema</h2>
+<p>Generate <code>talconfig.yaml</code> JSON schema file</p>
+<div class="highlight"><pre><span></span><code>talhelper genschema [flags]
+</code></pre></div>
+<h3 id="options_13">Options</h3>
+<div class="highlight"><pre><span></span><code>  -f, --file string   Where to dump the generated json-schema file (default &quot;talconfig.json&quot;)
+  -h, --help          help for genschema
+</code></pre></div>
+<h3 id="see-also_13">SEE ALSO</h3>
+<ul>
+<li><a href="#talhelper">talhelper</a>    - A tool to help with creating Talos cluster</li>
+</ul>
+<h2 id="talhelper-gensecret">talhelper gensecret</h2>
+<p>Generate Talos cluster secrets</p>
+<div class="highlight"><pre><span></span><code>talhelper gensecret [flags]
+</code></pre></div>
+<h3 id="options_14">Options</h3>
+<div class="highlight"><pre><span></span><code>  -f, --from-configfile string   Talos cluster node configuration file to generate secret from
+  -h, --help                     help for gensecret
+</code></pre></div>
+<h3 id="see-also_14">SEE ALSO</h3>
+<ul>
+<li><a href="#talhelper">talhelper</a>    - A tool to help with creating Talos cluster</li>
+</ul>
+<h2 id="talhelper-genurl-installer">talhelper genurl installer</h2>
+<p>Generate URL for Talos installer image</p>
+<div class="highlight"><pre><span></span><code>talhelper genurl installer [flags]
+</code></pre></div>
+<h3 id="options_15">Options</h3>
+<div class="highlight"><pre><span></span><code>  -h, --help   help for installer
+</code></pre></div>
+<h3 id="options-inherited-from-parent-commands_6">Options inherited from parent commands</h3>
+<div class="highlight"><pre><span></span><code>  -c, --config-file string    File containing configurations for talhelper (default &quot;talconfig.yaml&quot;)
+      --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
+  -e, --extension strings     Official extension image to be included in the image (ignored when talconfig.yaml is found)
+  -k, --kernel-arg strings    Kernel arguments to be passed to the image kernel (ignored when talconfig.yaml is found)
+  -n, --node string           A specific node to generate command for. If not specified, will generate for all nodes (ignored when talconfig.yaml is not found)
+      --offline-mode          Generate schematic ID without doing POST request to image-factory
+  -r, --registry-url string   Registry url of the image (default &quot;factory.talos.dev&quot;)
+      --secure-boot           Whether to generate Secure Boot enabled URL
+  -v, --version string        Talos version to generate (defaults to latest Talos version) (default &quot;v1.6.4&quot;)
+</code></pre></div>
+<h3 id="see-also_15">SEE ALSO</h3>
+<ul>
+<li><a href="#talhelper-genurl">talhelper genurl</a>  - Generate URL for Talos installer or ISO</li>
+</ul>
+<h2 id="talhelper-genurl-iso">talhelper genurl iso</h2>
+<p>Generate URL for Talos ISO image</p>
+<div class="highlight"><pre><span></span><code>talhelper genurl iso [flags]
+</code></pre></div>
+<h3 id="options_16">Options</h3>
+<div class="highlight"><pre><span></span><code>  -a, --arch string         CPU architecture support of the image (default &quot;amd64&quot;)
+  -h, --help                help for iso
+  -m, --talos-mode string   Talos runtime mode to generate URL (default &quot;metal&quot;)
+      --use-uki             Whether to generate UKI image url if Secure Boot is enabled
+</code></pre></div>
+<h3 id="options-inherited-from-parent-commands_7">Options inherited from parent commands</h3>
+<div class="highlight"><pre><span></span><code>  -c, --config-file string    File containing configurations for talhelper (default &quot;talconfig.yaml&quot;)
+      --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
+  -e, --extension strings     Official extension image to be included in the image (ignored when talconfig.yaml is found)
+  -k, --kernel-arg strings    Kernel arguments to be passed to the image kernel (ignored when talconfig.yaml is found)
+  -n, --node string           A specific node to generate command for. If not specified, will generate for all nodes (ignored when talconfig.yaml is not found)
+      --offline-mode          Generate schematic ID without doing POST request to image-factory
+  -r, --registry-url string   Registry url of the image (default &quot;factory.talos.dev&quot;)
+      --secure-boot           Whether to generate Secure Boot enabled URL
+  -v, --version string        Talos version to generate (defaults to latest Talos version) (default &quot;v1.6.4&quot;)
+</code></pre></div>
+<h3 id="see-also_16">SEE ALSO</h3>
+<ul>
+<li><a href="#talhelper-genurl">talhelper genurl</a>  - Generate URL for Talos installer or ISO</li>
+</ul>
+<h2 id="talhelper-genurl">talhelper genurl</h2>
+<p>Generate URL for Talos installer or ISO</p>
+<h3 id="options_17">Options</h3>
+<div class="highlight"><pre><span></span><code>  -c, --config-file string    File containing configurations for talhelper (default &quot;talconfig.yaml&quot;)
+      --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
+  -e, --extension strings     Official extension image to be included in the image (ignored when talconfig.yaml is found)
+  -h, --help                  help for genurl
+  -k, --kernel-arg strings    Kernel arguments to be passed to the image kernel (ignored when talconfig.yaml is found)
+  -n, --node string           A specific node to generate command for. If not specified, will generate for all nodes (ignored when talconfig.yaml is not found)
+      --offline-mode          Generate schematic ID without doing POST request to image-factory
+  -r, --registry-url string   Registry url of the image (default &quot;factory.talos.dev&quot;)
+      --secure-boot           Whether to generate Secure Boot enabled URL
+  -v, --version string        Talos version to generate (defaults to latest Talos version) (default &quot;v1.6.4&quot;)
+</code></pre></div>
+<h3 id="see-also_17">SEE ALSO</h3>
+<ul>
+<li><a href="#talhelper">talhelper</a>    - A tool to help with creating Talos cluster</li>
+<li><a href="#talhelper-genurl-installer">talhelper genurl installer</a>  - Generate URL for Talos installer image</li>
+<li><a href="#talhelper-genurl-iso">talhelper genurl iso</a>  - Generate URL for Talos ISO image</li>
+</ul>
+<h2 id="talhelper-validate-nodeconfig">talhelper validate nodeconfig</h2>
+<p>Check the validity of Talos node config file</p>
+<div class="highlight"><pre><span></span><code>talhelper validate nodeconfig [file] [flags]
+</code></pre></div>
+<h3 id="options_18">Options</h3>
+<div class="highlight"><pre><span></span><code>  -h, --help          help for nodeconfig
+  -m, --mode string   Talos runtime mode to validate with (default &quot;metal&quot;)
+</code></pre></div>
+<h3 id="see-also_18">SEE ALSO</h3>
+<ul>
+<li><a href="#talhelper-validate">talhelper validate</a>  - Validate the correctness of talconfig or talos node config</li>
+</ul>
+<h2 id="talhelper-validate-talconfig">talhelper validate talconfig</h2>
+<p>Check the validity of talhelper config file</p>
+<div class="highlight"><pre><span></span><code>talhelper validate talconfig [file] [flags]
+</code></pre></div>
+<h3 id="options_19">Options</h3>
+<div class="highlight"><pre><span></span><code>  -e, --env-file strings   List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yaml,talenv.sops.yml])
+  -h, --help               help for talconfig
+      --no-substitute      Whether to do envsubst on before validation
+</code></pre></div>
+<h3 id="see-also_19">SEE ALSO</h3>
+<ul>
+<li><a href="#talhelper-validate">talhelper validate</a>  - Validate the correctness of talconfig or talos node config</li>
+</ul>
+<h2 id="talhelper-validate">talhelper validate</h2>
+<p>Validate the correctness of talconfig or talos node config</p>
+<h3 id="options_20">Options</h3>
+<div class="highlight"><pre><span></span><code>  -h, --help   help for validate
+</code></pre></div>
+<h3 id="see-also_20">SEE ALSO</h3>
+<ul>
+<li><a href="#talhelper">talhelper</a>    - A tool to help with creating Talos cluster</li>
+<li><a href="#talhelper-validate-nodeconfig">talhelper validate nodeconfig</a>    - Check the validity of Talos node config file</li>
+<li><a href="#talhelper-validate-talconfig">talhelper validate talconfig</a>  - Check the validity of talhelper config file</li>
+</ul>
+<h2 id="talhelper">talhelper</h2>
+<p>A tool to help with creating Talos cluster</p>
+<h3 id="synopsis_5">Synopsis</h3>
+<p>talhelper is a tool to help you create a Talos cluster.</p>
+<p>Workflow:
+  Create talconfig.yaml file defining your nodes information like so:</p>
+<div class="highlight"><pre><span></span><code>  clusterName: mycluster
+  talosVersion: v1.0
+  endpoint: https://192.168.200.10:6443
+  nodes:
+    - hostname: master1
+      ipAddress: 192.168.200.11
+      installDisk: /dev/sdb
+      controlPlane: true
+    - hostname: worker1
+      ipAddress: 192.168.200.21
+      installDisk: /dev/nvme1
+      controlPlane: false
+</code></pre></div>
+<p>Then run these commands:</p>
+<blockquote>
+<p>talhelper gensecret &gt; talsecret.sops.yaml
+sops -e -i talsecret.sops.yaml
+talhelper genconfig</p>
+</blockquote>
+<p>The generated yaml files will be in ./clusterconfig directory</p>
+<p>WARNING! Please don't push the generated files into your public git repository.
+  By default talhelper will create a ".gitignore" file to ignore the generated files for you unless you use "--no-gitignore" flag.
+  The generated files contain unencrypted secrets and you don't want people to get a hand of them.</p>
+<h3 id="options_21">Options</h3>
+<div class="highlight"><pre><span></span><code>  -h, --help   help for talhelper
+</code></pre></div>
+<h3 id="see-also_21">SEE ALSO</h3>
+<ul>
+<li><a href="#talhelper-completion">talhelper completion</a>  - Generate the autocompletion script for the specified shell</li>
+<li><a href="#talhelper-gencommand">talhelper gencommand</a>  - Generate commands for talosctl.</li>
+<li><a href="#talhelper-genconfig">talhelper genconfig</a>    - Generate Talos cluster config YAML files</li>
+<li><a href="#talhelper-genschema">talhelper genschema</a>    - Generate <code>talconfig.yaml</code> JSON schema file</li>
+<li><a href="#talhelper-gensecret">talhelper gensecret</a>    - Generate Talos cluster secrets</li>
+<li><a href="#talhelper-genurl">talhelper genurl</a>  - Generate URL for Talos installer or ISO</li>
+<li><a href="#talhelper-validate">talhelper validate</a>  - Validate the correctness of talconfig or talos node config</li>
+</ul>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href="../../guides/" style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../configuration/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '../..';</script>
+    <script src="../../js/theme_extra.js" defer></script>
+    <script src="../../js/theme.js" defer></script>
+      <script src="../../js/version-select.js" defer></script>
+      <script src="../../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
