@@ -71,6 +71,6 @@ var validateTHCmd = &cobra.Command{
 func init() {
 	validateCmd.AddCommand(validateTHCmd)
 
-	validateTHCmd.Flags().StringSliceVarP(&validateTHEnvFile, "env-file", "e", []string{"talenv.yaml", "talenv.sops.yaml", "talenv.yaml", "talenv.sops.yml"}, "List of files containing env variables for config file")
+	validateTHCmd.Flags().StringSliceVarP(&validateTHEnvFile, "env-file", "e", []string{"talenv.yaml", "talenv.sops.yaml", "talenv.yml", "talenv.sops.yml"}, "List of files containing env variables for config file")
 	validateTHCmd.Flags().BoolVar(&validateTHNoSubstitute, "no-substitute", false, "Whether to do envsubst on before validation")
 }
