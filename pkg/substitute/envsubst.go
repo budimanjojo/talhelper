@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	"log/slog"
 	"os"
 	"regexp"
 
@@ -19,6 +20,7 @@ import (
 func LoadEnvFromFiles(files []string) error {
 	for _, file := range files {
 		if _, err := os.Stat(file); err == nil {
+			slog.Debug(fmt.Sprintf("loading environment variables from %s", file))
 			env, err := decrypt.DecryptYamlWithSops(file)
 			if err != nil {
 				return fmt.Errorf("trying to decrypt %s with sops: %s", file, err)
@@ -47,6 +49,7 @@ func LoadEnv(file []byte) error {
 	}
 
 	for k, v := range mFile {
+		slog.Debug(fmt.Sprintf("loaded environment variable: %s=%s", k, v))
 		os.Setenv(k, v)
 	}
 	return nil

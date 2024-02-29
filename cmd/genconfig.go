@@ -2,7 +2,9 @@ package cmd
 
 import (
 	"errors"
+	"fmt"
 	"log"
+	"log/slog"
 	"os"
 
 	"github.com/spf13/cobra"
@@ -36,6 +38,7 @@ var genconfigCmd = &cobra.Command{
 		for _, file := range genconfigSecretFile {
 			if _, err := os.Stat(file); err == nil {
 				secretFile = file
+				slog.Debug(fmt.Sprintf("secret file is set to %s", secretFile))
 			} else if errors.Is(err, os.ErrNotExist) {
 				continue
 			} else {
@@ -43,6 +46,7 @@ var genconfigCmd = &cobra.Command{
 			}
 		}
 
+		slog.Debug("start generating config file")
 		err = generate.GenerateConfig(cfg, genconfigDryRun, genconfigOutDir, secretFile, genconfigTalosMode, genconfigOfflineMode)
 		if err != nil {
 			log.Fatalf("failed to generate talos config: %s", err)
