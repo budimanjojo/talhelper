@@ -39,6 +39,12 @@ talhelper completion bash
       --no-descriptions   disable completion descriptions
 ```
 
+### Options inherited from parent commands
+
+```
+  -d, --debug   Whether to enable debugging mode
+```
+
 ### SEE ALSO
 
 * [talhelper completion](#talhelper-completion)	 - Generate the autocompletion script for the specified shell
@@ -73,6 +79,12 @@ talhelper completion fish [flags]
       --no-descriptions   disable completion descriptions
 ```
 
+### Options inherited from parent commands
+
+```
+  -d, --debug   Whether to enable debugging mode
+```
+
 ### SEE ALSO
 
 * [talhelper completion](#talhelper-completion)	 - Generate the autocompletion script for the specified shell
@@ -102,6 +114,12 @@ talhelper completion powershell [flags]
 ```
   -h, --help              help for powershell
       --no-descriptions   disable completion descriptions
+```
+
+### Options inherited from parent commands
+
+```
+  -d, --debug   Whether to enable debugging mode
 ```
 
 ### SEE ALSO
@@ -149,6 +167,12 @@ talhelper completion zsh [flags]
       --no-descriptions   disable completion descriptions
 ```
 
+### Options inherited from parent commands
+
+```
+  -d, --debug   Whether to enable debugging mode
+```
+
 ### SEE ALSO
 
 * [talhelper completion](#talhelper-completion)	 - Generate the autocompletion script for the specified shell
@@ -167,6 +191,12 @@ See each sub-command's help for details on how to use the generated script.
 
 ```
   -h, --help   help for completion
+```
+
+### Options inherited from parent commands
+
+```
+  -d, --debug   Whether to enable debugging mode
 ```
 
 ### SEE ALSO
@@ -195,6 +225,7 @@ talhelper gencommand apply [flags]
 
 ```
   -c, --config-file string    File containing configurations for talhelper (default "talconfig.yaml")
+  -d, --debug                 Whether to enable debugging mode
       --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
       --extra-flags strings   List of additional flags that will be injected into the generated commands.
   -n, --node string           A specific node to generate the command for. If not specified, will generate for all nodes.
@@ -223,6 +254,7 @@ talhelper gencommand bootstrap [flags]
 
 ```
   -c, --config-file string    File containing configurations for talhelper (default "talconfig.yaml")
+  -d, --debug                 Whether to enable debugging mode
       --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
       --extra-flags strings   List of additional flags that will be injected into the generated commands.
   -n, --node string           A specific node to generate the command for. If not specified, will generate for all nodes.
@@ -251,6 +283,7 @@ talhelper gencommand kubeconfig [flags]
 
 ```
   -c, --config-file string    File containing configurations for talhelper (default "talconfig.yaml")
+  -d, --debug                 Whether to enable debugging mode
       --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
       --extra-flags strings   List of additional flags that will be injected into the generated commands.
   -n, --node string           A specific node to generate the command for. If not specified, will generate for all nodes.
@@ -279,6 +312,7 @@ talhelper gencommand reset [flags]
 
 ```
   -c, --config-file string    File containing configurations for talhelper (default "talconfig.yaml")
+  -d, --debug                 Whether to enable debugging mode
       --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
       --extra-flags strings   List of additional flags that will be injected into the generated commands.
   -n, --node string           A specific node to generate the command for. If not specified, will generate for all nodes.
@@ -307,6 +341,7 @@ talhelper gencommand upgrade [flags]
 
 ```
   -c, --config-file string    File containing configurations for talhelper (default "talconfig.yaml")
+  -d, --debug                 Whether to enable debugging mode
       --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
       --extra-flags strings   List of additional flags that will be injected into the generated commands.
   -n, --node string           A specific node to generate the command for. If not specified, will generate for all nodes.
@@ -335,6 +370,7 @@ talhelper gencommand upgrade-k8s [flags]
 
 ```
   -c, --config-file string    File containing configurations for talhelper (default "talconfig.yaml")
+  -d, --debug                 Whether to enable debugging mode
       --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
       --extra-flags strings   List of additional flags that will be injected into the generated commands.
   -n, --node string           A specific node to generate the command for. If not specified, will generate for all nodes.
@@ -358,6 +394,12 @@ Generate commands for talosctl.
   -h, --help                  help for gencommand
   -n, --node string           A specific node to generate the command for. If not specified, will generate for all nodes.
   -o, --out-dir string        Directory that contains the generated config files to apply. (default "./clusterconfig")
+```
+
+### Options inherited from parent commands
+
+```
+  -d, --debug   Whether to enable debugging mode
 ```
 
 ### SEE ALSO
@@ -392,6 +434,12 @@ talhelper genconfig [flags]
   -m, --talos-mode string     Talos runtime mode to validate generated config (default "metal")
 ```
 
+### Options inherited from parent commands
+
+```
+  -d, --debug   Whether to enable debugging mode
+```
+
 ### SEE ALSO
 
 * [talhelper](#talhelper)	 - A tool to help with creating Talos cluster
@@ -411,6 +459,12 @@ talhelper genschema [flags]
   -h, --help          help for genschema
 ```
 
+### Options inherited from parent commands
+
+```
+  -d, --debug   Whether to enable debugging mode
+```
+
 ### SEE ALSO
 
 * [talhelper](#talhelper)	 - A tool to help with creating Talos cluster
@@ -428,6 +482,12 @@ talhelper gensecret [flags]
 ```
   -f, --from-configfile string   Talos cluster node configuration file to generate secret from
   -h, --help                     help for gensecret
+```
+
+### Options inherited from parent commands
+
+```
+  -d, --debug   Whether to enable debugging mode
 ```
 
 ### SEE ALSO
@@ -452,6 +512,7 @@ talhelper genurl installer [flags]
 
 ```
   -c, --config-file string    File containing configurations for talhelper (default "talconfig.yaml")
+  -d, --debug                 Whether to enable debugging mode
       --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
   -e, --extension strings     Official extension image to be included in the image (ignored when talconfig.yaml is found)
   -k, --kernel-arg strings    Kernel arguments to be passed to the image kernel (ignored when talconfig.yaml is found)
@@ -487,6 +548,7 @@ talhelper genurl iso [flags]
 
 ```
   -c, --config-file string    File containing configurations for talhelper (default "talconfig.yaml")
+  -d, --debug                 Whether to enable debugging mode
       --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
   -e, --extension strings     Official extension image to be included in the image (ignored when talconfig.yaml is found)
   -k, --kernel-arg strings    Kernel arguments to be passed to the image kernel (ignored when talconfig.yaml is found)
@@ -520,6 +582,12 @@ Generate URL for Talos installer or ISO
   -v, --version string        Talos version to generate (defaults to latest Talos version) (default "v1.6.5")
 ```
 
+### Options inherited from parent commands
+
+```
+  -d, --debug   Whether to enable debugging mode
+```
+
 ### SEE ALSO
 
 * [talhelper](#talhelper)	 - A tool to help with creating Talos cluster
@@ -539,6 +607,12 @@ talhelper validate nodeconfig [file] [flags]
 ```
   -h, --help          help for nodeconfig
   -m, --mode string   Talos runtime mode to validate with (default "metal")
+```
+
+### Options inherited from parent commands
+
+```
+  -d, --debug   Whether to enable debugging mode
 ```
 
 ### SEE ALSO
@@ -561,6 +635,12 @@ talhelper validate talconfig [file] [flags]
       --no-substitute      Whether to do envsubst on before validation
 ```
 
+### Options inherited from parent commands
+
+```
+  -d, --debug   Whether to enable debugging mode
+```
+
 ### SEE ALSO
 
 * [talhelper validate](#talhelper-validate)	 - Validate the correctness of talconfig or talos node config
@@ -573,6 +653,12 @@ Validate the correctness of talconfig or talos node config
 
 ```
   -h, --help   help for validate
+```
+
+### Options inherited from parent commands
+
+```
+  -d, --debug   Whether to enable debugging mode
 ```
 
 ### SEE ALSO
@@ -622,7 +708,8 @@ Workflow:
 ### Options
 
 ```
-  -h, --help   help for talhelper
+  -d, --debug   Whether to enable debugging mode
+  -h, --help    help for talhelper
 ```
 
 ### SEE ALSO
