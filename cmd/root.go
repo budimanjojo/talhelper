@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"log/slog"
 	"strings"
 
 	"github.com/spf13/cobra"
@@ -40,6 +41,8 @@ Workflow:
   The generated files contain unencrypted secrets and you don't want people to get a hand of them.
 `)
 
+var rootCmdDebug bool
+
 var rootCmd = &cobra.Command{
 	Use:           "talhelper",
 	Short:         "A tool to help with creating Talos cluster",
@@ -47,6 +50,11 @@ var rootCmd = &cobra.Command{
 	SilenceUsage:  true,
 	SilenceErrors: true,
 	Version:       version,
+	PersistentPreRun: func(cmd *cobra.Command, args []string) {
+		if rootCmdDebug {
+			slog.SetLogLoggerLevel(slog.LevelDebug)
+		}
+	},
 }
 
 func Execute() error {
@@ -55,4 +63,8 @@ func Execute() error {
 		return err
 	}
 	return nil
+}
+
+func init() {
+	rootCmd.PersistentFlags().BoolVarP(&rootCmdDebug, "debug", "d", false, "Whether to enable debugging mode")
 }

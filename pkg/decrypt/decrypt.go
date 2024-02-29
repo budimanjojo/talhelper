@@ -1,6 +1,8 @@
 package decrypt
 
 import (
+	"fmt"
+	"log/slog"
 	"os"
 
 	"github.com/getsops/sops/v3/decrypt"
@@ -30,6 +32,7 @@ func DecryptYamlWithSops(filePath string) ([]byte, error) {
 	}
 
 	if m.isEncrypted() {
+		slog.Debug(fmt.Sprintf("%s is SOPS encrypted, decrypting", filePath))
 		decrypted, err := decrypt.Data(data, "yaml")
 		if err != nil {
 			return nil, err

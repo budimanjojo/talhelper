@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"log/slog"
 	"net/http"
 	"text/template"
 
@@ -94,6 +95,7 @@ func GetISOURL(cfg *schematic.Schematic, factory *config.ImageFactory, spec *con
 
 func getSchematicID(cfg *schematic.Schematic, iFactory *config.ImageFactory, offlineMode bool) (string, error) {
 	if offlineMode {
+		slog.Debug("generating schematic ID in offline mode")
 		id, err := cfg.ID()
 		if err != nil {
 			return "", err
@@ -106,6 +108,7 @@ func getSchematicID(cfg *schematic.Schematic, iFactory *config.ImageFactory, off
 	}
 	var resp factoryPOSTResult
 	schematicURL := iFactory.Protocol + "://" + iFactory.RegistryURL + iFactory.SchematicEndpoint
+	slog.Debug(fmt.Sprintf("generating schematic ID from %s", schematicURL))
 	if err := doHTTPPOSTRequest(body, schematicURL, &resp); err != nil {
 		return "", err
 	}

@@ -2,6 +2,7 @@ package config
 
 import (
 	"fmt"
+	"log/slog"
 	"os"
 
 	"github.com/budimanjojo/talhelper/pkg/substitute"
@@ -13,6 +14,8 @@ import (
 // from envPaths. The resulted TalhelperConfig will be validated before being returned.
 // It returns an error, if any.
 func LoadAndValidateFromFile(filePath string, envPaths []string) (*TalhelperConfig, error) {
+	slog.Debug("start loading and validating config file")
+	slog.Debug(fmt.Sprintf("reading %s", filePath))
 	cfgByte, err := os.ReadFile(filePath)
 	if err != nil {
 		return nil, fmt.Errorf("failed to read config file: %s", err)
@@ -22,6 +25,7 @@ func LoadAndValidateFromFile(filePath string, envPaths []string) (*TalhelperConf
 		return nil, fmt.Errorf("failed to load env file: %s", err)
 	}
 
+	slog.Debug("substituting config file with environment variable")
 	cfgByte, err = substitute.SubstituteEnvFromByte(cfgByte)
 	if err != nil {
 		return nil, fmt.Errorf("failed to substitute env: %s", err)
@@ -35,8 +39,10 @@ func LoadAndValidateFromFile(filePath string, envPaths []string) (*TalhelperConf
 	for k, node := range cfg.Nodes {
 		switch node.ControlPlane {
 		case true:
+			slog.Debug(fmt.Sprintf("overriding global controlplane node config for %s", node.Hostname))
 			cfg.Nodes[k].OverrideGlobalCfg(cfg.ControlPlane)
 		case false:
+			slog.Debug(fmt.Sprintf("overriding global worker node config for %s", node.Hostname))
 			cfg.Nodes[k].OverrideGlobalCfg(cfg.Worker)
 		}
 	}

@@ -1,6 +1,9 @@
 package talos
 
 import (
+	"fmt"
+	"log/slog"
+
 	"github.com/budimanjojo/talhelper/pkg/config"
 	"github.com/budimanjojo/talhelper/pkg/decrypt"
 	"github.com/budimanjojo/talhelper/pkg/substitute"
@@ -23,6 +26,7 @@ func NewClusterInput(c *config.TalhelperConfig, secretFile string) (*generate.In
 	var sb *secrets.Bundle
 
 	if secretFile != "" {
+		slog.Debug(fmt.Sprintf("using secret file %s", secretFile))
 		decrypted, err := decrypt.DecryptYamlWithSops(secretFile)
 		if err != nil {
 			return nil, err
@@ -39,6 +43,7 @@ func NewClusterInput(c *config.TalhelperConfig, secretFile string) (*generate.In
 		}
 		sb.Clock = secrets.NewClock()
 	} else {
+		slog.Debug("generating new secret file because secret file is not found")
 		sb, err = NewSecretBundle(secrets.NewClock(), *versionContract)
 		if err != nil {
 			return nil, err
@@ -47,14 +52,19 @@ func NewClusterInput(c *config.TalhelperConfig, secretFile string) (*generate.In
 
 	opts := parseOptions(c, versionContract, sb)
 
+	slog.Debug("generating input file", "clusterName", c.ClusterName, "endpoint", c.Endpoint, "kubernetesVersion", kubernetesVersion)
 	input, err := generate.NewInput(c.ClusterName, c.Endpoint, kubernetesVersion, opts...)
 	if err != nil {
 		return nil, err
 	}
 
+	slog.Debug(fmt.Sprintf("setting input pod network to %s", c.GetClusterPodNets()))
 	input.PodNet = c.GetClusterPodNets()
+	slog.Debug(fmt.Sprintf("setting input service network to %s", c.GetClusterSvcNets()))
 	input.ServiceNet = c.GetClusterSvcNets()
+	slog.Debug(fmt.Sprintf("setting input additional machine cert SANs to %s", c.AdditionalMachineCertSans))
 	input.AdditionalMachineCertSANs = c.AdditionalMachineCertSans
+	slog.Debug(fmt.Sprintf("setting input additional subject alt names to %s", c.AdditionalApiServerCertSans))
 	input.AdditionalSubjectAltNames = c.AdditionalApiServerCertSans
 
 	return input, nil

@@ -3,6 +3,7 @@ package generate
 import (
 	"errors"
 	"fmt"
+	"log/slog"
 	"os"
 	"path/filepath"
 
@@ -29,6 +30,7 @@ func GenerateConfig(c *config.TalhelperConfig, dryRun bool, outDir, secretFile, 
 
 		fileName := c.ClusterName + "-" + node.Hostname + ".yaml"
 		cfgFile := outDir + "/" + fileName
+		slog.Debug(fmt.Sprintf("generating %s for node %s", cfgFile, node.Hostname))
 
 		cfg, err = talos.GenerateNodeConfigBytes(&node, input, c.GetImageFactory(), offlineMode)
 		if err != nil {
@@ -60,6 +62,7 @@ func GenerateConfig(c *config.TalhelperConfig, dryRun bool, outDir, secretFile, 
 		}
 
 		if node.IngressFirewall != nil {
+			slog.Debug(fmt.Sprintf("generating machine firewall config for %s", node.Hostname))
 			nc, err := talos.GenerateNetworkConfigBytes(node.IngressFirewall)
 			if err != nil {
 				return err
@@ -68,6 +71,7 @@ func GenerateConfig(c *config.TalhelperConfig, dryRun bool, outDir, secretFile, 
 		}
 
 		if len(node.ExtraManifests) > 0 {
+			slog.Debug(fmt.Sprintf("generating extra manifests for %s", node.Hostname))
 			content, err := combineExtraManifests(node.ExtraManifests)
 			if err != nil {
 				return err
@@ -76,6 +80,7 @@ func GenerateConfig(c *config.TalhelperConfig, dryRun bool, outDir, secretFile, 
 		}
 
 		if !dryRun {
+			slog.Debug(fmt.Sprintf("dumping machineconfig file for %s to %s", node.Hostname, cfgFile))
 			err = dumpFile(cfgFile, cfg)
 			if err != nil {
 				return err
@@ -83,6 +88,7 @@ func GenerateConfig(c *config.TalhelperConfig, dryRun bool, outDir, secretFile, 
 
 			fmt.Printf("generated config for %s in %s\n", node.Hostname, cfgFile)
 		} else {
+			slog.Debug("showing diff from previous run")
 			absCfgFile, err := filepath.Abs(cfgFile)
 			if err != nil {
 				return err
@@ -110,6 +116,7 @@ func GenerateConfig(c *config.TalhelperConfig, dryRun bool, outDir, secretFile, 
 
 		fileName := "talosconfig"
 
+		slog.Debug(fmt.Sprintf("dumping talosconfig file to %s", outDir+"/"+fileName))
 		err = dumpFile(outDir+"/"+fileName, clientCfg)
 		if err != nil {
 			return err

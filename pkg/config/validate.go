@@ -1,6 +1,8 @@
 package config
 
 import (
+	"fmt"
+	"log/slog"
 	"os"
 )
 
@@ -37,6 +39,7 @@ func ValidateFromFile(path string) (Errors, Warnings, error) {
 func (c TalhelperConfig) Validate() (Errors, Warnings) {
 	var result Errors
 	var warns Warnings
+	slog.Debug("start validating talconfig file")
 	checkRequiredCfg(c, &result)
 	checkSupportedTalosVersion(c, &result, &warns)
 	checkSupportedK8sVersion(c, &result)
@@ -45,6 +48,7 @@ func (c TalhelperConfig) Validate() (Errors, Warnings) {
 	checkClusterNets(c, &result)
 	checkCNIConfig(c, &result)
 	for k, node := range c.Nodes {
+		slog.Debug(fmt.Sprintf("validating config file for node %s", node.Hostname))
 		checkNodeRequiredCfg(node, k, &result)
 		checkNodeIPAddress(node, k, &result)
 		checkNodeHostname(node, k, &result)
