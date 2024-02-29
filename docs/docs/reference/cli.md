@@ -459,7 +459,7 @@ talhelper genurl installer [flags]
       --offline-mode          Generate schematic ID without doing POST request to image-factory
   -r, --registry-url string   Registry url of the image (default "factory.talos.dev")
       --secure-boot           Whether to generate Secure Boot enabled URL
-  -v, --version string        Talos version to generate (defaults to latest Talos version) (default "v1.6.4")
+  -v, --version string        Talos version to generate (defaults to latest Talos version) (default "v1.6.5")
 ```
 
 ### SEE ALSO
@@ -494,7 +494,7 @@ talhelper genurl iso [flags]
       --offline-mode          Generate schematic ID without doing POST request to image-factory
   -r, --registry-url string   Registry url of the image (default "factory.talos.dev")
       --secure-boot           Whether to generate Secure Boot enabled URL
-  -v, --version string        Talos version to generate (defaults to latest Talos version) (default "v1.6.4")
+  -v, --version string        Talos version to generate (defaults to latest Talos version) (default "v1.6.5")
 ```
 
 ### SEE ALSO
@@ -517,7 +517,7 @@ Generate URL for Talos installer or ISO
       --offline-mode          Generate schematic ID without doing POST request to image-factory
   -r, --registry-url string   Registry url of the image (default "factory.talos.dev")
       --secure-boot           Whether to generate Secure Boot enabled URL
-  -v, --version string        Talos version to generate (defaults to latest Talos version) (default "v1.6.4")
+  -v, --version string        Talos version to generate (defaults to latest Talos version) (default "v1.6.5")
 ```
 
 ### SEE ALSO
@@ -556,7 +556,7 @@ talhelper validate talconfig [file] [flags]
 ### Options
 
 ```
-  -e, --env-file strings   List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yaml,talenv.sops.yml])
+  -e, --env-file strings   List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
   -h, --help               help for talconfig
       --no-substitute      Whether to do envsubst on before validation
 ```
