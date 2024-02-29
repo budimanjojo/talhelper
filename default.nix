@@ -1,6 +1,6 @@
-{ buildGo121Module, fetchFromGitHub, installShellFiles, stdenv, lib }:
+{ buildGo122Module, fetchFromGitHub, installShellFiles, stdenv, lib }:
 
-buildGo121Module rec {
+buildGo122Module rec {
   pname = "talhelper";
   version = "2.3.1";
 
