@@ -2,16 +2,16 @@
 
 buildGo122Module rec {
   pname = "talhelper";
-  version = "2.3.3";
+  version = "2.3.4";
 
   src = fetchFromGitHub {
     owner = "budimanjojo";
     repo = pname;
     rev = "v${version}";
-    sha256 = "sha256-hqli1tz6Lp9BZZ+G2cLj52gaaOFGrT3v86WzO8AKF+E=";
+    sha256 = "sha256-MgWYgP+O/YOY4WairAzTmA1q7CQ4yxvr2CwVs3JJuik=";
   };
 
-  vendorHash = "sha256-dfaJE/6AIaYLVP+bOe+U61ttGm/fchJcg/qPLeaCraY=";
+  vendorHash = "sha256-r1sPzRAV6Ajgvhcd0WdTrcWT8UJYI9fOD5zUtYkm0WQ=";
 
   ldflags = [ "-s -w -X github.com/budimanjojo/talhelper/cmd.version=v${version}" ];
 
@@ -36,7 +36,7 @@ buildGo122Module rec {
   meta = with lib; {
     description = "A tool to help creating Talos kubernetes cluster";
     longDescription = ''
-      Talhelper is a helper tool to help creating Talos Linux cluster 
+      Talhelper is a helper tool to help creating Talos Linux cluster
       in your GitOps repository.
     '';
     homepage = "https://github.com/budimanjojo/talhelper";
