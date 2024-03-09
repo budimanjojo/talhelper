@@ -1,0 +1,47 @@
+---
+name: Update flake
+on:
+  workflow_dispatch: {}
+  release:
+    types:
+      - published
+permissions:
+  contents: write
+jobs:
+  deploy-docs:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: cachix/install-nix-action@v26
+      - uses: workflow/nix-shell-action@v3.3.0
+        with:
+          flakes-from-devshell: true
+          script: bash ./scripts/update-flake.sh
+
+      - name: Generate token
+        uses: tibdex/github-app-token@v2
+        id: generate-token
+        with:
+          app_id: "${{ secrets.BOT_APP_ID }}"
+          private_key: "${{ secrets.BOT_APP_PRIVATE_KEY }}"
+
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v6
+        id: cpr
+        with:
+          token: "${{ steps.generate-token.outputs.token }}"
+          title: "docs: update CLI reference documentation"
+          commit-message: "feat: update flake"
+          delete-branch: true
+          committer: budimanjojo-bot <111944664+budimanjojo-bot[bot]@users.noreply.github.com>
+          author: budimanjojo-bot <111944664+budimanjojo-bot[bot]@users.noreply.github.com>
+
+      - name: Automerge
+        if: steps.cpr.outputs.pull-request-operation == 'created'
+        uses: peter-evans/enable-pull-request-automerge@v3
+        with:
+          token: "${{ steps.generate-token.outputs.token }}"
+          pull-request-number: "${{ steps.cpr.outputs.pull-request-number }}"
+          merge-method: squash
