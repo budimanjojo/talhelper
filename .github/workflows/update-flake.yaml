@@ -34,7 +34,7 @@ jobs:
           token: "${{ steps.generate-token.outputs.token }}"
           title: "feat: update flake"
           delete-branch: true
-          base: "${{ github.head_ref }}"
+          base: "master"
           committer: budimanjojo-bot <111944664+budimanjojo-bot[bot]@users.noreply.github.com>
           author: budimanjojo-bot <111944664+budimanjojo-bot[bot]@users.noreply.github.com>
 
