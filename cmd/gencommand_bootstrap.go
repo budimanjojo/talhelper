@@ -14,7 +14,7 @@ var gencommandBootstrapCmd = &cobra.Command{
 	Short: "Generate talosctl bootstrap commands.",
 	Args:  cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
-		cfg, err := config.LoadAndValidateFromFile(gencommandCfgFile, gencommandEnvFile)
+		cfg, err := config.LoadAndValidateFromFile(gencommandCfgFile, gencommandEnvFile, false)
 		if err != nil {
 			log.Fatalf("failed to parse config file: %s", err)
 		}

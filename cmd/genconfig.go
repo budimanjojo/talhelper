@@ -29,7 +29,7 @@ var genconfigCmd = &cobra.Command{
 	Short: "Generate Talos cluster config YAML files",
 	Args:  cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
-		cfg, err := config.LoadAndValidateFromFile(genconfigCfgFile, genconfigEnvFile)
+		cfg, err := config.LoadAndValidateFromFile(genconfigCfgFile, genconfigEnvFile, true)
 		if err != nil {
 			log.Fatalf("failed to parse config file: %s", err)
 		}

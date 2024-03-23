@@ -8,7 +8,7 @@ import (
 )
 
 func TestLoadAndValidateFromFile(t *testing.T) {
-	cfg, err := LoadAndValidateFromFile("testdata/talconfig.yaml", []string{"testdata/env1.yaml", "testdata/env2.yml"})
+	cfg, err := LoadAndValidateFromFile("testdata/talconfig.yaml", []string{"testdata/env1.yaml", "testdata/env2.yml"}, true)
 	if err != nil {
 		t.Fatal(err)
 	}

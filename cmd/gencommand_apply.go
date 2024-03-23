@@ -14,7 +14,7 @@ var gencommandApplyCmd = &cobra.Command{
 	Short: "Generate talosctl apply-config commands.",
 	Args:  cobra.NoArgs,
 	Run: func(cmd *cobra.Command, args []string) {
-		cfg, err := config.LoadAndValidateFromFile(gencommandCfgFile, gencommandEnvFile)
+		cfg, err := config.LoadAndValidateFromFile(gencommandCfgFile, gencommandEnvFile, false)
 		if err != nil {
 			log.Fatalf("failed to parse config file: %s", err)
 		}

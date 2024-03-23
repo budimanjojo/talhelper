@@ -13,7 +13,7 @@ import (
 // LoadAndValidateFromFile takes a file path and yaml encoded env files path, do envsubst
 // from envPaths. The resulted TalhelperConfig will be validated before being returned.
 // It returns an error, if any.
-func LoadAndValidateFromFile(filePath string, envPaths []string) (*TalhelperConfig, error) {
+func LoadAndValidateFromFile(filePath string, envPaths []string, showWarns bool) (*TalhelperConfig, error) {
 	slog.Debug("start loading and validating config file")
 	slog.Debug(fmt.Sprintf("reading %s", filePath))
 	cfgByte, err := os.ReadFile(filePath)
@@ -48,25 +48,31 @@ func LoadAndValidateFromFile(filePath string, envPaths []string) (*TalhelperConf
 	}
 
 	errs, warns := cfg.Validate()
-	if len(errs) > 0 || len(warns) > 0 {
-		color.Red("There are issues with your talhelper config file:")
-		grouped := make(map[string][]string)
-		for _, v := range errs {
-			grouped[v.Field] = append(grouped[v.Field], v.Message.Error())
-		}
+	grouped := make(map[string][]string)
+
+	for _, v := range errs {
+		grouped[v.Field] = append(grouped[v.Field], v.Message.Error())
+	}
+
+	if showWarns {
 		for _, v := range warns {
 			grouped[v.Field] = append(grouped[v.Field], v.Message)
 		}
+	}
+
+	if len(grouped) > 0 {
+		color.Red("There are issues with your Talhelper config file:")
+
 		for field, list := range grouped {
 			color.Yellow("field: %q\n", field)
 			for _, l := range list {
 				fmt.Printf(l + "\n")
 			}
 		}
+	}
 
-		if len(errs) > 0 {
-			return nil, fmt.Errorf("please fix issues with your config file")
-		}
+	if len(errs) > 0 {
+		return nil, fmt.Errorf("please fix issues with your config file")
 	}
 
 	return cfg, nil

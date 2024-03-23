@@ -24,7 +24,7 @@ var genurlISOCmd = &cobra.Command{
 	Short: "Generate URL for Talos ISO image",
 	Run: func(cmd *cobra.Command, args []string) {
 		if _, err := os.Stat(genurlCfgFile); err == nil {
-			cfg, err := config.LoadAndValidateFromFile(genurlCfgFile, genurlEnvFile)
+			cfg, err := config.LoadAndValidateFromFile(genurlCfgFile, genurlEnvFile, false)
 			if err != nil {
 				log.Fatalf("failed to parse config file: %s", err)
 			}
