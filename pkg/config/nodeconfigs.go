@@ -12,7 +12,9 @@ func (node *Node) OverrideGlobalCfg(cfg NodeConfigs) *Node {
 
 func mergeNodeConfigs(patch, src NodeConfigs, overridePatches, overrideExtraManifest bool) NodeConfigs {
 	if len(src.Patches) > 0 && !overridePatches {
-		patch.Patches = append(patch.Patches, src.Patches...)
+		// global patches should get applied first
+		// https://github.com/budimanjojo/talhelper/issues/388
+		patch.Patches = append(src.Patches, patch.Patches...)
 	}
 	if len(src.ExtraManifests) > 0 && !overrideExtraManifest {
 		patch.ExtraManifests = append(patch.ExtraManifests, src.ExtraManifests...)
