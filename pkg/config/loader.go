@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log/slog"
 	"os"
+	"strings"
 
 	"github.com/budimanjojo/talhelper/pkg/substitute"
 	"github.com/fatih/color"
@@ -44,6 +45,16 @@ func LoadAndValidateFromFile(filePath string, envPaths []string, showWarns bool)
 		case false:
 			slog.Debug(fmt.Sprintf("overriding global worker node config for %s", node.Hostname))
 			cfg.Nodes[k].OverrideGlobalCfg(cfg.Worker)
+		}
+
+		if len(cfg.Nodes[k].MachineFiles) > 0 {
+			for i, file := range cfg.Nodes[k].MachineFiles {
+				contents, err := ensureFileContent(file.FileContent)
+				if err != nil {
+					return nil, fmt.Errorf("failed to get machine file content for %s in `machineFiles[%d]`: %s", node.Hostname, i, err)
+				}
+				file.FileContent = contents
+			}
 		}
 	}
 
@@ -108,4 +119,25 @@ func newConfig(source []byte) (c *TalhelperConfig, err error) {
 		return nil, err
 	}
 	return c, nil
+}
+
+func ensureFileContent(value string) (string, error) {
+	if strings.HasPrefix(value, "@") {
+		slog.Debug(fmt.Sprintf("getting file content of %s", value))
+		filename := value[1:]
+
+		contents, err := os.ReadFile(filename)
+		if err != nil {
+			return "", err
+		}
+
+		substituted, err := substitute.SubstituteEnvFromByte(contents)
+		if err != nil {
+			return "", err
+		}
+
+		return string(substituted), nil
+	}
+
+	return value, nil
 }
