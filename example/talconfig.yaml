@@ -57,6 +57,10 @@ nodes:
         permissions: 0o644
         path: /var/etc/tailscale/auth.env
         op: create
+      - content: "@./tsauth.env"
+        permissions: 0o644
+        path: /var/etc/tailscale2/auth.env
+        op: create
     installDiskSelector:
       size: 4GB
       model: WDC*
