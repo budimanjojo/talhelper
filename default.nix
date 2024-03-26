@@ -2,13 +2,13 @@
 
 buildGo122Module rec {
   pname = "talhelper";
-  version = "2.3.8";
+  version = "2.3.9";
 
   src = fetchFromGitHub {
     owner = "budimanjojo";
     repo = pname;
     rev = "v${version}";
-    sha256 = "sha256-gQMTpBaapPZ2Wz1I6I2rUEI/DjfC15B9ZObjiNu9mvA=";
+    sha256 = "sha256-29obeoCYUvBKbOFL8asiGP58OEI+5dRCcOaM8KyAxvI=";
   };
 
   vendorHash = "sha256-qWKWjglZgssEqZEBe5A15sSaiLNLCNNb7svjeGPhiIA=";
