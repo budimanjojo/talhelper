@@ -41,6 +41,8 @@ jobs:
 
       - name: Automerge
         if: steps.cpr.outputs.pull-request-operation == 'created'
-        run: gh pr merge --squash --auto --delete-branch "${{ steps.cpr.outputs.pull-request-number }}"
+        run: |
+          git checkout master
+          gh pr merge --squash --auto --delete-branch "${{ steps.cpr.outputs.pull-request-number }}"
         env:
           GH_TOKEN: "${{ steps.generate-token.outputs.token }}"
