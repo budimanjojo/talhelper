@@ -37,18 +37,20 @@ func LoadAndValidateFromFile(filePath string, envPaths []string, showWarns bool)
 		return nil, fmt.Errorf("failed to unmarshal config file: %s", err)
 	}
 
-	for k, node := range cfg.Nodes {
+	for k := range cfg.Nodes {
+		node := &cfg.Nodes[k]
+
 		switch node.ControlPlane {
 		case true:
 			slog.Debug(fmt.Sprintf("overriding global controlplane node config for %s", node.Hostname))
-			cfg.Nodes[k].OverrideGlobalCfg(cfg.ControlPlane)
+			node.OverrideGlobalCfg(cfg.ControlPlane)
 		case false:
 			slog.Debug(fmt.Sprintf("overriding global worker node config for %s", node.Hostname))
-			cfg.Nodes[k].OverrideGlobalCfg(cfg.Worker)
+			node.OverrideGlobalCfg(cfg.Worker)
 		}
 
-		if len(cfg.Nodes[k].MachineFiles) > 0 {
-			for i, file := range cfg.Nodes[k].MachineFiles {
+		if len(node.MachineFiles) > 0 {
+			for i, file := range node.MachineFiles {
 				contents, err := ensureFileContent(file.FileContent)
 				if err != nil {
 					return nil, fmt.Errorf("failed to get machine file content for %s in `machineFiles[%d]`: %s", node.Hostname, i, err)
