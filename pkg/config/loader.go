@@ -8,6 +8,8 @@ import (
 
 	"github.com/budimanjojo/talhelper/pkg/substitute"
 	"github.com/fatih/color"
+	"github.com/mitchellh/mapstructure"
+	"github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1"
 	"gopkg.in/yaml.v3"
 )
 
@@ -49,13 +51,78 @@ func LoadAndValidateFromFile(filePath string, envPaths []string, showWarns bool)
 			node.OverrideGlobalCfg(cfg.Worker)
 		}
 
-		if len(node.MachineFiles) > 0 {
-			for i, file := range node.MachineFiles {
-				contents, err := ensureFileContent(file.FileContent)
+		if len(node.MachineFileConfigs) > 0 {
+			var additionalMachineFiles []map[string]interface{}
+			for i, file := range node.MachineFileConfigs {
+				switch f := file.(type) {
+				case string:
+					// check file and read from, convert to a machineFile fallthrough
+					slog.Debug(fmt.Sprintf("Reading a file: %s", f))
+					content, err := ensureFileContent(f)
+					if err != nil {
+						return nil, fmt.Errorf("failed to read machine file config for %s in `machineFiles[%d]`: %s", node.Hostname, i, err)
+					}
+
+					mf, err := newMachineFilesConfig([]byte(content))
+					if err != nil {
+						return nil, fmt.Errorf("failed to parse machine file config for %s in `machineFiles[%d]`: %s", node.Hostname, i, err)
+					}
+					additionalMachineFiles = append(additionalMachineFiles, mf...)
+
+				case map[string]interface{}:
+					// This is a machine file definition
+					mf := new(v1alpha1.MachineFile)
+
+					cfg := &mapstructure.DecoderConfig{
+						Metadata: nil,
+						Result:   mf,
+						TagName:  "yaml",
+					}
+					decoder, _ := mapstructure.NewDecoder(cfg)
+					err = decoder.Decode(f)
+					if err != nil {
+						return nil, fmt.Errorf("failed to decode machine file struct for %s in `machineFiles[%d]`: %s", node.Hostname, i, err)
+					}
+					contents, err := ensureFileContent(mf.FileContent)
+					if err != nil {
+						return nil, fmt.Errorf("failed to get machine file content for %s in `machineFiles[%d]`: %s", node.Hostname, i, err)
+					}
+					mf.FileContent = contents
+					node.MachineFiles = append(node.MachineFiles, mf)
+				default:
+					return nil, fmt.Errorf("failed to get machine file for %s in `machineFiles[%d]`", node.Hostname, i)
+				}
+			}
+
+			// Read the additionally created machine files as well
+			for i, file := range additionalMachineFiles {
+				mf := new(v1alpha1.MachineFile)
+
+				cfg := &mapstructure.DecoderConfig{
+					Metadata: nil,
+					Result:   mf,
+					TagName:  "yaml",
+				}
+				decoder, err := mapstructure.NewDecoder(cfg)
+				if err != nil {
+					return nil, fmt.Errorf("failed to set up the decoder")
+				}
+				err = decoder.Decode(file)
+				if err != nil {
+					return nil, fmt.Errorf("failed to decode machine file struct for %s in `machineFiles[%d]`: %s", node.Hostname, i, err)
+				}
+				contents, err := ensureFileContent(mf.FileContent)
 				if err != nil {
 					return nil, fmt.Errorf("failed to get machine file content for %s in `machineFiles[%d]`: %s", node.Hostname, i, err)
 				}
-				file.FileContent = contents
+				mf.FileContent = contents
+				slog.Debug(fmt.Sprintf("Read machine File %s", mf.FilePath))
+				node.MachineFiles = append(node.MachineFiles, mf)
+
+			}
+
+			for _, file := range node.MachineFiles {
+				slog.Debug(fmt.Sprintf("Read machine files: %s", file.FilePath))
 			}
 		}
 	}
@@ -121,6 +188,16 @@ func newConfig(source []byte) (c *TalhelperConfig, err error) {
 		return nil, err
 	}
 	return c, nil
+}
+
+// newMachineFilesConfig takes bytes and convert to a list of MachineFiles.
+// It also returns an error, if any.
+func newMachineFilesConfig(source []byte) (m []map[string]interface{}, err error) {
+	err = yaml.Unmarshal(source, &m)
+	if err != nil {
+		return nil, err
+	}
+	return m, nil
 }
 
 func ensureFileContent(value string) (string, error) {

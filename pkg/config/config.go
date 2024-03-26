@@ -40,10 +40,11 @@ type Node struct {
 }
 
 type NodeConfigs struct {
-	NodeLabels          map[string]string              `yaml:"nodeLabels" jsonschema:"description=Labels to be added to the node"`
-	NodeTaints          map[string]string              `yaml:"nodeTaints" jsonschema:"description=Node taints for the node. Effect is optional"`
-	MachineDisks        []*v1alpha1.MachineDisk        `yaml:"machineDisks,omitempty" jsonschema:"description=List of additional disks to partition, format, mount"`
-	MachineFiles        []*v1alpha1.MachineFile        `yaml:"machineFiles,omitempty" jsonschema:"description=List of files to create inside the node"`
+	NodeLabels          map[string]string       `yaml:"nodeLabels" jsonschema:"description=Labels to be added to the node"`
+	NodeTaints          map[string]string       `yaml:"nodeTaints" jsonschema:"description=Node taints for the node. Effect is optional"`
+	MachineDisks        []*v1alpha1.MachineDisk `yaml:"machineDisks,omitempty" jsonschema:"description=List of additional disks to partition, format, mount"`
+	MachineFileConfigs  []MachineFile           `yaml:"machineFiles,omitempty" jsonschema:"description=List of files to create inside the node"`
+	MachineFiles        []*v1alpha1.MachineFile
 	DisableSearchDomain bool                           `yaml:"disableSearchDomain,omitempty" jsonschema:"description=Whether to disable generating default search domain"`
 	KernelModules       []*v1alpha1.KernelModuleConfig `yaml:"kernelModules,omitempty" jsonschema:"description=List of additional kernel modules to load inside the node"`
 	Nameservers         []string                       `yaml:"nameservers,omitempty" jsonschema:"description=List of nameservers for the node"`
@@ -55,6 +56,8 @@ type NodeConfigs struct {
 	MachineSpec         MachineSpec                    `yaml:"machineSpec,omitempty" jsonschema:"description=Machine hardware specification"`
 	IngressFirewall     *IngressFirewall               `yaml:"ingressFirewall,omitempty" jsonschema:"description=Machine firewall specification"`
 }
+
+type MachineFile interface{}
 
 type ImageFactory struct {
 	RegistryURL       string `yaml:"registryURL,omitempty" jsonschema:"default=factory.talos.dev,description=Registry url or the image"`
