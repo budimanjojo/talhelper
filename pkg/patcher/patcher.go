@@ -4,6 +4,7 @@ import (
 	"os"
 	"strings"
 
+	"github.com/budimanjojo/talhelper/pkg/decrypt"
 	"github.com/budimanjojo/talhelper/pkg/substitute"
 	"github.com/siderolabs/talos/pkg/machinery/config/configpatcher"
 	"gopkg.in/yaml.v3"
@@ -54,9 +55,14 @@ func PatchesPatcher(patches []string, target []byte) ([]byte, error) {
 		if strings.HasPrefix(patchString, "@") {
 			filename := patchString[1:]
 
-			contents, err = os.ReadFile(filename)
+			// Try to decrypt patch with sops first.
+			contents, err = decrypt.DecryptYamlWithSops(filename)
 			if err != nil {
-				return nil, err
+				// If it fails, read the file as is.
+				contents, err = os.ReadFile(filename)
+				if err != nil {
+					return nil, err
+				}
 			}
 
 			p, err := substitute.SubstituteEnvFromByte(contents)
