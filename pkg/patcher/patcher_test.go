@@ -76,6 +76,7 @@ func TestPatchesPatcher(t *testing.T) {
 		"@testdata/patch.json",
 		"@testdata/strategic.yaml",
 		"@testdata/patch.yaml",
+		"@testdata/encrypted.sops.yaml",
 		`[{"op":"add","path":"/machine/network/interfaces/0/dhcp","value": false}]`,
 	}
 
