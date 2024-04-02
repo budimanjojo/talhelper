@@ -71,6 +71,7 @@ func TestYAMLInlinePatcher(t *testing.T) {
 func TestPatchesPatcher(t *testing.T) {
 	os.Setenv("foodomain", "foo.com")
 	os.Setenv("foodotbar", "foo.bar")
+	os.Setenv("SOPS_AGE_KEY", "AGE-SECRET-KEY-172FENV3SDP8JSRRX2SWTA9JQMAW7MW3GSKJ2JZDNXS4GVFAS5STQUW8WN4")
 
 	patchList := []string{
 		"@testdata/patch.json",
