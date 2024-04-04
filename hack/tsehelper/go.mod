@@ -5,7 +5,7 @@ go 1.22.1
 require (
 	github.com/google/go-containerregistry v0.19.1
 	github.com/sirupsen/logrus v1.9.3
-	golang.org/x/mod v0.16.0
+	golang.org/x/mod v0.17.0
 )
 
 require (
