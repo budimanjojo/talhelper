@@ -428,6 +428,8 @@ github.com/siderolabs/image-factory v0.2.3 h1:gzsqZefA0wUHxB/Ukl0nX+Ij03MJ7YwWO+
 github.com/siderolabs/image-factory v0.2.3/go.mod h1:AI9Xgf0OPvD0vQMhLfbVzvhrV1V4LfWvodt+HAqOqNU=
 github.com/siderolabs/image-factory v0.3.0 h1:1EGPOlpcHWgMwvHMU6OwP8c1EGMQlKRPnbSI/EjE+38=
 github.com/siderolabs/image-factory v0.3.0/go.mod h1:RZ9SOvEt2yF//92WM1D/0O7Q95ltGjRZvOHNxDrLQdY=
+github.com/siderolabs/image-factory v0.3.1 h1:Fh19ALWQXZ87cJO8BO0DFLbLTzawhMYIqrZ3hqxw1Go=
+github.com/siderolabs/image-factory v0.3.1/go.mod h1:5Bs1NWeb4wg5vw7XHVfcw/1+G81+8ouDNLDVY6a+WAA=
 github.com/siderolabs/net v0.4.0 h1:1bOgVay/ijPkJz4qct98nHsiB/ysLQU0KLoBC4qLm7I=
 github.com/siderolabs/net v0.4.0/go.mod h1:/ibG+Hm9HU27agp5r9Q3eZicEfjquzNzQNux5uEk0kM=
 github.com/siderolabs/protoenc v0.2.1 h1:BqxEmeWQeMpNP3R6WrPqDatX8sM/r4t97OP8mFmg6GA=
