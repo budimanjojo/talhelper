@@ -1,4 +1,10 @@
-{ buildGo122Module, fetchFromGitHub, installShellFiles, stdenv, lib }:
+{
+  buildGo122Module,
+  fetchFromGitHub,
+  installShellFiles,
+  stdenv,
+  lib,
+}:
 
 buildGo122Module rec {
   pname = "talhelper";
@@ -17,7 +23,10 @@ buildGo122Module rec {
 
   doCheck = false; # no tests
 
-  subPackages = [ "." "./cmd" ];
+  subPackages = [
+    "."
+    "./cmd"
+  ];
 
   nativeBuildInputs = [ installShellFiles ];
 
