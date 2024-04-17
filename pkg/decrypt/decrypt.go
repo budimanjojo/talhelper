@@ -24,6 +24,11 @@ func DecryptYamlWithSops(filePath string) ([]byte, error) {
 		return nil, err
 	}
 
+	// return the data immediately if the file is empty
+	if len(data) == 0 {
+		return data, nil
+	}
+
 	var m *sopsFile
 
 	err = yaml.Unmarshal(data, &m)
