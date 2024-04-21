@@ -15,7 +15,7 @@ import (
 
 // NewClusterInput takes `Talhelper` config and path to encrypted `secretFile` and
 // returns Talos `generate.Input`. It also returns an error, if any.
-func NewClusterInput(c *config.TalhelperConfig, secretFile string) (*generate.Input, error) {
+func NewClusterInput(c *config.TalhelperConfig, secretFile string, mode string) (*generate.Input, error) {
 	kubernetesVersion := c.GetK8sVersion()
 
 	versionContract, err := tconfig.ParseContractFromVersion(c.GetTalosVersion())
@@ -50,7 +50,7 @@ func NewClusterInput(c *config.TalhelperConfig, secretFile string) (*generate.In
 		}
 	}
 
-	opts := parseOptions(c, versionContract, sb)
+	opts := parseOptions(c, versionContract, sb, mode)
 
 	slog.Debug("generating input file", "clusterName", c.ClusterName, "endpoint", c.Endpoint, "kubernetesVersion", kubernetesVersion)
 	input, err := generate.NewInput(c.ClusterName, c.Endpoint, kubernetesVersion, opts...)
@@ -72,12 +72,17 @@ func NewClusterInput(c *config.TalhelperConfig, secretFile string) (*generate.In
 
 // parseOptions takes `TalhelperConfig` and returns slice of Talos `generate.GenOption`
 // compatible with the specified `versionContract`.
-func parseOptions(c *config.TalhelperConfig, versionContract *tconfig.VersionContract, sb *secrets.Bundle) []generate.Option {
+func parseOptions(c *config.TalhelperConfig, versionContract *tconfig.VersionContract, sb *secrets.Bundle, mode string) []generate.Option {
 	opts := []generate.Option{}
 
 	opts = append(opts, generate.WithVersionContract(versionContract))
 	opts = append(opts, generate.WithSecretsBundle(sb))
 	opts = append(opts, generate.WithInstallImage("ghcr.io/siderolabs/installer:"+c.GetTalosVersion()))
+
+	m, _ := parseMode(mode)
+	if m == modeContainer {
+		opts = append(opts, generate.WithHostDNSForwardKubeDNSToHost(true))
+	}
 
 	if c.AllowSchedulingOnMasters || c.AllowSchedulingOnControlPlanes {
 		opts = append(opts, generate.WithAllowSchedulingOnControlPlanes(true))
