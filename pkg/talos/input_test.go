@@ -20,7 +20,7 @@ endpoint: https://1.1.1.1:6443`)
 		t.Fatal(err)
 	}
 
-	result, err := NewClusterInput(&m, "")
+	result, err := NewClusterInput(&m, "", "metal")
 	if err != nil {
 		t.Fatal(err)
 	}

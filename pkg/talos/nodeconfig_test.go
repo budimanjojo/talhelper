@@ -76,7 +76,7 @@ nodes:
 		t.Fatal(err)
 	}
 
-	input, err := NewClusterInput(&m, "")
+	input, err := NewClusterInput(&m, "", "metal")
 	if err != nil {
 		t.Fatal(err)
 	}

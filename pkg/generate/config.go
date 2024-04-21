@@ -20,7 +20,7 @@ import (
 // Talos `machineconfig` files and a `talosconfig` file in `outDir`.
 // It returns an error, if any.
 func GenerateConfig(c *config.TalhelperConfig, dryRun bool, outDir, secretFile, mode string, offlineMode bool) error {
-	input, err := talos.NewClusterInput(c, secretFile)
+	input, err := talos.NewClusterInput(c, secretFile, mode)
 	if err != nil {
 		return err
 	}

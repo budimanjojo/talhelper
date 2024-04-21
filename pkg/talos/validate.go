@@ -9,12 +9,22 @@ import (
 
 type mode int
 
+const (
+	modeCloud mode = iota
+	modeContainer
+	modeMetal
+)
+
 func (m mode) String() string {
 	return ""
 }
 
 func (m mode) RequiresInstall() bool {
-	return m == 2
+	return m == modeMetal
+}
+
+func (m mode) InContainer() bool {
+	return m == modeContainer
 }
 
 // parseMode takes string and convert it to `mode`.
@@ -22,11 +32,11 @@ func (m mode) RequiresInstall() bool {
 func parseMode(s string) (mod mode, err error) {
 	switch s {
 	case "cloud":
-		mod = 0
+		mod = modeCloud
 	case "container":
-		mod = 1
+		mod = modeContainer
 	case "metal":
-		mod = 2
+		mod = modeMetal
 	default:
 		return mod, fmt.Errorf("unknown Talos runtime mode: %q", s)
 	}
