@@ -3,6 +3,7 @@ package config
 import (
 	"github.com/siderolabs/image-factory/pkg/schematic"
 	"github.com/siderolabs/talos/pkg/machinery/config/types/network"
+	"github.com/siderolabs/talos/pkg/machinery/config/types/runtime/extensions"
 	"github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1"
 	"github.com/siderolabs/talos/pkg/machinery/nethelpers"
 )
@@ -54,6 +55,7 @@ type NodeConfigs struct {
 	Schematic           *schematic.Schematic           `yaml:"schematic,omitempty" jsonschema:"description=Talos image customization to be used in the installer image"`
 	MachineSpec         MachineSpec                    `yaml:"machineSpec,omitempty" jsonschema:"description=Machine hardware specification"`
 	IngressFirewall     *IngressFirewall               `yaml:"ingressFirewall,omitempty" jsonschema:"description=Machine firewall specification"`
+	ExtensionServices   []*ExtensionService            `yaml:"extensionServices,omitempty" jsonschema:"description=Machine extension services specification"`
 }
 
 type ImageFactory struct {
@@ -80,4 +82,10 @@ type NetworkRule struct {
 	Name         string                   `yaml:"name" jsonschema:"description=Name of the rule"`
 	PortSelector network.RulePortSelector `yaml:"portSelector" jsonschema:"description=Ports and protocols on the host affected by the rule"`
 	Ingress      network.IngressConfig    `yaml:"ingress" jsonschema:"description=List of source subnets allowed to access the host ports/protocols"`
+}
+
+type ExtensionService struct {
+	Name        string                  `yaml:"name" jsonschema:"description=Name of the extension service config"`
+	ConfigFiles []extensions.ConfigFile `yaml:"configFiles,omitempty" jsonschema:"description=The config files for the extension service"`
+	Environment []string                `yaml:"environment,omitempty" jsonschema:"description=The environment for the extension service"`
 }

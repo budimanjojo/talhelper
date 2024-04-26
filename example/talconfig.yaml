@@ -25,6 +25,13 @@ patches:
         GRPC_GO_LOG_SEVERITY_LEVEL: error
 nodes:
   - hostname: kmaster1
+    extensionServices:
+      - name: nut-client
+        configFiles:
+          - content: MONITOR upsmonHost 1 remote pass password
+            mountPath: /usr/local/etc/nut/upsmon.conf
+        environment:
+          - UPS_NAME=ups
     ingressFirewall:
       defaultAction: block
       rules:

@@ -70,6 +70,15 @@ func GenerateConfig(c *config.TalhelperConfig, dryRun bool, outDir, secretFile, 
 			cfg = append(cfg, nc...)
 		}
 
+		if len(node.ExtensionServices) > 0 {
+			slog.Debug(fmt.Sprintf("generating machine extension service config for %s", node.Hostname))
+			ext, err := talos.GenerateExtensionServicesConfigBytes(node.ExtensionServices)
+			if err != nil {
+				return err
+			}
+			cfg = append(cfg, ext...)
+		}
+
 		if len(node.ExtraManifests) > 0 {
 			slog.Debug(fmt.Sprintf("generating extra manifests for %s", node.Hostname))
 			content, err := combineExtraManifests(node.ExtraManifests)
