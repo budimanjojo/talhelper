@@ -112,6 +112,11 @@ func GenerateUpgradeCommand(cfg *config.TalhelperConfig, outDir string, node str
 // in `cfg.Nodes`. It returns error if `node` is not found or is not controlplane.
 func GenerateUpgradeK8sCommand(cfg *config.TalhelperConfig, outDir string, node string, extraFlags []string) error {
 	var result string
+
+	if cfg.KubernetesVersion == "" {
+		return fmt.Errorf("`kubernetesVersion` is not defined in the configuration")
+	}
+
 	for _, n := range cfg.Nodes {
 		isSelectedByIP := ((node != "") && (n.ContainsIP(node)))
 		isSelectedByHostname := ((node != "") && (node == n.Hostname))
