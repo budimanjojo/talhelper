@@ -34,6 +34,14 @@ Here are the steps you need to do:
 
     The generated files contain unencrypted secrets and you don't want people to get a hand on them.
 
+!!! note
+
+    Do not update or change your `talsecret.sops.yaml` file once you have a working cluster unless you want to recreate a new cluster or know what you're doing as you will break the cluster and lose access to it.
+
+!!! note
+
+    Running `talhelper genconfig` will request a brand new `talosconfig` that is valid for 365 days since the time you run the command. This means the content of the file will be different everytime. This is the equivalent to [Generating new client configuration](https://www.talos.dev/latest/talos-guides/howto/cert-management/#generating-new-client-configuration) that you can use to re-request a new client configuration.
+
 ### You are starting from scratch
 
 If you are creating a Talos Kubernetes cluster from scratch and you want to use `talhelper`, that's awesome!
@@ -52,3 +60,11 @@ Here are the steps you need to do:
     By default `talhelper` will create a `.gitignore` file to ignore the generated files for you unless you use `--no-gitignore` flag.
 
     The generated files contain unencrypted secrets and you don't want people to get a hand on them.
+
+!!! note
+
+    Do not update or change your `talsecret.sops.yaml` file once you have a working cluster unless you want to recreate a new cluster or know what you're doing as you will break the cluster and lose access to it.
+
+!!! note
+
+    Running `talhelper genconfig` will request a brand new `talosconfig` that is valid for 365 days since the time you run the command. This means the content of the file will be different everytime. This is the equivalent to [Generating new client configuration](https://www.talos.dev/latest/talos-guides/howto/cert-management/#generating-new-client-configuration) that you can use to re-request a new client configuration.
