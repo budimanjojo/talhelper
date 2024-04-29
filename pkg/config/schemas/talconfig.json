@@ -135,6 +135,18 @@
       "additionalProperties": false,
       "type": "object"
     },
+    "ConfigFile": {
+      "properties": {
+        "content": {
+          "type": "string"
+        },
+        "mountPath": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
     "Customization": {
       "properties": {
         "extraKernelArgs": {
@@ -295,6 +307,30 @@
         },
         "mountpoint": {
           "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "ExtensionService": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the extension service config"
+        },
+        "configFiles": {
+          "items": {
+            "$ref": "#/$defs/ConfigFile"
+          },
+          "type": "array",
+          "description": "The config files for the extension service"
+        },
+        "environment": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "The environment for the extension service"
         }
       },
       "additionalProperties": false,
@@ -678,6 +714,13 @@
         "ingressFirewall": {
           "$ref": "#/$defs/IngressFirewallWrapper",
           "description": "Machine firewall specification"
+        },
+        "extensionServices": {
+          "items": {
+            "$ref": "#/$defs/ExtensionService"
+          },
+          "type": "array",
+          "description": "Machine extension services specification"
         }
       },
       "additionalProperties": false,
@@ -774,6 +817,28 @@
         "ingressFirewall": {
           "$ref": "#/$defs/IngressFirewallWrapper",
           "description": "Machine firewall specification"
+        },
+        "extensionServices": {
+          "items": {
+            "$ref": "#/$defs/ExtensionService"
+          },
+          "type": "array",
+          "description": "Machine extension services specification"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "Overlay": {
+      "properties": {
+        "image": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "options": {
+          "type": "object"
         }
       },
       "additionalProperties": false,
@@ -826,6 +891,9 @@
     },
     "Schematic": {
       "properties": {
+        "overlay": {
+          "$ref": "#/$defs/Overlay"
+        },
         "customization": {
           "$ref": "#/$defs/Customization"
         }
