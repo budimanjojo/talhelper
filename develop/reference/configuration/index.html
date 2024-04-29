@@ -75,6 +75,8 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#ingressfirewall">IngressFirewall</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#extensionservice">ExtensionService</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#networkrule">NetworkRule</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#cniconfig">CNIConfig</a>
@@ -96,6 +98,8 @@
     <li class="toctree-l2"><a class="reference internal" href="#portselector">PortSelector</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#ingressconfig">IngressConfig</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#configfile">ConfigFile</a>
     </li>
     </ul>
                   </li>
@@ -519,6 +523,22 @@
 <td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
 </tr>
 <tr>
+<td><code>extensionServices</code></td>
+<td>[]<a href="#extensionservice">ExtensionService</a></td>
+<td>Machine extension services specification for the node.<details><summary><em>Show example</em></summary>
+<div class="highlight"><pre><span></span><code><span class="nt">extensionServices</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nut-client</span>
+<span class="w">    </span><span class="nt">configFiles</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">content</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MONITOR upsmonHost 1 remote pass password</span>
+<span class="w">        </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/usr/local/etc/nut/upsmon.conf</span>
+<span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">UPS_NAME=ups</span>
+</code></pre></div>
+</summary></td>
+<td align="center"><code>nil</code></td>
+<td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
+</tr>
+<tr>
 <td><code>nodeLabels</code></td>
 <td>map[string]string</td>
 <td>Labels to be added to the node.<details><summary><em>Show example</em></summary>
@@ -810,6 +830,47 @@
 <td align="center"><img align="center" alt="✅" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/2705.png" title=":white_check_mark:" width="20px" /></td>
 </tr>
 </table>
+<h2 id="extensionservice">ExtensionService</h2>
+<p><code>ExtensionService</code> defines machine extension service configuration for a node.</p>
+<table>
+<tr>
+<th>Field</th>
+<p><th>Type</th><th>Description</th><th>Default Value</th><th>Required</th></p>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>Name of the extension service config.<details><summary><em>Show example</em></summary>
+<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nut-client</span>
+</code></pre></div>
+</details></td>
+<td align="center"><code>nil</code></td>
+<td align="center"><img align="center" alt="✅" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/2705.png" title=":white_check_mark:" width="20px" /></td>
+</tr>
+<tr>
+<td><code>configFiles</code></td>
+<td>[]<a href="#configfile">ConfigFile</a></td>
+<td>The config files for the extension service.<details><summary><em>Show example</em></summary>
+<div class="highlight"><pre><span></span><code><span class="nt">configFiles</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">content</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">MONITOR upsmonHost 1 remote pass password</span>
+<span class="w">    </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/usr/local/etc/nut/upsmon.conf</span>
+</code></pre></div>
+</details></td>
+<td align="center"><code>nil</code></td>
+<td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
+</tr>
+<tr>
+<td><code>environment</code></td>
+<td>[]string</td>
+<td>The environment for the extension service.<details><summary><em>Show example</em></summary>
+<div class="highlight"><pre><span></span><code><span class="nt">environment</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">UPS_NAME=ups</span>
+</code></pre></div>
+</details></td>
+<td align="center"><code>nil</code></td>
+<td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
+</tr>
+</table>
 <h2 id="networkrule">NetworkRule</h2>
 <p><code>NetworkRule</code> defines the firewall rules to match.</p>
 <table>
@@ -873,6 +934,8 @@
 <p><code>PortSelector</code> is type of upstream Talos <a href="https://www.talos.dev/latest/reference/configuration/network/networkruleconfig/#NetworkRuleConfig.portSelector" target="_blank"><code>network.RulePortSelector</code></a></p>
 <h2 id="ingressconfig">IngressConfig</h2>
 <p><code>IngressConfig</code> is type of upstream Talos <a href="https://www.talos.dev/latest/reference/configuration/network/networkruleconfig/#NetworkRuleConfig.ingress" target="_blank"><code>network.IngressConfig</code></a></p>
+<h2 id="configfile">ConfigFile</h2>
+<p><code>ConfigFile</code> is type of upstream Talos <a href="https://www.talos.dev/v1.7/reference/configuration/extensions/extensionserviceconfig/#ExtensionServiceConfig.configFiles" target="_blank"><code>extensions.ConfigFile</code></a></p>
               
             </div>
           </div><footer>
