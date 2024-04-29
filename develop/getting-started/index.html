@@ -141,6 +141,14 @@ Here are the steps you need to do:</p>
 By default <code>talhelper</code> will create a <code>.gitignore</code> file to ignore the generated files for you unless you use <code>--no-gitignore</code> flag.</p>
 <p>The generated files contain unencrypted secrets and you don't want people to get a hand on them.</p>
 </div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Do not update or change your <code>talsecret.sops.yaml</code> file once you have a working cluster unless you want to recreate a new cluster or know what you're doing as you will break the cluster and lose access to it.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Running <code>talhelper genconfig</code> will request a brand new <code>talosconfig</code> that is valid for 365 days since the time you run the command. This means the content of the file will be different everytime. This is the equivalent to <a href="https://www.talos.dev/latest/talos-guides/howto/cert-management/#generating-new-client-configuration">Generating new client configuration</a> that you can use to re-request a new client configuration.</p>
+</div>
 <h3 id="you-are-starting-from-scratch">You are starting from scratch</h3>
 <p>If you are creating a Talos Kubernetes cluster from scratch and you want to use <code>talhelper</code>, that's awesome!
 Here are the steps you need to do:</p>
@@ -157,6 +165,14 @@ Here are the steps you need to do:</p>
 <p>Please don't push the generated files into your public git repository.
 By default <code>talhelper</code> will create a <code>.gitignore</code> file to ignore the generated files for you unless you use <code>--no-gitignore</code> flag.</p>
 <p>The generated files contain unencrypted secrets and you don't want people to get a hand on them.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Do not update or change your <code>talsecret.sops.yaml</code> file once you have a working cluster unless you want to recreate a new cluster or know what you're doing as you will break the cluster and lose access to it.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Running <code>talhelper genconfig</code> will request a brand new <code>talosconfig</code> that is valid for 365 days since the time you run the command. This means the content of the file will be different everytime. This is the equivalent to <a href="https://www.talos.dev/latest/talos-guides/howto/cert-management/#generating-new-client-configuration">Generating new client configuration</a> that you can use to re-request a new client configuration.</p>
 </div>
               
             </div>
