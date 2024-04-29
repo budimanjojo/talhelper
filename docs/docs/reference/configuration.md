@@ -443,6 +443,24 @@ ingressFirewall:
 </tr>
 
 <tr markdown="1">
+<td markdown="1">`extensionServices`</td>
+<td markdown="1">[][ExtensionService](#extensionservice)</td>
+<td markdown="1">Machine extension services specification for the node.<details><summary>*Show example*</summary>
+```yaml
+extensionServices:
+  - name: nut-client
+    configFiles:
+      - content: MONITOR upsmonHost 1 remote pass password
+        mountPath: /usr/local/etc/nut/upsmon.conf
+    environment:
+      - UPS_NAME=ups
+```
+</summary></td>
+<td markdown="1" align="center">`nil`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+</tr>
+
+<tr markdown="1">
 <td markdown="1">`nodeLabels`</td>
 <td markdown="1">map[string]string</td>
 <td markdown="1">Labels to be added to the node.<details><summary>*Show example*</summary>
@@ -788,6 +806,56 @@ rules:
 
 </table>
 
+## ExtensionService
+
+`ExtensionService` defines machine extension service configuration for a node.
+
+<table markdown="1">
+<tr markdown="1">
+<th markdown="1">Field</th><th>Type</th><th>Description</th><th>Default Value</th><th>Required</th>
+</tr>
+
+<tr markdown="1">
+<td markdown="1">`name`</td>
+<td markdown="1">`string`</td>
+<td markdown="1">Name of the extension service config.<details><summary>*Show example*</summary>
+```yaml
+name: nut-client
+```
+</details></td>
+<td markdown="1" align="center">`nil`</td>
+<td markdown="1" align="center">:white_check_mark:</td>
+</tr>
+
+<tr markdown="1">
+<td markdown="1">`configFiles`</td>
+<td markdown="1">[][ConfigFile](#configfile)</td>
+<td markdown="1">The config files for the extension service.<details><summary>*Show example*</summary>
+```yaml
+configFiles:
+  - content: MONITOR upsmonHost 1 remote pass password
+    mountPath: /usr/local/etc/nut/upsmon.conf
+```
+</details></td>
+<td markdown="1" align="center">`nil`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+</tr>
+
+<tr markdown="1">
+<td markdown="1">`environment`</td>
+<td markdown="1">[]string</td>
+<td markdown="1">The environment for the extension service.<details><summary>*Show example*</summary>
+```yaml
+environment:
+  - UPS_NAME=ups
+```
+</details></td>
+<td markdown="1" align="center">`nil`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+</tr>
+
+</table>
+
 ## NetworkRule
 
 `NetworkRule` defines the firewall rules to match.
@@ -879,3 +947,7 @@ ingress:
 ## IngressConfig
 
 `IngressConfig` is type of upstream Talos <a href="https://www.talos.dev/latest/reference/configuration/network/networkruleconfig/#NetworkRuleConfig.ingress" target="_blank">`network.IngressConfig`</a>
+
+## ConfigFile
+
+`ConfigFile` is type of upstream Talos <a href="https://www.talos.dev/v1.7/reference/configuration/extensions/extensionserviceconfig/#ExtensionServiceConfig.configFiles" target="_blank">`extensions.ConfigFile`</a>
