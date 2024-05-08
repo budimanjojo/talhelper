@@ -4,6 +4,7 @@
 
 `talhelper` is a tool to help creating [Talos](https://talos.dev) configuration files declaratively.
 It was inspired by a `python` script written by [@bjw-s](https://github.com/bjw-s).
+You can say `talhelper` is like `kustomize` but for Talos manifest files with `SOPS` support natively.
 
 In a nutshell, this is what `talhelper` does step by step behind the door:
 

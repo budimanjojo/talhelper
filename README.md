@@ -10,6 +10,10 @@
   <p align="center">
     A helper tool to help creating <a href="https://www.talos.dev">Talos</a> cluster in your GitOps repository.
     <br />
+    <br />
+    It's like <a href="https://kustomize.io">Kustomize</a> but for Talos manifest files with <a href="https://github.com/getsops/sops">SOPS</a> support natively.
+    <br />
+    <br />
     ·
     <a href="https://github.com/budimanjojo/talhelper/issues">Report Bug</a>
     ·
