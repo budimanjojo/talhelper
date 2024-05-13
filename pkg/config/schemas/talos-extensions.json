@@ -11,7 +11,8 @@
                 "siderolabs/nvidia-container-toolkit",
                 "siderolabs/nvidia-fabricmanager",
                 "siderolabs/nvidia-open-gpu-kernel-modules"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.2.1",
@@ -24,7 +25,8 @@
                 "siderolabs/nvidia-container-toolkit",
                 "siderolabs/nvidia-fabricmanager",
                 "siderolabs/nvidia-open-gpu-kernel-modules"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.2.2",
@@ -38,7 +40,8 @@
                 "siderolabs/nvidia-container-toolkit",
                 "siderolabs/nvidia-fabricmanager",
                 "siderolabs/nvidia-open-gpu-kernel-modules"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.2.3",
@@ -52,7 +55,8 @@
                 "siderolabs/nvidia-container-toolkit",
                 "siderolabs/nvidia-fabricmanager",
                 "siderolabs/nvidia-open-gpu-kernel-modules"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.2.4",
@@ -66,7 +70,8 @@
                 "siderolabs/nvidia-container-toolkit",
                 "siderolabs/nvidia-fabricmanager",
                 "siderolabs/nvidia-open-gpu-kernel-modules"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.2.5",
@@ -80,7 +85,8 @@
                 "siderolabs/nvidia-container-toolkit",
                 "siderolabs/nvidia-fabricmanager",
                 "siderolabs/nvidia-open-gpu-kernel-modules"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.2.6",
@@ -94,7 +100,8 @@
                 "siderolabs/nvidia-container-toolkit",
                 "siderolabs/nvidia-fabricmanager",
                 "siderolabs/nvidia-open-gpu-kernel-modules"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.2.7",
@@ -108,7 +115,8 @@
                 "siderolabs/nvidia-container-toolkit",
                 "siderolabs/nvidia-fabricmanager",
                 "siderolabs/nvidia-open-gpu-kernel-modules"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.2.8",
@@ -122,7 +130,8 @@
                 "siderolabs/nvidia-container-toolkit",
                 "siderolabs/nvidia-fabricmanager",
                 "siderolabs/nvidia-open-gpu-kernel-modules"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.2.9",
@@ -136,7 +145,8 @@
                 "siderolabs/nvidia-container-toolkit",
                 "siderolabs/nvidia-fabricmanager",
                 "siderolabs/nvidia-open-gpu-kernel-modules"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.3.0",
@@ -152,7 +162,8 @@
                 "siderolabs/nvidia-container-toolkit",
                 "siderolabs/nvidia-fabricmanager",
                 "siderolabs/nvidia-open-gpu-kernel-modules"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.3.1",
@@ -168,7 +179,8 @@
                 "siderolabs/nvidia-container-toolkit",
                 "siderolabs/nvidia-fabricmanager",
                 "siderolabs/nvidia-open-gpu-kernel-modules"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.3.2",
@@ -184,7 +196,8 @@
                 "siderolabs/nvidia-container-toolkit",
                 "siderolabs/nvidia-fabricmanager",
                 "siderolabs/nvidia-open-gpu-kernel-modules"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.3.3",
@@ -200,7 +213,8 @@
                 "siderolabs/nvidia-container-toolkit",
                 "siderolabs/nvidia-fabricmanager",
                 "siderolabs/nvidia-open-gpu-kernel-modules"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.3.4",
@@ -216,7 +230,8 @@
                 "siderolabs/nvidia-container-toolkit",
                 "siderolabs/nvidia-fabricmanager",
                 "siderolabs/nvidia-open-gpu-kernel-modules"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.3.5",
@@ -232,7 +247,8 @@
                 "siderolabs/nvidia-container-toolkit",
                 "siderolabs/nvidia-fabricmanager",
                 "siderolabs/nvidia-open-gpu-kernel-modules"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.3.6",
@@ -248,7 +264,8 @@
                 "siderolabs/nvidia-container-toolkit",
                 "siderolabs/nvidia-fabricmanager",
                 "siderolabs/nvidia-open-gpu-kernel-modules"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.3.7",
@@ -264,7 +281,8 @@
                 "siderolabs/nvidia-container-toolkit",
                 "siderolabs/nvidia-fabricmanager",
                 "siderolabs/nvidia-open-gpu-kernel-modules"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.4.0",
@@ -282,7 +300,8 @@
                 "siderolabs/nvidia-container-toolkit",
                 "siderolabs/nvidia-fabricmanager",
                 "siderolabs/nvidia-open-gpu-kernel-modules"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.4.1",
@@ -300,7 +319,8 @@
                 "siderolabs/nvidia-container-toolkit",
                 "siderolabs/nvidia-fabricmanager",
                 "siderolabs/nvidia-open-gpu-kernel-modules"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.4.2",
@@ -318,7 +338,8 @@
                 "siderolabs/nvidia-container-toolkit",
                 "siderolabs/nvidia-fabricmanager",
                 "siderolabs/nvidia-open-gpu-kernel-modules"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.4.3",
@@ -336,7 +357,8 @@
                 "siderolabs/nvidia-container-toolkit",
                 "siderolabs/nvidia-fabricmanager",
                 "siderolabs/nvidia-open-gpu-kernel-modules"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.4.4",
@@ -354,7 +376,8 @@
                 "siderolabs/nvidia-container-toolkit",
                 "siderolabs/nvidia-fabricmanager",
                 "siderolabs/nvidia-open-gpu-kernel-modules"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.4.5",
@@ -372,7 +395,8 @@
                 "siderolabs/nvidia-container-toolkit",
                 "siderolabs/nvidia-fabricmanager",
                 "siderolabs/nvidia-open-gpu-kernel-modules"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.4.6",
@@ -390,7 +414,8 @@
                 "siderolabs/nvidia-container-toolkit",
                 "siderolabs/nvidia-fabricmanager",
                 "siderolabs/nvidia-open-gpu-kernel-modules"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.4.7",
@@ -408,7 +433,8 @@
                 "siderolabs/nvidia-container-toolkit",
                 "siderolabs/nvidia-fabricmanager",
                 "siderolabs/nvidia-open-gpu-kernel-modules"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.4.8",
@@ -426,7 +452,8 @@
                 "siderolabs/nvidia-container-toolkit",
                 "siderolabs/nvidia-fabricmanager",
                 "siderolabs/nvidia-open-gpu-kernel-modules"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.5.0-alpha.0",
@@ -443,7 +470,8 @@
                 "siderolabs/nvidia-container-toolkit",
                 "siderolabs/nvidia-fabricmanager",
                 "siderolabs/nvidia-open-gpu-kernel-modules"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.5.0-alpha.1",
@@ -461,7 +489,8 @@
                 "siderolabs/nvidia-fabricmanager",
                 "siderolabs/nvidia-open-gpu-kernel-modules",
                 "siderolabs/usb-modem-drivers"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.5.0-alpha.2",
@@ -481,7 +510,8 @@
                 "siderolabs/qemu-guest-agent",
                 "siderolabs/tailscale",
                 "siderolabs/usb-modem-drivers"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.5.0-alpha.3",
@@ -503,7 +533,8 @@
                 "siderolabs/thunderbolt",
                 "siderolabs/usb-modem-drivers",
                 "siderolabs/zfs"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.5.0-beta.0",
@@ -526,7 +557,8 @@
                 "siderolabs/thunderbolt",
                 "siderolabs/usb-modem-drivers",
                 "siderolabs/zfs"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.5.0-beta.1",
@@ -549,7 +581,8 @@
                 "siderolabs/thunderbolt",
                 "siderolabs/usb-modem-drivers",
                 "siderolabs/zfs"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.5.0",
@@ -573,7 +606,8 @@
                 "siderolabs/usb-modem-drivers",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.5.1",
@@ -597,7 +631,8 @@
                 "siderolabs/usb-modem-drivers",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.5.2-1-g3663e39",
@@ -621,7 +656,8 @@
                 "siderolabs/usb-modem-drivers",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.5.2-2-gb40c4b5",
@@ -645,7 +681,8 @@
                 "siderolabs/usb-modem-drivers",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.5.2",
@@ -669,7 +706,8 @@
                 "siderolabs/usb-modem-drivers",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.5.3-1-gfd91550",
@@ -693,7 +731,8 @@
                 "siderolabs/usb-modem-drivers",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.5.3",
@@ -717,7 +756,8 @@
                 "siderolabs/usb-modem-drivers",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.5.4-1-g358c3d3",
@@ -741,7 +781,8 @@
                 "siderolabs/usb-modem-drivers",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.5.4",
@@ -765,7 +806,8 @@
                 "siderolabs/usb-modem-drivers",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.5.5-1-gdba5051",
@@ -789,7 +831,8 @@
                 "siderolabs/usb-modem-drivers",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.5.5-2-g8a4f415",
@@ -813,7 +856,8 @@
                 "siderolabs/usb-modem-drivers",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.5.5",
@@ -837,7 +881,8 @@
                 "siderolabs/usb-modem-drivers",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.5.6",
@@ -861,7 +906,8 @@
                 "siderolabs/usb-modem-drivers",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.0-alpha.0",
@@ -887,7 +933,8 @@
                 "siderolabs/usb-modem-drivers",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.0-alpha.1",
@@ -921,7 +968,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.0-alpha.2",
@@ -956,7 +1004,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.0-alpha.0-10-g3765417",
@@ -985,7 +1034,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.0-alpha.0-11-g1c94a09",
@@ -1015,7 +1065,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.0-alpha.0-12-g336397b",
@@ -1047,7 +1098,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.0-alpha.0-13-g46a3004",
@@ -1080,7 +1132,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.0-alpha.0-14-gac8ff02",
@@ -1113,7 +1166,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.0-alpha.0-15-gad30c33",
@@ -1146,7 +1200,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.0-alpha.0-16-ge812c6f",
@@ -1179,7 +1234,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.0-alpha.0-17-g0ba9f81",
@@ -1212,7 +1268,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.0-alpha.0-18-gdc619c4",
@@ -1246,7 +1303,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.0-alpha.0-19-g9b5c56f",
@@ -1280,7 +1338,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.0-alpha.0-20-g280ff1f",
@@ -1314,7 +1373,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.0-alpha.0-9-g8fa50a2",
@@ -1343,7 +1403,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.0-alpha.2-1-g067c3b7",
@@ -1378,7 +1439,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.0-alpha.2-10-g411dbc2",
@@ -1415,7 +1477,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.0-alpha.2-11-g5a97a46",
@@ -1453,7 +1516,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.0-alpha.2-12-g056e5a8",
@@ -1491,7 +1555,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.0-alpha.2-13-g805b20f",
@@ -1529,7 +1594,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.0-alpha.2-14-g0273100",
@@ -1567,7 +1633,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.0-alpha.2-15-g66a1265",
@@ -1603,7 +1670,8 @@
                 "siderolabs/v4l-uvc-drivers",
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.0-alpha.2-16-g4a93d56",
@@ -1639,7 +1707,8 @@
                 "siderolabs/v4l-uvc-drivers",
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.0-alpha.2-17-g799a340",
@@ -1675,7 +1744,8 @@
                 "siderolabs/v4l-uvc-drivers",
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.0-alpha.2-18-gcde1e75",
@@ -1711,7 +1781,8 @@
                 "siderolabs/v4l-uvc-drivers",
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.0-alpha.2-2-g7618f8f",
@@ -1747,7 +1818,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.0-alpha.2-3-g9105eef",
@@ -1783,7 +1855,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.0-alpha.2-4-g8378499",
@@ -1819,7 +1892,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.0-alpha.2-5-g5ee719f",
@@ -1855,7 +1929,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.0-alpha.2-5-g622ec82",
@@ -1891,7 +1966,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.0-alpha.2-6-g7ba3b3a",
@@ -1928,7 +2004,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.0-alpha.2-7-g32f106f",
@@ -1965,7 +2042,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.0-alpha.2-8-g3104df1",
@@ -2002,7 +2080,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.0-alpha.2-9-g57503cc",
@@ -2039,7 +2118,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.0-beta.0",
@@ -2075,7 +2155,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.0-beta.1",
@@ -2111,7 +2192,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.0-beta.0-1-gc12741e",
@@ -2147,7 +2229,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.0-beta.0-2-g7fdd539",
@@ -2183,7 +2266,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.0",
@@ -2219,7 +2303,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.1-1-gd0879ba",
@@ -2255,7 +2340,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.1-3-gc7fa3ab",
@@ -2291,7 +2377,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.1-4-gc0479a1",
@@ -2327,7 +2414,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.1",
@@ -2363,7 +2451,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.2-1-g8784d16",
@@ -2399,7 +2488,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.2",
@@ -2435,7 +2525,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.3-1-g81b37ad",
@@ -2471,7 +2562,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.3-2-gabd5db0",
@@ -2507,7 +2599,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.3",
@@ -2543,7 +2636,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.4-3-g2b602a8",
@@ -2581,7 +2675,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.4-4-g65ce368",
@@ -2619,7 +2714,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.4",
@@ -2655,7 +2751,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.5-1-g20392af",
@@ -2693,7 +2790,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.5-2-gd33a5e9",
@@ -2731,7 +2829,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.5",
@@ -2769,7 +2868,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.6-1-gb14f2d5",
@@ -2807,7 +2907,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.6-2-g31a52c7",
@@ -2845,7 +2946,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.6",
@@ -2883,7 +2985,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.6.7",
@@ -2921,7 +3024,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.7.0-3-gaa5c4b6",
@@ -2965,7 +3069,8 @@
                 "siderolabs/xen-guest-agent",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.7.0-4-gfdeb5ca",
@@ -3009,7 +3114,8 @@
                 "siderolabs/xen-guest-agent",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.7.0-alpha.0",
@@ -3045,7 +3151,8 @@
                 "siderolabs/v4l-uvc-drivers",
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.7.0-alpha.1",
@@ -3086,6 +3193,53 @@
                 "siderolabs/xen-guest-agent",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
+            ],
+            "overlays": [
+                {
+                    "image": "siderolabs/sbc-raspberrypi",
+                    "name": "rpi_generic",
+                    "digest": "sha256:849ace01b9af514d817b05a9c5963a35202e09a4807d12f8a3ea83657c76c863"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "rockpi4",
+                    "digest": "sha256:7624560e3626b10af12a918b1e2e8257b5c343fca256f16d955a7cf97428a736"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "rockpi4c",
+                    "digest": "sha256:7624560e3626b10af12a918b1e2e8257b5c343fca256f16d955a7cf97428a736"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "nanopi-r4s",
+                    "digest": "sha256:7624560e3626b10af12a918b1e2e8257b5c343fca256f16d955a7cf97428a736"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "rock64",
+                    "digest": "sha256:7624560e3626b10af12a918b1e2e8257b5c343fca256f16d955a7cf97428a736"
+                },
+                {
+                    "image": "siderolabs/sbc-jetson",
+                    "name": "jetson_nano",
+                    "digest": "sha256:436053651216a67080cbc4de5df92688fe020194b6ca6dba0d5ec4b5b836c6d6"
+                },
+                {
+                    "image": "siderolabs/sbc-allwinner",
+                    "name": "bananapi_m64",
+                    "digest": "sha256:e9d4a8233f9094bb362e75f3cea333dec9893adc305c5b6aa80c9ac87418f329"
+                },
+                {
+                    "image": "siderolabs/sbc-allwinner",
+                    "name": "libretech_all_h3_cc_h5",
+                    "digest": "sha256:e9d4a8233f9094bb362e75f3cea333dec9893adc305c5b6aa80c9ac87418f329"
+                },
+                {
+                    "image": "siderolabs/sbc-allwinner",
+                    "name": "pine64",
+                    "digest": "sha256:e9d4a8233f9094bb362e75f3cea333dec9893adc305c5b6aa80c9ac87418f329"
+                }
             ]
         },
         {
@@ -3127,7 +3281,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.7.0-alpha.0-11-gee6071c",
@@ -3168,7 +3323,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.7.0-alpha.0-12-ge5488bd",
@@ -3209,7 +3365,8 @@
                 "siderolabs/xen-guest-agent",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.7.0-alpha.0-13-g1459bc7",
@@ -3250,7 +3407,8 @@
                 "siderolabs/xen-guest-agent",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.7.0-alpha.0-14-g1560ee6",
@@ -3291,7 +3449,8 @@
                 "siderolabs/xen-guest-agent",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.7.0-alpha.0-15-gd44b563",
@@ -3332,7 +3491,8 @@
                 "siderolabs/xen-guest-agent",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.7.0-alpha.0-2-gc677b87",
@@ -3369,7 +3529,8 @@
                 "siderolabs/wasmedge",
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.7.0-alpha.0-3-g97e59f8",
@@ -3407,7 +3568,8 @@
                 "siderolabs/wasmedge",
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.7.0-alpha.0-4-gec1cf8c",
@@ -3446,7 +3608,8 @@
                 "siderolabs/wasmedge",
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.7.0-alpha.0-5-g9cdf805",
@@ -3485,7 +3648,8 @@
                 "siderolabs/wasmedge",
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.7.0-alpha.0-6-gab5f8d9",
@@ -3524,7 +3688,8 @@
                 "siderolabs/wasmedge",
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.7.0-alpha.0-7-g5cb79a9",
@@ -3564,7 +3729,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.7.0-alpha.0-8-g0cf50cd",
@@ -3604,7 +3770,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.7.0-alpha.0-9-g884722f",
@@ -3645,7 +3812,8 @@
                 "siderolabs/xe-guest-utilities",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.7.0-alpha.1-1-g0638039",
@@ -3687,7 +3855,8 @@
                 "siderolabs/xen-guest-agent",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.7.0-alpha.1-10-g69fe96c",
@@ -3731,7 +3900,8 @@
                 "siderolabs/xen-guest-agent",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.7.0-alpha.1-11-g4df073a",
@@ -3775,7 +3945,8 @@
                 "siderolabs/xen-guest-agent",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.7.0-alpha.1-12-g882b4ac",
@@ -3819,7 +3990,8 @@
                 "siderolabs/xen-guest-agent",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.7.0-alpha.1-13-gd589ad0",
@@ -3863,7 +4035,8 @@
                 "siderolabs/xen-guest-agent",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.7.0-alpha.1-15-g80c5113",
@@ -3907,7 +4080,8 @@
                 "siderolabs/xen-guest-agent",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.7.0-alpha.1-2-g9d4f24f",
@@ -3949,7 +4123,8 @@
                 "siderolabs/xen-guest-agent",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.7.0-alpha.1-5-geb36dc5",
@@ -3992,7 +4167,8 @@
                 "siderolabs/xen-guest-agent",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.7.0-alpha.1-6-gf1e64c2",
@@ -4035,7 +4211,8 @@
                 "siderolabs/xen-guest-agent",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.7.0-alpha.1-7-g213ef32",
@@ -4079,7 +4256,8 @@
                 "siderolabs/xen-guest-agent",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.7.0-alpha.1-7-g4a7c83d",
@@ -4122,7 +4300,8 @@
                 "siderolabs/xen-guest-agent",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.7.0-alpha.1-8-g76d3797",
@@ -4166,7 +4345,8 @@
                 "siderolabs/xen-guest-agent",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.7.0-alpha.1-9-g8672c3b",
@@ -4210,7 +4390,8 @@
                 "siderolabs/xen-guest-agent",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.7.0-beta.0",
@@ -4253,6 +4434,63 @@
                 "siderolabs/xen-guest-agent",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
+            ],
+            "overlays": [
+                {
+                    "image": "siderolabs/sbc-raspberrypi",
+                    "name": "rpi_generic",
+                    "digest": "sha256:47c6b7dc1cf697fc1ced0928eb4e8a37e83e99898289f59aaa49f8ed97249352"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "rockpi4",
+                    "digest": "sha256:09bcea555bec64b91cf51ebe2328753036aa07b27af41ca07f442818b279d95d"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "rockpi4c",
+                    "digest": "sha256:09bcea555bec64b91cf51ebe2328753036aa07b27af41ca07f442818b279d95d"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "rock4cplus",
+                    "digest": "sha256:09bcea555bec64b91cf51ebe2328753036aa07b27af41ca07f442818b279d95d"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "nanopi-r4s",
+                    "digest": "sha256:09bcea555bec64b91cf51ebe2328753036aa07b27af41ca07f442818b279d95d"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "rock64",
+                    "digest": "sha256:09bcea555bec64b91cf51ebe2328753036aa07b27af41ca07f442818b279d95d"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "orangepi-r1-plus-lts",
+                    "digest": "sha256:09bcea555bec64b91cf51ebe2328753036aa07b27af41ca07f442818b279d95d"
+                },
+                {
+                    "image": "siderolabs/sbc-jetson",
+                    "name": "jetson_nano",
+                    "digest": "sha256:6016709654521f9a038f168651995b8c68fe73044c15ef7dadc9af72f1c8c4fb"
+                },
+                {
+                    "image": "siderolabs/sbc-allwinner",
+                    "name": "bananapi_m64",
+                    "digest": "sha256:f71fc58353eb4e349fca874ac6058914291a64bd5c329fd128723a01b1c77cfc"
+                },
+                {
+                    "image": "siderolabs/sbc-allwinner",
+                    "name": "libretech_all_h3_cc_h5",
+                    "digest": "sha256:f71fc58353eb4e349fca874ac6058914291a64bd5c329fd128723a01b1c77cfc"
+                },
+                {
+                    "image": "siderolabs/sbc-allwinner",
+                    "name": "pine64",
+                    "digest": "sha256:f71fc58353eb4e349fca874ac6058914291a64bd5c329fd128723a01b1c77cfc"
+                }
             ]
         },
         {
@@ -4297,6 +4535,63 @@
                 "siderolabs/xen-guest-agent",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
+            ],
+            "overlays": [
+                {
+                    "image": "siderolabs/sbc-raspberrypi",
+                    "name": "rpi_generic",
+                    "digest": "sha256:47c6b7dc1cf697fc1ced0928eb4e8a37e83e99898289f59aaa49f8ed97249352"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "rockpi4",
+                    "digest": "sha256:851007aef5c81e63ddf364ced232d733291ff2633f7a38d3e0881370dbef8aec"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "rockpi4c",
+                    "digest": "sha256:851007aef5c81e63ddf364ced232d733291ff2633f7a38d3e0881370dbef8aec"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "rock4cplus",
+                    "digest": "sha256:851007aef5c81e63ddf364ced232d733291ff2633f7a38d3e0881370dbef8aec"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "nanopi-r4s",
+                    "digest": "sha256:851007aef5c81e63ddf364ced232d733291ff2633f7a38d3e0881370dbef8aec"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "rock64",
+                    "digest": "sha256:851007aef5c81e63ddf364ced232d733291ff2633f7a38d3e0881370dbef8aec"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "orangepi-r1-plus-lts",
+                    "digest": "sha256:851007aef5c81e63ddf364ced232d733291ff2633f7a38d3e0881370dbef8aec"
+                },
+                {
+                    "image": "siderolabs/sbc-jetson",
+                    "name": "jetson_nano",
+                    "digest": "sha256:6016709654521f9a038f168651995b8c68fe73044c15ef7dadc9af72f1c8c4fb"
+                },
+                {
+                    "image": "siderolabs/sbc-allwinner",
+                    "name": "bananapi_m64",
+                    "digest": "sha256:f71fc58353eb4e349fca874ac6058914291a64bd5c329fd128723a01b1c77cfc"
+                },
+                {
+                    "image": "siderolabs/sbc-allwinner",
+                    "name": "libretech_all_h3_cc_h5",
+                    "digest": "sha256:f71fc58353eb4e349fca874ac6058914291a64bd5c329fd128723a01b1c77cfc"
+                },
+                {
+                    "image": "siderolabs/sbc-allwinner",
+                    "name": "pine64",
+                    "digest": "sha256:f71fc58353eb4e349fca874ac6058914291a64bd5c329fd128723a01b1c77cfc"
+                }
             ]
         },
         {
@@ -4341,7 +4636,8 @@
                 "siderolabs/xen-guest-agent",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.7.0-beta.0-2-ga881eef",
@@ -4385,7 +4681,8 @@
                 "siderolabs/xen-guest-agent",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.7.0-beta.0-3-g0b0fc10",
@@ -4429,7 +4726,8 @@
                 "siderolabs/xen-guest-agent",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.7.0-beta.1-1-ge90699d",
@@ -4473,7 +4771,8 @@
                 "siderolabs/xen-guest-agent",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.7.0-beta.1-2-gdf8a650",
@@ -4517,7 +4816,8 @@
                 "siderolabs/xen-guest-agent",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.7.0",
@@ -4561,6 +4861,63 @@
                 "siderolabs/xen-guest-agent",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
+            ],
+            "overlays": [
+                {
+                    "image": "siderolabs/sbc-raspberrypi",
+                    "name": "rpi_generic",
+                    "digest": "sha256:47c6b7dc1cf697fc1ced0928eb4e8a37e83e99898289f59aaa49f8ed97249352"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "rockpi4",
+                    "digest": "sha256:851007aef5c81e63ddf364ced232d733291ff2633f7a38d3e0881370dbef8aec"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "rockpi4c",
+                    "digest": "sha256:851007aef5c81e63ddf364ced232d733291ff2633f7a38d3e0881370dbef8aec"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "rock4cplus",
+                    "digest": "sha256:851007aef5c81e63ddf364ced232d733291ff2633f7a38d3e0881370dbef8aec"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "nanopi-r4s",
+                    "digest": "sha256:851007aef5c81e63ddf364ced232d733291ff2633f7a38d3e0881370dbef8aec"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "rock64",
+                    "digest": "sha256:851007aef5c81e63ddf364ced232d733291ff2633f7a38d3e0881370dbef8aec"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "orangepi-r1-plus-lts",
+                    "digest": "sha256:851007aef5c81e63ddf364ced232d733291ff2633f7a38d3e0881370dbef8aec"
+                },
+                {
+                    "image": "siderolabs/sbc-jetson",
+                    "name": "jetson_nano",
+                    "digest": "sha256:6016709654521f9a038f168651995b8c68fe73044c15ef7dadc9af72f1c8c4fb"
+                },
+                {
+                    "image": "siderolabs/sbc-allwinner",
+                    "name": "bananapi_m64",
+                    "digest": "sha256:f71fc58353eb4e349fca874ac6058914291a64bd5c329fd128723a01b1c77cfc"
+                },
+                {
+                    "image": "siderolabs/sbc-allwinner",
+                    "name": "libretech_all_h3_cc_h5",
+                    "digest": "sha256:f71fc58353eb4e349fca874ac6058914291a64bd5c329fd128723a01b1c77cfc"
+                },
+                {
+                    "image": "siderolabs/sbc-allwinner",
+                    "name": "pine64",
+                    "digest": "sha256:f71fc58353eb4e349fca874ac6058914291a64bd5c329fd128723a01b1c77cfc"
+                }
             ]
         },
         {
@@ -4605,6 +4962,63 @@
                 "siderolabs/xen-guest-agent",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
+            ],
+            "overlays": [
+                {
+                    "image": "siderolabs/sbc-raspberrypi",
+                    "name": "rpi_generic",
+                    "digest": "sha256:47c6b7dc1cf697fc1ced0928eb4e8a37e83e99898289f59aaa49f8ed97249352"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "rockpi4",
+                    "digest": "sha256:851007aef5c81e63ddf364ced232d733291ff2633f7a38d3e0881370dbef8aec"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "rockpi4c",
+                    "digest": "sha256:851007aef5c81e63ddf364ced232d733291ff2633f7a38d3e0881370dbef8aec"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "rock4cplus",
+                    "digest": "sha256:851007aef5c81e63ddf364ced232d733291ff2633f7a38d3e0881370dbef8aec"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "nanopi-r4s",
+                    "digest": "sha256:851007aef5c81e63ddf364ced232d733291ff2633f7a38d3e0881370dbef8aec"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "rock64",
+                    "digest": "sha256:851007aef5c81e63ddf364ced232d733291ff2633f7a38d3e0881370dbef8aec"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "orangepi-r1-plus-lts",
+                    "digest": "sha256:851007aef5c81e63ddf364ced232d733291ff2633f7a38d3e0881370dbef8aec"
+                },
+                {
+                    "image": "siderolabs/sbc-jetson",
+                    "name": "jetson_nano",
+                    "digest": "sha256:6016709654521f9a038f168651995b8c68fe73044c15ef7dadc9af72f1c8c4fb"
+                },
+                {
+                    "image": "siderolabs/sbc-allwinner",
+                    "name": "bananapi_m64",
+                    "digest": "sha256:f71fc58353eb4e349fca874ac6058914291a64bd5c329fd128723a01b1c77cfc"
+                },
+                {
+                    "image": "siderolabs/sbc-allwinner",
+                    "name": "libretech_all_h3_cc_h5",
+                    "digest": "sha256:f71fc58353eb4e349fca874ac6058914291a64bd5c329fd128723a01b1c77cfc"
+                },
+                {
+                    "image": "siderolabs/sbc-allwinner",
+                    "name": "pine64",
+                    "digest": "sha256:f71fc58353eb4e349fca874ac6058914291a64bd5c329fd128723a01b1c77cfc"
+                }
             ]
         },
         {
@@ -4649,6 +5063,63 @@
                 "siderolabs/xen-guest-agent",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
+            ],
+            "overlays": [
+                {
+                    "image": "siderolabs/sbc-raspberrypi",
+                    "name": "rpi_generic",
+                    "digest": "sha256:47c6b7dc1cf697fc1ced0928eb4e8a37e83e99898289f59aaa49f8ed97249352"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "rockpi4",
+                    "digest": "sha256:851007aef5c81e63ddf364ced232d733291ff2633f7a38d3e0881370dbef8aec"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "rockpi4c",
+                    "digest": "sha256:851007aef5c81e63ddf364ced232d733291ff2633f7a38d3e0881370dbef8aec"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "rock4cplus",
+                    "digest": "sha256:851007aef5c81e63ddf364ced232d733291ff2633f7a38d3e0881370dbef8aec"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "nanopi-r4s",
+                    "digest": "sha256:851007aef5c81e63ddf364ced232d733291ff2633f7a38d3e0881370dbef8aec"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "rock64",
+                    "digest": "sha256:851007aef5c81e63ddf364ced232d733291ff2633f7a38d3e0881370dbef8aec"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "orangepi-r1-plus-lts",
+                    "digest": "sha256:851007aef5c81e63ddf364ced232d733291ff2633f7a38d3e0881370dbef8aec"
+                },
+                {
+                    "image": "siderolabs/sbc-jetson",
+                    "name": "jetson_nano",
+                    "digest": "sha256:6016709654521f9a038f168651995b8c68fe73044c15ef7dadc9af72f1c8c4fb"
+                },
+                {
+                    "image": "siderolabs/sbc-allwinner",
+                    "name": "bananapi_m64",
+                    "digest": "sha256:f71fc58353eb4e349fca874ac6058914291a64bd5c329fd128723a01b1c77cfc"
+                },
+                {
+                    "image": "siderolabs/sbc-allwinner",
+                    "name": "libretech_all_h3_cc_h5",
+                    "digest": "sha256:f71fc58353eb4e349fca874ac6058914291a64bd5c329fd128723a01b1c77cfc"
+                },
+                {
+                    "image": "siderolabs/sbc-allwinner",
+                    "name": "pine64",
+                    "digest": "sha256:f71fc58353eb4e349fca874ac6058914291a64bd5c329fd128723a01b1c77cfc"
+                }
             ]
         },
         {
@@ -4693,7 +5164,8 @@
                 "siderolabs/xen-guest-agent",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.8.0-alpha.0-1-gdd85754",
@@ -4737,7 +5209,8 @@
                 "siderolabs/xen-guest-agent",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.8.0-alpha.0-2-gdffe8b9",
@@ -4781,7 +5254,8 @@
                 "siderolabs/xen-guest-agent",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         },
         {
             "version": "v1.8.0-alpha.0-3-g2f97116",
@@ -4825,7 +5299,8 @@
                 "siderolabs/xen-guest-agent",
                 "siderolabs/zfs",
                 "siderolabs/nonfree-kmod-nvidia"
-            ]
+            ],
+            "overlays": null
         }
     ]
 }
