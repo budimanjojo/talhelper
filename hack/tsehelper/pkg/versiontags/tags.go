@@ -55,3 +55,16 @@ func (v TalosVersionTags) SliceIndex(s string) int {
 	}
 	return -1
 }
+
+func (v TalosVersion) IsValidOverlay(o Overlay) bool {
+	for _, overlay := range v.Overlays {
+		if o.Name == overlay.Name {
+			if o.Image != overlay.Image {
+				return false
+			} else {
+				return true
+			}
+		}
+	}
+	return false
+}

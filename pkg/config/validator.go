@@ -8,6 +8,7 @@ import (
 	"slices"
 	"strings"
 	"sync"
+	"tsehelper/pkg/versiontags"
 
 	"github.com/gookit/validate"
 	"github.com/hashicorp/go-multierror"
@@ -373,6 +374,18 @@ func checkNodeSchematic(node Node, idx int, talosVersion string, result *Errors)
 				messages = multierror.Append(messages, fmt.Errorf("duplicate system extension %q", ext))
 			}
 			extensions[ext] = struct{}{}
+		}
+
+		if node.Schematic.Overlay.Image != "" || node.Schematic.Overlay.Name != "" {
+			if node.Schematic.Overlay.Image == "" || node.Schematic.Overlay.Name == "" {
+				messages = multierror.Append(messages, fmt.Errorf("both `image` and `name` is required to be set"))
+			}
+			var overlay versiontags.Overlay
+			overlay.Name = node.Schematic.Overlay.Name
+			overlay.Image = node.Schematic.Overlay.Image
+			if !OfficialExtensions.Versions[OfficialExtensions.SliceIndex(talosVersion)].IsValidOverlay(overlay) {
+				messages = multierror.Append(messages, fmt.Errorf("%v (%v) is not a supported Talos overlay for %q", overlay.Name, overlay.Image, talosVersion))
+			}
 		}
 	}
 
