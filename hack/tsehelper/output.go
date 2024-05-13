@@ -45,6 +45,9 @@ func generateOutput(givenVersionTags versiontags.TalosVersionTags) []byte {
 				for i, extension := range val.SystemExtensions {
 					val.SystemExtensions[i] = cleanString(extension)
 				}
+				for i, overlay := range val.Overlays {
+					val.Overlays[i].Image = cleanString(overlay.Image)
+				}
 				theOne.Versions = append(theOne.Versions, val)
 			}
 		}
@@ -62,6 +65,9 @@ func generateOutput(givenVersionTags versiontags.TalosVersionTags) []byte {
 	}
 
 	for i, val := range givenVersionTags.Versions {
+		for i, overlay := range val.Overlays {
+			val.Overlays[i].Image = cleanString(overlay.Image)
+		}
 		for j, extension := range val.SystemExtensions {
 			givenVersionTags.Versions[i].SystemExtensions[j] = cleanString(extension)
 		}

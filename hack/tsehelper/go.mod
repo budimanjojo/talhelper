@@ -6,6 +6,7 @@ require (
 	github.com/google/go-containerregistry v0.19.1
 	github.com/sirupsen/logrus v1.9.3
 	golang.org/x/mod v0.17.0
+	gopkg.in/yaml.v3 v3.0.1
 )
 
 require (
@@ -16,6 +17,7 @@ require (
 	github.com/docker/docker-credential-helpers v0.8.0 // indirect
 	github.com/google/go-cmp v0.6.0 // indirect
 	github.com/klauspost/compress v1.17.4 // indirect
+	github.com/kr/pretty v0.3.1 // indirect
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/opencontainers/go-digest v1.0.0 // indirect
 	github.com/opencontainers/image-spec v1.1.0-rc5 // indirect

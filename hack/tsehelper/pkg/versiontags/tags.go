@@ -6,8 +6,16 @@ import (
 
 // TalosVersion is a struct that holds the Talos version and list of available Talos System Extensions.
 type TalosVersion struct {
-	Version          string   `json:"version"`
-	SystemExtensions []string `json:"systemExtensions"`
+	Version          string    `json:"version"`
+	SystemExtensions []string  `json:"systemExtensions"`
+	Overlays         []Overlay `json:"overlays" yaml:"overlays"`
+}
+
+// Overlay is a struct that holds the Talos Overlay information.
+type Overlay struct {
+	Image  string `json:"image" yaml:"image"`
+	Name   string `json:"name" yaml:"name"`
+	Digest string `json:"digest" yaml:"digest"`
 }
 
 // TalosVersionTags is a struct that holds the list of TalosVersionTags for each Talos version returned by the registry.

@@ -44,9 +44,14 @@ func main() {
 		} else {
 			// Check for missing talos versions
 			if missingVersions := getMissingVersions(&tags); len(missingVersions.Versions) > 0 {
-				// Populate missing versions with system extensions
+				// Populate missing versions with system extensions and overlays
 				if err := getSystemExtensions(&missingVersions); err != nil {
 					log.Errorf("error parsing tags for system extensions: %s", err)
+					os.Exit(1)
+				}
+
+				if err := getOverlays(&missingVersions); err != nil {
+					log.Errorf("error parsing tags for overlays: %s", err)
 					os.Exit(1)
 				}
 
@@ -84,9 +89,13 @@ func main() {
 				os.Exit(1)
 			}
 
-			// Parse the tags for system extensions
+			// Parse the tags for system extensions and overlays
 			if err := getSystemExtensions(&tags); err != nil {
 				log.Errorf("error parsing tags for system extensions: %s", err)
+				os.Exit(1)
+			}
+			if err := getOverlays(&tags); err != nil {
+				log.Errorf("error parsing tags for overlays: %s", err)
 				os.Exit(1)
 			}
 		}

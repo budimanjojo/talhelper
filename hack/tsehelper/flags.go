@@ -28,7 +28,7 @@ func init() {
 	flag.BoolVar(&trimRegistry, "trimRegistry", false, "trim the sha256 suffix e.g. 'ghcr.io/siderolabs/amd-ucode:v1.2.0@sha256:1234567890abcdef' -> 'ghcr.io/siderolabs/amd-ucode:v1.2.0'")
 	flag.BoolVar(&trimSha256, "trimSha256", false, "trim the registry prefix, e.g. 'ghcr.io/siderolabs/extensions/siderolabs/amd-ucode:v1.2.0@sha256:1234567890abcdef' -> 'siderolabs/amd-ucode:v1.2.0@sha256:1234567890abcdef'")
 	flag.BoolVar(&trimTag, "trimTag", false, "trim the tag, e.g. 'ghcr.io/siderolabs/extensions/siderolabs/amd-ucode:v1.2.0@sha256:1234567890abcdef' -> 'ghcr.io/siderolabs/extensions/siderolabs/amd-ucode@sha256:1234567890abcdef'")
-	flag.StringVar(&output, "output", "./"+DefaultTalosExtensionsFilename, "filepath to output the result into")
+	flag.StringVar(&output, "output", "./"+DefaultOutputFilename, "filepath to output the result into")
 
 	flag.Parse()
 }
