@@ -31,6 +31,9 @@ func NewClusterInput(c *config.TalhelperConfig, secretFile string, mode string) 
 		if err != nil {
 			return nil, err
 		}
+		if len(decrypted) == 0 {
+			return nil, fmt.Errorf("secret file %s is empty", secretFile)
+		}
 
 		decrypted, err = substitute.SubstituteEnvFromByte(decrypted)
 		if err != nil {
