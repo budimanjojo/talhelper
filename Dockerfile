@@ -1,16 +1,14 @@
-# Additional build flags passed to the `go build` command
-ARG BUILD_FLAGS
-
+ARG VERSION
 
 ## ================================================================================================
 ## Builder Stage -> creating the binary
 ## ================================================================================================
 FROM golang:1.22.3-alpine3.18 as builder
-ARG BUILD_FLAGS
+ARG VERSION
+
 WORKDIR /build
 COPY . .
-RUN go build ${BUILD_FLAGS} -o /usr/local/bin/talhelper
-
+RUN go build -ldflags="-s -w -X github.com/budimanjojo/talhelper/cmd.version=${VERSION}" -o /usr/local/bin/talhelper
 
 
 ## ================================================================================================
