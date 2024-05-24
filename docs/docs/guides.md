@@ -237,6 +237,7 @@ Here's the simplified step by step to achieve this:
         crt: ${OSCERT}
         key: ${OSKEY}
     ```
+
 2. In `doppler`, create a project named i.e "talhelper". In that project, create a config i.e "env" that stores key and value of the secret like `AESCBCENCYPTIONKEY: <secret>.`.
 3. Run `doppler` CLI command that sets environment variable before running the `talhelper` command i.e: `doppler run -p talhelper -c env talhelper genconfig`.
 
