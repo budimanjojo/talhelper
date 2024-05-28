@@ -305,7 +305,7 @@ Here's the simplified step by step to achieve this:</p>
 <ol>
 <li>
 <p>In <code>talsecret.yaml</code> file, put all your secrets with <code>${}</code> placeholder like this:</p>
-<p><div class="highlight"><pre><span></span><code><span class="nt">cluster</span><span class="p">:</span>
+<div class="highlight"><pre><span></span><code><span class="nt">cluster</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${CLUSTERNAME}</span>
 <span class="w">  </span><span class="nt">secret</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${CLUSTERSECRET}</span>
 <span class="nt">secrets</span><span class="p">:</span>
@@ -329,9 +329,11 @@ Here's the simplified step by step to achieve this:</p>
 <span class="w">    </span><span class="nt">crt</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${OSCERT}</span>
 <span class="w">    </span><span class="nt">key</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${OSKEY}</span>
 </code></pre></div>
-2. In <code>doppler</code>, create a project named i.e "talhelper". In that project, create a config i.e "env" that stores key and value of the secret like <code>AESCBCENCYPTIONKEY: &lt;secret&gt;.</code>.
-3. Run <code>doppler</code> CLI command that sets environment variable before running the <code>talhelper</code> command i.e: <code>doppler run -p talhelper -c env talhelper genconfig</code>.</p>
 </li>
+<li>
+<p>In <code>doppler</code>, create a project named i.e "talhelper". In that project, create a config i.e "env" that stores key and value of the secret like <code>AESCBCENCYPTIONKEY: &lt;secret&gt;.</code>.</p>
+</li>
+<li>Run <code>doppler</code> CLI command that sets environment variable before running the <code>talhelper</code> command i.e: <code>doppler run -p talhelper -c env talhelper genconfig</code>.</li>
 </ol>
 <h2 id="generating-talosctl-commands-for-bash-scripting">Generating <code>talosctl</code> commands for bash scripting</h2>
 <p>Thanks to the idea and contribution of <a href="https://github.com/mirceanton">mirceanton</a>, you can generate <code>talosctl</code> commands for bash scripting in your workflow.
