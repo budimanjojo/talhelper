@@ -41,7 +41,7 @@ Thanks for those who are sponsoring or have sponsored my projects, it helps and 
 
 <a href="https://github.com/0dragosh"><img src="https://github.com/0dragosh.png" width="40px" alt="" /></a>
 <a href="https://github.com/wouterbouvy"><img src="https://github.com/wouterbouvy.png" width="40px" alt="" /></a>
-<a href="https://github.com/maxmouchet"><img src="https://github.com/maxmouchet.png" widtth="40px" alt="" /></a>
+<a href="https://github.com/maxmouchet"><img src="https://github.com/maxmouchet.png" width="40px" alt="" /></a>
 
 ## Acknowledgments
 
