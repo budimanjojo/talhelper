@@ -4,7 +4,7 @@ import (
 	"net/netip"
 	"testing"
 
-	"github.com/budimanjojo/talhelper/pkg/config"
+	"github.com/budimanjojo/talhelper/v3/pkg/config"
 	"github.com/siderolabs/talos/pkg/machinery/config/types/network"
 	"github.com/siderolabs/talos/pkg/machinery/nethelpers"
 	"gopkg.in/yaml.v3"

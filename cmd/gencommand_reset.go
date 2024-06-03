@@ -5,8 +5,8 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/budimanjojo/talhelper/pkg/config"
-	"github.com/budimanjojo/talhelper/pkg/generate"
+	"github.com/budimanjojo/talhelper/v3/pkg/config"
+	"github.com/budimanjojo/talhelper/v3/pkg/generate"
 )
 
 var gencommandResetCmd = &cobra.Command{

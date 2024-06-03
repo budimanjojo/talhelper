@@ -11,9 +11,9 @@ import (
 	"github.com/hexops/gotextdiff/myers"
 	"github.com/hexops/gotextdiff/span"
 
-	"github.com/budimanjojo/talhelper/pkg/config"
-	"github.com/budimanjojo/talhelper/pkg/patcher"
-	"github.com/budimanjojo/talhelper/pkg/talos"
+	"github.com/budimanjojo/talhelper/v3/pkg/config"
+	"github.com/budimanjojo/talhelper/v3/pkg/patcher"
+	"github.com/budimanjojo/talhelper/v3/pkg/talos"
 )
 
 // GenerateConfig takes `TalhelperConfig` and path to encrypted `secretFile` and generates

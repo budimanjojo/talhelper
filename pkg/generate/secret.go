@@ -1,9 +1,9 @@
 package generate
 
 import (
-	talhelperCfg "github.com/budimanjojo/talhelper/pkg/config"
-	"github.com/budimanjojo/talhelper/pkg/secret"
-	"github.com/budimanjojo/talhelper/pkg/talos"
+	talhelperCfg "github.com/budimanjojo/talhelper/v3/pkg/config"
+	"github.com/budimanjojo/talhelper/v3/pkg/secret"
+	"github.com/budimanjojo/talhelper/v3/pkg/talos"
 	"github.com/siderolabs/talos/pkg/machinery/config"
 	"github.com/siderolabs/talos/pkg/machinery/config/generate/secrets"
 )

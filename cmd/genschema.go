@@ -5,7 +5,7 @@ import (
 	"log"
 	"os"
 
-	"github.com/budimanjojo/talhelper/pkg/config"
+	"github.com/budimanjojo/talhelper/v3/pkg/config"
 	"github.com/invopop/jsonschema"
 
 	"github.com/spf13/cobra"
@@ -24,7 +24,7 @@ var genschemaCmd = &cobra.Command{
 		r.RequiredFromJSONSchemaTags = true
 
 		// Doesn't work like I thought it should
-		// if err := r.AddGoComments("github.com/budimanjojo/talhelper/pkg/config", "./"); err != nil {
+		// if err := r.AddGoComments("github.com/budimanjojo/talhelper/v3/pkg/config", "./"); err != nil {
 		// 	log.Fatalf("failed to add go comments: %v", err)
 		// }
 		// if err := r.AddGoComments("github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1", "./"); err != nil {

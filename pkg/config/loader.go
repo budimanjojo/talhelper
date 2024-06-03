@@ -6,7 +6,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/budimanjojo/talhelper/pkg/substitute"
+	"github.com/budimanjojo/talhelper/v3/pkg/substitute"
 	"github.com/fatih/color"
 	"gopkg.in/yaml.v3"
 )

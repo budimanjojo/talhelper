@@ -6,8 +6,8 @@ import (
 	"log/slog"
 	"os"
 
-	"github.com/budimanjojo/talhelper/pkg/config"
-	"github.com/budimanjojo/talhelper/pkg/substitute"
+	"github.com/budimanjojo/talhelper/v3/pkg/config"
+	"github.com/budimanjojo/talhelper/v3/pkg/substitute"
 	"github.com/fatih/color"
 	"github.com/spf13/cobra"
 )
