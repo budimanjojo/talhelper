@@ -5,7 +5,7 @@ import (
 	"log/slog"
 	"strings"
 
-	"github.com/budimanjojo/talhelper/pkg/config"
+	"github.com/budimanjojo/talhelper/v3/pkg/config"
 	"github.com/siderolabs/image-factory/pkg/schematic"
 	taloscfg "github.com/siderolabs/talos/pkg/machinery/config"
 	"github.com/siderolabs/talos/pkg/machinery/config/generate"
@@ -38,7 +38,7 @@ func GenerateNodeConfig(node *config.Node, input *generate.Input, iFactory *conf
 		}
 	}
 
-	// https://github.com/budimanjojo/talhelper/issues/81
+	// https://github.com/budimanjojo/talhelper/v3/issues/81
 	if input.Options.VersionContract.SecretboxEncryptionSupported() && input.Options.SecretsBundle.Secrets.AESCBCEncryptionSecret != "" {
 		slog.Debug("encryption with secretbox is supported and AESCBCEncryptionSecret is not empty")
 		c.RawV1Alpha1().ClusterConfig.ClusterAESCBCEncryptionSecret = input.Options.SecretsBundle.Secrets.AESCBCEncryptionSecret

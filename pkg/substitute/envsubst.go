@@ -9,7 +9,7 @@ import (
 	"regexp"
 
 	"github.com/a8m/envsubst"
-	"github.com/budimanjojo/talhelper/pkg/decrypt"
+	"github.com/budimanjojo/talhelper/v3/pkg/decrypt"
 	"github.com/joho/godotenv"
 )
 
@@ -26,7 +26,7 @@ func LoadEnvFromFiles(files []string) error {
 				return fmt.Errorf("trying to decrypt %s with sops: %s", file, err)
 			}
 
-			// See: https://github.com/budimanjojo/talhelper/issues/220
+			// See: https://github.com/budimanjojo/talhelper/v3/issues/220
 			env = stripYAMLDocDelimiter(env)
 			if err := LoadEnv(env); err != nil {
 				return fmt.Errorf("trying to load env from %s: %s", file, err)

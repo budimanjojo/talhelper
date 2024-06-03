@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/budimanjojo/talhelper/pkg/talos"
+	"github.com/budimanjojo/talhelper/v3/pkg/talos"
 	"github.com/spf13/cobra"
 )
 

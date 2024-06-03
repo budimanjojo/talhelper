@@ -5,7 +5,7 @@ import (
 	"reflect"
 	"testing"
 
-	"github.com/budimanjojo/talhelper/pkg/config"
+	"github.com/budimanjojo/talhelper/v3/pkg/config"
 	"github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1"
 	"gopkg.in/yaml.v3"
 )

@@ -1,7 +1,7 @@
 package config
 
 import (
-	"github.com/budimanjojo/talhelper/pkg/patcher"
+	"github.com/budimanjojo/talhelper/v3/pkg/patcher"
 	"gopkg.in/yaml.v3"
 )
 

@@ -1,7 +1,7 @@
 package cmd
 
 import (
-	"github.com/budimanjojo/talhelper/pkg/config"
+	"github.com/budimanjojo/talhelper/v3/pkg/config"
 	"github.com/spf13/cobra"
 )
 

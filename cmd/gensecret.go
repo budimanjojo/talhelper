@@ -3,7 +3,7 @@ package cmd
 import (
 	"log"
 
-	"github.com/budimanjojo/talhelper/pkg/generate"
+	"github.com/budimanjojo/talhelper/v3/pkg/generate"
 	"github.com/spf13/cobra"
 )
 

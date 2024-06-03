@@ -4,8 +4,8 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/budimanjojo/talhelper/pkg/config"
-	"github.com/budimanjojo/talhelper/pkg/talos"
+	"github.com/budimanjojo/talhelper/v3/pkg/config"
+	"github.com/budimanjojo/talhelper/v3/pkg/talos"
 	"github.com/siderolabs/image-factory/pkg/schematic"
 )
 

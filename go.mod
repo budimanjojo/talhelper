@@ -1,4 +1,4 @@
-module github.com/budimanjojo/talhelper
+module github.com/budimanjojo/talhelper/v3
 
 go 1.22.3
 

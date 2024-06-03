@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"github.com/budimanjojo/talhelper/cmd"
+	"github.com/budimanjojo/talhelper/v3/cmd"
 )
 
 func main() {

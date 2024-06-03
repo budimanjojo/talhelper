@@ -3,7 +3,7 @@ package talos
 import (
 	"bytes"
 
-	"github.com/budimanjojo/talhelper/pkg/config"
+	"github.com/budimanjojo/talhelper/v3/pkg/config"
 	"github.com/siderolabs/talos/pkg/machinery/config/types/network"
 	"gopkg.in/yaml.v3"
 )
