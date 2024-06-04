@@ -81,7 +81,10 @@ func CombineYamlBytes(input [][]byte) []byte {
 	delimiter := []byte("---\n")
 	var result []byte
 	for k := range input {
-		result = append(result, delimiter...)
+		// https://github.com/budimanjojo/talhelper/issues/497
+		if !bytes.HasPrefix(input[k], delimiter) {
+			result = append(result, delimiter...)
+		}
 		result = append(result, input[k]...)
 	}
 	return result
