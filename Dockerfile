@@ -8,7 +8,7 @@ ARG VERSION
 
 WORKDIR /build
 COPY . .
-RUN go build -ldflags="-s -w -X github.com/budimanjojo/talhelper/cmd.version=${VERSION}" -o /usr/local/bin/talhelper
+RUN go build -ldflags="-s -w -X github.com/budimanjojo/talhelper/v3/cmd.version=${VERSION}" -o /usr/local/bin/talhelper
 
 
 ## ================================================================================================

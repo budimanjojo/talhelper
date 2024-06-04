@@ -10,7 +10,7 @@ builds:
       - amd64
       - arm64
     ldflags:
-      - -s -w -X github.com/budimanjojo/talhelper/cmd.version={{.Version}}
+      - -s -w -X github.com/budimanjojo/talhelper/v3/cmd.version={{.Version}}
   - id: talhelper-windows-amd64
     env:
       - CGO_ENABLED=0
@@ -19,7 +19,7 @@ builds:
     goarch:
       - amd64
     ldflags:
-      - -s -w -X github.com/budimanjojo/talhelper/cmd.version={{.Version}}
+      - -s -w -X github.com/budimanjojo/talhelper/v3/cmd.version={{.Version}}
 archives:
   - name_template: "{{.ProjectName}}_{{.Os}}_{{.Arch}}"
 checksum:

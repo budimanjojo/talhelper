@@ -19,7 +19,7 @@ buildGoModule rec {
 
   vendorHash = "sha256-nIAi9NvwNsOCUAjBKbs07Zxsm7d6JMyGDQBbZu0wb/g=";
 
-  ldflags = [ "-s -w -X github.com/budimanjojo/talhelper/cmd.version=v${version}" ];
+  ldflags = [ "-s -w -X github.com/budimanjojo/talhelper/v3/cmd.version=v${version}" ];
 
   doCheck = false; # no tests
 
