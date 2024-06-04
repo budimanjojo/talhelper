@@ -43,7 +43,7 @@ Workflow:
 
 var rootCmdDebug bool
 
-var rootCmd = &cobra.Command{
+var RootCmd = &cobra.Command{
 	Use:           "talhelper",
 	Short:         "A tool to help with creating Talos cluster",
 	Long:          rootLongHelp,
@@ -58,7 +58,7 @@ var rootCmd = &cobra.Command{
 }
 
 func Execute() error {
-	err := rootCmd.Execute()
+	err := RootCmd.Execute()
 	if err != nil {
 		return err
 	}
@@ -66,5 +66,5 @@ func Execute() error {
 }
 
 func init() {
-	rootCmd.PersistentFlags().BoolVarP(&rootCmdDebug, "debug", "d", false, "Whether to enable debugging mode")
+	RootCmd.PersistentFlags().BoolVarP(&rootCmdDebug, "debug", "d", false, "Whether to enable debugging mode")
 }

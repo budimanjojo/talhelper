@@ -13,7 +13,7 @@ import (
 
 var genschemaFile string
 
-var genschemaCmd = &cobra.Command{
+var GenschemaCmd = &cobra.Command{
 	Use:   "genschema",
 	Short: "Generate `talconfig.yaml` JSON schema file",
 	Args:  cobra.NoArgs,
@@ -39,7 +39,7 @@ var genschemaCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(genschemaCmd)
+	RootCmd.AddCommand(GenschemaCmd)
 
-	genschemaCmd.Flags().StringVarP(&genschemaFile, "file", "f", "talconfig.json", "Where to dump the generated json-schema file")
+	GenschemaCmd.Flags().StringVarP(&genschemaFile, "file", "f", "talconfig.json", "Where to dump the generated json-schema file")
 }

@@ -13,7 +13,7 @@ import (
 	"github.com/spf13/cobra/doc"
 )
 
-var gendocsCmd = &cobra.Command{
+var GendocsCmd = &cobra.Command{
 	Use:    "gendocs <output-dir>",
 	Short:  "Generate documentation for the CLI",
 	Args:   cobra.ExactArgs(1),
@@ -87,5 +87,5 @@ func editData(data string) string {
 }
 
 func init() {
-	rootCmd.AddCommand(gendocsCmd)
+	RootCmd.AddCommand(gendocsCmd)
 }

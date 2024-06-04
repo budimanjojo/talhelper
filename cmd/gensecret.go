@@ -9,7 +9,7 @@ import (
 
 var gensecretFromCfg string
 
-var gensecretCmd = &cobra.Command{
+var GensecretCmd = &cobra.Command{
 	Use:   "gensecret",
 	Short: "Generate Talos cluster secrets",
 	Args:  cobra.NoArgs,
@@ -22,7 +22,7 @@ var gensecretCmd = &cobra.Command{
 }
 
 func init() {
-	rootCmd.AddCommand(gensecretCmd)
+	RootCmd.AddCommand(GensecretCmd)
 
-	gensecretCmd.Flags().StringVarP(&gensecretFromCfg, "from-configfile", "f", "", "Talos cluster node configuration file to generate secret from")
+	GensecretCmd.Flags().StringVarP(&gensecretFromCfg, "from-configfile", "f", "", "Talos cluster node configuration file to generate secret from")
 }
