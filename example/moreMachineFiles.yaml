@@ -1,0 +1,9 @@
+- content: |
+    ANOTHER_TS_AUTHKEY=123456
+  permissions: 0o644
+  path: /var/etc/tailscale/another_auth.env
+  op: create
+- content: "@./tsauth.env"
+  permissions: 0o644
+  path: /var/etc/tailscale2/another_auth.env
+  op: create
