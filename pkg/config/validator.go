@@ -8,8 +8,8 @@ import (
 	"slices"
 	"strings"
 	"sync"
-	"tsehelper/pkg/versiontags"
 
+	"github.com/budimanjojo/talhelper/v3/pkg/config/schemas/versiontags"
 	"github.com/gookit/validate"
 	"github.com/hashicorp/go-multierror"
 	"github.com/siderolabs/net"

@@ -7,8 +7,8 @@ import (
 	"net/netip"
 	"slices"
 	"strings"
-	"tsehelper/pkg/versiontags"
 
+	"github.com/budimanjojo/talhelper/v3/pkg/config/schemas/versiontags"
 	"github.com/siderolabs/talos/pkg/machinery/constants"
 )
 
