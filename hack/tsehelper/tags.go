@@ -7,8 +7,7 @@ import (
 	"sort"
 	"strings"
 
-	"tsehelper/pkg/versiontags"
-
+	"github.com/budimanjojo/talhelper/v3/pkg/config/schemas/versiontags"
 	"github.com/google/go-containerregistry/pkg/crane"
 	log "github.com/sirupsen/logrus"
 )

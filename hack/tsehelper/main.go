@@ -4,8 +4,7 @@ import (
 	"os"
 	"sort"
 
-	"tsehelper/pkg/versiontags"
-
+	"github.com/budimanjojo/talhelper/v3/pkg/config/schemas/versiontags"
 	log "github.com/sirupsen/logrus"
 )
 

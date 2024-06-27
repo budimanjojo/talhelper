@@ -8,8 +8,7 @@ import (
 	"path/filepath"
 	"runtime"
 
-	"tsehelper/pkg/versiontags"
-
+	"github.com/budimanjojo/talhelper/v3/pkg/config/schemas/versiontags"
 	log "github.com/sirupsen/logrus"
 )
 

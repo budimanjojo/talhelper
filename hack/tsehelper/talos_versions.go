@@ -8,8 +8,7 @@ import (
 	"strings"
 	"sync"
 
-	"tsehelper/pkg/versiontags"
-
+	"github.com/budimanjojo/talhelper/v3/pkg/config/schemas/versiontags"
 	"github.com/google/go-containerregistry/pkg/crane"
 	v1 "github.com/google/go-containerregistry/pkg/v1"
 	log "github.com/sirupsen/logrus"

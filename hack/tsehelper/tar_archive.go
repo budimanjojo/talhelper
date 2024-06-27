@@ -7,8 +7,7 @@ import (
 	"io"
 	"strings"
 
-	"tsehelper/pkg/versiontags"
-
+	"github.com/budimanjojo/talhelper/v3/pkg/config/schemas/versiontags"
 	"gopkg.in/yaml.v3"
 )
 
