@@ -4,6 +4,7 @@ import (
 	"errors"
 	"fmt"
 	"log"
+	"log/slog"
 	"os"
 	"strings"
 
@@ -72,6 +73,8 @@ var genurlInstallerCmd = &cobra.Command{
 				}
 			}
 		} else if errors.Is(err, os.ErrNotExist) {
+			slog.Debug("no config file found")
+			slog.Debug("generating from provided flags", slog.Any("kernelArg", genurlKernelArgs), slog.Any("extension", genurlExtensions))
 			cfg := &schematic.Schematic{
 				Customization: schematic.Customization{
 					ExtraKernelArgs: genurlKernelArgs,
