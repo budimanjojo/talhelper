@@ -17,7 +17,7 @@ import (
 func LoadAndValidateFromFile(filePath string, envPaths []string, showWarns bool) (*TalhelperConfig, error) {
 	slog.Debug("start loading and validating config file")
 	slog.Debug(fmt.Sprintf("reading %s", filePath))
-	cfgByte, err := os.ReadFile(filePath)
+	cfgByte, err := FromFile(filePath)
 	if err != nil {
 		return nil, fmt.Errorf("failed to read config file: %s", err)
 	}
@@ -100,7 +100,7 @@ func NewFromByte(source []byte) (*TalhelperConfig, error) {
 // NewFromFile takes a file path and convert the contents into Talhelper config.
 // It also returns an error, if any.
 func NewFromFile(path string) (c *TalhelperConfig, err error) {
-	source, err := fromFile(path)
+	source, err := FromFile(path)
 	if err != nil {
 		return c, err
 	}
@@ -108,9 +108,13 @@ func NewFromFile(path string) (c *TalhelperConfig, err error) {
 	return newConfig(source)
 }
 
-// fromFile is a wrapper for `os.ReadFile`.
-func fromFile(path string) ([]byte, error) {
-	return os.ReadFile(path)
+// FromFile is a wrapper for `os.ReadFile` with modified error if path doesn't exist.
+func FromFile(path string) ([]byte, error) {
+	b, err := os.ReadFile(path)
+	if err != nil && os.IsNotExist(err) {
+		return nil, fmt.Errorf("%s doesn't exist. Refer to this docs for more information on how to create one: https://budimanjojo.github.io/talhelper/latest/guides/#example-talconfigyaml", path)
+	}
+	return b, err
 }
 
 // newConfig takes bytes and convert it into Talhelper config.

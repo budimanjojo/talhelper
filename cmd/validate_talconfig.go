@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log"
 	"log/slog"
-	"os"
 
 	"github.com/budimanjojo/talhelper/v3/pkg/config"
 	"github.com/budimanjojo/talhelper/v3/pkg/substitute"
@@ -30,7 +29,7 @@ var validateTHCmd = &cobra.Command{
 
 		slog.Debug("start loading and validating config file")
 		slog.Debug(fmt.Sprintf("reading %s", cfg))
-		cfgByte, err := os.ReadFile(cfg)
+		cfgByte, err := config.FromFile(cfg)
 		if err != nil {
 			log.Fatalf("failed to read config file: %s", err)
 		}
