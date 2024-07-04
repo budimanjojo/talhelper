@@ -17,7 +17,7 @@ require (
 	github.com/siderolabs/net v0.4.0
 	github.com/siderolabs/talos/pkg/machinery v1.8.0-alpha.0.0.20240514132626-b86edc6776f7
 	github.com/spf13/cobra v1.8.1
-	golang.org/x/mod v0.18.0
+	golang.org/x/mod v0.19.0
 	gopkg.in/yaml.v3 v3.0.1
 	sigs.k8s.io/yaml v1.4.0
 )
