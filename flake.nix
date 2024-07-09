@@ -18,16 +18,16 @@
         {
           _module.args.pkgs = import inputs.nixpkgs {
             inherit system;
-            overlays = [
-              (final: prev: {
-                go_1_22 = prev.go_1_22.overrideAttrs (old: {
-                  src = prev.fetchurl {
-                    url = "https://go.dev/dl/go1.22.3.src.tar.gz";
-                    hash = "sha256-gGSO80+QMZPXKlnA3/AZ9fmK4MmqE63gsOy/+ZGnb2g=";
-                  };
-                });
-              })
-            ];
+            # overlays = [
+            #   (final: prev: {
+            #     go_1_22 = prev.go_1_22.overrideAttrs (old: {
+            #       src = prev.fetchurl {
+            #         url = "https://go.dev/dl/go1.22.3.src.tar.gz";
+            #         hash = "sha256-gGSO80+QMZPXKlnA3/AZ9fmK4MmqE63gsOy/+ZGnb2g=";
+            #       };
+            #     });
+            #   })
+            # ];
           };
           packages.default = pkgs.callPackage ./default.nix { };
           devShells.default =
