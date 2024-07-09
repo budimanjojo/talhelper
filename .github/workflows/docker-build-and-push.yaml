@@ -12,11 +12,11 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: The tag to apply to the docker image.
+        description: Docker Tag
         default: ""
         required: false    
       dryRun:
-        description: Whether or not to push the image to the container registry.
+        description: Dry Run
         default: "true"
         required: false
 
