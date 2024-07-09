@@ -17,19 +17,22 @@ machine:
     endpoint: https://1.1.1.1:6443
 machine:
   type: controlplane
+  ca:
+    crt: hehe
+    key: hehe
   features:
     hostDNS:
       enabled: true
       forwardKubeDNSToHost: true
 `)
 
-	noErr := ValidateConfigFromBytes(data, "metal")
-	if noErr == nil {
-		t.Errorf("got %s, want %s", noErr, "error")
+	err := ValidateConfigFromBytes(data, "metal")
+	if err == nil {
+		t.Errorf("got %s, want %s", err, "error")
 	}
 
-	err := ValidateConfigFromBytes(dataC, "container")
-	if err != nil {
-		t.Errorf("got %s, want %s", err, "")
+	noErr := ValidateConfigFromBytes(dataC, "container")
+	if noErr != nil {
+		t.Errorf("got %s, want %s", noErr, "")
 	}
 }
