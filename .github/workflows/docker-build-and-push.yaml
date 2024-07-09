@@ -54,7 +54,7 @@ jobs:
       - name: Build and push by digest
         uses: docker/build-push-action@v5
         with:
-          push: ${{ github.event_name == 'release' || input.dryRun == 'false' }}
+          push: ${{ github.event_name == 'release' || github.event.inputs.dryRun == 'false' }}
           platforms: linux/amd64, linux/arm64
           labels: ${{ steps.meta.outputs.labels }}
           tags: ${{ steps.meta.outputs.tags }}
