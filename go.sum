@@ -608,6 +608,8 @@ github.com/siderolabs/talos/pkg/machinery v1.8.0-alpha.0.0.20240514132626-b86edc
 github.com/siderolabs/talos/pkg/machinery v1.8.0-alpha.0.0.20240514132626-b86edc6776f7/go.mod h1:aPP3ekRwHB9T1iLdLzGoIXrHQNOEdoeuy9leVSt3a8c=
 github.com/siderolabs/talos/pkg/machinery v1.8.0-alpha.0.0.20240705104247-3d35e54683b4 h1:Nmp2gFnhSN1dE/HcpZMc5HDc89YZ7NFuF3tkTwUXuY0=
 github.com/siderolabs/talos/pkg/machinery v1.8.0-alpha.0.0.20240705104247-3d35e54683b4/go.mod h1:Ve18EAk5Zp3q/WVerQBuzJAIfMHA3J6RihbIXG0aHbk=
+github.com/siderolabs/talos/pkg/machinery v1.8.0-alpha.1 h1:yfOeUCV0vfuTZq+68mhjkHB1jWbWZ1UF+9IOfFjhJgE=
+github.com/siderolabs/talos/pkg/machinery v1.8.0-alpha.1/go.mod h1:quf9bVxPe7hkUKtEa0LZkZgfpm5zqceu7I+edGOaDus=
 github.com/sirupsen/logrus v1.9.3 h1:dueUQJ1C2q9oE3F7wvmSGAaVtTmUizReu6fjN8uqzbQ=
 github.com/sirupsen/logrus v1.9.3/go.mod h1:naHLuLoDiP4jHNo9R0sCBMtWGeIprob74mVsIT4qYEQ=
 github.com/spf13/cobra v1.8.0 h1:7aJaZx1B85qltLMc546zn58BxxfZdR/W22ej9CFoEf0=
@@ -914,6 +916,8 @@ google.golang.org/grpc v1.63.2 h1:MUeiw1B2maTVZthpU5xvASfTh3LDbxHd6IJ6QQVU+xM=
 google.golang.org/grpc v1.63.2/go.mod h1:WAX/8DgncnokcFUldAxq7GeB5DXHDbMF+lLvDomNkRA=
 google.golang.org/grpc v1.64.0 h1:KH3VH9y/MgNQg1dE7b3XfVK0GsPSIzJwdF617gUSbvY=
 google.golang.org/grpc v1.64.0/go.mod h1:oxjF8E3FBnjp+/gVFYdWacaLDx9na1aqy9oovLpxQYg=
+google.golang.org/grpc v1.65.0 h1:bs/cUb4lp1G5iImFFd3u5ixQzweKizoZJAwBNLR42lc=
+google.golang.org/grpc v1.65.0/go.mod h1:WgYC2ypjlB0EiQi6wdKixMqukr6lBc0Vo+oOgjrM5ZQ=
 google.golang.org/protobuf v0.0.0-20200109180630-ec00e32a8dfd/go.mod h1:DFci5gLYBciE7Vtevhsrf46CRTquxDuWsQurQQe4oz8=
 google.golang.org/protobuf v0.0.0-20200221191635-4d8936d0db64/go.mod h1:kwYJMbMJ01Woi6D6+Kah6886xMZcty6N08ah7+eCXa0=
 google.golang.org/protobuf v0.0.0-20200228230310-ab0ca4ff8a60/go.mod h1:cfTl7dwQJ+fmap5saPgwCLgHXTUD7jkjRqWcaiX5VyM=
