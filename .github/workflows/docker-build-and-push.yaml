@@ -52,7 +52,7 @@ jobs:
             latest
 
       - name: Build and push by digest
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v6
         with:
           push: ${{ github.event_name == 'release' || github.event.inputs.dryRun == 'false' }}
           platforms: linux/amd64, linux/arm64
