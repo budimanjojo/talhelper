@@ -2,28 +2,31 @@
 name: Docker Build and Push
 
 on:
-  push:
-    tags:
-      - "*"
-
-env:
-  REGISTRY_IMAGE: ghcr.io/${{ github.repository_owner }}/talhelper
+  release:
+    types: [ "created" ]
+  pull_request:
+    branches: [ "main", "master" ]
+    paths:
+      - Dockerfile
+      - .github/workflows/docker-build-and-push.yaml
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Docker Tag
+        default: ""
+        required: false    
+      dryRun:
+        description: Dry Run
+        default: "true"
+        required: false
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        platform:
-          - linux/amd64
-          - linux/arm/v6
-          - linux/arm/v7
-          - linux/arm64
 
     steps:
       - name: Checkout the Repository
-        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
+        uses: actions/checkout@v4.1.7
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -42,70 +45,18 @@ jobs:
         id: meta
         uses: docker/metadata-action@v5
         with:
-          images: ${{ env.REGISTRY_IMAGE }}
+          images: ghcr.io/${{ github.repository_owner }}/talhelper
+          tags: |
+            ${{ github.event.release.tag_name }}
+            ${{ github.event.inputs.tag }}
+            latest
 
       - name: Build and push by digest
-        id: build
         uses: docker/build-push-action@v5
         with:
-          context: .
-          file: ./Dockerfile
-          platforms: ${{ matrix.platform }}
-          push: true
+          push: ${{ github.event_name == 'release' || github.event.inputs.dryRun == 'false' }}
+          platforms: linux/amd64, linux/arm64
           labels: ${{ steps.meta.outputs.labels }}
-          outputs: type=image,name=${{ env.REGISTRY_IMAGE }},push-by-digest=true,name-canonical=true,push=true
+          tags: ${{ steps.meta.outputs.tags }}
           build-args: |
-            VERSION=${{ github.ref_name }}
-
-      - name: Export digest
-        id: export
-        run: |
-          mkdir -p /tmp/digests
-          digest="${{ steps.build.outputs.digest }}"
-          echo "digest=${digest#sha256:}" | tee $GITHUB_OUTPUT
-          touch "/tmp/digests/${digest#sha256:}"
-
-      - name: Upload digest
-        uses: actions/upload-artifact@v4
-        with:
-          name: ${{ steps.export.outputs.digest }}
-          path: /tmp/digests/*
-          if-no-files-found: error
-          retention-days: 1
-
-  merge:
-    runs-on: ubuntu-latest
-    needs: [build]
-    steps:
-      - name: Download digests
-        uses: actions/download-artifact@v4
-        with:
-          path: /tmp/digests
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Docker meta
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ env.REGISTRY_IMAGE }}
-
-      - name: Login to GitHub Container Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Create manifest list and push
-        working-directory: /tmp/digests
-        run: |
-          TAGS=$(jq -cr '.tags | map("-t " + .) | join(" ")' <<< "$DOCKER_METADATA_OUTPUT_JSON")
-          IMAGES=$(printf '${{ env.REGISTRY_IMAGE }}@sha256:%s ' *)
-          docker buildx imagetools create $TAGS $IMAGES
-
-      - name: Inspect image
-        env:
-          IMAGE: "${{ env.REGISTRY_IMAGE }}:${{ steps.meta.outputs.version }}"
-        run: docker buildx imagetools inspect $IMAGE
+            VERSION=${{ github.event.release.tag_name }}

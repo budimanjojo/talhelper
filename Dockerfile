@@ -3,7 +3,7 @@ ARG VERSION
 ## ================================================================================================
 ## Builder Stage -> creating the binary
 ## ================================================================================================
-FROM golang:1.22.3-alpine3.18 as builder
+FROM golang:1.22.5-alpine AS builder
 ARG VERSION
 
 WORKDIR /build
