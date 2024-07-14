@@ -56,7 +56,9 @@ func (c TalhelperConfig) Validate() (Errors, Warnings) {
 		checkNodeTaints(node, k, &result)
 		checkNodeMachineDisks(node, k, &result)
 		checkNodeMachineFiles(node, k, &result)
-		checkNodeSchematic(node, k, c.GetTalosVersion(), &result)
+		if c.GetImageFactory().RegistryURL == "factory.talos.dev" {
+			checkNodeSchematic(node, k, c.GetTalosVersion(), &result)
+		}
 		checkNodeNameServers(node, k, &result)
 		checkNodeNetworkInterfaces(node, k, &result)
 		checkNodeIngressFirewall(node, k, &result)
