@@ -52,6 +52,7 @@ type NodeConfigs struct {
 	ExtraManifests      []string                       `yaml:"extraManifests,omitempty" jsonschema:"description=List of manifest files to be added to the node"`
 	Patches             []string                       `yaml:"patches,omitempty" jsonschema:"description=Patches to be applied to the node"`
 	TalosImageURL       string                         `yaml:"talosImageURL" jsonschema:"example=factory.talos.dev/installer/e9c7ef96884d4fbc8c0a1304ccca4bb0287d766a8b4125997cb9dbe84262144e,description=Talos installer image url for the node"`
+	NoSchematicValidate bool                           `yaml:"noSchematicValidate" jsonschema:"description=Whether to skip schematic validation"`
 	Schematic           *schematic.Schematic           `yaml:"schematic,omitempty" jsonschema:"description=Talos image customization to be used in the installer image"`
 	MachineSpec         MachineSpec                    `yaml:"machineSpec,omitempty" jsonschema:"description=Machine hardware specification"`
 	IngressFirewall     *IngressFirewall               `yaml:"ingressFirewall,omitempty" jsonschema:"description=Machine firewall specification"`
