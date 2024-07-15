@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "https://github.com/budimanjojo/talhelper/pkg/config/talhelper-config",
+  "$id": "https://github.com/budimanjojo/talhelper/v3/pkg/config/talhelper-config",
   "$ref": "#/$defs/TalhelperConfig",
   "$defs": {
     "Bond": {
@@ -112,6 +112,18 @@
         },
         "stp": {
           "$ref": "#/$defs/STP"
+        },
+        "vlan": {
+          "$ref": "#/$defs/BridgeVLAN"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "BridgeVLAN": {
+      "properties": {
+        "vlanFiltering": {
+          "type": "boolean"
         }
       },
       "additionalProperties": false,
@@ -703,6 +715,10 @@
             "factory.talos.dev/installer/e9c7ef96884d4fbc8c0a1304ccca4bb0287d766a8b4125997cb9dbe84262144e"
           ]
         },
+        "noSchematicValidate": {
+          "type": "boolean",
+          "description": "Whether to skip schematic validation"
+        },
         "schematic": {
           "$ref": "#/$defs/Schematic",
           "description": "Talos image customization to be used in the installer image"
@@ -805,6 +821,10 @@
           "examples": [
             "factory.talos.dev/installer/e9c7ef96884d4fbc8c0a1304ccca4bb0287d766a8b4125997cb9dbe84262144e"
           ]
+        },
+        "noSchematicValidate": {
+          "type": "boolean",
+          "description": "Whether to skip schematic validation"
         },
         "schematic": {
           "$ref": "#/$defs/Schematic",
