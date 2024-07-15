@@ -569,16 +569,23 @@
 <td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
 </tr>
 <tr>
-<td><code>machineDisks</code></td>
-<td>[]<a href="#machinedisk">MachineDisk</a></td>
-<td>List of additional disks to partition, format, mount.<details><summary><em>Show example</em></summary>
-<div class="highlight"><pre><span></span><code><span class="nt">machineDisks</span><span class="p">:</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">device</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/dev/disk/by-id/ata-CT500MX500SSD1_2149E5EC1D9D</span>
-<span class="w">    </span><span class="nt">partitions</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">mountpoint</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/var/mnt/sata</span>
+<td><code>noSchematicValidate</code></td>
+<td>bool</td>
+<td>Whether to skip schematic validation.<details><summary><em>Show example</em></summary>
+<div class="highlight"><pre><span></span><code><span class="nt">noSchematicValidate</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 </code></pre></div>
 </summary></td>
-<td align="center"><code>[]</code></td>
+<td align="center"><code>false</code></td>
+<td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
+</tr>
+<tr>
+<td><code>disableSearchDomain</code></td>
+<td>bool</td>
+<td>Whether to disable generating default search domain.<details><summary><em>Show example</em></summary>
+<div class="highlight"><pre><span></span><code><span class="nt">disableSearchDomain</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</code></pre></div>
+</summary></td>
+<td align="center"><code>false</code></td>
 <td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
 </tr>
 <tr>
