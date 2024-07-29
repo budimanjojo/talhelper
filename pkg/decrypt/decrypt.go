@@ -40,7 +40,7 @@ func DecryptYamlWithSops(filePath string) ([]byte, error) {
 		slog.Debug(fmt.Sprintf("%s is SOPS encrypted, decrypting", filePath))
 		decrypted, err := decrypt.Data(data, "yaml")
 		if err != nil {
-			return nil, err
+			return nil, fmt.Errorf("SOPS decryption failed: %w", err)
 		}
 		return decrypted, nil
 	}
