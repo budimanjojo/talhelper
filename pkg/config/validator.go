@@ -199,7 +199,7 @@ func checkCNIConfig(c TalhelperConfig, result *Errors) *Errors {
 		warnings, err := v1alpha1.ValidateCNI(c.CNIConfig)
 		messages = multierror.Append(messages, err)
 		for _, w := range warnings {
-			messages = multierror.Append(messages, fmt.Errorf(w))
+			messages = multierror.Append(messages, fmt.Errorf("%s", w))
 		}
 
 		if messages.ErrorOrNil() != nil {
@@ -465,7 +465,7 @@ func checkNodeNetworkInterfaces(node Node, idx int, result *Errors) *Errors {
 			warnings = append(warnings, warn...)
 			messages = multierror.Append(messages, err)
 			for _, w := range warnings {
-				messages = multierror.Append(messages, fmt.Errorf(w))
+				messages = multierror.Append(messages, fmt.Errorf("%s", w))
 			}
 		}
 

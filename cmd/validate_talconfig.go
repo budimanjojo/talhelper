@@ -61,7 +61,7 @@ var validateTHCmd = &cobra.Command{
 			for field, list := range grouped {
 				color.Yellow("field: %q\n", field)
 				for _, l := range list {
-					fmt.Printf(l + "\n")
+					fmt.Println(l)
 				}
 			}
 		} else {

@@ -46,7 +46,7 @@ var genurlISOCmd = &cobra.Command{
 					if err != nil {
 						log.Fatalf("Failed to generate ISO url for %s, %v", node.Hostname, err)
 					}
-					urls = append(urls, fmt.Sprintf(node.Hostname+": "+url))
+					urls = append(urls, fmt.Sprintf("%s: %s", node.Hostname, url))
 					break
 				}
 
@@ -54,7 +54,7 @@ var genurlISOCmd = &cobra.Command{
 				if err != nil {
 					log.Fatalf("Failed to generate ISO url for %s, %v", node.Hostname, err)
 				}
-				urls = append(urls, fmt.Sprintf(node.Hostname+": "+url))
+				urls = append(urls, fmt.Sprintf("%s: %s", node.Hostname, url))
 			}
 
 			switch len(urls) {

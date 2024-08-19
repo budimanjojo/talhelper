@@ -45,7 +45,7 @@ var genurlInstallerCmd = &cobra.Command{
 							log.Fatalf("Failed to generate installer url for %s, %v", node.Hostname, err)
 						}
 					}
-					urls = append(urls, fmt.Sprintf(node.Hostname+": "+url))
+					urls = append(urls, fmt.Sprintf("%s: %s", node.Hostname, url))
 					break
 				}
 
@@ -58,7 +58,7 @@ var genurlInstallerCmd = &cobra.Command{
 						log.Fatalf("Failed to generate installer url for %s, %v", node.Hostname, err)
 					}
 				}
-				urls = append(urls, fmt.Sprintf(node.Hostname+": "+url))
+				urls = append(urls, fmt.Sprintf("%s: %s", node.Hostname, url))
 			}
 
 			switch len(urls) {
