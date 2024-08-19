@@ -1,12 +1,12 @@
 {
-  buildGoModule,
+  buildGo123Module,
   fetchFromGitHub,
   installShellFiles,
   stdenv,
   lib,
 }:
 
-buildGoModule rec {
+buildGo123Module rec {
   pname = "talhelper";
   version = "3.0.5";
 
