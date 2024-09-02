@@ -31,7 +31,7 @@ func TestGenerateNodeExtensionServiceConfig(t *testing.T) {
 	}
 
 	expectedExtension1Name := "nut-client"
-	expectedExtension1ConfigFiles := []extensions.ConfigFile{
+	expectedExtension1ConfigFiles := extensions.ConfigFileList{
 		{
 			ConfigFileContent:   "MONITOR ${upsmonHost} 1 remote pass password",
 			ConfigFileMountPath: "/usr/local/etc/nut/upsmon.conf",
@@ -39,7 +39,7 @@ func TestGenerateNodeExtensionServiceConfig(t *testing.T) {
 	}
 	expectedExtension1Environment := []string{"UPS_NAME=ups"}
 	expectedExtension2Name := "nut-client2"
-	expectedExtension2ConfigFiles := []extensions.ConfigFile{
+	expectedExtension2ConfigFiles := extensions.ConfigFileList{
 		{
 			ConfigFileContent:   "hello",
 			ConfigFileMountPath: "/etc/hello",
