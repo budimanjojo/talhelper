@@ -159,6 +159,12 @@
       "additionalProperties": false,
       "type": "object"
     },
+    "ConfigFileList": {
+      "items": {
+        "$ref": "#/$defs/ConfigFile"
+      },
+      "type": "array"
+    },
     "Customization": {
       "properties": {
         "extraKernelArgs": {
@@ -331,10 +337,7 @@
           "description": "Name of the extension service config"
         },
         "configFiles": {
-          "items": {
-            "$ref": "#/$defs/ConfigFile"
-          },
-          "type": "array",
+          "$ref": "#/$defs/ConfigFileList",
           "description": "The config files for the extension service"
         },
         "environment": {
