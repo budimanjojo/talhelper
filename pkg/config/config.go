@@ -86,7 +86,7 @@ type NetworkRule struct {
 }
 
 type ExtensionService struct {
-	Name        string                  `yaml:"name" jsonschema:"description=Name of the extension service config"`
-	ConfigFiles []extensions.ConfigFile `yaml:"configFiles,omitempty" jsonschema:"description=The config files for the extension service"`
-	Environment []string                `yaml:"environment,omitempty" jsonschema:"description=The environment for the extension service"`
+	Name        string                    `yaml:"name" jsonschema:"description=Name of the extension service config"`
+	ConfigFiles extensions.ConfigFileList `yaml:"configFiles,omitempty" jsonschema:"description=The config files for the extension service"`
+	Environment []string                  `yaml:"environment,omitempty" jsonschema:"description=The environment for the extension service"`
 }
