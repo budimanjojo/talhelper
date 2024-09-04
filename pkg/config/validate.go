@@ -53,6 +53,7 @@ func (c TalhelperConfig) Validate() (Errors, Warnings) {
 		checkNodeIPAddress(node, k, &result)
 		checkNodeHostname(node, k, &result)
 		checkNodeLabels(node, k, &result)
+		checkNodeAnnotations(node, k, &result)
 		checkNodeTaints(node, k, &result)
 		checkNodeMachineDisks(node, k, &result)
 		checkNodeMachineFiles(node, k, &result)

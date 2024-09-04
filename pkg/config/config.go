@@ -42,6 +42,7 @@ type Node struct {
 
 type NodeConfigs struct {
 	NodeLabels          map[string]string              `yaml:"nodeLabels" jsonschema:"description=Labels to be added to the node"`
+	NodeAnnotations     map[string]string              `yaml:"nodeAnnotations" jsonschema:"description=Annotations to be added to the node"`
 	NodeTaints          map[string]string              `yaml:"nodeTaints" jsonschema:"description=Node taints for the node. Effect is optional"`
 	MachineDisks        []*v1alpha1.MachineDisk        `yaml:"machineDisks,omitempty" jsonschema:"description=List of additional disks to partition, format, mount"`
 	MachineFiles        []*v1alpha1.MachineFile        `yaml:"machineFiles,omitempty" jsonschema:"description=List of files to create inside the node"`

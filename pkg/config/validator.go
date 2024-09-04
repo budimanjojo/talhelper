@@ -291,6 +291,20 @@ func checkNodeLabels(node Node, idx int, result *Errors) *Errors {
 	return result
 }
 
+func checkNodeAnnotations(node Node, idx int, result *Errors) *Errors {
+	if node.NodeAnnotations != nil {
+		var messages *multierror.Error
+		if err := labels.ValidateAnnotations(node.NodeAnnotations); err != nil {
+			return result.Append(&Error{
+				Kind:    "InvalidNodeAnnotations",
+				Field:   getNodeFieldYamlTag(node, idx, "NodeAnnotations"),
+				Message: formatError(multierror.Append(messages, err)),
+			})
+		}
+	}
+	return result
+}
+
 func checkNodeTaints(node Node, idx int, result *Errors) *Errors {
 	if node.NodeTaints != nil {
 		var messages *multierror.Error

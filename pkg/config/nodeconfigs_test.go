@@ -13,6 +13,9 @@ func TestOverrideNodeConfigs(t *testing.T) {
 		NodeLabels: map[string]string{
 			"testkey": "testValue",
 		},
+		NodeAnnotations: map[string]string{
+			"testkey": "testValue",
+		},
 		Schematic: &schematic.Schematic{
 			Customization: schematic.Customization{
 				ExtraKernelArgs: []string{"enable=1"},
@@ -51,6 +54,9 @@ func TestOverrideNodeConfigs(t *testing.T) {
 		NodeConfigs: NodeConfigs{
 			NodeLabels: map[string]string{
 				"testkey": "overwritten",
+			},
+			NodeAnnotations: map[string]string{
+				"testkey": "testValue",
 			},
 			MachineDisks: []*v1alpha1.MachineDisk{
 				{
