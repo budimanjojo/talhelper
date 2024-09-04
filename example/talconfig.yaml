@@ -71,6 +71,7 @@ nodes:
         permissions: 0o644
         path: /var/etc/tailscale2/auth.env
         op: create
+      - "@./moreMachineFiles.yaml"
     installDiskSelector:
       size: 4GB
       model: WDC*
