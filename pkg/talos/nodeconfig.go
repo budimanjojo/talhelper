@@ -98,6 +98,11 @@ func applyNodeOverride(node *config.Node, cfg taloscfg.Provider) taloscfg.Provid
 		cfg.RawV1Alpha1().MachineConfig.MachineKernel.KernelModules = node.KernelModules
 	}
 
+	if node.NodeAnnotations != nil {
+		slog.Debug(fmt.Sprintf("setting node annotations for %s", node.NodeAnnotations))
+		cfg.RawV1Alpha1().MachineConfig.MachineNodeAnnotations = node.NodeAnnotations
+	}
+
 	if node.NodeLabels != nil {
 		slog.Debug(fmt.Sprintf("setting node labels to %s", node.NodeLabels))
 		cfg.RawV1Alpha1().MachineConfig.MachineNodeLabels = node.NodeLabels
