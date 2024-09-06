@@ -181,6 +181,9 @@
         },
         "systemExtensions": {
           "$ref": "#/$defs/SystemExtensions"
+        },
+        "secureboot": {
+          "$ref": "#/$defs/SecureBootCustomization"
         }
       },
       "additionalProperties": false,
@@ -651,6 +654,13 @@
           "type": "object",
           "description": "Labels to be added to the node"
         },
+        "nodeAnnotations": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Annotations to be added to the node"
+        },
         "nodeTaints": {
           "additionalProperties": {
             "type": "string"
@@ -757,6 +767,13 @@
           },
           "type": "object",
           "description": "Labels to be added to the node"
+        },
+        "nodeAnnotations": {
+          "additionalProperties": {
+            "type": "string"
+          },
+          "type": "object",
+          "description": "Annotations to be added to the node"
         },
         "nodeTaints": {
           "additionalProperties": {
@@ -919,6 +936,15 @@
         },
         "customization": {
           "$ref": "#/$defs/Customization"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "SecureBootCustomization": {
+      "properties": {
+        "includeWellKnownCertificates": {
+          "type": "boolean"
         }
       },
       "additionalProperties": false,
