@@ -4,6 +4,7 @@ import (
 	"bytes"
 	"errors"
 	"fmt"
+	"io"
 	"log/slog"
 	"os"
 	"regexp"
@@ -11,6 +12,7 @@ import (
 	"github.com/a8m/envsubst"
 	"github.com/budimanjojo/talhelper/v3/pkg/decrypt"
 	"github.com/joho/godotenv"
+	"gopkg.in/yaml.v3"
 )
 
 // LoadEnvFromFiles read yaml data from list of filepaths and sets
@@ -59,7 +61,10 @@ func LoadEnv(file []byte) error {
 // them. The substituted bytes will be returned. It returns an
 // error, if any.
 func SubstituteEnvFromByte(file []byte) ([]byte, error) {
-	filtered := stripYamlComment(file)
+	filtered, err := stripYamlComment(file)
+	if err != nil {
+		return nil, err
+	}
 	data, err := envsubst.BytesRestricted(filtered, true, true)
 	if err != nil {
 		return nil, err
@@ -70,26 +75,36 @@ func SubstituteEnvFromByte(file []byte) ([]byte, error) {
 
 // stripYamlComment takes yaml bytes and returns them back with
 // comments stripped.
-func stripYamlComment(file []byte) []byte {
-	// FIXME use better logic than regex.
-	re := regexp.MustCompile(".?#.*\n")
-	stripped := re.ReplaceAllFunc(file, func(b []byte) []byte {
-		re := regexp.MustCompile("^['\"].+['\"]|^[a-zA-Z0-9]")
-		if re.Match(b) {
-			return b
-		} else {
-			return []byte("\n")
+func stripYamlComment(file []byte) ([]byte, error) {
+	decoder := yaml.NewDecoder(bytes.NewReader(file))
+	var out bytes.Buffer
+	encoder := yaml.NewEncoder(&out)
+	for {
+		var node yaml.Node
+		err := decoder.Decode(&node)
+		if errors.Is(err, io.EOF) {
+			break
 		}
-	})
-
-	var final bytes.Buffer
-	for _, line := range bytes.Split(stripped, []byte("\n")) {
-		if len(bytes.TrimSpace(line)) > 0 {
-			final.WriteString(string(line) + "\n")
+		if err != nil {
+			return nil, err
 		}
+		removeCommentsRec(&node)
+		encoder.Encode(&node)
 	}
+	err := encoder.Close()
+	if err != nil {
+		return nil, err
+	}
+	return out.Bytes(), nil
+}
 
-	return final.Bytes()
+func removeCommentsRec(node *yaml.Node) {
+	node.HeadComment = ""
+	node.LineComment = ""
+	node.FootComment = ""
+	for _, c := range node.Content {
+		removeCommentsRec(c)
+	}
 }
 
 // stripYAMLDocDelimiter replace YAML document delimiter with empty line
