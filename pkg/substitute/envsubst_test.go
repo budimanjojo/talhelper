@@ -83,3 +83,26 @@ default: default value
 		}
 	}
 }
+
+func TestComplexCommentStrip(t *testing.T) {
+	file := `a1: '123!@# not a comment'
+a2: |
+    # not a comment
+b1: '"' # comment
+b2: "'" # comment
+b3: "\"" # comment
+`
+
+	expected := `a1: '123!@# not a comment'
+a2: |
+    # not a comment
+b1: '"'
+b2: "'"
+b3: "\""
+`
+
+	result, _ := SubstituteEnvFromByte([]byte(file))
+	if expected != string(result) {
+		t.Errorf("got %s, want %s", string(result), expected)
+	}
+}
