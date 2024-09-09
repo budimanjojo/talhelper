@@ -1,0 +1,41 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
+name: DevContainer Docker Build
+
+on:
+  workflow_dispatch: {}
+
+  pull_request:
+    paths:
+      - ".github/workflows/devcontainer-build.yaml"
+      - ".devcontainer/Dockerfile"
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout the Repository
+        uses: actions/checkout@v4.1.7
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Build Image
+        uses: docker/build-push-action@v6
+        with:
+          push: false # don't push, this workflow just tests the build process won't fail
+          platforms: linux/amd64
+          tags: "test"
+          context: .devcontainer
+          file: .devcontainer/Dockerfile
