@@ -1,28 +1,12 @@
-// For format details, see https://aka.ms/devcontainer.json. For config options, see the
-// README at: https://github.com/devcontainers/templates/tree/main/src/go
 {
 	"name": "talhelper-devcontainer",
-
-	// Or use a Dockerfile or Docker Compose file. More info: https://containers.dev/guide/dockerfile
-	"image": "mcr.microsoft.com/devcontainers/go:1-1.21-bookworm",
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
 	"features": {
-		"ghcr.io/devcontainers/features/docker-in-docker:2": {
-			"installDockerBuildx": true,
-			"version": "latest",
-			"dockerDashComposeVersion": "v2"
-		},
-		"ghcr.io/devcontainers-contrib/features/mkdocs:2": {
-			"version": "latest",
-			"plugins": "mkdocs-material pymdown-extensions mkdocstrings[crystal,python] mkdocs-monorepo-plugin mkdocs-pdf-export-plugin mkdocs-awesome-pages-plugin mike"
-		},
-		"ghcr.io/devcontainers-contrib/features/sops:1": {
-			"version": "latest"
-		},
-		"ghcr.io/devcontainers-contrib/features/age:1": {
-			"version": "latest"
-		},
-		"ghcr.io/devcontainers-contrib/features/age-keygen:1": {
-			"version": "latest"
-		}
-	}
+		"ghcr.io/devcontainers/features/docker-in-docker:2": {}
+	},
+	"remoteUser": "vscode",
+	"containerUser": "vscode",
+	"updateRemoteUserUID": true
 }
