@@ -1,21 +1,48 @@
+---
+# yaml-language-server: $schema=https://json.schemastore.org/github-workflow.json
 name: goreleaser
+
 on:
+  workflow_dispatch:
+    inputs:
+      dry-run:
+        description: "Dry Run"
+        default: false
+        required: false
+        type: boolean
+
   push:
-    tags:
-      - "*"
+    tags: ["*"]
+
+  pull_request:
+    paths:
+      - ".github/workflows/release.yaml"
+      - ".goreleaser.yaml"
+      - "go.mod"
+      - "go.sum"
+      - "cmd/**"
+
+env:
+  GORELEASER_DRY_RUN: ${{ inputs.dry-run || github.event_name == 'pull_request' }}
+
 jobs:
   goreleaser:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4
+      - name: Checkout
+        uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
         with:
           fetch-depth: 0
-      - uses: actions/setup-go@v5
+
+      - name: Set up Go
+        uses: actions/setup-go@0a12ed9d6a96ab950c8f026ed9f722fe0da7ef32 # v5.0.2
         with:
-          go-version: stable
-      - uses: goreleaser/goreleaser-action@v6
+          go-version: "stable"
+
+      - name: Run GoReleaser
+        uses: goreleaser/goreleaser-action@286f3b13b1b49da4ac219696163fb8c1c93e1200 # v6.0.0
         with:
-          args: release --clean
+          args: release --clean ${{ env.GORELEASER_DRY_RUN && '--snapshot' || '' }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: "${{ steps.app-token.outputs.token }}"
           AUR_KEY: ${{ secrets.AUR_KEY }}
