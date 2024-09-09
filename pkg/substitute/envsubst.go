@@ -79,6 +79,7 @@ func stripYamlComment(file []byte) ([]byte, error) {
 	decoder := yaml.NewDecoder(bytes.NewReader(file))
 	var out bytes.Buffer
 	encoder := yaml.NewEncoder(&out)
+	encoder.SetIndent(2)
 	for {
 		var node yaml.Node
 		err := decoder.Decode(&node)
@@ -89,7 +90,10 @@ func stripYamlComment(file []byte) ([]byte, error) {
 			return nil, err
 		}
 		removeCommentsRec(&node)
-		encoder.Encode(&node)
+		err = encoder.Encode(&node)
+		if err != nil {
+			return nil, err
+		}
 	}
 	err := encoder.Close()
 	if err != nil {
