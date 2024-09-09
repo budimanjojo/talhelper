@@ -23,7 +23,8 @@ on:
       - "cmd/**"
 
 env:
-  GORELEASER_DRY_RUN: "${{ inputs.dry-run || github.event_name == 'pull_request' }}"
+  # GORELEASER_DRY_RUN: "${{ inputs.dry-run || github.event_name == 'pull_request' }}"
+  GORELEASER_DRY_RUN: "${{ inputs.dry-run || github.event_name == 'push' }}"
 
 jobs:
   goreleaser:
