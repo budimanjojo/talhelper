@@ -45,4 +45,4 @@ jobs:
           args: release --clean ${{ env.GORELEASER_DRY_RUN == 'true' && '--snapshot' || '' }}
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-          AUR_KEY: ${{ secrets.AUR_KEY }}
+          AUR_KEY: "${{ secrets.AUR_KEY }}"
