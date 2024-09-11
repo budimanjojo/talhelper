@@ -20,7 +20,7 @@ on:
       - ".goreleaser.yaml"
       - "go.mod"
       - "go.sum"
-      - "cmd/**"
+      - "*.go"
 
 env:
   GORELEASER_DRY_RUN: "${{ inputs.dry-run || github.event_name == 'pull_request' }}"
