@@ -1,4 +1,5 @@
 ---
+# yaml-language-server: $schema=https://goreleaser.com/static/schema.json
 version: 2
 project_name: talhelper
 builds:
@@ -72,3 +73,46 @@ scoops:
     license: BSD-3
     depends:
       - sops
+
+dockers:
+  - image_templates:
+      - "ghcr.io/budimanjojo/{{.ProjectName}}:v{{.Version}}-amd64"
+    use: buildx
+    dockerfile: Dockerfile
+    build_flag_templates:
+      - "--platform=linux/amd64"
+      - "--label=org.opencontainers.image.created={{.Date}}"
+      - "--label=org.opencontainers.image.title={{.ProjectName}}"
+      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+      - "--label=org.opencontainers.image.version={{.Version}}"
+      - "--label=org.opencontainers.image.url=https://github.com/budimanjojo/{{.ProjectName}}"
+      - "--label=org.opencontainers.image.source=https://github.com/budimanjojo/{{.ProjectName}}"
+      - "--label=org.opencontainers.image.licenses=BSD-3-Clause"
+      - "--label=org.opencontainers.image.authors=Budiman Jojo <budimanjojo@gmail.com>"
+      - "--label=org.opencontainers.image.description=A tool to help creating Talos kubernetes cluster"
+  - image_templates:
+      - "ghcr.io/budimanjojo/{{.ProjectName}}:v{{.Version}}-arm64v8"
+    use: buildx
+    goarch: arm64
+    dockerfile: Dockerfile
+    build_flag_templates:
+      - "--platform=linux/amd64"
+      - "--label=org.opencontainers.image.created={{.Date}}"
+      - "--label=org.opencontainers.image.title={{.ProjectName}}"
+      - "--label=org.opencontainers.image.revision={{.FullCommit}}"
+      - "--label=org.opencontainers.image.version={{.Version}}"
+      - "--label=org.opencontainers.image.url=https://github.com/budimanjojo/{{.ProjectName}}"
+      - "--label=org.opencontainers.image.source=https://github.com/budimanjojo/{{.ProjectName}}"
+      - "--label=org.opencontainers.image.licenses=BSD-3-Clause"
+      - "--label=org.opencontainers.image.authors=Budiman Jojo <budimanjojo@gmail.com>"
+      - "--label=org.opencontainers.image.description=A tool to help creating Talos kubernetes cluster"
+
+docker_manifests:
+  - name_template: "ghcr.io/budimanjojo/{{.ProjectName}}:v{{.Version}}"
+    image_templates:
+      - "ghcr.io/budimanjojo/{{.ProjectName}}:v{{.Version}}-amd64"
+      - "ghcr.io/budimanjojo/{{.ProjectName}}:v{{.Version}}-arm64v8"
+  - name_template: "ghcr.io/budimanjojo/{{.ProjectName}}:latest"
+    image_templates:
+      - "ghcr.io/budimanjojo/{{.ProjectName}}:v{{.Version}}-amd64"
+      - "ghcr.io/budimanjojo/{{.ProjectName}}:v{{.Version}}-arm64v8"
