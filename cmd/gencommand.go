@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"github.com/budimanjojo/talhelper/v3/cmd/helpers"
 	"github.com/spf13/cobra"
 )
 
@@ -24,4 +25,5 @@ func init() {
 	gencommandCmd.PersistentFlags().StringSliceVar(&gencommandEnvFile, "env-file", []string{"talenv.yaml", "talenv.sops.yaml", "talenv.yml", "talenv.sops.yml"}, "List of files containing env variables for config file")
 	gencommandCmd.PersistentFlags().StringSliceVar(&gencommandExtraFlags, "extra-flags", []string{}, "List of additional flags that will be injected into the generated commands.")
 	gencommandCmd.PersistentFlags().StringVarP(&gencommandNode, "node", "n", "", "A specific node to generate the command for. If not specified, will generate for all nodes.")
+	_ = helpers.MakeNodeCompletion(gencommandCmd)
 }

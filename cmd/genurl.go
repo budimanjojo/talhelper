@@ -1,6 +1,7 @@
 package cmd
 
 import (
+	"github.com/budimanjojo/talhelper/v3/cmd/helpers"
 	"github.com/budimanjojo/talhelper/v3/pkg/config"
 	"github.com/spf13/cobra"
 )
@@ -34,4 +35,6 @@ func init() {
 	genurlCmd.PersistentFlags().StringSliceVarP(&genurlKernelArgs, "kernel-arg", "k", []string{}, "Kernel arguments to be passed to the image kernel (ignored when talconfig.yaml is found)")
 	genurlCmd.PersistentFlags().BoolVar(&genurlOfflineMode, "offline-mode", false, "Generate schematic ID without doing POST request to image-factory")
 	genurlCmd.PersistentFlags().BoolVar(&genurlSecureboot, "secure-boot", false, "Whether to generate Secure Boot enabled URL")
+
+	_ = helpers.MakeNodeCompletion(genurlCmd)
 }
