@@ -15,7 +15,7 @@ jobs:
         with:
           fetch-depth: 0
       - uses: cachix/install-nix-action@v27
-      - uses: workflow/nix-shell-action@v3.3.2
+      - uses: workflow/nix-shell-action@v3.4.0
         with:
           flakes-from-devshell: true
           script: bash ./scripts/update-flake.sh
