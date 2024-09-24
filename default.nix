@@ -8,16 +8,16 @@
 
 buildGo123Module rec {
   pname = "talhelper";
-  version = "3.0.5";
+  version = "3.0.6";
 
   src = fetchFromGitHub {
     owner = "budimanjojo";
     repo = pname;
     rev = "v${version}";
-    sha256 = "sha256-f5EpfHKvJjsP70Lar9lBukltXZ3x+015UivC9lqVsvQ=";
+    sha256 = "sha256-qUenetAX5WqEAeWymkNkLsgjf32VaKU/dSeNj9aRp/w=";
   };
 
-  vendorHash = "sha256-EBGFDMOnRlF2ZthBuBFtaxGtwHBZiwQzNHMyq9QFqUY=";
+  vendorHash = "sha256-UocHZrGT7Mc2mF4uSq0FQJJvsPoTE9O0p3UDmkYSdl4=";
 
   ldflags = [ "-s -w -X github.com/budimanjojo/talhelper/v3/cmd.version=v${version}" ];
 
