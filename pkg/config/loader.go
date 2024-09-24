@@ -17,6 +17,7 @@ import (
 func LoadAndValidateFromFile(filePath string, envPaths []string, showWarns bool) (*TalhelperConfig, error) {
 	slog.Debug("start loading and validating config file")
 	slog.Debug(fmt.Sprintf("reading %s", filePath))
+
 	cfgByte, err := FromFile(filePath)
 	if err != nil {
 		return nil, fmt.Errorf("failed to read config file: %s", err)
@@ -30,6 +31,12 @@ func LoadAndValidateFromFile(filePath string, envPaths []string, showWarns bool)
 	cfgByte, err = substitute.SubstituteEnvFromByte(cfgByte)
 	if err != nil {
 		return nil, fmt.Errorf("failed to substitute env: %s", err)
+	}
+
+	slog.Debug("substituting relative paths with absolute paths")
+	cfgByte, err = substitute.SubstituteRelativePaths(filePath, cfgByte)
+	if err != nil {
+		return nil, fmt.Errorf("failed to evaluate relative paths: %s", err)
 	}
 
 	cfg, err := NewFromByte(cfgByte)
