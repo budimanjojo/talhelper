@@ -1,53 +1,81 @@
 package substitute
 
 import (
-	"bufio"
-	"bytes"
+	"fmt"
 	"path/filepath"
 	"strings"
+
+	"gopkg.in/yaml.v2"
 )
 
 func SubstituteRelativePaths(configFilePath string, yamlContent []byte) ([]byte, error) {
 	// Get the directory of the YAML file
 	yamlDir := filepath.Dir(configFilePath)
 
-	// Create a scanner to read through the YAML content
-	scanner := bufio.NewScanner(bytes.NewReader(yamlContent))
-
-	// Buffer to hold the processed lines
-	var processedLines []string
-
-	// Start reading the file, line by line
-	for scanner.Scan() {
-		line := scanner.Text()
-
-		// Look for lines containing "@"
-		if strings.Contains(line, "@") {
-			// Split by "@" to isolate the relative path
-			parts := strings.SplitN(line, "@", 2)
-
-			if len(parts) == 2 && len(strings.TrimSpace(parts[1])) > 0 {
-				// Get the relative path and resolve to absolute
-				relativePath := strings.TrimSpace(parts[1])
-				absolutePath := filepath.Join(yamlDir, relativePath)
-
-				// Reconstruct the line with the absolute path
-				line = parts[0] + "@" + absolutePath
-			}
-		}
-
-		// Append the processed line to the result
-		processedLines = append(processedLines, line)
-	}
-
-	// Check for scanning errors
-	if err := scanner.Err(); err != nil {
+	// Parse the YAML content
+	var data interface{}
+	err := yaml.Unmarshal(yamlContent, &data)
+	if err != nil {
 		return nil, err
 	}
 
-	// Join all processed lines back into a single string and convert to []byte
-	result := strings.Join(processedLines, "\n")
+	// Process the data
+	data = processNode(data, []string{}, yamlDir)
 
-	// Return the processed file
-	return []byte(result), nil
+	// Marshal back to YAML
+	newYamlContent, err := yaml.Marshal(data)
+	if err != nil {
+		return nil, err
+	}
+
+	return newYamlContent, nil
+}
+
+func processNode(node interface{}, path []string, yamlDir string) interface{} {
+	switch n := node.(type) {
+	case map[interface{}]interface{}:
+		newMap := make(map[interface{}]interface{})
+		for k, v := range n {
+			keyStr := fmt.Sprintf("%v", k)
+			newPath := append(path, keyStr)
+			newMap[k] = processNode(v, newPath, yamlDir)
+		}
+
+		return newMap
+
+	case []interface{}:
+		newArray := make([]interface{}, len(n))
+		for i, v := range n {
+			newPath := append(path, fmt.Sprintf("[%d]", i))
+			newArray[i] = processNode(v, newPath, yamlDir)
+		}
+
+		return newArray
+
+	case string:
+		if shouldSubstitute(path) {
+			if strings.Contains(n, "@") {
+				parts := strings.SplitN(n, "@", 2)
+				if len(parts) == 2 && len(strings.TrimSpace(parts[1])) > 0 {
+					relativePath := strings.TrimSpace(parts[1])
+					absolutePath := filepath.Join(yamlDir, relativePath)
+					return parts[0] + "@" + absolutePath
+				}
+			}
+		}
+
+		return n
+	default:
+		// For other types, return as is
+		return n
+	}
+}
+
+func shouldSubstitute(path []string) bool {
+	for _, p := range path {
+		if p == "machineFiles" || p == "patches" {
+			return true
+		}
+	}
+	return false
 }
