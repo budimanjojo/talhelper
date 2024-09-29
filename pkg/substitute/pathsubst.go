@@ -40,7 +40,6 @@ func processNode(node interface{}, path []string, yamlDir string) interface{} {
 			newPath := append(path, keyStr)
 			newMap[k] = processNode(v, newPath, yamlDir)
 		}
-
 		return newMap
 
 	case []interface{}:
@@ -49,7 +48,6 @@ func processNode(node interface{}, path []string, yamlDir string) interface{} {
 			newPath := append(path, fmt.Sprintf("[%d]", i))
 			newArray[i] = processNode(v, newPath, yamlDir)
 		}
-
 		return newArray
 
 	case string:
@@ -63,10 +61,9 @@ func processNode(node interface{}, path []string, yamlDir string) interface{} {
 				}
 			}
 		}
-
 		return n
+
 	default:
-		// For other types, return as is
 		return n
 	}
 }
