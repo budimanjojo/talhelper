@@ -8,6 +8,11 @@ import (
 	"gopkg.in/yaml.v2"
 )
 
+// SubstituteRelativePaths will replace all relative paths in the config file to new paths,
+// relative to the working dir from which the CLI has been called.
+// When using the `--config-file` flag to point to a file not in the current dir,
+// relative path evaluation would fail. This function basically prepends the path to the config
+// file to the relative paths in the config file so that their evaluation no longer fails.
 func SubstituteRelativePaths(configFilePath string, yamlContent []byte) ([]byte, error) {
 	// Get the directory of the YAML file
 	yamlDir := filepath.Dir(configFilePath)
