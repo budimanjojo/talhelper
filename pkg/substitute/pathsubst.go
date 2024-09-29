@@ -52,7 +52,7 @@ func processNode(node interface{}, path []string, yamlDir string) interface{} {
 
 	case string:
 		if shouldSubstitute(path) {
-			if strings.Contains(n, "@") {
+			if strings.HasPrefix(n, "@") {
 				parts := strings.SplitN(n, "@", 2)
 				if len(parts) == 2 && len(strings.TrimSpace(parts[1])) > 0 {
 					relativePath := strings.TrimSpace(parts[1])
