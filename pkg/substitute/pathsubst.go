@@ -75,7 +75,7 @@ func processNode(node interface{}, path []string, yamlDir string) interface{} {
 
 func shouldSubstitute(path []string) bool {
 	for _, p := range path {
-		if p == "machineFiles" || p == "patches" {
+		if p == "machineFiles" || p == "patches" || p == "extraManifests" {
 			return true
 		}
 	}
