@@ -22,7 +22,7 @@ FROM ghcr.io/mirceanton/age-keygen:${AGE_KEYGEN_VERSION} AS age-keygen
 ## ================================================================================================
 ## Main image
 ## ================================================================================================
-FROM mcr.microsoft.com/devcontainers/go:1.23-bookworm@sha256:fa6dbb5211db86bb157446489f011d4b0eac642515e66726e52e87bd27634c6e AS workspace
+FROM mcr.microsoft.com/devcontainers/go:1.23-bookworm@sha256:16c623ad4c8b5f2e45e51ba0d26229306be00bffe51826c3d9acde94188086f1 AS workspace
 
 COPY --from=kubectl /opt/bitnami/kubectl/bin/kubectl /usr/local/bin/kubectl
 COPY --from=talosctl /talosctl /usr/local/bin/talosctl
