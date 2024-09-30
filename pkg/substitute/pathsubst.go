@@ -15,17 +15,20 @@ import (
 // file to the relative paths in the config file so that their evaluation no longer fails.
 func SubstituteRelativePaths(configFilePath string, yamlContent []byte) ([]byte, error) {
 	// Get the directory of the YAML file
-	yamlDir := filepath.Dir(configFilePath)
+	absolutePath, err := filepath.Abs(filepath.Dir(configFilePath))
+	if err != nil {
+		return nil, err
+	}
 
 	// Parse the YAML content
 	var data interface{}
-	err := yaml.Unmarshal(yamlContent, &data)
+	err = yaml.Unmarshal(yamlContent, &data)
 	if err != nil {
 		return nil, err
 	}
 
 	// Process the data
-	data = processNode(data, []string{}, yamlDir)
+	data = processNode(data, []string{}, absolutePath)
 
 	// Marshal back to YAML
 	newYamlContent, err := yaml.Marshal(data)
