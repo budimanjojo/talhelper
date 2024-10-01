@@ -2,7 +2,7 @@ module tsehelper
 
 go 1.23.0
 
-toolchain go1.23.1
+toolchain go1.23.2
 
 require (
 	github.com/budimanjojo/talhelper/v3 v3.0.7
