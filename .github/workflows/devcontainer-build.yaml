@@ -16,7 +16,7 @@ jobs:
 
     steps:
       - name: Checkout the Repository
-        uses: actions/checkout@v4.2.0
+        uses: actions/checkout@v4.2.1
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
