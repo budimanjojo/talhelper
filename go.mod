@@ -15,7 +15,7 @@ require (
 	github.com/sabhiram/go-gitignore v0.0.0-20210923224102-525f6e181f06
 	github.com/siderolabs/image-factory v0.5.0
 	github.com/siderolabs/net v0.4.0
-	github.com/siderolabs/talos/pkg/machinery v1.8.0
+	github.com/siderolabs/talos/pkg/machinery v1.8.1
 	github.com/spf13/cobra v1.8.1
 	golang.org/x/mod v0.21.0
 	gopkg.in/yaml.v2 v2.4.0
