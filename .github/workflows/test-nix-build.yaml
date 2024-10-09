@@ -19,6 +19,5 @@ jobs:
       - uses: cachix/install-nix-action@v30
       - uses: workflow/nix-shell-action@v3.4.0
         with:
-          flakes-from-dev-shell: true
           script: nix build .
-      - run: /result/bin/talhelper
+      - run: ./result/bin/talhelper
