@@ -41,11 +41,10 @@ func SubstituteRelativePaths(configFilePath string, yamlContent []byte) ([]byte,
 
 func processNode(node interface{}, path []string, yamlDir string) interface{} {
 	switch n := node.(type) {
-	case map[interface{}]interface{}:
-		newMap := make(map[interface{}]interface{})
+	case map[string]interface{}:
+		newMap := make(map[string]interface{})
 		for k, v := range n {
-			keyStr := fmt.Sprintf("%v", k)
-			newPath := append(path, keyStr)
+			newPath := append(path, k)
 			newMap[k] = processNode(v, newPath, yamlDir)
 		}
 		return newMap
