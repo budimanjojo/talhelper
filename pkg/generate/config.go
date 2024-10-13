@@ -38,6 +38,7 @@ func GenerateConfig(c *config.TalhelperConfig, dryRun bool, outDir, secretFile, 
 		}
 
 		if len(node.Patches) != 0 {
+			slog.Debug(fmt.Sprintf("applying node specific patches to %s", node.Hostname))
 			cfg, err = patcher.PatchesPatcher(node.Patches, cfg)
 			if err != nil {
 				return err
@@ -45,6 +46,7 @@ func GenerateConfig(c *config.TalhelperConfig, dryRun bool, outDir, secretFile, 
 		}
 
 		if len(c.Patches) > 0 {
+			slog.Debug(fmt.Sprintf("applying global patches to %s", node.Hostname))
 			cfg, err = patcher.PatchesPatcher(c.Patches, cfg)
 			if err != nil {
 				return err

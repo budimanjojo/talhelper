@@ -1,8 +1,12 @@
 package patcher
 
 import (
+	"bufio"
+	"fmt"
+	"log/slog"
 	"os"
 	"strings"
+	"unicode"
 
 	"github.com/budimanjojo/talhelper/v3/pkg/decrypt"
 	"github.com/budimanjojo/talhelper/v3/pkg/substitute"
@@ -55,6 +59,16 @@ func PatchesPatcher(patches []string, target []byte) ([]byte, error) {
 		if strings.HasPrefix(patchString, "@") {
 			filename := patchString[1:]
 
+			// skip empty file
+			empty, err := isEmptyFile(filename)
+			if err != nil {
+				return nil, err
+			}
+			if empty {
+				slog.Debug(fmt.Sprintf("%s is an empty file, skip applying this patch", filename))
+				continue
+			}
+
 			// Try to decrypt patch with sops first.
 			contents, err = decrypt.DecryptYamlWithSops(filename)
 			if err != nil {
@@ -92,4 +106,29 @@ func PatchesPatcher(patches []string, target []byte) ([]byte, error) {
 	}
 
 	return cfg, nil
+}
+
+// isEmptyFile checks if the file is empty or contains only whitespaces.
+// It also returns an error, if any.
+func isEmptyFile(file string) (bool, error) {
+	f, err := os.Open(file)
+	if err != nil {
+		return false, err
+	}
+
+	defer f.Close()
+
+	scanner := bufio.NewScanner(f)
+	for scanner.Scan() {
+		line := scanner.Text()
+		if strings.TrimFunc(line, unicode.IsSpace) != "" {
+			return false, nil
+		}
+	}
+
+	if err := scanner.Err(); err != nil {
+		return false, nil
+	}
+
+	return true, nil
 }
