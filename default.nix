@@ -44,6 +44,7 @@ buildGo123Module rec {
 
   meta = with lib; {
     description = "A tool to help creating Talos kubernetes cluster";
+    mainProgram = "talhelper";
     longDescription = ''
       Talhelper is a helper tool to help creating Talos Linux cluster
       in your GitOps repository.
