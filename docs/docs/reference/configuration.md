@@ -509,6 +509,21 @@ disableSearchDomain: true
 </tr>
 
 <tr markdown="1">
+<td markdown="1">`machineDisks`</td>
+<td markdown="1">[][MachineDisk](#machinedisk)</td>
+<td markdown="1">List of additional disks to partition, format, mount.<details><summary>*Show example*</summary>
+```yaml
+machineDisks:
+  - device: /dev/disk/by-id/ata-CT500MX500SSD1_2149E5EC1D9D
+    partitions:
+      - mountpoint: /var/mnt/sata
+```
+</summary></td>
+<td markdown="1" align="center">`[]`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+</tr>
+
+<tr markdown="1">
 <td markdown="1">`noSchematicValidate`</td>
 <td markdown="1">bool</td>
 <td markdown="1">Whether to skip schematic validation.<details><summary>*Show example*</summary>
