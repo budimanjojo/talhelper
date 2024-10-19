@@ -35,7 +35,10 @@
             #   })
             # ];
           };
-          packages.default = pkgs.callPackage ./default.nix { };
+          packages = rec {
+            default = talhelper;
+            talhelper = pkgs.callPackage ./default.nix { };
+          };
           devShells.default =
             with pkgs;
             mkShell {
