@@ -45,6 +45,32 @@ You can get `talhelper` as [Nix Flakes](https://nixos.wiki/wiki/Flakes) from the
     ```
 
 - The package is now available at `packages.<system>.default` of the flake. You can call it in your `home.packages` or `environment.systemPackages` or `devShell` by referencing the input as `inputs.talhelper.packages.<system>.default`.
+- Additionally we provide a convenient overlay for your nixpkgs
+    ```nix
+    {
+      ...
+      pkgs = import nixpkgs {
+        overlays = [
+          inputs.talhelper.overlays.default
+        ];
+      };
+    }
+    # In any of the places you define packages
+    {
+      # Nixos
+      environment.systemPackages = with pkgs; [
+        talhelper
+      ];
+      # Home Manager
+      home.packages = with pkgs; [
+        talhelper
+      ];
+      # Flakes
+      pkgs.mkShell = with pkgs; [
+        talhelper
+      ];
+    }
+    ```
 
 ## Using Pacman
 
