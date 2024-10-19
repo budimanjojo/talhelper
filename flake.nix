@@ -13,9 +13,15 @@
         "x86_64-darwin"
         "aarch64-darwin"
       ];
+      imports = [
+        inputs.flake-parts.flakeModules.easyOverlay
+      ];
       perSystem =
-        { system, pkgs, ... }:
+        { config, system, pkgs, ... }:
         {
+          overlayAttrs = {
+            inherit (config.packages) default;
+          };
           _module.args.pkgs = import inputs.nixpkgs {
             inherit system;
             # overlays = [
