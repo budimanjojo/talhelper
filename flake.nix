@@ -20,7 +20,7 @@
         { config, system, pkgs, ... }:
         {
           overlayAttrs = {
-            inherit (config.packages) default;
+            inherit (config.packages) talhelper;
           };
           _module.args.pkgs = import inputs.nixpkgs {
             inherit system;
