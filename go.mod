@@ -5,7 +5,7 @@ go 1.23.2
 require (
 	github.com/a8m/envsubst v1.4.2
 	github.com/evanphx/json-patch v5.9.0+incompatible
-	github.com/fatih/color v1.17.0
+	github.com/fatih/color v1.18.0
 	github.com/getsops/sops/v3 v3.9.1
 	github.com/gookit/validate v1.5.2
 	github.com/hashicorp/go-multierror v1.1.1
