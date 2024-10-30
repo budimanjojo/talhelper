@@ -583,6 +583,24 @@ schematic:
 </tr>
 
 <tr markdown="1">
+<td markdown="1">`isoSchematic`</td>
+<td markdown="1">[Schematic](#schematic)</td>
+<td markdown="1">Configure Talos image customization to be used for ISO image<details><summary>*Show example*</summary>
+```yaml
+isoSchematic:
+  customization:
+    extraKernelArgs:
+      - net.ifnames=0
+    systemExtensions:
+      officialExtensions:
+        - siderolabs/intel-ucode
+```
+</summary></td>
+<td markdown="1" align="center">`nil`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+</tr>
+
+<tr markdown="1">
 <td markdown="1">`kernelModules`</td>
 <td markdown="1">[][KernelModuleConfig](#kernelmoduleconfig)</td>
 <td markdown="1">List of additional kernel modules to load.<details><summary>*Show example*</summary>

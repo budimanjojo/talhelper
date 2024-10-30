@@ -41,6 +41,10 @@ var genurlISOCmd = &cobra.Command{
 					schema = node.Schematic
 				}
 
+				if node.IsoSchematic != nil {
+					schema = node.IsoSchematic
+				}
+
 				if node.ContainsIP(genurlNode) || node.Hostname == genurlNode {
 					url, err := talos.GetISOURL(schema, cfg.GetImageFactory(), node.GetMachineSpec(), cfg.GetTalosVersion(), genurlOfflineMode)
 					if err != nil {
