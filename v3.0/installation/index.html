@@ -157,6 +157,31 @@
 <li>
 <p>The package is now available at <code>packages.&lt;system&gt;.default</code> of the flake. You can call it in your <code>home.packages</code> or <code>environment.systemPackages</code> or <code>devShell</code> by referencing the input as <code>inputs.talhelper.packages.&lt;system&gt;.default</code>.</p>
 </li>
+<li>Additionally we provide a convenient overlay for your nixpkgs
+    <div class="highlight"><pre><span></span><code><span class="p">{</span>
+  <span class="o">...</span>
+  <span class="ss">pkgs =</span> <span class="nb">import</span> nixpkgs <span class="p">{</span>
+    <span class="ss">overlays =</span> <span class="p">[</span>
+      inputs<span class="o">.</span>talhelper<span class="o">.</span>overlays<span class="o">.</span>default
+    <span class="p">];</span>
+  <span class="p">};</span>
+<span class="p">}</span>
+<span class="c1"># In any of the places you define packages</span>
+<span class="p">{</span>
+  <span class="c1"># Nixos</span>
+  environment<span class="o">.</span><span class="ss">systemPackages =</span> <span class="k">with</span> pkgs<span class="p">;</span> <span class="p">[</span>
+    talhelper
+  <span class="p">];</span>
+  <span class="c1"># Home Manager</span>
+  home<span class="o">.</span><span class="ss">packages =</span> <span class="k">with</span> pkgs<span class="p">;</span> <span class="p">[</span>
+    talhelper
+  <span class="p">];</span>
+  <span class="c1"># Flakes</span>
+  pkgs<span class="o">.</span><span class="ss">mkShell =</span> <span class="k">with</span> pkgs<span class="p">;</span> <span class="p">[</span>
+    talhelper
+  <span class="p">];</span>
+<span class="p">}</span>
+</code></pre></div></li>
 </ul>
 <h2 id="using-pacman">Using Pacman</h2>
 <p>Thanks to <a href="https://github.com/grawlinson">grawlinson</a>, you can get <code>talhelper</code> from official Arch Linux "Extra" repository.</p>
