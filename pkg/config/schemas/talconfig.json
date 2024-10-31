@@ -736,6 +736,10 @@
           "$ref": "#/$defs/Schematic",
           "description": "Talos image customization to be used in the installer image"
         },
+        "isoSchematic": {
+          "$ref": "#/$defs/Schematic",
+          "description": "Talos image customization to be used for ISO image"
+        },
         "machineSpec": {
           "$ref": "#/$defs/MachineSpec",
           "description": "Machine hardware specification"
@@ -849,6 +853,10 @@
         "schematic": {
           "$ref": "#/$defs/Schematic",
           "description": "Talos image customization to be used in the installer image"
+        },
+        "isoSchematic": {
+          "$ref": "#/$defs/Schematic",
+          "description": "Talos image customization to be used for ISO image"
         },
         "machineSpec": {
           "$ref": "#/$defs/MachineSpec",
