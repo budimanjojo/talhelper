@@ -9,3 +9,4 @@ Currently, the supported major and minor Talos versions are:
 - `v1.6`
 - `v1.7`
 - `v1.8`
+- `v1.9`
