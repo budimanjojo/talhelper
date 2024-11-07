@@ -137,25 +137,25 @@ endpoint: https://192.168.200.10:6443
 clusterSvcNets:
   - ${CLUSTER_SUBNET} ## Define this in your talenv.yaml file
 controlPlane:
-ingressFirewall:
-  defaultAction: block
-  rules:
-    - name: kubelet-ingress
-      portSelector:
-        ports:
-          - 10250
-        protocol: tcp
-      ingress:
-        - subnet: ${CLUSTER_SUBNET}
-    - name: apid-ingress
-      portSelector:
-        ports:
-          - 50000
-        protocol: tcp
-      ingress:
-        - subnet: 0.0.0.0/0
-        - subnet: ::/0
-    - ...
+  ingressFirewall:
+    defaultAction: block
+    rules:
+      - name: kubelet-ingress
+        portSelector:
+          ports:
+            - 10250
+          protocol: tcp
+        ingress:
+          - subnet: ${CLUSTER_SUBNET}
+      - name: apid-ingress
+        portSelector:
+          ports:
+            - 50000
+          protocol: tcp
+        ingress:
+          - subnet: 0.0.0.0/0
+          - subnet: ::/0
+      - ...
 nodes:
   - name: worker1
     controlPlane: false
