@@ -643,6 +643,22 @@
 <td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
 </tr>
 <tr>
+<td><code>isoSchematic</code></td>
+<td><a href="#schematic">Schematic</a></td>
+<td>Configure Talos image customization to be used for ISO image<details><summary><em>Show example</em></summary>
+<div class="highlight"><pre><span></span><code><span class="nt">isoSchematic</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">customization</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">extraKernelArgs</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">net.ifnames=0</span>
+<span class="w">    </span><span class="nt">systemExtensions</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">officialExtensions</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">siderolabs/intel-ucode</span>
+</code></pre></div>
+</summary></td>
+<td align="center"><code>nil</code></td>
+<td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
+</tr>
+<tr>
 <td><code>kernelModules</code></td>
 <td>[]<a href="#kernelmoduleconfig">KernelModuleConfig</a></td>
 <td>List of additional kernel modules to load.<details><summary><em>Show example</em></summary>
