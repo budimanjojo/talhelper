@@ -6,6 +6,7 @@ import (
 	"strings"
 
 	"github.com/budimanjojo/talhelper/v3/pkg/config"
+	"github.com/budimanjojo/talhelper/v3/pkg/templating"
 	"github.com/siderolabs/image-factory/pkg/schematic"
 	taloscfg "github.com/siderolabs/talos/pkg/machinery/config"
 	"github.com/siderolabs/talos/pkg/machinery/config/generate"
@@ -53,6 +54,13 @@ func GenerateNodeConfig(node *config.Node, input *generate.Input, iFactory *conf
 	slog.Debug(fmt.Sprintf("installer URL for %s is set to: %s", node.Hostname, installerURL))
 	cfg.RawV1Alpha1().MachineConfig.MachineInstall.InstallImage = installerURL
 
+	// Templating should be done as late as possible to maximize the amount of infomation
+	// available for templating
+	cfg, err = templateConfig(node, cfg)
+	if err != nil {
+		return nil, err
+	}
+
 	return cfg, nil
 }
 
@@ -99,13 +107,15 @@ func applyNodeOverride(node *config.Node, cfg taloscfg.Provider) taloscfg.Provid
 	}
 
 	if node.NodeAnnotations != nil {
-		slog.Debug(fmt.Sprintf("setting node annotations for %s", node.NodeAnnotations))
-		cfg.RawV1Alpha1().MachineConfig.MachineNodeAnnotations = node.NodeAnnotations
+		nonTemplateAnnotations, _ := templating.SplitTemplatedMapItems(node.NodeAnnotations)
+		slog.Debug(fmt.Sprintf("setting node annotations for %s", nonTemplateAnnotations))
+		cfg.RawV1Alpha1().MachineConfig.MachineNodeAnnotations = nonTemplateAnnotations
 	}
 
 	if node.NodeLabels != nil {
-		slog.Debug(fmt.Sprintf("setting node labels to %s", node.NodeLabels))
-		cfg.RawV1Alpha1().MachineConfig.MachineNodeLabels = node.NodeLabels
+		nonTemplateLabels, _ := templating.SplitTemplatedMapItems(node.NodeLabels)
+		slog.Debug(fmt.Sprintf("setting node labels to %s", nonTemplateLabels))
+		cfg.RawV1Alpha1().MachineConfig.MachineNodeLabels = nonTemplateLabels
 	}
 
 	if node.NodeTaints != nil {
@@ -124,6 +134,51 @@ func applyNodeOverride(node *config.Node, cfg taloscfg.Provider) taloscfg.Provid
 	}
 
 	return cfg
+}
+
+// Template supported fields within the config
+func templateConfig(node *config.Node, cfg taloscfg.Provider) (taloscfg.Provider, error) {
+	// Two separate copies of the configuration are required: one that is
+	// continuously updated with rendered values, and one that that contains
+	// the constant, raw template values. This ensures consistent results in
+	// the event that support for new fields are added, or that they are
+	// templated in a different order, which is important to prevent breaking
+	// changes.
+	renderedConfig := cfg.RawV1Alpha1()
+	unchangedConfig := renderedConfig.DeepCopy()
+
+	err := templateConfigField(node.NodeLabels, &renderedConfig.MachineConfig.MachineNodeLabels, unchangedConfig, "node labels")
+	if err != nil {
+		return nil, err
+	}
+
+	err = templateConfigField(node.NodeAnnotations, &renderedConfig.MachineConfig.MachineNodeAnnotations, unchangedConfig, "node annotations")
+	if err != nil {
+		return nil, err
+	}
+
+	return cfg, nil
+}
+
+// Given a map key pairs, template the values with the provided config, and apply the updated values to the destination map.
+// A message is written to the debug log with the field name and templated values.
+func templateConfigField[T any](srcKeyPairs map[string]string, dstKeyPairs *map[string]T, cfg *v1alpha1.Config, fieldName string) error {
+	_, templateKeyPairs := templating.SplitTemplatedMapItems(srcKeyPairs)
+	if len(templateKeyPairs) == 0 {
+		return nil
+	}
+
+	renderedKeyPairs, err := templating.RenderMap[T](templateKeyPairs, cfg)
+	if err != nil {
+		return err
+	}
+
+	slog.Debug(fmt.Sprintf("adding %v to %s", renderedKeyPairs, fieldName))
+	for key := range renderedKeyPairs {
+		(*dstKeyPairs)[key] = renderedKeyPairs[key]
+	}
+
+	return nil
 }
 
 func installerURL(node *config.Node, cfg taloscfg.Provider, iFactory *config.ImageFactory, offlineMode bool) (string, error) {

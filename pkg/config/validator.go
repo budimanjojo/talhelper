@@ -10,6 +10,7 @@ import (
 	"sync"
 
 	"github.com/budimanjojo/talhelper/v3/pkg/config/schemas/versiontags"
+	"github.com/budimanjojo/talhelper/v3/pkg/templating"
 	"github.com/gookit/validate"
 	"github.com/hashicorp/go-multierror"
 	"github.com/siderolabs/net"
@@ -280,8 +281,12 @@ func checkNodeHostname(node Node, idx int, result *Errors) *Errors {
 
 func checkNodeLabels(node Node, idx int, result *Errors) *Errors {
 	if node.NodeLabels != nil {
+		// Skip labels that include templates as these will not be valid
+		// until they are rendered
+		nonTemplateLabels, _ := templating.SplitTemplatedMapItems(node.NodeLabels)
+
 		var messages *multierror.Error
-		if err := labels.Validate(node.NodeLabels); err != nil {
+		if err := labels.Validate(nonTemplateLabels); err != nil {
 			return result.Append(&Error{
 				Kind:    "InvalidNodeLabels",
 				Field:   getNodeFieldYamlTag(node, idx, "NodeLabels"),
@@ -293,9 +298,13 @@ func checkNodeLabels(node Node, idx int, result *Errors) *Errors {
 }
 
 func checkNodeAnnotations(node Node, idx int, result *Errors) *Errors {
+	// Skip annotations that include templates as these may not be valid
+	// until they are rendered
+	nonTemplateAnnotations, _ := templating.SplitTemplatedMapItems(node.NodeAnnotations)
+
 	if node.NodeAnnotations != nil {
 		var messages *multierror.Error
-		if err := labels.ValidateAnnotations(node.NodeAnnotations); err != nil {
+		if err := labels.ValidateAnnotations(nonTemplateAnnotations); err != nil {
 			return result.Append(&Error{
 				Kind:    "InvalidNodeAnnotations",
 				Field:   getNodeFieldYamlTag(node, idx, "NodeAnnotations"),
