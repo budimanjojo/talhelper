@@ -79,8 +79,14 @@ nodes:
     nodeLabels:
       rack: rack1a
       zone: us-east-1a
+      isSecureBootEnabled: >-
+        {{
+          .MachineConfig.MachineInstall.InstallImage |
+          contains "installer-secureboot"
+        }}
     nodeAnnotations:
       rack: rack1a
+      installerUrl: '{{ .MachineConfig.MachineInstall.InstallImage }}'
     nodeTaints:
       mytaint: mytaints:NoSchedule
     disableSearchDomain: true

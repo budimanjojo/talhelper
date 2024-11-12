@@ -58,6 +58,10 @@ nodes:
     nodeLabels:
       rack: rack1a
       zone: us-east-1a
+      isSecureBootEnabled: '{{ .MachineConfig.MachineInstall.InstallImage | contains "installer-secureboot" }}'
+    nodeAnnotations:
+      rack: rack1a
+      installerUrl: '{{ .MachineConfig.MachineInstall.InstallImage }}'
     talosImageURL: factory.talos.dev/installer/e9c7ef96884d4fbc8c0a1304ccca4bb0287d766a8b4125997cb9dbe84262144e
     schematic:
       customization:
@@ -147,8 +151,9 @@ nodes:
 			},
 		},
 	}
-	expectedNode2NodeLabels := map[string]string{"rack": "rack1a", "zone": "us-east-1a"}
 	expectedNode2InstallImage := "factory.talos.dev/installer/e9c7ef96884d4fbc8c0a1304ccca4bb0287d766a8b4125997cb9dbe84262144e:v1.5.4"
+	expectedNode2NodeLabels := map[string]string{"rack": "rack1a", "zone": "us-east-1a", "isSecureBootEnabled": "false"}
+	expectedNode2NodeAnnotations := map[string]string{"rack": "rack1a", "installerUrl": expectedNode2InstallImage}
 	expectedNode2Nameservers := []string{"1.1.1.1", "8.8.8.8"}
 
 	cpCfg := cp.RawV1Alpha1().MachineConfig
@@ -167,6 +172,7 @@ nodes:
 	compare(wCfg.MachineInstall.InstallDiskSelector, expectedNode2InstallDiskSelector, t)
 	compare(wCfg.MachineDisks, expectedNode2MachineDisks, t)
 	compare(wCfg.MachineNodeLabels, expectedNode2NodeLabels, t)
+	compare(wCfg.MachineNodeAnnotations, expectedNode2NodeAnnotations, t)
 	compare(wCfg.MachineInstall.InstallImage, expectedNode2InstallImage, t)
 	compare(wCfg.MachineNetwork.NameServers, expectedNode2Nameservers, t)
 }
@@ -198,6 +204,55 @@ func compare(got, want any, t *testing.T) {
 		}
 		if !reflect.DeepEqual(g, w) {
 			t.Errorf("\ngot %s\nwant %s", g, w)
+		}
+	}
+}
+
+func TestTemplateConfigField(t *testing.T) {
+	cfg := v1alpha1.Config{
+		ConfigVersion: "dummy value",
+	}
+
+	srcKeyPairs := map[string]string{"key": "{{ .ConfigVersion }}"}
+	dstKeyPairsStr := make(map[string]string)
+	err := templateConfigField(srcKeyPairs, &dstKeyPairsStr, &cfg, "str")
+	if err != nil {
+		t.Error("expected no error")
+	}
+	compareMaps(t, map[string]string{"key": "dummy value"}, dstKeyPairsStr)
+
+	srcKeyPairs = map[string]string{"key": "{{ 123 }}"}
+	dstKeyPairsInt := make(map[string]int)
+	err = templateConfigField(srcKeyPairs, &dstKeyPairsInt, &cfg, "int")
+	if err != nil {
+		t.Error("expected no error")
+	}
+	compareMaps(t, map[string]int{"key": 123}, dstKeyPairsInt)
+
+	srcKeyPairs = map[string]string{"key": "{{ true }}"}
+	dstKeyPairsBool := make(map[string]bool)
+	err = templateConfigField(srcKeyPairs, &dstKeyPairsBool, &cfg, "bool")
+	if err != nil {
+		t.Error("expected no error")
+	}
+	compareMaps(t, map[string]bool{"key": true}, dstKeyPairsBool)
+
+	srcKeyPairs = map[string]string{"key": "{{ true }}"}
+	dstKeyPairsUnsupported := make(map[string]map[string]string)
+	err = templateConfigField(srcKeyPairs, &dstKeyPairsUnsupported, &cfg, "unsupported destination type")
+	if err == nil {
+		t.Error("expected error, got none")
+	}
+}
+
+func compareMaps[T comparable](t *testing.T, expected map[string]T, actual map[string]T) {
+	for expectedKey, expectedValue := range expected {
+		if actualValue, ok := actual[expectedKey]; ok {
+			if actualValue != expectedValue {
+				t.Errorf("actual value '%v' did not match expected value '%v'", expectedValue, actualValue)
+			}
+		} else {
+			t.Errorf("missing key %q in actual values", expectedKey)
 		}
 	}
 }
