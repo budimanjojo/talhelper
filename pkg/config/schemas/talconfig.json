@@ -120,6 +120,15 @@
       "additionalProperties": false,
       "type": "object"
     },
+    "BridgePort": {
+      "properties": {
+        "master": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
     "BridgeVLAN": {
       "properties": {
         "vlanFiltering": {
@@ -235,6 +244,9 @@
         },
         "bridge": {
           "$ref": "#/$defs/Bridge"
+        },
+        "bridgePort": {
+          "$ref": "#/$defs/BridgePort"
         },
         "vlans": {
           "$ref": "#/$defs/VlanList"
