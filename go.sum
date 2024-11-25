@@ -397,6 +397,8 @@ github.com/siderolabs/go-blockdevice/v2 v2.0.2 h1:GIdOBrCLQ7X9jbr0P/+7paw5SIfp/L
 github.com/siderolabs/go-blockdevice/v2 v2.0.2/go.mod h1:74htzCV913UzaLZ4H+NBXkwWlYnBJIq5m/379ZEcu8w=
 github.com/siderolabs/go-blockdevice/v2 v2.0.3 h1:IEgDqd3H3gPphahrdvfAzU8RmD4r5eQdWC+vgFQQoEg=
 github.com/siderolabs/go-blockdevice/v2 v2.0.3/go.mod h1:74htzCV913UzaLZ4H+NBXkwWlYnBJIq5m/379ZEcu8w=
+github.com/siderolabs/go-blockdevice/v2 v2.0.6 h1:/NAy3MbNZhjLWo28asZyS/hmf86PEPDMc9i6wIcgbwI=
+github.com/siderolabs/go-blockdevice/v2 v2.0.6/go.mod h1:74htzCV913UzaLZ4H+NBXkwWlYnBJIq5m/379ZEcu8w=
 github.com/siderolabs/go-pointer v1.0.0 h1:6TshPKep2doDQJAAtHUuHWXbca8ZfyRySjSBT/4GsMU=
 github.com/siderolabs/go-pointer v1.0.0/go.mod h1:HTRFUNYa3R+k0FFKNv11zgkaCLzEkWVzoYZ433P3kHc=
 github.com/siderolabs/image-factory v0.5.0 h1:v1FXZLCcV6xu+6QpgvhDEICxVF7o2VxMjfU0MutkFbo=
@@ -411,6 +413,8 @@ github.com/siderolabs/talos/pkg/machinery v1.9.0-alpha.2 h1:46lEVcgBXD9SNXawdawh
 github.com/siderolabs/talos/pkg/machinery v1.9.0-alpha.2/go.mod h1:Wv0juzt8A0P0BRaEANyRtl3qfoZQ81yDrQ/g7zzX6vk=
 github.com/siderolabs/talos/pkg/machinery v1.9.0-alpha.2.0.20241113103058-8b4253d18544 h1:9zmKf+iHEY7Iut/kVEJWHwPNdLyDqNbru3PsPTmtD7E=
 github.com/siderolabs/talos/pkg/machinery v1.9.0-alpha.2.0.20241113103058-8b4253d18544/go.mod h1:rWVQNRDEb4X4VfdxOPDOoLGCaNyc+uqGnxFqmhgZQV4=
+github.com/siderolabs/talos/pkg/machinery v1.9.0-alpha.3 h1:KRvVtqUGaRcQ669N9Pf8fKAguYHMKVCsF4iA4Q4Lm/k=
+github.com/siderolabs/talos/pkg/machinery v1.9.0-alpha.3/go.mod h1:3pZ8wRTnS2mKU3N5PLVOvcu0ktZ32WUDVUcC2FWOXAs=
 github.com/sirupsen/logrus v1.9.3 h1:dueUQJ1C2q9oE3F7wvmSGAaVtTmUizReu6fjN8uqzbQ=
 github.com/sirupsen/logrus v1.9.3/go.mod h1:naHLuLoDiP4jHNo9R0sCBMtWGeIprob74mVsIT4qYEQ=
 github.com/spf13/cast v1.7.0 h1:ntdiHjuueXFgm5nzDRdOS4yfT43P5Fnud6DH50rz/7w=
