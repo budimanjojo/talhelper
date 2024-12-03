@@ -463,6 +463,8 @@ github.com/siderolabs/talos/pkg/machinery v1.9.0-alpha.3 h1:KRvVtqUGaRcQ669N9Pf8
 github.com/siderolabs/talos/pkg/machinery v1.9.0-alpha.3/go.mod h1:3pZ8wRTnS2mKU3N5PLVOvcu0ktZ32WUDVUcC2FWOXAs=
 github.com/siderolabs/talos/pkg/machinery v1.9.0-alpha.3.0.20241202095056-770be16425d2 h1:bKMxndtt01iTZ8WF/PNLm/pXrmI3tiT4xt8Ga0hMZ2Y=
 github.com/siderolabs/talos/pkg/machinery v1.9.0-alpha.3.0.20241202095056-770be16425d2/go.mod h1:jFnOdqa3IfiUHO/ZG0jfON7SxbNIkowVsom8pO0OwBU=
+github.com/siderolabs/talos/pkg/machinery v1.9.0-beta.0 h1:ueS/a+PjzchYO3ZouHgpOZfoUTk/9dO+XHxH3uSM7IU=
+github.com/siderolabs/talos/pkg/machinery v1.9.0-beta.0/go.mod h1:jFnOdqa3IfiUHO/ZG0jfON7SxbNIkowVsom8pO0OwBU=
 github.com/sirupsen/logrus v1.9.3 h1:dueUQJ1C2q9oE3F7wvmSGAaVtTmUizReu6fjN8uqzbQ=
 github.com/sirupsen/logrus v1.9.3/go.mod h1:naHLuLoDiP4jHNo9R0sCBMtWGeIprob74mVsIT4qYEQ=
 github.com/spf13/cast v1.7.0 h1:ntdiHjuueXFgm5nzDRdOS4yfT43P5Fnud6DH50rz/7w=
