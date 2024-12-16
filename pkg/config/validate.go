@@ -51,6 +51,7 @@ func (c TalhelperConfig) Validate() (Errors, Warnings) {
 		slog.Debug(fmt.Sprintf("validating config file for node %s", node.Hostname))
 		checkNodeRequiredCfg(node, k, &result)
 		checkNodeIPAddress(node, k, &result)
+		checkNodeInstallDiskSelector(node, k, &result)
 		checkNodeHostname(node, k, &result)
 		checkNodeLabels(node, k, &result)
 		checkNodeAnnotations(node, k, &result)

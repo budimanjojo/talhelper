@@ -246,6 +246,22 @@ func checkNodeRequiredCfg(node Node, idx int, result *Errors) *Errors {
 	return result
 }
 
+func checkNodeInstallDiskSelector(node Node, idx int, result *Errors) *Errors {
+	if node.InstallDiskSelector != nil {
+		var ic v1alpha1.InstallConfig
+		ic.InstallDiskSelector = node.InstallDiskSelector
+		_, err := ic.DiskMatchExpression()
+		if err != nil {
+			return result.Append(&Error{
+				Kind:    "InvalidNodeDiskSelector",
+				Field:   getNodeFieldYamlTag(node, idx, "InstallDiskSelector"),
+				Message: formatError(multierror.Append(err)),
+			})
+		}
+	}
+	return result
+}
+
 func checkNodeIPAddress(node Node, idx int, result *Errors) *Errors {
 	if node.IPAddress != "" {
 		var messages *multierror.Error
