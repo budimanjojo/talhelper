@@ -96,7 +96,7 @@ dockers:
     goarch: arm64
     dockerfile: Dockerfile
     build_flag_templates:
-      - "--platform=linux/amd64"
+      - "--platform=linux/arm64v8"
       - "--label=org.opencontainers.image.created={{.Date}}"
       - "--label=org.opencontainers.image.title={{.ProjectName}}"
       - "--label=org.opencontainers.image.revision={{.FullCommit}}"
