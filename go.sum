@@ -257,6 +257,8 @@ github.com/containerd/continuity v0.4.3 h1:6HVkalIp+2u1ZLH1J/pYX2oBVXlJZvh1X1A7b
 github.com/containerd/continuity v0.4.3/go.mod h1:F6PTNCKepoxEaXLQp3wDAjygEnImnZ/7o4JzpodfroQ=
 github.com/containerd/go-cni v1.1.10 h1:c2U73nld7spSWfiJwSh/8W9DK+/qQwYM2rngIhCyhyg=
 github.com/containerd/go-cni v1.1.10/go.mod h1:/Y/sL8yqYQn1ZG1om1OncJB1W4zN3YmjfP/ShCzG/OY=
+github.com/containerd/go-cni v1.1.11 h1:fWt1K15AmSLsEfa57N+qYw4NeGPiQKYq1pjNGJwV9mc=
+github.com/containerd/go-cni v1.1.11/go.mod h1:/Y/sL8yqYQn1ZG1om1OncJB1W4zN3YmjfP/ShCzG/OY=
 github.com/containernetworking/cni v1.2.3 h1:hhOcjNVUQTnzdRJ6alC5XF+wd9mfGIUaj8FuJbEslXM=
 github.com/containernetworking/cni v1.2.3/go.mod h1:DuLgF+aPd3DzcTQTtp/Nvl1Kim23oFKdm2okJzBQA5M=
 github.com/cosi-project/runtime v0.7.1 h1:cOF2/ljLa0NPQV6/S1RZHcSUXM0UyOlD5F3fwwYSQEg=
@@ -534,6 +536,8 @@ github.com/siderolabs/image-factory v0.6.2 h1:3Ax/6DGqVxMjvh0UkHxxnqiAl2MaKRFd+G
 github.com/siderolabs/image-factory v0.6.2/go.mod h1:Y3ZMytkh5FEfZ1/1T9jZ8fLLYnvrMdNuxqoBEb1pu0c=
 github.com/siderolabs/image-factory v0.6.3 h1:R6POPzELaKxe4M2dTe1vOtzC7W+I/RArfCXwo8+981I=
 github.com/siderolabs/image-factory v0.6.3/go.mod h1:hjHTlp9W8Va2vvi4lohTMevBXu/kpMc9Vc5xgXYY+JQ=
+github.com/siderolabs/image-factory v0.6.4 h1:BMirVs99OODjjzjfMyGblvF/OrXqOwAACfp++ipfriM=
+github.com/siderolabs/image-factory v0.6.4/go.mod h1:KY9UkMRqzC+dVVy3z8sWpN/Jg6Ce+I8cVJb97SR32SI=
 github.com/siderolabs/net v0.4.0 h1:1bOgVay/ijPkJz4qct98nHsiB/ysLQU0KLoBC4qLm7I=
 github.com/siderolabs/net v0.4.0/go.mod h1:/ibG+Hm9HU27agp5r9Q3eZicEfjquzNzQNux5uEk0kM=
 github.com/siderolabs/protoenc v0.2.1 h1:BqxEmeWQeMpNP3R6WrPqDatX8sM/r4t97OP8mFmg6GA=
