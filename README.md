@@ -46,6 +46,7 @@ Thanks for those who are sponsoring or have sponsored my projects, it helps and 
 <a href="https://github.com/otosky"><img src="https://github.com/otosky.png" width="40px" alt="" /></a>
 <a href="https://github.com/Toastyice"><img src="https://github.com/Toastyice.png" width="40px" alt="" /></a>
 <a href="https://github.com/DrMxrcy"><img src="https://github.com/DrMxrcy.png" width="40px" alt="" /></a>
+<a href="https://github.com/qjoly"><img src="https://github.com/qjoly.png" width="40px" alt="" /></a>
 
 ## Acknowledgments
 
