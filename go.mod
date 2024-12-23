@@ -16,7 +16,7 @@ require (
 	github.com/sabhiram/go-gitignore v0.0.0-20210923224102-525f6e181f06
 	github.com/siderolabs/image-factory v0.6.3
 	github.com/siderolabs/net v0.4.0
-	github.com/siderolabs/talos/pkg/machinery v1.9.0
+	github.com/siderolabs/talos/pkg/machinery v1.10.0-alpha.0
 	github.com/spf13/cobra v1.8.1
 	golang.org/x/mod v0.22.0
 	gopkg.in/yaml.v3 v3.0.1
@@ -142,7 +142,7 @@ require (
 	github.com/siderolabs/crypto v0.5.0 // indirect
 	github.com/siderolabs/gen v0.7.0 // indirect
 	github.com/siderolabs/go-blockdevice v0.4.8 // indirect
-	github.com/siderolabs/go-blockdevice/v2 v2.0.7 // indirect
+	github.com/siderolabs/go-blockdevice/v2 v2.0.8 // indirect
 	github.com/siderolabs/go-pointer v1.0.0 // indirect
 	github.com/siderolabs/protoenc v0.2.1 // indirect
 	github.com/sirupsen/logrus v1.9.3 // indirect
