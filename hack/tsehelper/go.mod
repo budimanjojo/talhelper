@@ -1,11 +1,9 @@
 module tsehelper
 
-go 1.23.3
-
-toolchain go1.23.4
+go 1.23.4
 
 require (
-	github.com/budimanjojo/talhelper/v3 v3.0.13
+	github.com/budimanjojo/talhelper/v3 v3.0.14
 	github.com/google/go-containerregistry v0.20.2
 	github.com/sirupsen/logrus v1.9.3
 	gopkg.in/yaml.v3 v3.0.1
