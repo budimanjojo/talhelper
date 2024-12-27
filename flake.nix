@@ -17,23 +17,28 @@
         inputs.flake-parts.flakeModules.easyOverlay
       ];
       perSystem =
-        { config, system, pkgs, ... }:
+        {
+          config,
+          system,
+          pkgs,
+          ...
+        }:
         {
           overlayAttrs = {
             inherit (config.packages) talhelper;
           };
           _module.args.pkgs = import inputs.nixpkgs {
             inherit system;
-            # overlays = [
-            #   (final: prev: {
-            #     go_1_22 = prev.go_1_22.overrideAttrs (old: {
-            #       src = prev.fetchurl {
-            #         url = "https://go.dev/dl/go1.22.3.src.tar.gz";
-            #         hash = "sha256-gGSO80+QMZPXKlnA3/AZ9fmK4MmqE63gsOy/+ZGnb2g=";
-            #       };
-            #     });
-            #   })
-            # ];
+            overlays = [
+              (final: prev: {
+                go_1_23 = prev.go_1_23.overrideAttrs (old: {
+                  src = prev.fetchurl {
+                    url = "https://go.dev/dl/go1.23.4.src.tar.gz";
+                    hash = "sha256-rTRaxCHpCBQpOpaZzKGd1SOCUcP2h5gLvK4oSVsmNTE=";
+                  };
+                });
+              })
+            ];
           };
           packages = rec {
             default = talhelper;
