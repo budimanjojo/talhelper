@@ -81,6 +81,15 @@ func GenerateConfig(c *config.TalhelperConfig, dryRun bool, outDir, secretFile, 
 			cfg = append(cfg, ext...)
 		}
 
+		if len(node.Volumes) > 0 {
+			slog.Debug(fmt.Sprintf("generating volume config for %s", node.Hostname))
+			vc, err := talos.GenerateVolumeConfigBytes(node.Volumes, mode)
+			if err != nil {
+				return err
+			}
+			cfg = append(cfg, vc...)
+		}
+
 		if len(node.ExtraManifests) > 0 {
 			slog.Debug(fmt.Sprintf("generating extra manifests for %s", node.Hostname))
 			content, err := combineExtraManifests(node.ExtraManifests)

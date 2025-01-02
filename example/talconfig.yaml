@@ -32,6 +32,12 @@ nodes:
             mountPath: /usr/local/etc/nut/upsmon.conf
         environment:
           - UPS_NAME=ups
+    volumes:
+      - name: EPHEMERAL
+        provisioning:
+          diskSelector:
+            match: disk.transport == "nvme"
+          maxSize: 50GiB
     ingressFirewall:
       defaultAction: block
       rules:
@@ -74,8 +80,9 @@ nodes:
     installDiskSelector:
       size: 4GB
       model: WDC*
-      name: /sys/block/sda/device/name
-      busPath: /pci0000:00/0000:00:17.0/ata1/host0/target0:0:0/0:0:0:0
+      # TODO: broken since Talos 1.9 and I need to investigate
+      # name: /sys/block/sda/device/name
+      # busPath: /pci0000:00/0000:00:17.0/ata1/host0/target0:0:0/0:0:0:0
     nodeLabels:
       rack: rack1a
       zone: us-east-1a
