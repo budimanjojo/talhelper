@@ -2,6 +2,7 @@ package config
 
 import (
 	"github.com/siderolabs/image-factory/pkg/schematic"
+	"github.com/siderolabs/talos/pkg/machinery/config/types/block"
 	"github.com/siderolabs/talos/pkg/machinery/config/types/network"
 	"github.com/siderolabs/talos/pkg/machinery/config/types/runtime/extensions"
 	"github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1"
@@ -59,6 +60,7 @@ type NodeConfigs struct {
 	MachineSpec         MachineSpec                    `yaml:"machineSpec,omitempty" jsonschema:"description=Machine hardware specification"`
 	IngressFirewall     *IngressFirewall               `yaml:"ingressFirewall,omitempty" jsonschema:"description=Machine firewall specification"`
 	ExtensionServices   []*ExtensionService            `yaml:"extensionServices,omitempty" jsonschema:"description=Machine extension services specification"`
+	Volumes             []*Volume                      `yaml:"volumes,omitempty" jsonschema:"description=Machine volume configs specification"`
 }
 
 type ImageFactory struct {
@@ -91,4 +93,9 @@ type ExtensionService struct {
 	Name        string                    `yaml:"name" jsonschema:"description=Name of the extension service config"`
 	ConfigFiles extensions.ConfigFileList `yaml:"configFiles,omitempty" jsonschema:"description=The config files for the extension service"`
 	Environment []string                  `yaml:"environment,omitempty" jsonschema:"description=The environment for the extension service"`
+}
+
+type Volume struct {
+	Name         string                 `yaml:"name" jsonschema:"description=Name of the volume config"`
+	Provisioning block.ProvisioningSpec `yaml:"provisioning" jsonschema:"description=Provisioning spec of the volume config"`
 }
