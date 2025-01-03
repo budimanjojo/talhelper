@@ -461,6 +461,23 @@ extensionServices:
 </tr>
 
 <tr markdown="1">
+<td markdown="1">`volumes`</td>
+<td markdown="1">[][Volume](#volume)</td>
+<td markdown="1">Machine volume configs specification.<details><summary>*Show example*</summary>
+```yaml
+volumes:
+  - name: EPHEMERAL
+    provisioning:
+      diskSelector:
+        match: disk.transport == "nvme"
+      maxSize: 50GiB
+```
+</summary></td>
+<td markdown="1" align="center">`nil`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+</tr>
+
+<tr markdown="1">
 <td markdown="1">`nodeLabels`</td>
 <td markdown="1">map[string]string</td>
 <td markdown="1">Labels to be added to the node.<details><summary>*Show example*</summary>
@@ -910,6 +927,44 @@ environment:
 
 </table>
 
+## Volume
+
+`Volume` defines machine volume configuration for a node.
+
+<table markdown="1">
+<tr markdown="1">
+<th markdown="1">Field</th><th>Type</th><th>Description</th><th>Default Value</th><th>Required</th>
+</tr>
+
+<tr markdown="1">
+<td markdown="1">`name`</td>
+<td markdown="1">`string`</td>
+<td markdown="1">Name of the volume config.<details><summary>*Show example*</summary>
+```yaml
+name: EPHEMERAL
+```
+</details></td>
+<td markdown="1" align="center">`nil`</td>
+<td markdown="1" align="center">:white_check_mark:</td>
+</tr>
+
+<tr markdown="1">
+<td markdown="1">`provisioning`</td>
+<td markdown="1">[ProvisioningSpec](#provisioningspec)</td>
+<td markdown="1">Provisioning spec of the volume config.<details><summary>*Show example*</summary>
+```yaml
+provisioning:
+  diskSelector:
+    match: disk.transport == "nvme"
+  maxSize: 50GiB
+```
+</details></td>
+<td markdown="1" align="center">`nil`</td>
+<td markdown="1" align="center">:white_check_mark:</td>
+</tr>
+
+</table>
+
 ## NetworkRule
 
 `NetworkRule` defines the firewall rules to match.
@@ -1005,3 +1060,7 @@ ingress:
 ## ConfigFile
 
 `ConfigFile` is type of upstream Talos <a href="https://www.talos.dev/v1.7/reference/configuration/extensions/extensionserviceconfig/#ExtensionServiceConfig.configFiles" target="_blank">`extensions.ConfigFile`</a>
+
+## ProvisioningSpec
+
+`ProvisioningSpec` is type of upstream Talos <a href="https://www.talos.dev/v1.9/reference/configuration/block/volumeconfig/#VolumeConfig.provisioning" target="_blank">`block.ProvisioningSpec`</a>
