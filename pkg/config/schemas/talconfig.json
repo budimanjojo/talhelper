@@ -138,6 +138,11 @@
       "additionalProperties": false,
       "type": "object"
     },
+    "ByteSize": {
+      "properties": {},
+      "additionalProperties": false,
+      "type": "object"
+    },
     "CNIConfig": {
       "properties": {
         "name": {
@@ -342,6 +347,20 @@
           "type": "string"
         }
       },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "DiskSelector": {
+      "properties": {
+        "match": {
+          "$ref": "#/$defs/Expression"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "Expression": {
+      "properties": {},
       "additionalProperties": false,
       "type": "object"
     },
@@ -574,6 +593,9 @@
         "hardwareAddr": {
           "type": "string"
         },
+        "permanentAddr": {
+          "type": "string"
+        },
         "pciID": {
           "type": "string"
         },
@@ -766,6 +788,13 @@
           },
           "type": "array",
           "description": "Machine extension services specification"
+        },
+        "volumes": {
+          "items": {
+            "$ref": "#/$defs/Volume"
+          },
+          "type": "array",
+          "description": "Machine volume configs specification"
         }
       },
       "additionalProperties": false,
@@ -884,6 +913,13 @@
           },
           "type": "array",
           "description": "Machine extension services specification"
+        },
+        "volumes": {
+          "items": {
+            "$ref": "#/$defs/Volume"
+          },
+          "type": "array",
+          "description": "Machine volume configs specification"
         }
       },
       "additionalProperties": false,
@@ -914,6 +950,24 @@
         "protocol": {
           "type": "string",
           "description": "Protocol (can be tcp or udp)"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "ProvisioningSpec": {
+      "properties": {
+        "diskSelector": {
+          "$ref": "#/$defs/DiskSelector"
+        },
+        "grow": {
+          "type": "boolean"
+        },
+        "minSize": {
+          "$ref": "#/$defs/ByteSize"
+        },
+        "maxSize": {
+          "$ref": "#/$defs/ByteSize"
         }
       },
       "additionalProperties": false,
@@ -1149,6 +1203,20 @@
         "$ref": "#/$defs/Vlan"
       },
       "type": "array"
+    },
+    "Volume": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of the volume config"
+        },
+        "provisioning": {
+          "$ref": "#/$defs/ProvisioningSpec",
+          "description": "Provisioning spec of the volume config"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
     }
   }
 }
