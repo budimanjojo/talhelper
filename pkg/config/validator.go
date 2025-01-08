@@ -521,6 +521,46 @@ func checkNodeNetworkInterfaces(node Node, idx int, result *Errors) *Errors {
 	return result
 }
 
+func checkNodeMachineSpec(node Node, idx int, result *Errors) *Errors {
+	var messages *multierror.Error
+
+	if node.MachineSpec.BootMethod != "" {
+		if !slices.Contains([]string{"iso", "disk-image", "pxe"}, node.MachineSpec.BootMethod) {
+			messages = multierror.Append(messages, fmt.Errorf("`bootMethod` should be one of iso, disk-image, pxe"))
+		}
+	}
+
+	if node.MachineSpec.ImageSuffix != "" {
+		switch node.MachineSpec.BootMethod {
+		case "", "iso":
+			if !slices.Contains([]string{"iso"}, node.MachineSpec.ImageSuffix) {
+				messages = multierror.Append(messages, fmt.Errorf("`imageSuffix` for iso (default) should be iso"))
+			}
+		case "disk-image":
+			supported := []string{"raw.zst", "raw.xz", "raw.tar.gz", "vhd.xz", "raw.gz", "ova", "qcow2"}
+			if !slices.Contains(supported, node.MachineSpec.ImageSuffix) {
+				messages = multierror.Append(messages, fmt.Errorf("`imageSuffix` for disk-image should be one of %s", supported))
+			}
+		case "pxe":
+			if !slices.Contains([]string{""}, node.MachineSpec.ImageSuffix) {
+				messages = multierror.Append(messages, fmt.Errorf("`imageSuffix` for pxe should be \"\""))
+			}
+		default:
+			messages = multierror.Append(messages, fmt.Errorf("invalid `imageSuffix` and `bootMethod`"))
+		}
+	}
+
+	if messages.ErrorOrNil() != nil {
+		return result.Append(&Error{
+			Kind:    "InvalidNodeMachineSpec",
+			Field:   getNodeFieldYamlTag(node, idx, "MachineSpec"),
+			Message: formatError(messages),
+		})
+	}
+
+	return result
+}
+
 func checkNodeIngressFirewall(node Node, idx int, result *Errors) *Errors {
 	if node.IngressFirewall != nil {
 		var messages *multierror.Error

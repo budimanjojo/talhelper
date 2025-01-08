@@ -79,7 +79,7 @@ func (c *TalhelperConfig) GetImageFactory() *ImageFactory {
 		SchematicEndpoint: "/schematics",
 		Protocol:          "https",
 		InstallerURLTmpl:  "{{.RegistryURL}}/installer{{if .Secureboot}}-secureboot{{end}}/{{.ID}}:{{.Version}}",
-		ISOURLTmpl:        "{{.Protocol}}://{{.RegistryURL}}/image/{{.ID}}/{{.Version}}/{{.Mode}}-{{.Arch}}{{if .Secureboot}}-secureboot{{end}}{{if and .Secureboot .UseUKI}}-uki.efi{{else}}.iso{{end}}",
+		ImageURLTmpl:      "{{.Protocol}}://{{.RegistryURL}}/image/{{.ID}}/{{.Version}}/{{.Mode}}-{{.Arch}}{{if .Secureboot}}-secureboot{{end}}{{if and .Secureboot .UseUKI}}-uki.efi{{ else }}{{.Suffix}}{{end}}",
 	}
 	if c.ImageFactory.RegistryURL != "" {
 		result.RegistryURL = c.ImageFactory.RegistryURL
@@ -93,20 +93,31 @@ func (c *TalhelperConfig) GetImageFactory() *ImageFactory {
 	if c.ImageFactory.InstallerURLTmpl != "" {
 		result.InstallerURLTmpl = c.ImageFactory.InstallerURLTmpl
 	}
+	if c.ImageFactory.ImageURLTmpl != "" {
+		result.ImageURLTmpl = c.ImageFactory.ImageURLTmpl
+	}
 	return result
 }
 
 // GetMachineSpec returns default `MachineSpec` for `Node` if not specified.
 func (n *Node) GetMachineSpec() *MachineSpec {
 	result := &MachineSpec{
-		Mode: "metal",
-		Arch: "amd64",
+		Mode:        "metal",
+		Arch:        "amd64",
+		BootMethod:  "iso",
+		ImageSuffix: "iso",
+	}
+	if n.MachineSpec.BootMethod != "" {
+		result.BootMethod = n.MachineSpec.BootMethod
 	}
 	if n.MachineSpec.Mode != "" {
 		result.Mode = n.MachineSpec.Mode
 	}
 	if n.MachineSpec.Arch != "" {
 		result.Arch = n.MachineSpec.Arch
+	}
+	if n.MachineSpec.ImageSuffix != "" {
+		result.ImageSuffix = n.MachineSpec.ImageSuffix
 	}
 	result.Secureboot = n.MachineSpec.Secureboot
 	result.UseUKI = n.MachineSpec.UseUKI

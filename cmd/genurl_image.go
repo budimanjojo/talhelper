@@ -6,6 +6,7 @@ import (
 	"log"
 	"log/slog"
 	"os"
+	"slices"
 	"strings"
 
 	"github.com/budimanjojo/talhelper/v3/pkg/config"
@@ -15,15 +16,20 @@ import (
 )
 
 var (
-	genurlISOTalosMode string
-	genurlISOArch      string
-	genurlISOUseUKI    bool
+	genurlImageTalosMode  string
+	genurlImageArch       string
+	genurlImageUseUKI     bool
+	genurlImageBootMethod string
+	genurlImageSuffix     string
 )
 
-var genurlISOCmd = &cobra.Command{
-	Use:   "iso",
-	Short: "Generate URL for Talos ISO image",
+var genurlImageCmd = &cobra.Command{
+	Use:   "image",
+	Short: "Generate URL for Talos ISO or disk image",
 	Run: func(cmd *cobra.Command, args []string) {
+		if !slices.Contains([]string{"iso", "disk-image", "pxe"}, genurlImageBootMethod) {
+			log.Fatalf("invalid boot-method, should be one of iso, disk-image, pxe")
+		}
 		if _, err := os.Stat(genurlCfgFile); err == nil {
 			cfg, err := config.LoadAndValidateFromFile(genurlCfgFile, genurlEnvFile, false)
 			if err != nil {
@@ -41,12 +47,12 @@ var genurlISOCmd = &cobra.Command{
 					schema = node.Schematic
 				}
 
-				if node.IsoSchematic != nil {
-					schema = node.IsoSchematic
+				if node.ImageSchematic != nil {
+					schema = node.ImageSchematic
 				}
 
 				if node.ContainsIP(genurlNode) || node.Hostname == genurlNode {
-					url, err := talos.GetISOURL(schema, cfg.GetImageFactory(), node.GetMachineSpec(), cfg.GetTalosVersion(), genurlOfflineMode)
+					url, err := talos.GetImageURL(schema, cfg.GetImageFactory(), node.GetMachineSpec(), cfg.GetTalosVersion(), genurlOfflineMode)
 					if err != nil {
 						log.Fatalf("Failed to generate ISO url for %s, %v", node.Hostname, err)
 					}
@@ -54,7 +60,7 @@ var genurlISOCmd = &cobra.Command{
 					break
 				}
 
-				url, err := talos.GetISOURL(schema, cfg.GetImageFactory(), node.GetMachineSpec(), cfg.GetTalosVersion(), genurlOfflineMode)
+				url, err := talos.GetImageURL(schema, cfg.GetImageFactory(), node.GetMachineSpec(), cfg.GetTalosVersion(), genurlOfflineMode)
 				if err != nil {
 					log.Fatalf("Failed to generate ISO url for %s, %v", node.Hostname, err)
 				}
@@ -84,13 +90,15 @@ var genurlISOCmd = &cobra.Command{
 				},
 			}
 			tcfg := &config.TalhelperConfig{}
-			spec := &config.MachineSpec{
-				Mode:       genurlISOTalosMode,
-				Arch:       genurlISOArch,
-				Secureboot: genurlSecureboot,
-				UseUKI:     genurlISOUseUKI,
-			}
-			url, err := talos.GetISOURL(cfg, tcfg.GetImageFactory(), spec, genurlVersion, genurlOfflineMode)
+			n := &config.Node{}
+			n.MachineSpec.Mode = genurlImageTalosMode
+			n.MachineSpec.Arch = genurlImageArch
+			n.MachineSpec.Secureboot = genurlSecureboot
+			n.MachineSpec.UseUKI = genurlImageUseUKI
+			n.MachineSpec.BootMethod = genurlImageBootMethod
+			n.MachineSpec.ImageSuffix = genurlImageSuffix
+
+			url, err := talos.GetImageURL(cfg, tcfg.GetImageFactory(), &n.MachineSpec, genurlVersion, genurlOfflineMode)
 			if err != nil {
 				log.Fatalf("Failed to generate installer url, %v", err)
 			}
@@ -103,9 +111,11 @@ var genurlISOCmd = &cobra.Command{
 }
 
 func init() {
-	genurlCmd.AddCommand(genurlISOCmd)
+	genurlCmd.AddCommand(genurlImageCmd)
 
-	genurlISOCmd.Flags().StringVarP(&genurlISOTalosMode, "talos-mode", "m", "metal", "Talos runtime mode to generate URL")
-	genurlISOCmd.Flags().StringVarP(&genurlISOArch, "arch", "a", "amd64", "CPU architecture support of the image")
-	genurlISOCmd.Flags().BoolVar(&genurlISOUseUKI, "use-uki", false, "Whether to generate UKI image url if Secure Boot is enabled")
+	genurlImageCmd.Flags().StringVarP(&genurlImageTalosMode, "talos-mode", "m", "metal", "Talos runtime mode to generate URL")
+	genurlImageCmd.Flags().StringVarP(&genurlImageArch, "arch", "a", "amd64", "CPU architecture support of the image")
+	genurlImageCmd.Flags().BoolVar(&genurlImageUseUKI, "use-uki", false, "Whether to generate UKI image url if Secure Boot is enabled")
+	genurlImageCmd.Flags().StringVar(&genurlImageBootMethod, "boot-method", "iso", "Boot method of the image (can be disk-image, iso, or pxe)")
+	genurlImageCmd.Flags().StringVar(&genurlImageSuffix, "suffix", "", "The image file extension (only used when boot-method is not iso) (e.g: raw.xz, raw.tar.gz, qcow2)")
 }
