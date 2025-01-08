@@ -68,14 +68,16 @@ type ImageFactory struct {
 	SchematicEndpoint string `yaml:"schematicEndpoint,omitempty" jsonschema:"default=/schematics,description:Endpoint to get schematic ID from the registry"`
 	Protocol          string `yaml:"protocol,omitempty" jsonschema:"default=https,description=Protocol of the registry(https or http)"`
 	InstallerURLTmpl  string `yaml:"installerURLTmpl,omitempty" jsonschema:"default={{.RegistryURL}}/installer{{if .Secureboot}}-secureboot{{end}}/{{.ID}}:{{.Version}},description=Template for installer image URL"`
-	ISOURLTmpl        string `yaml:"ISOURLTmpl,omitempty" jsonschema:"default={{.Protocol}}://{{.RegistryURL}}/image/{{.ID}}/{{.Version}}/{{.Mode}}-{{.Arch}}{{if .Secureboot}}-secureboot{{end}}{{if and .Secureboot .UseUKI}}-uki.efi{{else}}.iso{{end}},description=Template for ISO image URL"`
+	ImageURLTmpl      string `yaml:"ISOURLTmpl,omitempty" jsonschema:"default={{.Protocol}}://{{.RegistryURL}}/image/{{.ID}}/{{.Version}}/{{.Mode}}-{{.Arch}}{{if .Secureboot}}-secureboot{{end}}{{if and .Secureboot .UseUKI}}-uki.efi{{else}}{{.Suffix}}{{end}},description=Template for image URL"`
 }
 
 type MachineSpec struct {
-	Mode       string `yaml:"mode,omitempty" jsonschema:"default=metal,description=Machine mode (e.g: metal)"`
-	Arch       string `yaml:"arch,omitempty" jsonschema:"default=amd64,description=Machine architecture (e.g: amd64, arm64)"`
-	Secureboot bool   `yaml:"secureboot,omitempty" jsonschema:"default=false,description=Whether to enable Secure Boot"`
-	UseUKI     bool   `yaml:"useUKI,omitempty" jsonschema:"default=false,description=Whether to use UKI if Secure Boot is enabled"`
+	Mode        string `yaml:"mode,omitempty" jsonschema:"default=metal,description=Machine mode (e.g: metal)"`
+	Arch        string `yaml:"arch,omitempty" jsonschema:"default=amd64,description=Machine architecture (e.g: amd64, arm64)"`
+	Secureboot  bool   `yaml:"secureboot,omitempty" jsonschema:"default=false,description=Whether to enable Secure Boot"`
+	UseUKI      bool   `yaml:"useUKI,omitempty" jsonschema:"default=false,description=Whether to use UKI if Secure Boot is enabled"`
+	BootMethod  string `yaml:"bootMethod,omitempty" jsonschema:"default=iso,description=Boot method of the node (can be disk-image, iso, or pxe)"`
+	ImageSuffix string `yaml:"imageSuffix,omitempty" jsonschema:"description=The image file extension (will be automatically determined by specified bootMethod) (e.g: raw.xz, raw.tar.gz, qcow2)"`
 }
 
 type IngressFirewall struct {

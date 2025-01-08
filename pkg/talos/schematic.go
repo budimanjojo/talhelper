@@ -26,7 +26,9 @@ type installerTmpl struct {
 	Secureboot  bool
 }
 
-type isoTmpl struct {
+type imageTmpl struct {
+	BootMethod  string
+	Suffix      string
 	Protocol    string
 	RegistryURL string
 	ID          string
@@ -63,8 +65,10 @@ func GetInstallerURL(cfg *schematic.Schematic, factory *config.ImageFactory, spe
 	return buf.String(), nil
 }
 
-func GetISOURL(cfg *schematic.Schematic, factory *config.ImageFactory, spec *config.MachineSpec, version string, offlineMode bool) (string, error) {
-	tmplData := isoTmpl{
+func GetImageURL(cfg *schematic.Schematic, factory *config.ImageFactory, spec *config.MachineSpec, version string, offlineMode bool) (string, error) {
+	data := imageTmpl{
+		BootMethod:  spec.BootMethod,
+		Suffix:      spec.ImageSuffix,
 		Protocol:    factory.Protocol,
 		RegistryURL: factory.RegistryURL,
 		Version:     version,
@@ -74,23 +78,52 @@ func GetISOURL(cfg *schematic.Schematic, factory *config.ImageFactory, spec *con
 		UseUKI:      spec.UseUKI,
 	}
 
+	if spec.ImageSuffix != "" {
+		data.Suffix = "." + spec.ImageSuffix
+	} else {
+		data.Suffix = parseImageSuffix(data.BootMethod, data.Secureboot, data.UseUKI)
+	}
+
 	id, err := getSchematicID(cfg, factory, offlineMode)
 	if err != nil {
 		return "", err
 	}
-	tmplData.ID = id
+	data.ID = id
 
-	t, err := template.New("iso").Parse(factory.ISOURLTmpl)
+	return genImageURL(&data, factory)
+}
+
+func genImageURL(data *imageTmpl, factory *config.ImageFactory) (string, error) {
+	t, err := template.New("image").Parse(factory.ImageURLTmpl)
 	if err != nil {
 		return "", err
 	}
 
 	buf := new(bytes.Buffer)
-	if err := t.Execute(buf, tmplData); err != nil {
+	if err := t.Execute(buf, data); err != nil {
 		return "", err
 	}
 
 	return buf.String(), nil
+}
+
+func parseImageSuffix(bm string, sb, uki bool) string {
+	var ext string
+	switch bm {
+	case "":
+		ext = ".iso"
+	case "iso":
+		if sb && uki {
+			ext = ".efi"
+		} else {
+			ext = ".iso"
+		}
+	case "disk-image":
+		ext = ".raw.zxt"
+	case "pxe":
+		ext = ""
+	}
+	return ext
 }
 
 func getSchematicID(cfg *schematic.Schematic, iFactory *config.ImageFactory, offlineMode bool) (string, error) {

@@ -64,6 +64,7 @@ func (c TalhelperConfig) Validate() (Errors, Warnings) {
 		}
 		checkNodeNameServers(node, k, &result)
 		checkNodeNetworkInterfaces(node, k, &result)
+		checkNodeMachineSpec(node, k, &result)
 		checkNodeIngressFirewall(node, k, &result)
 		checkNodeExtraManifests(node, k, &result)
 	}
