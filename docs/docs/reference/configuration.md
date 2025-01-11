@@ -172,7 +172,7 @@ imageFactory:
   schematicEndpoint: /schematics
   protocol: https
   installerURLTmpl: {{.RegistryURL}}/installer/{{.ID}}:{{.Version}}
-  ISOURLTmpl: {{.Protocol}}://{{.RegistryURL}}/image/{{.ID}}/{{.Version}}/{{.Mode}}/{{.Arch}}.iso
+  ImageURLTmpl: {{.Protocol}}://{{.RegistryURL}}/image/{{.ID}}/{{.Version}}/{{.Mode}}/{{.Arch}}.iso
 ```
 </details></td>
 <td markdown="1" align="center">`nil`</td>
@@ -409,11 +409,13 @@ talosImageURL: factory.talos.dev/installer/e9c7ef96884d4fbc8c0a1304ccca4bb0287d7
 <tr markdown="1">
 <td markdown="1">`machineSpec`</td>
 <td markdown="1">[MachineSpec](#machinespec)</td>
-<td markdown="1"><details><summary>Machine hardware specification for the node.</summary>Only used for `genurl iso` subcommand.</details><details><summary>*Show example*</summary>
+<td markdown="1"><details><summary>Machine hardware specification for the node.</summary>Only used for `genurl image` subcommand.</details><details><summary>*Show example*</summary>
 ```yaml
 machineSpec:
   mode: metal
   arch: arm64
+  bootMethod: disk-image
+  imageSuffix: raw.xz
 ```
 </summary></td>
 <td markdown="1" align="center">`nil`</td>
@@ -600,11 +602,11 @@ schematic:
 </tr>
 
 <tr markdown="1">
-<td markdown="1">`isoSchematic`</td>
+<td markdown="1">`imageSchematic`</td>
 <td markdown="1">[Schematic](#schematic)</td>
-<td markdown="1">Configure Talos image customization to be used for ISO image<details><summary>*Show example*</summary>
+<td markdown="1">Configure Talos image customization to be used for ISO or boot image<details><summary>*Show example*</summary>
 ```yaml
-isoSchematic:
+imageSchematic:
   customization:
     extraKernelArgs:
       - net.ifnames=0
@@ -762,14 +764,14 @@ installerURLTmpl: "{{.RegistryURL}}/installer/{{.ID}}:{{.Version}}"
 </tr>
 
 <tr markdown="1">
-<td markdown="1">`ISOURLTmpl`</td>
+<td markdown="1">`ImageURLTmpl`</td>
 <td markdown="1">string</td>
-<td markdown="1"><details><summary>Go template to parse the full ISO image URL.</summary>Available placeholders: `Protocol`,`RegistryURL`,`ID`,`Version`,`Mode`,`Arch`, `Secureboot`, `UseUKI`</details><details><summary>*Show example*</summary>
+<td markdown="1"><details><summary>Go template to parse the full ISO or boot image URL.</summary>Available placeholders: `Protocol`,`RegistryURL`,`ID`,`Version`,`Mode`,`Arch`, `Secureboot`, `UseUKI`, `BootMethod`, `Suffix`</details><details><summary>*Show example*</summary>
 ```yaml
-ISOURLTmpl: "{{.Protocol}}://{{.RegistryURL}}/image/{{.ID}}/{{.Version}}/{{.Mode}}-{{.Arch}}.iso"
+ImageURLTmpl: "{{.Protocol}}://{{.RegistryURL}}/image/{{.ID}}/{{.Version}}/{{.Mode}}-{{.Arch}}.iso"
 ```
 </summary></td>
-<td markdown="1" align="center">`{{.Protocol}}://{{.RegistryURL}}/image/{{.ID}}/{{.Version}}/{{.Mode}}-{{.Arch}}{{if .Secureboot}}-secureboot{{end}}{{if and .Secureboot .UseUKI}}-uki.efi{{else}}.iso{{end}}`</td>
+<td markdown="1" align="center">`{{.Protocol}}://{{.RegistryURL}}/image/{{.ID}}/{{.Version}}/{{.Mode}}-{{.Arch}}{{if .Secureboot}}-secureboot{{end}}{{if and .Secureboot .UseUKI}}-uki.efi{{else}}{{.Suffix}}{{end}}`</td>
 <td markdown="1" align="center">:negative_squared_cross_mark:</td>
 </tr>
 
@@ -829,6 +831,30 @@ useUKI: true
 ```
 </summary></td>
 <td markdown="1" align="center">`false`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+</tr>
+
+<tr markdown="1">
+<td markdown="1">`bootMethod`</td>
+<td markdown="1">string</td>
+<td markdown="1"><details><summary>Boot method for the node.</summary>Can be "disk-image", "iso" or "pxe".</details><details><summary>*Show example*</summary>
+```yaml
+bootMethod: disk-image
+```
+</summary></td>
+<td markdown="1" align="center">`iso`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+</tr>
+
+<tr markdown="1">
+<td markdown="1">`imageSuffix`</td>
+<td markdown="1">string</td>
+<td markdown="1"><details><summary>The image file extension.</summary>Will be automatically defined by specified `bootMethod`, e.g: `raw.xz`, `raw.tar.gz`, `qcow2`.</details><details><summary>*Show example*</summary>
+```yaml
+imageSuffix: raw.xz
+```
+</summary></td>
+<td markdown="1" align="center">`""`</td>
 <td markdown="1" align="center">:negative_squared_cross_mark:</td>
 </tr>
 
