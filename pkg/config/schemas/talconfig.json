@@ -420,8 +420,8 @@
         },
         "ISOURLTmpl": {
           "type": "string",
-          "description": "Template for ISO image URL",
-          "default": "{{.Protocol}}://{{.RegistryURL}}/image/{{.ID}}/{{.Version}}/{{.Mode}}-{{.Arch}}{{if .Secureboot}}-secureboot{{end}}{{if and .Secureboot .UseUKI}}-uki.efi{{else}}.iso{{end}}"
+          "description": "Template for image URL",
+          "default": "{{.Protocol}}://{{.RegistryURL}}/image/{{.ID}}/{{.Version}}/{{.Mode}}-{{.Arch}}{{if .Secureboot}}-secureboot{{end}}{{if and .Secureboot .UseUKI}}-uki.efi{{else}}{{.Suffix}}{{end}}"
         }
       },
       "additionalProperties": false,
@@ -568,6 +568,15 @@
           "type": "boolean",
           "description": "Whether to use UKI if Secure Boot is enabled",
           "default": false
+        },
+        "bootMethod": {
+          "type": "string",
+          "description": "Boot method of the node (can be disk-image",
+          "default": "iso"
+        },
+        "imageSuffix": {
+          "type": "string",
+          "description": "The image file extension (will be automatically determined by specified bootMethod) (e.g: raw.xz"
         }
       },
       "additionalProperties": false,
@@ -770,9 +779,9 @@
           "$ref": "#/$defs/Schematic",
           "description": "Talos image customization to be used in the installer image"
         },
-        "isoSchematic": {
+        "imageSchematic": {
           "$ref": "#/$defs/Schematic",
-          "description": "Talos image customization to be used for ISO image"
+          "description": "Talos image customization to be used for ISO or boot image"
         },
         "machineSpec": {
           "$ref": "#/$defs/MachineSpec",
@@ -895,9 +904,9 @@
           "$ref": "#/$defs/Schematic",
           "description": "Talos image customization to be used in the installer image"
         },
-        "isoSchematic": {
+        "imageSchematic": {
           "$ref": "#/$defs/Schematic",
-          "description": "Talos image customization to be used for ISO image"
+          "description": "Talos image customization to be used for ISO or boot image"
         },
         "machineSpec": {
           "$ref": "#/$defs/MachineSpec",
