@@ -494,18 +494,23 @@ talhelper gensecret [flags]
 
 * [talhelper](#talhelper)	 - A tool to help with creating Talos cluster
 
-## talhelper genurl installer
+## talhelper genurl image
 
-Generate URL for Talos installer image
+Generate URL for Talos ISO or disk image
 
 ```
-talhelper genurl installer [flags]
+talhelper genurl image [flags]
 ```
 
 ### Options
 
 ```
-  -h, --help   help for installer
+  -a, --arch string          CPU architecture support of the image (default "amd64")
+      --boot-method string   Boot method of the image (can be disk-image, iso, or pxe) (default "iso")
+  -h, --help                 help for image
+      --suffix string        The image file extension (only used when boot-method is not iso) (e.g: raw.xz, raw.tar.gz, qcow2)
+  -m, --talos-mode string    Talos runtime mode to generate URL (default "metal")
+      --use-uki              Whether to generate UKI image url if Secure Boot is enabled
 ```
 
 ### Options inherited from parent commands
@@ -527,21 +532,18 @@ talhelper genurl installer [flags]
 
 * [talhelper genurl](#talhelper-genurl)	 - Generate URL for Talos installer or ISO
 
-## talhelper genurl iso
+## talhelper genurl installer
 
-Generate URL for Talos ISO image
+Generate URL for Talos installer image
 
 ```
-talhelper genurl iso [flags]
+talhelper genurl installer [flags]
 ```
 
 ### Options
 
 ```
-  -a, --arch string         CPU architecture support of the image (default "amd64")
-  -h, --help                help for iso
-  -m, --talos-mode string   Talos runtime mode to generate URL (default "metal")
-      --use-uki             Whether to generate UKI image url if Secure Boot is enabled
+  -h, --help   help for installer
 ```
 
 ### Options inherited from parent commands
@@ -591,8 +593,8 @@ Generate URL for Talos installer or ISO
 ### SEE ALSO
 
 * [talhelper](#talhelper)	 - A tool to help with creating Talos cluster
+* [talhelper genurl image](#talhelper-genurl-image)	 - Generate URL for Talos ISO or disk image
 * [talhelper genurl installer](#talhelper-genurl-installer)	 - Generate URL for Talos installer image
-* [talhelper genurl iso](#talhelper-genurl-iso)	 - Generate URL for Talos ISO image
 
 ## talhelper validate nodeconfig
 
