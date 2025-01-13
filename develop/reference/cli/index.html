@@ -233,7 +233,7 @@
     </li>
         </ul>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#talhelper-genurl-installer">talhelper genurl installer</a>
+    <li class="toctree-l2"><a class="reference internal" href="#talhelper-genurl-image">talhelper genurl image</a>
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#options_15">Options</a>
     </li>
@@ -243,7 +243,7 @@
     </li>
         </ul>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#talhelper-genurl-iso">talhelper genurl iso</a>
+    <li class="toctree-l2"><a class="reference internal" href="#talhelper-genurl-installer">talhelper genurl installer</a>
         <ul>
     <li class="toctree-l3"><a class="reference internal" href="#options_16">Options</a>
     </li>
@@ -662,12 +662,17 @@ See each sub-command's help for details on how to use the generated script.</p>
 <ul>
 <li><a href="#talhelper">talhelper</a>    - A tool to help with creating Talos cluster</li>
 </ul>
-<h2 id="talhelper-genurl-installer">talhelper genurl installer</h2>
-<p>Generate URL for Talos installer image</p>
-<div class="highlight"><pre><span></span><code>talhelper genurl installer [flags]
+<h2 id="talhelper-genurl-image">talhelper genurl image</h2>
+<p>Generate URL for Talos ISO or disk image</p>
+<div class="highlight"><pre><span></span><code>talhelper genurl image [flags]
 </code></pre></div>
 <h3 id="options_15">Options</h3>
-<div class="highlight"><pre><span></span><code>  -h, --help   help for installer
+<div class="highlight"><pre><span></span><code>  -a, --arch string          CPU architecture support of the image (default &quot;amd64&quot;)
+      --boot-method string   Boot method of the image (can be disk-image, iso, or pxe) (default &quot;iso&quot;)
+  -h, --help                 help for image
+      --suffix string        The image file extension (only used when boot-method is not iso) (e.g: raw.xz, raw.tar.gz, qcow2)
+  -m, --talos-mode string    Talos runtime mode to generate URL (default &quot;metal&quot;)
+      --use-uki              Whether to generate UKI image url if Secure Boot is enabled
 </code></pre></div>
 <h3 id="options-inherited-from-parent-commands_15">Options inherited from parent commands</h3>
 <div class="highlight"><pre><span></span><code>  -c, --config-file string    File containing configurations for talhelper (default &quot;talconfig.yaml&quot;)
@@ -685,15 +690,12 @@ See each sub-command's help for details on how to use the generated script.</p>
 <ul>
 <li><a href="#talhelper-genurl">talhelper genurl</a>  - Generate URL for Talos installer or ISO</li>
 </ul>
-<h2 id="talhelper-genurl-iso">talhelper genurl iso</h2>
-<p>Generate URL for Talos ISO image</p>
-<div class="highlight"><pre><span></span><code>talhelper genurl iso [flags]
+<h2 id="talhelper-genurl-installer">talhelper genurl installer</h2>
+<p>Generate URL for Talos installer image</p>
+<div class="highlight"><pre><span></span><code>talhelper genurl installer [flags]
 </code></pre></div>
 <h3 id="options_16">Options</h3>
-<div class="highlight"><pre><span></span><code>  -a, --arch string         CPU architecture support of the image (default &quot;amd64&quot;)
-  -h, --help                help for iso
-  -m, --talos-mode string   Talos runtime mode to generate URL (default &quot;metal&quot;)
-      --use-uki             Whether to generate UKI image url if Secure Boot is enabled
+<div class="highlight"><pre><span></span><code>  -h, --help   help for installer
 </code></pre></div>
 <h3 id="options-inherited-from-parent-commands_16">Options inherited from parent commands</h3>
 <div class="highlight"><pre><span></span><code>  -c, --config-file string    File containing configurations for talhelper (default &quot;talconfig.yaml&quot;)
@@ -731,8 +733,8 @@ See each sub-command's help for details on how to use the generated script.</p>
 <h3 id="see-also_17">SEE ALSO</h3>
 <ul>
 <li><a href="#talhelper">talhelper</a>    - A tool to help with creating Talos cluster</li>
+<li><a href="#talhelper-genurl-image">talhelper genurl image</a>  - Generate URL for Talos ISO or disk image</li>
 <li><a href="#talhelper-genurl-installer">talhelper genurl installer</a>  - Generate URL for Talos installer image</li>
-<li><a href="#talhelper-genurl-iso">talhelper genurl iso</a>  - Generate URL for Talos ISO image</li>
 </ul>
 <h2 id="talhelper-validate-nodeconfig">talhelper validate nodeconfig</h2>
 <p>Check the validity of Talos node config file</p>
