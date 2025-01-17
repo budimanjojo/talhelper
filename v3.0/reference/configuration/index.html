@@ -77,6 +77,8 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#extensionservice">ExtensionService</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#volume">Volume</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#networkrule">NetworkRule</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#cniconfig">CNIConfig</a>
@@ -100,6 +102,8 @@
     <li class="toctree-l2"><a class="reference internal" href="#ingressconfig">IngressConfig</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#configfile">ConfigFile</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#provisioningspec">ProvisioningSpec</a>
     </li>
     </ul>
                   </li>
@@ -289,7 +293,7 @@
 <span class="w">  </span><span class="nt">schematicEndpoint</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/schematics</span>
 <span class="w">  </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https</span>
 <span class="w">  </span><span class="nt">installerURLTmpl</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{{</span><span class="nv">.RegistryURL</span><span class="p p-Indicator">}}</span><span class="l l-Scalar l-Scalar-Plain">/installer/{{.ID}}:{{.Version}}</span>
-<span class="w">  </span><span class="nt">ISOURLTmpl</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{{</span><span class="nv">.Protocol</span><span class="p p-Indicator">}}</span><span class="l l-Scalar l-Scalar-Plain">://{{.RegistryURL}}/image/{{.ID}}/{{.Version}}/{{.Mode}}/{{.Arch}}.iso</span>
+<span class="w">  </span><span class="nt">ImageURLTmpl</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{{</span><span class="nv">.Protocol</span><span class="p p-Indicator">}}</span><span class="l l-Scalar l-Scalar-Plain">://{{.RegistryURL}}/image/{{.ID}}/{{.Version}}/{{.Mode}}/{{.Arch}}.iso</span>
 </code></pre></div>
 </details></td>
 <td align="center"><code>nil</code></td>
@@ -493,10 +497,12 @@
 <tr>
 <td><code>machineSpec</code></td>
 <td><a href="#machinespec">MachineSpec</a></td>
-<td><details><summary>Machine hardware specification for the node.</summary>Only used for <code>genurl iso</code> subcommand.</details><details><summary><em>Show example</em></summary>
+<td><details><summary>Machine hardware specification for the node.</summary>Only used for <code>genurl image</code> subcommand.</details><details><summary><em>Show example</em></summary>
 <div class="highlight"><pre><span></span><code><span class="nt">machineSpec</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">mode</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">metal</span>
 <span class="w">  </span><span class="nt">arch</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">arm64</span>
+<span class="w">  </span><span class="nt">bootMethod</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">disk-image</span>
+<span class="w">  </span><span class="nt">imageSuffix</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">raw.xz</span>
 </code></pre></div>
 </summary></td>
 <td align="center"><code>nil</code></td>
@@ -533,6 +539,21 @@
 <span class="w">        </span><span class="nt">mountPath</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/usr/local/etc/nut/upsmon.conf</span>
 <span class="w">    </span><span class="nt">environment</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">UPS_NAME=ups</span>
+</code></pre></div>
+</summary></td>
+<td align="center"><code>nil</code></td>
+<td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
+</tr>
+<tr>
+<td><code>volumes</code></td>
+<td>[]<a href="#volume">Volume</a></td>
+<td>Machine volume configs specification.<details><summary><em>Show example</em></summary>
+<div class="highlight"><pre><span></span><code><span class="nt">volumes</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">EPHEMERAL</span>
+<span class="w">    </span><span class="nt">provisioning</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">diskSelector</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">match</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">disk.transport == &quot;nvme&quot;</span>
+<span class="w">      </span><span class="nt">maxSize</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50GiB</span>
 </code></pre></div>
 </summary></td>
 <td align="center"><code>nil</code></td>
@@ -643,10 +664,10 @@
 <td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
 </tr>
 <tr>
-<td><code>isoSchematic</code></td>
+<td><code>imageSchematic</code></td>
 <td><a href="#schematic">Schematic</a></td>
-<td>Configure Talos image customization to be used for ISO image<details><summary><em>Show example</em></summary>
-<div class="highlight"><pre><span></span><code><span class="nt">isoSchematic</span><span class="p">:</span>
+<td>Configure Talos image customization to be used for ISO or boot image<details><summary><em>Show example</em></summary>
+<div class="highlight"><pre><span></span><code><span class="nt">imageSchematic</span><span class="p">:</span>
 <span class="w">  </span><span class="nt">customization</span><span class="p">:</span>
 <span class="w">    </span><span class="nt">extraKernelArgs</span><span class="p">:</span>
 <span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">net.ifnames=0</span>
@@ -782,13 +803,13 @@
 <td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
 </tr>
 <tr>
-<td><code>ISOURLTmpl</code></td>
+<td><code>ImageURLTmpl</code></td>
 <td>string</td>
-<td><details><summary>Go template to parse the full ISO image URL.</summary>Available placeholders: <code>Protocol</code>,<code>RegistryURL</code>,<code>ID</code>,<code>Version</code>,<code>Mode</code>,<code>Arch</code>, <code>Secureboot</code>, <code>UseUKI</code></details><details><summary><em>Show example</em></summary>
-<div class="highlight"><pre><span></span><code><span class="nt">ISOURLTmpl</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{.Protocol}}://{{.RegistryURL}}/image/{{.ID}}/{{.Version}}/{{.Mode}}-{{.Arch}}.iso&quot;</span>
+<td><details><summary>Go template to parse the full ISO or boot image URL.</summary>Available placeholders: <code>Protocol</code>,<code>RegistryURL</code>,<code>ID</code>,<code>Version</code>,<code>Mode</code>,<code>Arch</code>, <code>Secureboot</code>, <code>UseUKI</code>, <code>BootMethod</code>, <code>Suffix</code></details><details><summary><em>Show example</em></summary>
+<div class="highlight"><pre><span></span><code><span class="nt">ImageURLTmpl</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{.Protocol}}://{{.RegistryURL}}/image/{{.ID}}/{{.Version}}/{{.Mode}}-{{.Arch}}.iso&quot;</span>
 </code></pre></div>
 </summary></td>
-<td align="center"><code>{{.Protocol}}://{{.RegistryURL}}/image/{{.ID}}/{{.Version}}/{{.Mode}}-{{.Arch}}{{if .Secureboot}}-secureboot{{end}}{{if and .Secureboot .UseUKI}}-uki.efi{{else}}.iso{{end}}</code></td>
+<td align="center"><code>{{.Protocol}}://{{.RegistryURL}}/image/{{.ID}}/{{.Version}}/{{.Mode}}-{{.Arch}}{{if .Secureboot}}-secureboot{{end}}{{if and .Secureboot .UseUKI}}-uki.efi{{else}}{{.Suffix}}{{end}}</code></td>
 <td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
 </tr>
 </table>
@@ -837,6 +858,26 @@
 </code></pre></div>
 </summary></td>
 <td align="center"><code>false</code></td>
+<td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
+</tr>
+<tr>
+<td><code>bootMethod</code></td>
+<td>string</td>
+<td><details><summary>Boot method for the node.</summary>Can be "disk-image", "iso" or "pxe".</details><details><summary><em>Show example</em></summary>
+<div class="highlight"><pre><span></span><code><span class="nt">bootMethod</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">disk-image</span>
+</code></pre></div>
+</summary></td>
+<td align="center"><code>iso</code></td>
+<td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
+</tr>
+<tr>
+<td><code>imageSuffix</code></td>
+<td>string</td>
+<td><details><summary>The image file extension.</summary>Will be automatically defined by specified <code>bootMethod</code>, e.g: <code>raw.xz</code>, <code>raw.tar.gz</code>, <code>qcow2</code>.</details><details><summary><em>Show example</em></summary>
+<div class="highlight"><pre><span></span><code><span class="nt">imageSuffix</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">raw.xz</span>
+</code></pre></div>
+</summary></td>
+<td align="center"><code>""</code></td>
 <td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
 </tr>
 </table>
@@ -917,6 +958,37 @@
 <td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
 </tr>
 </table>
+<h2 id="volume">Volume</h2>
+<p><code>Volume</code> defines machine volume configuration for a node.</p>
+<table>
+<tr>
+<th>Field</th>
+<p><th>Type</th><th>Description</th><th>Default Value</th><th>Required</th></p>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>Name of the volume config.<details><summary><em>Show example</em></summary>
+<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">EPHEMERAL</span>
+</code></pre></div>
+</details></td>
+<td align="center"><code>nil</code></td>
+<td align="center"><img align="center" alt="✅" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/2705.png" title=":white_check_mark:" width="20px" /></td>
+</tr>
+<tr>
+<td><code>provisioning</code></td>
+<td><a href="#provisioningspec">ProvisioningSpec</a></td>
+<td>Provisioning spec of the volume config.<details><summary><em>Show example</em></summary>
+<div class="highlight"><pre><span></span><code><span class="nt">provisioning</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">diskSelector</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">match</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">disk.transport == &quot;nvme&quot;</span>
+<span class="w">  </span><span class="nt">maxSize</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50GiB</span>
+</code></pre></div>
+</details></td>
+<td align="center"><code>nil</code></td>
+<td align="center"><img align="center" alt="✅" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/2705.png" title=":white_check_mark:" width="20px" /></td>
+</tr>
+</table>
 <h2 id="networkrule">NetworkRule</h2>
 <p><code>NetworkRule</code> defines the firewall rules to match.</p>
 <table>
@@ -982,6 +1054,8 @@
 <p><code>IngressConfig</code> is type of upstream Talos <a href="https://www.talos.dev/latest/reference/configuration/network/networkruleconfig/#NetworkRuleConfig.ingress" target="_blank"><code>network.IngressConfig</code></a></p>
 <h2 id="configfile">ConfigFile</h2>
 <p><code>ConfigFile</code> is type of upstream Talos <a href="https://www.talos.dev/v1.7/reference/configuration/extensions/extensionserviceconfig/#ExtensionServiceConfig.configFiles" target="_blank"><code>extensions.ConfigFile</code></a></p>
+<h2 id="provisioningspec">ProvisioningSpec</h2>
+<p><code>ProvisioningSpec</code> is type of upstream Talos <a href="https://www.talos.dev/v1.9/reference/configuration/block/volumeconfig/#VolumeConfig.provisioning" target="_blank"><code>block.ProvisioningSpec</code></a></p>
               
             </div>
           </div><footer>
