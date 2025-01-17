@@ -24,6 +24,8 @@ github.com/budimanjojo/talhelper/v3 v3.0.13 h1:3EHZUJd/sUM8+M7k0mBDnkOBLMY98Pb/V
 github.com/budimanjojo/talhelper/v3 v3.0.13/go.mod h1:SP89ZO9OcEADIel+yB0xmnnMlRkOTyoOm/JP07gaXUM=
 github.com/budimanjojo/talhelper/v3 v3.0.14 h1:bPv17guX0YTvWdPD669ygsThSyVRFkuPkW7KWVUFgHI=
 github.com/budimanjojo/talhelper/v3 v3.0.14/go.mod h1:ZGFtzYaeZXAeIl8UvnI9zQD1ckqztJeUDr4uOadXpzU=
+github.com/budimanjojo/talhelper/v3 v3.0.15 h1:9eDQpljd701Mjr7XDSGCtn8bgg2Mr5uDhYB59QEEOdo=
+github.com/budimanjojo/talhelper/v3 v3.0.15/go.mod h1:HhlO7hFoq6q5FTaqxdT1stsCfxoa3/y1fbwwMOyng9Y=
 github.com/containerd/stargz-snapshotter/estargz v0.15.1 h1:eXJjw9RbkLFgioVaTG+G/ZW/0kEe2oEKCdS/ZxIyoCU=
 github.com/containerd/stargz-snapshotter/estargz v0.15.1/go.mod h1:gr2RNwukQ/S9Nv33Lt6UC7xEx58C+LHRdoqbEKjz1Kk=
 github.com/containerd/stargz-snapshotter/estargz v0.16.3 h1:7evrXtoh1mSbGj/pfRccTampEyKpjpOnS3CyiV1Ebr8=
