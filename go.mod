@@ -16,7 +16,7 @@ require (
 	github.com/sabhiram/go-gitignore v0.0.0-20210923224102-525f6e181f06
 	github.com/siderolabs/image-factory v0.6.5
 	github.com/siderolabs/net v0.4.0
-	github.com/siderolabs/talos/pkg/machinery v1.10.0-alpha.0
+	github.com/siderolabs/talos/pkg/machinery v1.10.0-alpha.0.0.20241227120520-01bf8449b917
 	github.com/spf13/cobra v1.8.1
 	golang.org/x/mod v0.22.0
 	gopkg.in/yaml.v3 v3.0.1
@@ -80,7 +80,7 @@ require (
 	github.com/cncf/xds/go v0.0.0-20241223141626-cff3c89139a3 // indirect
 	github.com/containerd/go-cni v1.1.11 // indirect
 	github.com/containernetworking/cni v1.2.3 // indirect
-	github.com/cosi-project/runtime v0.7.6 // indirect
+	github.com/cosi-project/runtime v0.8.1 // indirect
 	github.com/cpuguy83/go-md2man/v2 v2.0.6 // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect
 	github.com/envoyproxy/go-control-plane v0.13.1 // indirect
@@ -137,9 +137,9 @@ require (
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
 	github.com/ryanuber/go-glob v1.0.0 // indirect
 	github.com/shopspring/decimal v1.4.0 // indirect
-	github.com/siderolabs/crypto v0.5.0 // indirect
-	github.com/siderolabs/gen v0.7.0 // indirect
-	github.com/siderolabs/go-blockdevice/v2 v2.0.8 // indirect
+	github.com/siderolabs/crypto v0.5.1 // indirect
+	github.com/siderolabs/gen v0.8.0 // indirect
+	github.com/siderolabs/go-blockdevice/v2 v2.0.9 // indirect
 	github.com/siderolabs/go-pointer v1.0.0 // indirect
 	github.com/siderolabs/protoenc v0.2.1 // indirect
 	github.com/sirupsen/logrus v1.9.3 // indirect
