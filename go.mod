@@ -16,7 +16,7 @@ require (
 	github.com/sabhiram/go-gitignore v0.0.0-20210923224102-525f6e181f06
 	github.com/siderolabs/image-factory v0.6.6
 	github.com/siderolabs/net v0.4.0
-	github.com/siderolabs/talos/pkg/machinery v1.10.0-alpha.0.0.20250120132938-e1efbf656ae9
+	github.com/siderolabs/talos/pkg/machinery v1.10.0-alpha.1
 	github.com/spf13/cobra v1.8.1
 	golang.org/x/mod v0.22.0
 	gopkg.in/yaml.v3 v3.0.1
@@ -139,7 +139,7 @@ require (
 	github.com/shopspring/decimal v1.4.0 // indirect
 	github.com/siderolabs/crypto v0.5.1 // indirect
 	github.com/siderolabs/gen v0.8.0 // indirect
-	github.com/siderolabs/go-blockdevice/v2 v2.0.11 // indirect
+	github.com/siderolabs/go-blockdevice/v2 v2.0.13 // indirect
 	github.com/siderolabs/go-pointer v1.0.0 // indirect
 	github.com/siderolabs/protoenc v0.2.1 // indirect
 	github.com/sirupsen/logrus v1.9.3 // indirect
