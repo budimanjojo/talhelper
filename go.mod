@@ -14,9 +14,9 @@ require (
 	github.com/invopop/jsonschema v0.13.0
 	github.com/joho/godotenv v1.5.1
 	github.com/sabhiram/go-gitignore v0.0.0-20210923224102-525f6e181f06
-	github.com/siderolabs/image-factory v0.6.6
+	github.com/siderolabs/image-factory v0.6.7
 	github.com/siderolabs/net v0.4.0
-	github.com/siderolabs/talos/pkg/machinery v1.10.0-alpha.1
+	github.com/siderolabs/talos/pkg/machinery v1.10.0-alpha.1.0.20250203100439-e2aa7c98cceb
 	github.com/spf13/cobra v1.8.1
 	golang.org/x/mod v0.22.0
 	gopkg.in/yaml.v3 v3.0.1
