@@ -64,6 +64,7 @@ var validateTHCmd = &cobra.Command{
 					fmt.Println(l)
 				}
 			}
+			log.Fatal()
 		} else {
 			fmt.Println("Your talhelper config file is looking great!")
 		}
