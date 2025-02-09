@@ -371,11 +371,12 @@ func checkNodeMachineDisks(node Node, idx int, result *Errors) *Errors {
 
 func checkNodeMachineFiles(node Node, idx int, result *Errors) *Errors {
 	if node.MachineFiles != nil {
+		mfs := node.MachineFiles.GetMFs()
 		var messages *multierror.Error
 		pattern := `^create$|^append$|^overwrite$`
 		re := regexp.MustCompile(pattern)
 
-		for _, file := range node.MachineFiles {
+		for _, file := range mfs {
 			if !re.MatchString(file.FileOp) {
 				messages = multierror.Append(messages, fmt.Errorf("%q is not a valid operation name (create,append,overwrite)", file.Op()))
 			}
