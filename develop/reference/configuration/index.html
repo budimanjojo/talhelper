@@ -85,6 +85,8 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#installdiskselector">InstallDiskSelector</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#inlinemanifest">InlineManifest</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#machinedisk">MachineDisk</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#machinefile">MachineFile</a>
@@ -314,6 +316,22 @@
 <span class="w">      </span><span class="no">env:</span>
 <span class="w">        </span><span class="no">MYENV: value</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="s">&quot;@./a-patch.yaml&quot;</span>
+</code></pre></div>
+</details></td>
+<td align="center"><code>[]</code></td>
+<td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
+</tr>
+<tr>
+<td><code>inlineManifests</code></td>
+<td>[]<a href="#inlinemanifest">InlineManifest</a></td>
+<td>A list of inline Kubernetes manifests for the cluster.</details><details><summary><em>Show example</em></summary>
+<div class="highlight"><pre><span></span><code><span class="nt">inlineManifests</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">namespace-ci</span>
+<span class="w">    </span><span class="nt">contents</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">|-</span>
+<span class="w">      </span><span class="no">apiVersion: v1</span>
+<span class="w">      </span><span class="no">kind: Namespace</span>
+<span class="w">      </span><span class="no">metadata:</span>
+<span class="w">        </span><span class="no">name: ci</span>
 </code></pre></div>
 </details></td>
 <td align="center"><code>[]</code></td>
@@ -1036,10 +1054,14 @@
 <p><code>CNIConfig</code> is type of upstream Talos <a href="https://www.talos.dev/latest/reference/configuration/#cniconfig" target="_blank"><code>v1alpha1.CNIConfig</code></a></p>
 <h2 id="installdiskselector">InstallDiskSelector</h2>
 <p><code>InstallDiskSelector</code> is type of upstream Talos <a href="https://www.talos.dev/latest/reference/configuration/#installdiskselector" target="_blank"><code>v1alpha1.InstallDiskSelector</code></a>.</p>
+<h2 id="inlinemanifest">InlineManifest</h2>
+<p><code>InlineManifest</code> is type of upstream Talos <a href="https://www.talos.dev/latest/reference/configuration/v1alpha1/config/#Config.cluster.inlineManifests." target="_blank"><code>v1alpha1.ClusterInlineManifest</code></a></p>
+<p>In addition to this, there's also a <code>skipEnvsubst</code> key that can be set to <code>true</code> to skip doing envsubst (only for file outside of <code>talconfig.yaml</code>)</p>
 <h2 id="machinedisk">MachineDisk</h2>
 <p><code>MachineDisk</code> is type of upstream Talos <a href="https://www.talos.dev/latest/reference/configuration/#machinedisk" target="_blank"><code>v1alpha1.MachineDisk</code></a></p>
 <h2 id="machinefile">MachineFile</h2>
 <p><code>MachineFile</code> is type of upstream Talos <a href="https://www.talos.dev/latest/reference/configuration/#machinefile" target="_blank"><code>v1alpha1.MachineFile</code></a></p>
+<p>In addition to this, there's also a <code>skipEnvsubst</code> key that can be set to <code>true</code> to skip doing envsubst (only for file outside of <code>talconfig.yaml</code>)</p>
 <h2 id="installextensionconfig">InstallExtensionConfig</h2>
 <p><code>InstallExtensionConfig</code> is type of upstream Talos <a href="https://www.talos.dev/latest/reference/configuration/#installextensionconfig" target="_blank"><code>v1alpha1.InstallExtensionConfig</code></a></p>
 <h2 id="schematic">Schematic</h2>
