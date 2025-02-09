@@ -10,23 +10,24 @@ import (
 )
 
 type TalhelperConfig struct {
-	ClusterName                    string              `yaml:"clusterName" jsonschema:"required,description=Name of the cluster"`
-	TalosVersion                   string              `yaml:"talosVersion,omitempty" jsonschema:"example=v1.5.4,description=Talos version to perform installation"`
-	KubernetesVersion              string              `yaml:"kubernetesVersion,omitempty" jsonschema:"example=v1.27.0,description=Kubernetes version to use"`
-	Endpoint                       string              `yaml:"endpoint" jsonschema:"required,example=https://192.168.200.10:6443,description=Cluster's controlplane endpoint"`
-	Domain                         string              `yaml:"domain,omitempty" jsonschema:"example=cluster.local,description=The domain to be used by Kubernetes DNS"`
-	AllowSchedulingOnMasters       bool                `yaml:"allowSchedulingOnMasters,omitempty" jsonschema:"description=Whether to allow running workload on controlplane nodes"`
-	AllowSchedulingOnControlPlanes bool                `yaml:"allowSchedulingOnControlPlanes,omitempty" jsonschema:"description=Whether to allow running workload on controlplane nodes. It is an alias to \"AllowSchedulingOnMasters\""`
-	AdditionalMachineCertSans      []string            `yaml:"additionalMachineCertSans,omitempty" jsonschema:"description=Extra certificate SANs for the machine's certificate"`
-	AdditionalApiServerCertSans    []string            `yaml:"additionalApiServerCertSans,omitempty" jsonschema:"description=Extra certificate SANs for the API server's certificate"`
-	ClusterPodNets                 []string            `yaml:"clusterPodNets,omitempty" jsonschema:"description=The pod subnet CIDR list"`
-	ClusterSvcNets                 []string            `yaml:"clusterSvcNets,omitempty" jsonschema:"description=The service subnet CIDR list"`
-	CNIConfig                      *v1alpha1.CNIConfig `yaml:"cniConfig,omitempty" jsonschema:"description=The CNI to be used for the cluster's network"`
-	Patches                        []string            `yaml:"patches,omitempty" jsonschema:"description=Patches to be applied to all nodes"`
-	Nodes                          []Node              `yaml:"nodes" jsonschema:"required,description=List of configurations for Node"`
-	ImageFactory                   ImageFactory        `yaml:"imageFactory,omitempty" jsonschema:"Configuration for image factory"`
-	ControlPlane                   NodeConfigs         `yaml:"controlPlane,omitempty" jsonschema:"description=Configurations targetted for all controlplane nodes"`
-	Worker                         NodeConfigs         `yaml:"worker,omitempty" jsonschema:"description=Configurations targetted for all worker nodes"`
+	ClusterName                    string                 `yaml:"clusterName" jsonschema:"required,description=Name of the cluster"`
+	TalosVersion                   string                 `yaml:"talosVersion,omitempty" jsonschema:"example=v1.5.4,description=Talos version to perform installation"`
+	KubernetesVersion              string                 `yaml:"kubernetesVersion,omitempty" jsonschema:"example=v1.27.0,description=Kubernetes version to use"`
+	Endpoint                       string                 `yaml:"endpoint" jsonschema:"required,example=https://192.168.200.10:6443,description=Cluster's controlplane endpoint"`
+	Domain                         string                 `yaml:"domain,omitempty" jsonschema:"example=cluster.local,description=The domain to be used by Kubernetes DNS"`
+	AllowSchedulingOnMasters       bool                   `yaml:"allowSchedulingOnMasters,omitempty" jsonschema:"description=Whether to allow running workload on controlplane nodes"`
+	AllowSchedulingOnControlPlanes bool                   `yaml:"allowSchedulingOnControlPlanes,omitempty" jsonschema:"description=Whether to allow running workload on controlplane nodes. It is an alias to \"AllowSchedulingOnMasters\""`
+	AdditionalMachineCertSans      []string               `yaml:"additionalMachineCertSans,omitempty" jsonschema:"description=Extra certificate SANs for the machine's certificate"`
+	AdditionalApiServerCertSans    []string               `yaml:"additionalApiServerCertSans,omitempty" jsonschema:"description=Extra certificate SANs for the API server's certificate"`
+	ClusterInlineManifests         ClusterInlineManifests `yaml:"inlineManifests,omitempty" jsonschema:"description=A list of inline Kubernetes manifests for the cluster"`
+	ClusterPodNets                 []string               `yaml:"clusterPodNets,omitempty" jsonschema:"description=The pod subnet CIDR list"`
+	ClusterSvcNets                 []string               `yaml:"clusterSvcNets,omitempty" jsonschema:"description=The service subnet CIDR list"`
+	CNIConfig                      *v1alpha1.CNIConfig    `yaml:"cniConfig,omitempty" jsonschema:"description=The CNI to be used for the cluster's network"`
+	Patches                        []string               `yaml:"patches,omitempty" jsonschema:"description=Patches to be applied to all nodes"`
+	Nodes                          []Node                 `yaml:"nodes" jsonschema:"required,description=List of configurations for Node"`
+	ImageFactory                   ImageFactory           `yaml:"imageFactory,omitempty" jsonschema:"Configuration for image factory"`
+	ControlPlane                   NodeConfigs            `yaml:"controlPlane,omitempty" jsonschema:"description=Configurations targetted for all controlplane nodes"`
+	Worker                         NodeConfigs            `yaml:"worker,omitempty" jsonschema:"description=Configurations targetted for all worker nodes"`
 }
 
 type Node struct {
@@ -107,4 +108,11 @@ type MachineFiles []*MachineFile
 type MachineFile struct {
 	v1alpha1.MachineFile `yaml:",inline"`
 	SkipEnvsubst         bool `yaml:"skipEnvsubst" jsonschema:"description=Whether to skip envsubst to the contents (only for contents in another file)"`
+}
+
+type ClusterInlineManifests []*ClusterInlineManifest
+
+type ClusterInlineManifest struct {
+	v1alpha1.ClusterInlineManifest `yaml:",inline"`
+	SkipEnvsubst                   bool `yaml:"skipEnvsubst" jsonschema:"description=Whether to skip envsubst to the contents (only for contents in another file)"`
 }

@@ -14,6 +14,7 @@ import (
 	"github.com/budimanjojo/talhelper/v3/pkg/config"
 	"github.com/budimanjojo/talhelper/v3/pkg/patcher"
 	"github.com/budimanjojo/talhelper/v3/pkg/talos"
+	taloscfg "github.com/siderolabs/talos/pkg/machinery/config"
 )
 
 // GenerateConfig takes `TalhelperConfig` and path to encrypted `secretFile` and generates
@@ -26,13 +27,23 @@ func GenerateConfig(c *config.TalhelperConfig, dryRun bool, outDir, secretFile, 
 	}
 
 	for _, node := range c.Nodes {
-		var cfg []byte
+		var rawcfg taloscfg.Provider
 
 		fileName := c.ClusterName + "-" + node.Hostname + ".yaml"
 		cfgFile := outDir + "/" + fileName
 		slog.Debug(fmt.Sprintf("generating %s for node %s", cfgFile, node.Hostname))
 
-		cfg, err = talos.GenerateNodeConfigBytes(&node, input, c.GetImageFactory(), offlineMode)
+		rawcfg, err = talos.GenerateNodeConfig(&node, input, c.GetImageFactory(), offlineMode)
+		if err != nil {
+			return err
+		}
+
+		// this is needed because the upstream cluster input doesn't handle inline manifests and some others so we need to do it ourselves
+		if len(c.ClusterInlineManifests) > 0 {
+			rawcfg.RawV1Alpha1().ClusterConfig.ClusterInlineManifests = *c.ClusterInlineManifests.GetIMs()
+		}
+
+		cfg, err := rawcfg.Bytes()
 		if err != nil {
 			return err
 		}
