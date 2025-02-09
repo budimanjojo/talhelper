@@ -125,7 +125,7 @@ func applyNodeOverride(node *config.Node, cfg taloscfg.Provider) taloscfg.Provid
 
 	if len(node.MachineFiles) > 0 {
 		slog.Debug("setting machine files")
-		cfg.RawV1Alpha1().MachineConfig.MachineFiles = node.MachineFiles
+		cfg.RawV1Alpha1().MachineConfig.MachineFiles = node.MachineFiles.GetMFs()
 	}
 
 	if node.Schematic != nil && len(node.Schematic.Customization.ExtraKernelArgs) > 0 {

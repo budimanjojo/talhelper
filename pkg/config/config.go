@@ -46,7 +46,7 @@ type NodeConfigs struct {
 	NodeAnnotations     map[string]string              `yaml:"nodeAnnotations" jsonschema:"description=Annotations to be added to the node, supports templating"`
 	NodeTaints          map[string]string              `yaml:"nodeTaints" jsonschema:"description=Node taints for the node. Effect is optional"`
 	MachineDisks        []*v1alpha1.MachineDisk        `yaml:"machineDisks,omitempty" jsonschema:"description=List of additional disks to partition, format, mount"`
-	MachineFiles        []*v1alpha1.MachineFile        `yaml:"machineFiles,omitempty" jsonschema:"description=List of files to create inside the node"`
+	MachineFiles        MachineFiles                   `yaml:"machineFiles,omitempty" jsonschema:"description=List of files to create inside the node"`
 	DisableSearchDomain bool                           `yaml:"disableSearchDomain,omitempty" jsonschema:"description=Whether to disable generating default search domain"`
 	KernelModules       []*v1alpha1.KernelModuleConfig `yaml:"kernelModules,omitempty" jsonschema:"description=List of additional kernel modules to load inside the node"`
 	Nameservers         []string                       `yaml:"nameservers,omitempty" jsonschema:"description=List of nameservers for the node"`
@@ -100,4 +100,11 @@ type ExtensionService struct {
 type Volume struct {
 	Name         string                 `yaml:"name" jsonschema:"description=Name of the volume config"`
 	Provisioning block.ProvisioningSpec `yaml:"provisioning" jsonschema:"description=Provisioning spec of the volume config"`
+}
+
+type MachineFiles []*MachineFile
+
+type MachineFile struct {
+	v1alpha1.MachineFile `yaml:",inline"`
+	SkipEnvsubst         bool `yaml:"skipEnvsubst" jsonschema:"description=Whether to skip envsubst to the contents (only for contents in another file)"`
 }

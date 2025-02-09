@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"log/slog"
 	"os"
-	"strings"
 
 	"github.com/budimanjojo/talhelper/v3/pkg/substitute"
 	"github.com/fatih/color"
@@ -58,7 +57,7 @@ func LoadAndValidateFromFile(filePath string, envPaths []string, showWarns bool)
 
 		if len(node.MachineFiles) > 0 {
 			for i, file := range node.MachineFiles {
-				contents, err := ensureFileContent(file.FileContent)
+				contents, err := substitute.SubstituteFileContent(file.FileContent, !file.SkipEnvsubst)
 				if err != nil {
 					return nil, fmt.Errorf("failed to get machine file content for %s in `machineFiles[%d]`: %s", node.Hostname, i, err)
 				}
@@ -132,25 +131,4 @@ func newConfig(source []byte) (c *TalhelperConfig, err error) {
 		return nil, err
 	}
 	return c, nil
-}
-
-func ensureFileContent(value string) (string, error) {
-	if strings.HasPrefix(value, "@") {
-		slog.Debug(fmt.Sprintf("getting file content of %s", value))
-		filename := value[1:]
-
-		contents, err := os.ReadFile(filename)
-		if err != nil {
-			return "", err
-		}
-
-		substituted, err := substitute.SubstituteEnvFromByte(contents)
-		if err != nil {
-			return "", err
-		}
-
-		return string(substituted), nil
-	}
-
-	return value, nil
 }

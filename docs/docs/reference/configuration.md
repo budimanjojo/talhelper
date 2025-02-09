@@ -1059,6 +1059,8 @@ ingress:
 
 `MachineFile` is type of upstream Talos <a href="https://www.talos.dev/latest/reference/configuration/#machinefile" target="_blank">`v1alpha1.MachineFile`</a>
 
+In addition to this, there's also a `skipEnvsubst` key that can be set to `true` to skip doing envsubst (only for file outside of `talconfig.yaml`)
+
 ## InstallExtensionConfig
 
 `InstallExtensionConfig` is type of upstream Talos <a href="https://www.talos.dev/latest/reference/configuration/#installextensionconfig" target="_blank">`v1alpha1.InstallExtensionConfig`</a>
