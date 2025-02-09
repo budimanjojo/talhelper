@@ -161,6 +161,28 @@
       "additionalProperties": false,
       "type": "object"
     },
+    "ClusterInlineManifest": {
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "contents": {
+          "type": "string"
+        },
+        "skipEnvsubst": {
+          "type": "boolean",
+          "description": "Whether to skip envsubst to the contents (only for contents in another file)"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "ClusterInlineManifests": {
+      "items": {
+        "$ref": "#/$defs/ClusterInlineManifest"
+      },
+      "type": "array"
+    },
     "ConfigFile": {
       "properties": {
         "content": {
@@ -542,10 +564,20 @@
         },
         "op": {
           "type": "string"
+        },
+        "skipEnvsubst": {
+          "type": "boolean",
+          "description": "Whether to skip envsubst to the contents (only for contents in another file)"
         }
       },
       "additionalProperties": false,
       "type": "object"
+    },
+    "MachineFiles": {
+      "items": {
+        "$ref": "#/$defs/MachineFile"
+      },
+      "type": "array"
     },
     "MachineSpec": {
       "properties": {
@@ -719,10 +751,7 @@
           "description": "List of additional disks to partition"
         },
         "machineFiles": {
-          "items": {
-            "$ref": "#/$defs/MachineFile"
-          },
-          "type": "array",
+          "$ref": "#/$defs/MachineFiles",
           "description": "List of files to create inside the node"
         },
         "disableSearchDomain": {
@@ -844,10 +873,7 @@
           "description": "List of additional disks to partition"
         },
         "machineFiles": {
-          "items": {
-            "$ref": "#/$defs/MachineFile"
-          },
-          "type": "array",
+          "$ref": "#/$defs/MachineFiles",
           "description": "List of files to create inside the node"
         },
         "disableSearchDomain": {
@@ -1100,6 +1126,10 @@
           },
           "type": "array",
           "description": "Extra certificate SANs for the API server's certificate"
+        },
+        "inlineManifests": {
+          "$ref": "#/$defs/ClusterInlineManifests",
+          "description": "A list of inline Kubernetes manifests for the cluster"
         },
         "clusterPodNets": {
           "items": {
