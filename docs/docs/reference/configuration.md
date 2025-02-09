@@ -202,6 +202,24 @@ patches:
 </tr>
 
 <tr markdown="1">
+<td markdown="1">`inlineManifests`</td>
+<td markdown="1">[][InlineManifest](#inlinemanifest)</td>
+<td markdown="1">A list of inline Kubernetes manifests for the cluster.</details><details><summary>*Show example*</summary>
+```yaml
+inlineManifests:
+  - name: namespace-ci
+    contents: |-
+      apiVersion: v1
+      kind: Namespace
+      metadata:
+        name: ci
+```
+</details></td>
+<td markdown="1" align="center">`[]`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+</tr>
+
+<tr markdown="1">
 <td markdown="1">`controlPlane`</td>
 <td markdown="1">[NodeConfigs](#nodeconfigs)</td>
 <td markdown="1">Configurations targetted for all controlplane nodes.</details><details><summary>*Show example*</summary>
@@ -1050,6 +1068,12 @@ ingress:
 ## InstallDiskSelector
 
 `InstallDiskSelector` is type of upstream Talos <a href="https://www.talos.dev/latest/reference/configuration/#installdiskselector" target="_blank">`v1alpha1.InstallDiskSelector`</a>.
+
+## InlineManifest
+
+`InlineManifest` is type of upstream Talos <a href="https://www.talos.dev/latest/reference/configuration/v1alpha1/config/#Config.cluster.inlineManifests." target="_blank">`v1alpha1.ClusterInlineManifest`</a>
+
+In addition to this, there's also a `skipEnvsubst` key that can be set to `true` to skip doing envsubst (only for file outside of `talconfig.yaml`)
 
 ## MachineDisk
 

@@ -216,6 +216,25 @@ func checkCNIConfig(c TalhelperConfig, result *Errors) *Errors {
 	return result
 }
 
+func checkClusterInlineManifests(c TalhelperConfig, result *Errors) *Errors {
+	if c.ClusterInlineManifests != nil {
+		var messages *multierror.Error
+
+		cims := c.ClusterInlineManifests.GetIMs()
+		err := cims.Validate()
+		messages = multierror.Append(messages, err)
+
+		if messages.ErrorOrNil() != nil {
+			return result.Append(&Error{
+				Kind:    "InvalidClusterInlineManifests",
+				Field:   getFieldYamlTag(c, "inlineManifests"),
+				Message: formatError(messages),
+			})
+		}
+	}
+	return result
+}
+
 func checkNodeRequiredCfg(node Node, idx int, result *Errors) *Errors {
 	if node.Hostname == "" {
 		e := &Error{

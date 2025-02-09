@@ -43,6 +43,16 @@ func LoadAndValidateFromFile(filePath string, envPaths []string, showWarns bool)
 		return nil, fmt.Errorf("failed to unmarshal config file: %s", err)
 	}
 
+	if len(cfg.ClusterInlineManifests) > 0 {
+		for i, manifest := range cfg.ClusterInlineManifests {
+			contents, err := substitute.SubstituteFileContent(manifest.InlineManifestContents, !manifest.SkipEnvsubst)
+			if err != nil {
+				return nil, fmt.Errorf("failed to get inlineManifest content for %s in `inlineManifest[%d]`: %s", manifest.InlineManifestContents, i, err)
+			}
+			manifest.InlineManifestContents = contents
+		}
+	}
+
 	for k := range cfg.Nodes {
 		node := &cfg.Nodes[k]
 

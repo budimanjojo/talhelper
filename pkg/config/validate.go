@@ -47,6 +47,7 @@ func (c TalhelperConfig) Validate() (Errors, Warnings) {
 	checkDomain(c, &result)
 	checkClusterNets(c, &result)
 	checkCNIConfig(c, &result)
+	checkClusterInlineManifests(c, &result)
 	for k, node := range c.Nodes {
 		slog.Debug(fmt.Sprintf("validating config file for node %s", node.Hostname))
 		checkNodeRequiredCfg(node, k, &result)
