@@ -1,7 +1,7 @@
 ## ================================================================================================
 # Utility versions
 ## ================================================================================================
-ARG KUBECTL_VERSION=1.32.1
+ARG KUBECTL_VERSION=v1.32.1
 ARG TALOSCTL_VERSION=v1.9.3
 ARG GOLINT_VERSION=v1.64.2-alpine
 ARG GORELEASER_VERSION=v2.7.0
@@ -10,7 +10,7 @@ ARG AGE_VERSION=v1.2.0
 ARG AGE_KEYGEN_VERSION=V1.2.0
 
 
-FROM bitnami/kubectl:${KUBECTL_VERSION} AS kubectl
+FROM registry.k8s.io/kubectl:${KUBECTL_VERSION} AS kubectl
 FROM ghcr.io/siderolabs/talosctl:${TALOSCTL_VERSION} AS talosctl
 FROM golangci/golangci-lint:${GOLINT_VERSION} AS golangci-lint
 FROM goreleaser/goreleaser:${GORELEASER_VERSION} AS goreleaser
