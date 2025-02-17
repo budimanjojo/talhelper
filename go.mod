@@ -17,7 +17,7 @@ require (
 	github.com/siderolabs/image-factory v0.6.7
 	github.com/siderolabs/net v0.4.0
 	github.com/siderolabs/talos/pkg/machinery v1.10.0-alpha.1.0.20250203100439-e2aa7c98cceb
-	github.com/spf13/cobra v1.9.0
+	github.com/spf13/cobra v1.9.1
 	golang.org/x/mod v0.23.0
 	gopkg.in/yaml.v3 v3.0.1
 	sigs.k8s.io/yaml v1.4.0
