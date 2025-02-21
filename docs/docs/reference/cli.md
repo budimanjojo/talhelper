@@ -226,7 +226,7 @@ talhelper gencommand apply [flags]
 ```
   -c, --config-file string    File containing configurations for talhelper (default "talconfig.yaml")
   -d, --debug                 Whether to enable debugging mode
-      --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
+  -e, --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
       --extra-flags strings   List of additional flags that will be injected into the generated commands.
   -n, --node string           A specific node to generate the command for. If not specified, will generate for all nodes.
   -o, --out-dir string        Directory that contains the generated config files to apply. (default "./clusterconfig")
@@ -255,7 +255,7 @@ talhelper gencommand bootstrap [flags]
 ```
   -c, --config-file string    File containing configurations for talhelper (default "talconfig.yaml")
   -d, --debug                 Whether to enable debugging mode
-      --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
+  -e, --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
       --extra-flags strings   List of additional flags that will be injected into the generated commands.
   -n, --node string           A specific node to generate the command for. If not specified, will generate for all nodes.
   -o, --out-dir string        Directory that contains the generated config files to apply. (default "./clusterconfig")
@@ -284,7 +284,7 @@ talhelper gencommand kubeconfig [flags]
 ```
   -c, --config-file string    File containing configurations for talhelper (default "talconfig.yaml")
   -d, --debug                 Whether to enable debugging mode
-      --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
+  -e, --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
       --extra-flags strings   List of additional flags that will be injected into the generated commands.
   -n, --node string           A specific node to generate the command for. If not specified, will generate for all nodes.
   -o, --out-dir string        Directory that contains the generated config files to apply. (default "./clusterconfig")
@@ -313,7 +313,7 @@ talhelper gencommand reset [flags]
 ```
   -c, --config-file string    File containing configurations for talhelper (default "talconfig.yaml")
   -d, --debug                 Whether to enable debugging mode
-      --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
+  -e, --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
       --extra-flags strings   List of additional flags that will be injected into the generated commands.
   -n, --node string           A specific node to generate the command for. If not specified, will generate for all nodes.
   -o, --out-dir string        Directory that contains the generated config files to apply. (default "./clusterconfig")
@@ -342,7 +342,7 @@ talhelper gencommand upgrade [flags]
 ```
   -c, --config-file string    File containing configurations for talhelper (default "talconfig.yaml")
   -d, --debug                 Whether to enable debugging mode
-      --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
+  -e, --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
       --extra-flags strings   List of additional flags that will be injected into the generated commands.
   -n, --node string           A specific node to generate the command for. If not specified, will generate for all nodes.
   -o, --out-dir string        Directory that contains the generated config files to apply. (default "./clusterconfig")
@@ -371,7 +371,7 @@ talhelper gencommand upgrade-k8s [flags]
 ```
   -c, --config-file string    File containing configurations for talhelper (default "talconfig.yaml")
   -d, --debug                 Whether to enable debugging mode
-      --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
+  -e, --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
       --extra-flags strings   List of additional flags that will be injected into the generated commands.
   -n, --node string           A specific node to generate the command for. If not specified, will generate for all nodes.
   -o, --out-dir string        Directory that contains the generated config files to apply. (default "./clusterconfig")
@@ -389,7 +389,7 @@ Generate commands for talosctl.
 
 ```
   -c, --config-file string    File containing configurations for talhelper (default "talconfig.yaml")
-      --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
+  -e, --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
       --extra-flags strings   List of additional flags that will be injected into the generated commands.
   -h, --help                  help for gencommand
   -n, --node string           A specific node to generate the command for. If not specified, will generate for all nodes.
