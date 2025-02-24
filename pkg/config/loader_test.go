@@ -20,6 +20,7 @@ func TestLoadAndValidateFromFile(t *testing.T) {
 		ControlPlane: true,
 		InstallDisk:  "/dev/sda",
 		NodeConfigs: NodeConfigs{
+			ExtraMachineCertSans: []string{"example.net", "example.com"},
 			Schematic: &schematic.Schematic{
 				Customization: schematic.Customization{
 					SystemExtensions: schematic.SystemExtensions{

@@ -133,6 +133,11 @@ func applyNodeOverride(node *config.Node, cfg taloscfg.Provider) taloscfg.Provid
 		cfg.RawV1Alpha1().MachineConfig.MachineInstall.InstallExtraKernelArgs = append(cfg.RawV1Alpha1().MachineConfig.MachineInstall.InstallExtraKernelArgs, node.Schematic.Customization.ExtraKernelArgs...)
 	}
 
+	if len(node.ExtraMachineCertSans) > 0 {
+		slog.Debug("appending extra machine certificate SANs")
+		cfg.RawV1Alpha1().MachineConfig.MachineCertSANs = append(cfg.RawV1Alpha1().MachineConfig.MachineCertSANs, node.ExtraMachineCertSans...)
+	}
+
 	return cfg
 }
 

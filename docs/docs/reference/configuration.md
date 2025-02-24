@@ -120,7 +120,7 @@ allowSchedulingOnControlPlanes: true
 <tr markdown="1">
 <td markdown="1">`additionalMachineCertSans`</td>
 <td markdown="1">[]string</td>
-<td markdown="1">Extra certificate SANs for the machine's certificate.<details><summary>*Show example*</summary>
+<td markdown="1">**DEPRECATED! Use node/node groups `extraMachineCertSans`**. Extra certificate SANs for the machine's certificate.<details><summary>*Show example*</summary>
 ```yaml
 additionalMachineCertSans:
   - 10.0.0.10
@@ -696,6 +696,20 @@ extraManifests:
   - kubelet-firewall.yaml
 ```
 </summary></td>
+<td markdown="1" align="center">`[]`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+</tr>
+<tr markdown="1">
+<td markdown="1">`extraMachineCertSans`</td>
+<td markdown="1">[]string</td>
+<td markdown="1">Extra SANs in the machine's certificate.<details><summary>*Show example*</summary>
+```yaml
+extraMachineCertSans:
+  - example.org
+  - 172.16.0.10
+  - 192.168.0.10
+```
+</details></td>
 <td markdown="1" align="center">`[]`</td>
 <td markdown="1" align="center">:negative_squared_cross_mark:</td>
 </tr>
