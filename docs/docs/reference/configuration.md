@@ -383,6 +383,17 @@ overrideExtraManifests: true
 <td markdown="1" align="center">`false`</td>
 <td markdown="1" align="center">:negative_squared_cross_mark:</td>
 </tr>
+<tr markdown="1">
+<td markdown="1">`overrideExtraMachineCertSans`</td>
+<td markdown="1">bool</td>
+<td markdown="1"><details><summary>Whether `extraMachineCertSans` defined here should override the one defined in node group.</summary>By default they will get appended instead.</details><details><summary>*Show example*</summary>
+```yaml
+overrideExtraMachineCertSans: true
+```
+</summary></td>
+<td markdown="1" align="center">`false`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+</tr>
 
 <tr markdown="1">
 <td markdown="1">-</td>

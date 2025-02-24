@@ -5,7 +5,7 @@ import (
 )
 
 func (node *Node) OverrideGlobalCfg(cfg NodeConfigs) *Node {
-	node.NodeConfigs = mergeNodeConfigs(node.NodeConfigs, cfg, node.OverridePatches, node.OverrideExtraManifests, node.OverrideMachineCertSans)
+	node.NodeConfigs = mergeNodeConfigs(node.NodeConfigs, cfg, node.OverridePatches, node.OverrideExtraManifests, node.OverrideExtraMachineCertSans)
 
 	return node
 }

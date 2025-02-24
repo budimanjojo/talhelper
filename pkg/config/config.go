@@ -31,15 +31,16 @@ type TalhelperConfig struct {
 }
 
 type Node struct {
-	Hostname               string                        `yaml:"hostname" jsonschema:"required,description=Hostname of the node"`
-	IPAddress              string                        `yaml:"ipAddress,omitempty" jsonschema:"required,example=192.168.200.11,description=IP address where the node can be reached, can also be a comma separated IP addresses"`
-	ControlPlane           bool                          `yaml:"controlPlane" jsonschema:"description=Whether the node is a controlplane"`
-	InstallDisk            string                        `yaml:"installDisk,omitempty" jsonschema:"oneof_required=installDiskSelector,description=The disk used for installation"`
-	InstallDiskSelector    *v1alpha1.InstallDiskSelector `yaml:"installDiskSelector,omitempty" jsonschema:"oneof_required=installDisk,description=Look up disk used for installation"`
-	IgnoreHostname         bool                          `yaml:"ignoreHostname" jsonschema:"description=Whether to set \"machine.network.hostname\" to the generated config file"`
-	OverridePatches        bool                          `yaml:"overridePatches,omitempty" jsonschema:"description=Whether \"patches\" defined here should override the one defined in node group"`
-	OverrideExtraManifests bool                          `yaml:"overrideExtraManifests,omitempty" jsonschema:"description=Whether \"extraManifests\" defined here should override the one defined in node group"`
-	NodeConfigs            `yaml:",inline" jsonschema:"description=Node specific configurations that will override node group configurations"`
+	Hostname                     string                        `yaml:"hostname" jsonschema:"required,description=Hostname of the node"`
+	IPAddress                    string                        `yaml:"ipAddress,omitempty" jsonschema:"required,example=192.168.200.11,description=IP address where the node can be reached, can also be a comma separated IP addresses"`
+	ControlPlane                 bool                          `yaml:"controlPlane" jsonschema:"description=Whether the node is a controlplane"`
+	InstallDisk                  string                        `yaml:"installDisk,omitempty" jsonschema:"oneof_required=installDiskSelector,description=The disk used for installation"`
+	InstallDiskSelector          *v1alpha1.InstallDiskSelector `yaml:"installDiskSelector,omitempty" jsonschema:"oneof_required=installDisk,description=Look up disk used for installation"`
+	IgnoreHostname               bool                          `yaml:"ignoreHostname" jsonschema:"description=Whether to set \"machine.network.hostname\" to the generated config file"`
+	OverridePatches              bool                          `yaml:"overridePatches,omitempty" jsonschema:"description=Whether \"patches\" defined here should override the one defined in node group"`
+	OverrideExtraManifests       bool                          `yaml:"overrideExtraManifests,omitempty" jsonschema:"description=Whether \"extraManifests\" defined here should override the one defined in node group"`
+	OverrideExtraMachineCertSans bool                          `yaml:"OverrideExtraMachineCertSans,omitempty" jsonschema:"description=Whether \"extraMaachineCertSans\" defined here should override the one defined in node group"`
+	NodeConfigs                  `yaml:",inline" jsonschema:"description=Node specific configurations that will override node group configurations"`
 }
 
 type NodeConfigs struct {
