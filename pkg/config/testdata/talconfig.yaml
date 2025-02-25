@@ -5,7 +5,7 @@ additionalMachineCertSans:
 nodes:
   - hostname: ${HOSTNAME1}
     ipAddress: ${IP1}
-    extraCertSANs:
+    certSANs:
       - example.net
     installDisk: /dev/sda
     controlPlane: true
@@ -19,7 +19,7 @@ nodes:
     installDisk: /dev/sda
     controlPlane: false
 controlPlane:
-  extraCertSANs:
+  certSANs:
     - example.com
   disableSearchDomain: true
   schematic:

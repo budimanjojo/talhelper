@@ -384,11 +384,11 @@ overrideExtraManifests: true
 <td markdown="1" align="center">:negative_squared_cross_mark:</td>
 </tr>
 <tr markdown="1">
-<td markdown="1">`overrideExtraCertSANs`</td>
+<td markdown="1">`overrideMachineCertSANs`</td>
 <td markdown="1">bool</td>
-<td markdown="1"><details><summary>Whether `extraCertSANs` defined here should override the one defined in node group.</summary>By default they will get appended instead.</details><details><summary>*Show example*</summary>
+<td markdown="1"><details><summary>Whether `certSANs` defined here should override the one defined in node group.</summary>By default they will get appended instead.</details><details><summary>*Show example*</summary>
 ```yaml
-overrideExtraCertSANs: true
+overrideMachineCertSANs: true
 ```
 </summary></td>
 <td markdown="1" align="center">`false`</td>
@@ -711,11 +711,11 @@ extraManifests:
 <td markdown="1" align="center">:negative_squared_cross_mark:</td>
 </tr>
 <tr markdown="1">
-<td markdown="1">`extraCertSANs`</td>
+<td markdown="1">`certSANs`</td>
 <td markdown="1">[]string</td>
 <td markdown="1">Extra SANs in the machine's certificate.<details><summary>*Show example*</summary>
 ```yaml
-extraCertSANs:
+certSANs:
   - example.org
   - 172.16.0.10
   - 192.168.0.10

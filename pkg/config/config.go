@@ -31,16 +31,16 @@ type TalhelperConfig struct {
 }
 
 type Node struct {
-	Hostname               string                        `yaml:"hostname" jsonschema:"required,description=Hostname of the node"`
-	IPAddress              string                        `yaml:"ipAddress,omitempty" jsonschema:"required,example=192.168.200.11,description=IP address where the node can be reached, can also be a comma separated IP addresses"`
-	ControlPlane           bool                          `yaml:"controlPlane" jsonschema:"description=Whether the node is a controlplane"`
-	InstallDisk            string                        `yaml:"installDisk,omitempty" jsonschema:"oneof_required=installDiskSelector,description=The disk used for installation"`
-	InstallDiskSelector    *v1alpha1.InstallDiskSelector `yaml:"installDiskSelector,omitempty" jsonschema:"oneof_required=installDisk,description=Look up disk used for installation"`
-	IgnoreHostname         bool                          `yaml:"ignoreHostname" jsonschema:"description=Whether to set \"machine.network.hostname\" to the generated config file"`
-	OverridePatches        bool                          `yaml:"overridePatches,omitempty" jsonschema:"description=Whether \"patches\" defined here should override the one defined in node group"`
-	OverrideExtraManifests bool                          `yaml:"overrideExtraManifests,omitempty" jsonschema:"description=Whether \"extraManifests\" defined here should override the one defined in node group"`
-	OverrideExtraCertSANs  bool                          `yaml:"overrideExtraCertSANs,omitempty" jsonschema:"description=Whether \"extraCertSANs\" defined here should override the one defined in node group"`
-	NodeConfigs            `yaml:",inline" jsonschema:"description=Node specific configurations that will override node group configurations"`
+	Hostname                string                        `yaml:"hostname" jsonschema:"required,description=Hostname of the node"`
+	IPAddress               string                        `yaml:"ipAddress,omitempty" jsonschema:"required,example=192.168.200.11,description=IP address where the node can be reached, can also be a comma separated IP addresses"`
+	ControlPlane            bool                          `yaml:"controlPlane" jsonschema:"description=Whether the node is a controlplane"`
+	InstallDisk             string                        `yaml:"installDisk,omitempty" jsonschema:"oneof_required=installDiskSelector,description=The disk used for installation"`
+	InstallDiskSelector     *v1alpha1.InstallDiskSelector `yaml:"installDiskSelector,omitempty" jsonschema:"oneof_required=installDisk,description=Look up disk used for installation"`
+	IgnoreHostname          bool                          `yaml:"ignoreHostname" jsonschema:"description=Whether to set \"machine.network.hostname\" to the generated config file"`
+	OverridePatches         bool                          `yaml:"overridePatches,omitempty" jsonschema:"description=Whether \"patches\" defined here should override the one defined in node group"`
+	OverrideExtraManifests  bool                          `yaml:"overrideExtraManifests,omitempty" jsonschema:"description=Whether \"extraManifests\" defined here should override the one defined in node group"`
+	OverrideMachineCertSANs bool                          `yaml:"overrideMachineCertSANs,omitempty" jsonschema:"description=Whether \"certSANs\" defined here should override the one defined in node group"`
+	NodeConfigs             `yaml:",inline" jsonschema:"description=Node specific configurations that will override node group configurations"`
 }
 
 type NodeConfigs struct {
@@ -54,7 +54,7 @@ type NodeConfigs struct {
 	Nameservers         []string                       `yaml:"nameservers,omitempty" jsonschema:"description=List of nameservers for the node"`
 	NetworkInterfaces   []*v1alpha1.Device             `yaml:"networkInterfaces,omitempty" jsonschema:"description=List of network interface configuration for the node"`
 	ExtraManifests      []string                       `yaml:"extraManifests,omitempty" jsonschema:"description=List of manifest files to be added to the node"`
-	ExtraCertSANs       []string                       `yaml:"extraCertSANs,omitempty" jsonschema:"description=Additional certificate SANs to add to the machine certificate"`
+	CertSANs            []string                       `yaml:"certSANs,omitempty" jsonschema:"description=Additional certificate SANs to add to the machine certificate"`
 	Patches             []string                       `yaml:"patches,omitempty" jsonschema:"description=Patches to be applied to the node"`
 	TalosImageURL       string                         `yaml:"talosImageURL" jsonschema:"example=factory.talos.dev/installer/e9c7ef96884d4fbc8c0a1304ccca4bb0287d766a8b4125997cb9dbe84262144e,description=Talos installer image url for the node"`
 	NoSchematicValidate bool                           `yaml:"noSchematicValidate" jsonschema:"description=Whether to skip schematic validation"`
