@@ -5,12 +5,12 @@ import (
 )
 
 func (node *Node) OverrideGlobalCfg(cfg NodeConfigs) *Node {
-	node.NodeConfigs = mergeNodeConfigs(node.NodeConfigs, cfg, node.OverridePatches, node.OverrideExtraManifests, node.OverrideExtraMachineCertSans)
+	node.NodeConfigs = mergeNodeConfigs(node.NodeConfigs, cfg, node.OverridePatches, node.OverrideExtraManifests, node.OverrideExtraCertSANs)
 
 	return node
 }
 
-func mergeNodeConfigs(patch, src NodeConfigs, overridePatches, overrideExtraManifest, overrideMachineCertSans bool) NodeConfigs {
+func mergeNodeConfigs(patch, src NodeConfigs, overridePatches, overrideExtraManifest, overrideExtraCertSANs bool) NodeConfigs {
 	if len(src.Patches) > 0 && !overridePatches {
 		// global patches should get applied first
 		// https://github.com/budimanjojo/talhelper/issues/388
@@ -19,8 +19,8 @@ func mergeNodeConfigs(patch, src NodeConfigs, overridePatches, overrideExtraMani
 	if len(src.ExtraManifests) > 0 && !overrideExtraManifest {
 		patch.ExtraManifests = append(patch.ExtraManifests, src.ExtraManifests...)
 	}
-	if len(src.ExtraMachineCertSans) > 0 && !overrideMachineCertSans {
-		patch.ExtraMachineCertSans = append(patch.ExtraMachineCertSans, src.ExtraMachineCertSans...)
+	if len(src.ExtraCertSANs) > 0 && !overrideExtraCertSANs {
+		patch.ExtraCertSANs = append(patch.ExtraCertSANs, src.ExtraCertSANs...)
 	}
 
 	patchValue := reflect.ValueOf(patch)
@@ -28,7 +28,7 @@ func mergeNodeConfigs(patch, src NodeConfigs, overridePatches, overrideExtraMani
 
 	result := reflect.New(patchValue.Type()).Elem()
 
-	for i := 0; i < patchValue.NumField(); i++ {
+	for i := range patchValue.NumField() {
 		patchField := patchValue.Field(i)
 		srcField := srcValue.Field(i)
 
