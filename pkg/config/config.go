@@ -39,7 +39,7 @@ type Node struct {
 	IgnoreHostname               bool                          `yaml:"ignoreHostname" jsonschema:"description=Whether to set \"machine.network.hostname\" to the generated config file"`
 	OverridePatches              bool                          `yaml:"overridePatches,omitempty" jsonschema:"description=Whether \"patches\" defined here should override the one defined in node group"`
 	OverrideExtraManifests       bool                          `yaml:"overrideExtraManifests,omitempty" jsonschema:"description=Whether \"extraManifests\" defined here should override the one defined in node group"`
-	OverrideExtraMachineCertSans bool                          `yaml:"OverrideExtraMachineCertSans,omitempty" jsonschema:"description=Whether \"extraMaachineCertSans\" defined here should override the one defined in node group"`
+	OverrideExtraMachineCertSans bool                          `yaml:"overrideExtraMachineCertSans,omitempty" jsonschema:"description=Whether \"extraMaachineCertSans\" defined here should override the one defined in node group"`
 	NodeConfigs                  `yaml:",inline" jsonschema:"description=Node specific configurations that will override node group configurations"`
 }
 
