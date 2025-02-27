@@ -1,9 +1,12 @@
----
 clusterName: test-cluster
 endpoint: https://192.168.200.10:6443
+additionalMachineCertSans:
+  - example.org
 nodes:
   - hostname: ${HOSTNAME1}
     ipAddress: ${IP1}
+    certSANs:
+      - example.net
     installDisk: /dev/sda
     controlPlane: true
     schematic:
@@ -16,6 +19,8 @@ nodes:
     installDisk: /dev/sda
     controlPlane: false
 controlPlane:
+  certSANs:
+    - example.com
   disableSearchDomain: true
   schematic:
     customization:
