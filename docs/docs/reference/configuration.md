@@ -120,7 +120,7 @@ allowSchedulingOnControlPlanes: true
 <tr markdown="1">
 <td markdown="1">`additionalMachineCertSans`</td>
 <td markdown="1">[]string</td>
-<td markdown="1">**DEPRECATED! Use node/node groups `extraMachineCertSans`**. Extra certificate SANs for the machine's certificate.<details><summary>*Show example*</summary>
+<td markdown="1">**DEPRECATED! Use node/node groups `certSANs`**. Extra certificate SANs for the machine's certificate.<details><summary>*Show example*</summary>
 ```yaml
 additionalMachineCertSans:
   - 10.0.0.10
