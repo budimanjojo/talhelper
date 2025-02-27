@@ -722,6 +722,10 @@
           "type": "boolean",
           "description": "Whether \"extraManifests\" defined here should override the one defined in node group"
         },
+        "overrideMachineCertSANs": {
+          "type": "boolean",
+          "description": "Whether \"certSANs\" defined here should override the one defined in node group"
+        },
         "nodeLabels": {
           "additionalProperties": {
             "type": "string"
@@ -785,6 +789,13 @@
           },
           "type": "array",
           "description": "List of manifest files to be added to the node"
+        },
+        "certSANs": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Additional certificate SANs to add to the machine certificate"
         },
         "patches": {
           "items": {
@@ -907,6 +918,13 @@
           },
           "type": "array",
           "description": "List of manifest files to be added to the node"
+        },
+        "certSANs": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Additional certificate SANs to add to the machine certificate"
         },
         "patches": {
           "items": {
@@ -1118,7 +1136,7 @@
             "type": "string"
           },
           "type": "array",
-          "description": "Extra certificate SANs for the machine's certificate"
+          "description": "DEPRECATED Use node/node groups extraMachineCertSans ! Extra certificate SANs for the machine's certificate"
         },
         "additionalApiServerCertSans": {
           "items": {
