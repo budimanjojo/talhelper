@@ -1,10 +1,12 @@
 module github.com/budimanjojo/talhelper/v3
 
-go 1.23.4
+go 1.24
+
+toolchain go1.24.0
 
 require (
 	github.com/Masterminds/sprig/v3 v3.3.0
-	github.com/a8m/envsubst v1.4.2
+	github.com/a8m/envsubst v1.4.3
 	github.com/evanphx/json-patch v5.9.11+incompatible
 	github.com/fatih/color v1.18.0
 	github.com/getsops/sops/v3 v3.9.4
