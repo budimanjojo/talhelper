@@ -25,7 +25,7 @@ Currently, to create `Talos` configuration files using the official `talosctl` t
 - Copy and modify those files manually according to your nodes.
 - Run `talosctl apply-config --insecure -n <ip-address> --file <your-modified-file.yaml>` for each node.
 
-This process is fine if you just want to do this once and forget about it. But if you're like me (and many [others](https://discord.com/invite/k8s-at-home)), you might want to "GitOpsified" this process. So here's where you might want to use `talhelper`.
+This process is fine if you just want to do this once and forget about it. But if you're like me (and many [others](https://discord.com/invite/home-operations)), you might want to "GitOpsified" this process. So here's where you might want to use `talhelper`.
 
 With `talhelper`, the steps will become like this:
 
