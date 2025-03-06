@@ -250,7 +250,7 @@
 <tr>
 <td><code>additionalMachineCertSans</code></td>
 <td>[]string</td>
-<td>Extra certificate SANs for the machine's certificate.<details><summary><em>Show example</em></summary>
+<td><strong>DEPRECATED! Use node/node groups <code>certSANs</code></strong>. Extra certificate SANs for the machine's certificate.<details><summary><em>Show example</em></summary>
 <div class="highlight"><pre><span></span><code><span class="nt">additionalMachineCertSans</span><span class="p">:</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.0.0.10</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">172.16.0.10</span>
@@ -474,6 +474,16 @@
 <td>bool</td>
 <td><details><summary>Whether <code>extraManifests</code> defined here should override the one defined in node group.</summary>By default they will get appended instead.</details><details><summary><em>Show example</em></summary>
 <div class="highlight"><pre><span></span><code><span class="nt">overrideExtraManifests</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+</code></pre></div>
+</summary></td>
+<td align="center"><code>false</code></td>
+<td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
+</tr>
+<tr>
+<td><code>overrideMachineCertSANs</code></td>
+<td>bool</td>
+<td><details><summary>Whether <code>certSANs</code> defined here should override the one defined in node group.</summary>By default they will get appended instead.</details><details><summary><em>Show example</em></summary>
+<div class="highlight"><pre><span></span><code><span class="nt">overrideMachineCertSANs</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
 </code></pre></div>
 </summary></td>
 <td align="center"><code>false</code></td>
@@ -749,6 +759,19 @@
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kubelet-firewall.yaml</span>
 </code></pre></div>
 </summary></td>
+<td align="center"><code>[]</code></td>
+<td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
+</tr>
+<tr>
+<td><code>certSANs</code></td>
+<td>[]string</td>
+<td>Extra SANs in the machine's certificate.<details><summary><em>Show example</em></summary>
+<div class="highlight"><pre><span></span><code><span class="nt">certSANs</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">example.org</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">172.16.0.10</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">192.168.0.10</span>
+</code></pre></div>
+</details></td>
 <td align="center"><code>[]</code></td>
 <td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
 </tr>
