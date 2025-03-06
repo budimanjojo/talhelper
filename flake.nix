@@ -30,14 +30,14 @@
           _module.args.pkgs = import inputs.nixpkgs {
             inherit system;
             overlays = [
-              (final: prev: {
-                go_1_23 = prev.go_1_23.overrideAttrs (old: {
-                  src = prev.fetchurl {
-                    url = "https://go.dev/dl/go1.23.4.src.tar.gz";
-                    hash = "sha256-rTRaxCHpCBQpOpaZzKGd1SOCUcP2h5gLvK4oSVsmNTE=";
-                  };
-                });
-              })
+              # (final: prev: {
+              #   go_1_23 = prev.go_1_23.overrideAttrs (old: {
+              #     src = prev.fetchurl {
+              #       url = "https://go.dev/dl/go1.23.4.src.tar.gz";
+              #       hash = "sha256-rTRaxCHpCBQpOpaZzKGd1SOCUcP2h5gLvK4oSVsmNTE=";
+              #     };
+              #   });
+              # })
             ];
           };
           packages = rec {
@@ -50,7 +50,7 @@
               name = "talhelper-dev";
               packages = [
                 gcc
-                go_1_23
+                go_1_24
               ];
             };
         };
