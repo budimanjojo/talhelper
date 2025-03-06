@@ -6,7 +6,7 @@ toolchain go1.24.1
 
 require (
 	github.com/Masterminds/sprig/v3 v3.3.0
-	github.com/a8m/envsubst v1.4.2
+	github.com/a8m/envsubst v1.4.3
 	github.com/evanphx/json-patch v5.9.11+incompatible
 	github.com/fatih/color v1.18.0
 	github.com/getsops/sops/v3 v3.9.4
