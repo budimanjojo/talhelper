@@ -634,7 +634,7 @@ func checkNodeExtraManifests(node Node, idx int, result *Errors) *Errors {
 		var messages *multierror.Error
 
 		for k, manifest := range node.ExtraManifests {
-			if _, osErr := os.Stat(manifest); osErr != nil {
+			if _, osErr := os.Stat(strings.TrimPrefix(manifest, "@")); osErr != nil {
 				messages = multierror.Append(messages, fmt.Errorf("extraManifests[%d], %q", k, osErr))
 			}
 		}

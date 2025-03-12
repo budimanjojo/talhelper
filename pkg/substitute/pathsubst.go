@@ -8,11 +8,12 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-// SubstituteRelativePaths will replace all relative paths in the config file to new paths,
-// relative to the working dir from which the CLI has been called.
+// SubstituteRelativePaths replaces value of special keys from relative paths to absolute paths.
+// The substituted paths are relative to the directory of `configFilePath`.
 // When using the `--config-file` flag to point to a file not in the current dir,
 // relative path evaluation would fail. This function basically prepends the path to the config
 // file to the relative paths in the config file so that their evaluation no longer fails.
+// It returns an error, if any.
 func SubstituteRelativePaths(configFilePath string, yamlContent []byte) ([]byte, error) {
 	// Get the directory of the YAML file
 	absolutePath, err := filepath.Abs(filepath.Dir(configFilePath))
@@ -58,28 +59,50 @@ func processNode(node interface{}, path []string, yamlDir string) interface{} {
 		return newArray
 
 	case string:
-		if shouldSubstitute(path) {
-			if strings.HasPrefix(n, "@") {
-				parts := strings.SplitN(n, "@", 2)
-				if len(parts) == 2 && len(strings.TrimSpace(parts[1])) > 0 {
-					relativePath := strings.TrimSpace(parts[1])
-					absolutePath := filepath.Join(yamlDir, relativePath)
-					return parts[0] + "@" + absolutePath
-				}
-			}
+		should, special := shouldSubstitute(path)
+		if should {
+			return handleSubstitution(n, yamlDir, special)
+		} else {
+			return n
 		}
-		return n
-
 	default:
 		return n
 	}
 }
 
-func shouldSubstitute(path []string) bool {
+func shouldSubstitute(path []string) (should, special bool) {
 	for _, p := range path {
-		if p == "machineFiles" || p == "patches" || p == "extraManifests" || p == "inlineManifests" {
-			return true
+		// this is special case where the key was introduced without needing
+		// "@" prefix, instead of breaking changes, we now internally add the
+		// prefix instead
+		if p == "extraManifests" {
+			return true, true
+		} else if p == "machineFiles" || p == "patches" || p == "inlineManifests" {
+			return true, false
 		}
 	}
-	return false
+	return false, false
+}
+
+func handleSubstitution(val, yamlDir string, special bool) string {
+	// we add "@" to the value of special case like "extraManifests" so we can
+	// handle them uniformly with all other keys
+	if special && !strings.HasPrefix(val, "@") {
+		val = "@" + val
+	}
+
+	path, found := strings.CutPrefix(val, "@")
+	if found {
+		path = strings.TrimSpace(path)
+		// the value is unchanged if there's nothing after @
+		if path == "" {
+			return val
+		}
+		if !filepath.IsAbs(path) {
+			path = filepath.Join(yamlDir, path)
+		}
+		return "@" + path
+	}
+
+	return val
 }
