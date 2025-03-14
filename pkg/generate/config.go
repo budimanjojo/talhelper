@@ -6,6 +6,7 @@ import (
 	"log/slog"
 	"os"
 	"path/filepath"
+	"strings"
 
 	"github.com/hexops/gotextdiff"
 	"github.com/hexops/gotextdiff/myers"
@@ -188,7 +189,7 @@ func getFileContentByte(path string) ([]byte, error) {
 func combineExtraManifests(extraFiles []string) ([]byte, error) {
 	var result [][]byte
 	for _, file := range extraFiles {
-		content, err := getFileContentByte(file)
+		content, err := getFileContentByte(strings.TrimPrefix(file, "@"))
 		if err != nil {
 			return nil, err
 		}
