@@ -3,7 +3,7 @@
 ## ================================================================================================
 ARG KUBECTL_VERSION=v1.32.3
 ARG TALOSCTL_VERSION=v1.9.5
-ARG GOLINT_VERSION=v2.0.1-alpine
+ARG GOLINT_VERSION=v2.0.2-alpine
 ARG GORELEASER_VERSION=v2.8.1
 ARG SOPS_VERSION=v3.9.4-alpine
 ARG AGE_VERSION=v1.2.0
