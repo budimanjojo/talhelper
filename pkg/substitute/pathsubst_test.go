@@ -150,6 +150,32 @@ machineFiles:
   - content: "@ "
 `,
 		},
+		{
+			name: "No substitution for absolute path",
+			yamlContent: `
+machineFiles:
+  - content: "@/path/to/file1.txt"
+`,
+			expectedOutput: `
+machineFiles:
+  - content: "@/path/to/file1.txt"
+`,
+		},
+		{
+			name: "Special extraManifests without '@' being substituted",
+			yamlContent: `
+extraManifests:
+  - "./relative/file1.yaml"
+  - "/path/to/relative/file2.yaml"
+  - "@./relative/file3.yaml"
+`,
+			expectedOutput: `
+extraManifests:
+  - "@/path/to/relative/file1.yaml"
+  - "@/path/to/relative/file2.yaml"
+  - "@/path/to/relative/file3.yaml"
+`,
+		},
 	}
 
 	for _, tt := range tests {
