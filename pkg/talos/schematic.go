@@ -13,7 +13,7 @@ import (
 	"github.com/siderolabs/image-factory/pkg/schematic"
 )
 
-var errNotStatusCreated = errors.New("Server not replying StatusCreated")
+var errNotStatusCreated = errors.New("server not replying StatusCreated")
 
 type factoryPOSTResult struct {
 	ID string `json:"id"`

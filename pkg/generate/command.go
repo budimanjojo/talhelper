@@ -69,7 +69,7 @@ func GenerateUpgradeCommand(cfg *config.TalhelperConfig, outDir string, node str
 			var err error
 			url, err = talos.GetInstallerURL(n.Schematic, cfg.GetImageFactory(), n.GetMachineSpec(), cfg.GetTalosVersion(), true)
 			if err != nil {
-				return fmt.Errorf("Failed to generate installer url for %s, %v", n.Hostname, err)
+				return fmt.Errorf("failed to generate installer url for %s, %v", n.Hostname, err)
 			}
 		} else {
 			url, _ = talos.GetInstallerURL(&schematic.Schematic{}, cfg.GetImageFactory(), n.GetMachineSpec(), cfg.GetTalosVersion(), true)
