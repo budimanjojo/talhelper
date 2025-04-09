@@ -615,15 +615,16 @@ See each sub-command's help for details on how to use the generated script.</p>
 <div class="highlight"><pre><span></span><code>talhelper genconfig [flags]
 </code></pre></div>
 <h3 id="options_12">Options</h3>
-<div class="highlight"><pre><span></span><code>  -c, --config-file string    File containing configurations for talhelper (default &quot;talconfig.yaml&quot;)
-  -n, --dry-run               Skip generating manifests and show diff instead
-  -e, --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
-  -h, --help                  help for genconfig
-      --no-gitignore          Create/update gitignore file too
-      --offline-mode          Generate schematic ID without doing POST request to image-factory
-  -o, --out-dir string        Directory where to dump the generated files (default &quot;./clusterconfig&quot;)
-  -s, --secret-file strings   List of files containing secrets for the cluster (default [talsecret.yaml,talsecret.sops.yaml,talsecret.yml,talsecret.sops.yml])
-  -m, --talos-mode string     Talos runtime mode to validate generated config (default &quot;metal&quot;)
+<div class="highlight"><pre><span></span><code>  -c, --config-file string      File containing configurations for talhelper (default &quot;talconfig.yaml&quot;)
+      --disable-nodes-section   Disable filling the taloscontrol nodes section
+  -n, --dry-run                 Skip generating manifests and show diff instead
+  -e, --env-file strings        List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
+  -h, --help                    help for genconfig
+      --no-gitignore            Create/update gitignore file too
+      --offline-mode            Generate schematic ID without doing POST request to image-factory
+  -o, --out-dir string          Directory where to dump the generated files (default &quot;./clusterconfig&quot;)
+  -s, --secret-file strings     List of files containing secrets for the cluster (default [talsecret.yaml,talsecret.sops.yaml,talsecret.yml,talsecret.sops.yml])
+  -m, --talos-mode string       Talos runtime mode to validate generated config (default &quot;metal&quot;)
 </code></pre></div>
 <h3 id="options-inherited-from-parent-commands_12">Options inherited from parent commands</h3>
 <div class="highlight"><pre><span></span><code>  -d, --debug   Whether to enable debugging mode
