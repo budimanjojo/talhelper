@@ -75,9 +75,10 @@ func shouldSubstitute(path []string) (should, special bool) {
 		// this is special case where the key was introduced without needing
 		// "@" prefix, instead of breaking changes, we now internally add the
 		// prefix instead
-		if p == "extraManifests" {
+		switch p {
+		case "extraManifests":
 			return true, true
-		} else if p == "machineFiles" || p == "patches" || p == "inlineManifests" {
+		case "machineFiles", "patches", "inlineManifests":
 			return true, false
 		}
 	}
