@@ -8,7 +8,7 @@ import (
 	"github.com/siderolabs/talos/pkg/machinery/config/generate"
 )
 
-func GenerateClientConfigBytes(c *config.TalhelperConfig, input *generate.Input, listNodes bool) ([]byte, error) {
+func GenerateClientConfigBytes(c *config.TalhelperConfig, input *generate.Input, disableNodesSection bool) ([]byte, error) {
 	var endpoints []string
 	for _, node := range c.Nodes {
 		if node.ControlPlane {
@@ -24,7 +24,7 @@ func GenerateClientConfigBytes(c *config.TalhelperConfig, input *generate.Input,
 	}
 
 	// The talos production recommendations recommend explicitly setting --node flags and no default nodes.
-	if listNodes {
+	if !disableNodesSection {
 		slog.Debug("appending all nodes to nodes in talosconfig")
 		for _, node := range c.Nodes {
 			cfg.Contexts[cfg.Context].Nodes = append(cfg.Contexts[cfg.Context].Nodes, node.GetIPAddresses()...)
