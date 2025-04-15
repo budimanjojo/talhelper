@@ -53,4 +53,4 @@ Thanks for those who are sponsoring or have sponsored my projects, it helps and 
 
 * [Talos](https://github.com/siderolabs/talos) <- Obviously, for providing the code and everything
 * [bjw-s](https://github.com/bjw-s) <- The guy who inspired this tool
-* [k8s@home](https://github.com/k8s-at-home/) <- Best community of people running Kubernetes at home
+* [home-operations](https://github.com/home-operations/) <- Best community of people running Kubernetes at home
