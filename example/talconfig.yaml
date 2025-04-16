@@ -32,6 +32,19 @@ nodes:
             mountPath: /usr/local/etc/nut/upsmon.conf
         environment:
           - UPS_NAME=ups
+    userVolumes:
+      - name: ceph-data
+        provisioning:
+          diskSelector:
+            match: disk.transport == "nvme"
+          maxSize: 50GiB
+        filesystem:
+          type: xfs
+      - name: sata
+        provisioning:
+          diskSelector:
+            match: disk.transport == "sata"
+          minSize: 100GiB
     volumes:
       - name: EPHEMERAL
         provisioning:
@@ -101,10 +114,6 @@ nodes:
       - name: br_netfilter
         parameters:
           - nf_conntrack_max=131072
-    machineDisks:
-      - device: /dev/disk/by-id/ata-CT500MX500SSD1_2149E5EC1D9D
-        partitions:
-          - mountpoint: /var/mnt/sata
     nameservers:
       - 1.1.1.1
       - 8.8.8.8
