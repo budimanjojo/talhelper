@@ -559,7 +559,7 @@ disableSearchDomain: true
 <tr markdown="1">
 <td markdown="1">`machineDisks`</td>
 <td markdown="1">[][MachineDisk](#machinedisk)</td>
-<td markdown="1">List of additional disks to partition, format, mount.<details><summary>*Show example*</summary>
+<td markdown="1">DEPRECATED: use `userVolumes` instead.<details><summary>*Show example*</summary>
 ```yaml
 machineDisks:
   - device: /dev/disk/by-id/ata-CT500MX500SSD1_2149E5EC1D9D

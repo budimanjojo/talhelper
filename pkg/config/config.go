@@ -47,7 +47,7 @@ type NodeConfigs struct {
 	NodeLabels          map[string]string              `yaml:"nodeLabels" jsonschema:"description=Labels to be added to the node, supports templating"`
 	NodeAnnotations     map[string]string              `yaml:"nodeAnnotations" jsonschema:"description=Annotations to be added to the node, supports templating"`
 	NodeTaints          map[string]string              `yaml:"nodeTaints" jsonschema:"description=Node taints for the node. Effect is optional"`
-	MachineDisks        []*v1alpha1.MachineDisk        `yaml:"machineDisks,omitempty" jsonschema:"description=List of additional disks to partition, format, mount"`
+	MachineDisks        []*v1alpha1.MachineDisk        `yaml:"machineDisks,omitempty" jsonschema:"description=DEPRECATED: user \"userVolumes\" instead"`
 	MachineFiles        MachineFiles                   `yaml:"machineFiles,omitempty" jsonschema:"description=List of files to create inside the node"`
 	DisableSearchDomain bool                           `yaml:"disableSearchDomain,omitempty" jsonschema:"description=Whether to disable generating default search domain"`
 	KernelModules       []*v1alpha1.KernelModuleConfig `yaml:"kernelModules,omitempty" jsonschema:"description=List of additional kernel modules to load inside the node"`
