@@ -64,6 +64,7 @@ type NodeConfigs struct {
 	IngressFirewall     *IngressFirewall               `yaml:"ingressFirewall,omitempty" jsonschema:"description=Machine firewall specification"`
 	ExtensionServices   []*ExtensionService            `yaml:"extensionServices,omitempty" jsonschema:"description=Machine extension services specification"`
 	Volumes             []*Volume                      `yaml:"volumes,omitempty" jsonschema:"description=Machine volume configs specification"`
+	UserVolumes         []*UserVolume                  `yaml:"userVolumes,omitempty" jsonschema:"description=Machine user volume configs specification"`
 }
 
 type ImageFactory struct {
@@ -98,6 +99,12 @@ type ExtensionService struct {
 	Name        string                    `yaml:"name" jsonschema:"description=Name of the extension service config"`
 	ConfigFiles extensions.ConfigFileList `yaml:"configFiles,omitempty" jsonschema:"description=The config files for the extension service"`
 	Environment []string                  `yaml:"environment,omitempty" jsonschema:"description=The environment for the extension service"`
+}
+
+type UserVolume struct {
+	Name         string                 `yaml:"name" jsonschema:"description=Name of user volume config"`
+	Provisioning block.ProvisioningSpec `yaml:"provisioning" jsonschema:"description=Provisioning spec of the user volume config"`
+	Filesystem   block.FilesystemSpec   `yaml:"filesystem" jsonschema:"description=Filesystem spec of the user volume config"`
 }
 
 type Volume struct {

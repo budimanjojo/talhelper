@@ -509,6 +509,25 @@ volumes:
 </tr>
 
 <tr markdown="1">
+<td markdown="1">`userVolumes`</td>
+<td markdown="1">[][UserVolume](#uservolume)</td>
+<td markdown="1">Machine user volume configs specification.<details><summary>*Show example*</summary>
+```yaml
+userVolumes:
+  - name: ceph-data
+    provisioning:
+      diskSelector:
+        match: disk.transport == "nvme"
+      maxSize: 50GiB
+    filesystem:
+      type: xfs
+```
+</summary></td>
+<td markdown="1" align="center">`nil`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+</tr>
+
+<tr markdown="1">
 <td markdown="1">`nodeLabels`</td>
 <td markdown="1">map[string]string</td>
 <td markdown="1">Labels to be added to the node.<details><summary>*Show example*</summary>
@@ -1034,6 +1053,57 @@ provisioning:
 
 </table>
 
+## UserVolume
+
+`UserVolume` defines machine user volume configuration for a node.
+
+<table markdown="1">
+<tr markdown="1">
+<th markdown="1">Field</th><th>Type</th><th>Description</th><th>Default Value</th><th>Required</th>
+</tr>
+
+<tr markdown="1">
+<td markdown="1">`name`</td>
+<td markdown="1">`string`</td>
+<td markdown="1">Name of the volume config.<details><summary>*Show example*</summary>
+```yaml
+name: ceph-data
+```
+</details></td>
+<td markdown="1" align="center">`nil`</td>
+<td markdown="1" align="center">:white_check_mark:</td>
+</tr>
+
+<tr markdown="1">
+<td markdown="1">`provisioning`</td>
+<td markdown="1">[ProvisioningSpec](#provisioningspec)</td>
+<td markdown="1">Provisioning spec of the volume config.<details><summary>*Show example*</summary>
+```yaml
+provisioning:
+  diskSelector:
+    match: disk.transport == "nvme"
+  maxSize: 50GiB
+```
+</details></td>
+<td markdown="1" align="center">`nil`</td>
+<td markdown="1" align="center">:white_check_mark:</td>
+</tr>
+
+<tr markdown="1">
+<td markdown="1">`filesystem`</td>
+<td markdown="1">[FilesystemSpec](#filesystemspec)</td>
+<td markdown="1">Filesystem spec of the volume config.<details><summary>*Show example*</summary>
+```yaml
+filesystem:
+  type: xfs
+```
+</details></td>
+<td markdown="1" align="center">`nil`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+</tr>
+
+</table>
+
 ## NetworkRule
 
 `NetworkRule` defines the firewall rules to match.
@@ -1141,3 +1211,7 @@ In addition to this, there's also a `skipEnvsubst` key that can be set to `true`
 ## ProvisioningSpec
 
 `ProvisioningSpec` is type of upstream Talos <a href="https://www.talos.dev/v1.9/reference/configuration/block/volumeconfig/#VolumeConfig.provisioning" target="_blank">`block.ProvisioningSpec`</a>
+
+## FilesystemSpec
+
+`FilesystemSpec` is type of upstream Talos <a href="https://www.talos.dev/v1.10/reference/configuration/block/uservolumeconfig/#UserVolumeConfig.filesystem" target="_blank">`block.ProvisioningSpec`</a>
