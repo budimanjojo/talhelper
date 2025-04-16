@@ -407,6 +407,15 @@
       "additionalProperties": false,
       "type": "object"
     },
+    "FilesystemSpec": {
+      "properties": {
+        "type": {
+          "type": "integer"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
     "FlannelCNIConfig": {
       "properties": {
         "extraArgs": {
@@ -752,7 +761,7 @@
             "$ref": "#/$defs/MachineDisk"
           },
           "type": "array",
-          "description": "List of additional disks to partition"
+          "description": "DEPRECATED: user \"userVolumes\" instead"
         },
         "machineFiles": {
           "$ref": "#/$defs/MachineFiles",
@@ -844,6 +853,13 @@
           },
           "type": "array",
           "description": "Machine volume configs specification"
+        },
+        "userVolumes": {
+          "items": {
+            "$ref": "#/$defs/UserVolume"
+          },
+          "type": "array",
+          "description": "Machine user volume configs specification"
         }
       },
       "additionalProperties": false,
@@ -881,7 +897,7 @@
             "$ref": "#/$defs/MachineDisk"
           },
           "type": "array",
-          "description": "List of additional disks to partition"
+          "description": "DEPRECATED: user \"userVolumes\" instead"
         },
         "machineFiles": {
           "$ref": "#/$defs/MachineFiles",
@@ -973,6 +989,13 @@
           },
           "type": "array",
           "description": "Machine volume configs specification"
+        },
+        "userVolumes": {
+          "items": {
+            "$ref": "#/$defs/UserVolume"
+          },
+          "type": "array",
+          "description": "Machine user volume configs specification"
         }
       },
       "additionalProperties": false,
@@ -1200,6 +1223,24 @@
         "endpoint",
         "nodes"
       ]
+    },
+    "UserVolume": {
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Name of user volume config"
+        },
+        "provisioning": {
+          "$ref": "#/$defs/ProvisioningSpec",
+          "description": "Provisioning spec of the user volume config"
+        },
+        "filesystem": {
+          "$ref": "#/$defs/FilesystemSpec",
+          "description": "Filesystem spec of the user volume config"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
     },
     "VIPEquinixMetalConfig": {
       "properties": {
