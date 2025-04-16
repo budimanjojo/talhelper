@@ -97,6 +97,7 @@ func applyNodeOverride(node *config.Node, cfg taloscfg.Provider) taloscfg.Provid
 
 	if len(node.MachineDisks) > 0 {
 		slog.Debug("setting machine disks")
+		//nolint:all
 		cfg.RawV1Alpha1().MachineConfig.MachineDisks = node.MachineDisks
 	}
 
