@@ -170,6 +170,7 @@ nodes:
 	compare(cpCfg.MachineInstall.ExtraKernelArgs(), expectedNode1InstallExtraKernelArgs, t)
 	compare(wCfg.MachineType, expectedNode2Type, t)
 	compare(wCfg.MachineInstall.InstallDiskSelector, expectedNode2InstallDiskSelector, t)
+	//nolint:staticcheck
 	compare(wCfg.MachineDisks, expectedNode2MachineDisks, t)
 	compare(wCfg.MachineNodeLabels, expectedNode2NodeLabels, t)
 	compare(wCfg.MachineNodeAnnotations, expectedNode2NodeAnnotations, t)
