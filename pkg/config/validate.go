@@ -57,7 +57,7 @@ func (c TalhelperConfig) Validate() (Errors, Warnings) {
 		checkNodeLabels(node, k, &result)
 		checkNodeAnnotations(node, k, &result)
 		checkNodeTaints(node, k, &result)
-		checkNodeMachineDisks(node, k, &result)
+		checkNodeMachineDisks(node, k, &result, &warns)
 		checkNodeMachineFiles(node, k, &result)
 		if c.GetImageFactory().RegistryURL == "factory.talos.dev" && !node.NoSchematicValidate {
 			slog.Debug(fmt.Sprintf("validating schematic with official Talos schematic for node %s", node.Hostname))

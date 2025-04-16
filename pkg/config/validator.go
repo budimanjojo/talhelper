@@ -365,8 +365,14 @@ func checkNodeTaints(node Node, idx int, result *Errors) *Errors {
 	return result
 }
 
-func checkNodeMachineDisks(node Node, idx int, result *Errors) *Errors {
+func checkNodeMachineDisks(node Node, idx int, result *Errors, warns *Warnings) (*Errors, *Warnings) {
 	if node.MachineDisks != nil {
+		warns.Append(&Warning{
+			Kind:    "DeprecatedNodeMachineDisks",
+			Field:   getNodeFieldYamlTag(node, idx, "MachineDisks"),
+			Message: formatWarning("`machineDisks` is deprecated, please use `userVolumes` instead"),
+		})
+
 		var messages *multierror.Error
 
 		for _, disk := range node.MachineDisks {
@@ -382,10 +388,10 @@ func checkNodeMachineDisks(node Node, idx int, result *Errors) *Errors {
 				Kind:    "InvalidMachineDisks",
 				Field:   getNodeFieldYamlTag(node, idx, "MachineDisks"),
 				Message: formatError(messages),
-			})
+			}), warns
 		}
 	}
-	return result
+	return result, warns
 }
 
 func checkNodeMachineFiles(node Node, idx int, result *Errors) *Errors {
