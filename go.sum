@@ -268,6 +268,8 @@ github.com/cosi-project/runtime v0.10.0 h1:8CvXq5TtFIJY4/PZQh2iCgZMs8hxOLzoU64ab
 github.com/cosi-project/runtime v0.10.0/go.mod h1:ZQGhCKF7YD42wFlZdw5y9RVIjlbviIyn0cYnmLdQ3Qs=
 github.com/cosi-project/runtime v0.10.1 h1:s3LWW3UZgORKSINhNFd1G0RZevAatQ01+70cIWdKK7c=
 github.com/cosi-project/runtime v0.10.1/go.mod h1:AdQvVoG6kfhGwWEqsFxndynrp1jr8KNoYj75dHJCxcE=
+github.com/cosi-project/runtime v0.10.2 h1:pKdMdmiZcMc2rCsykaNQAR4QqXVKmJf+n6+f0YjEeZM=
+github.com/cosi-project/runtime v0.10.2/go.mod h1:aK3oljZUJG6+ewkJRwY+VI9B40JmDp5++Ixri447TjE=
 github.com/cpuguy83/go-md2man/v2 v2.0.5/go.mod h1:tgQtvFlXSQOSOSIRvRPT7W67SCa46tRHOmNcaadrF8o=
 github.com/cpuguy83/go-md2man/v2 v2.0.6 h1:XJtiaUW6dEEqVuZiMTn1ldk455QWwEIsMIJlo5vtkx0=
 github.com/cpuguy83/go-md2man/v2 v2.0.6/go.mod h1:oOW0eioCTA6cOiMLiUPZOpcVxMig6NIQQ7OS05n1F4g=
@@ -379,6 +381,8 @@ github.com/grpc-ecosystem/grpc-gateway/v2 v2.26.1 h1:e9Rjr40Z98/clHv5Yg79Is0Ntos
 github.com/grpc-ecosystem/grpc-gateway/v2 v2.26.1/go.mod h1:tIxuGz/9mpox++sgp9fJjHO0+q1X9/UOWd798aAm22M=
 github.com/grpc-ecosystem/grpc-gateway/v2 v2.26.2 h1:VpMASoqIPXLWWdkkbTA9ZyoP8J9Jw0M7S82qEhkALFs=
 github.com/grpc-ecosystem/grpc-gateway/v2 v2.26.2/go.mod h1:FYBptsOc6KxMvX44fK7+t/bQcDcDI4UGibbAuuAnRu4=
+github.com/grpc-ecosystem/grpc-gateway/v2 v2.26.3 h1:5ZPtiqj0JL5oKWmcsq4VMaAW5ukBEgSGXEN89zeH1Jo=
+github.com/grpc-ecosystem/grpc-gateway/v2 v2.26.3/go.mod h1:ndYquD05frm2vACXE1nsccT4oJzjhw2arTS2cpUD1PI=
 github.com/hashicorp/errwrap v1.0.0/go.mod h1:YH+1FKiLXxHSkmPseP+kNlulaMuP3n2brvKWEqk/Jc4=
 github.com/hashicorp/errwrap v1.1.0 h1:OxrOeh75EUXMY8TBjag2fzXGZ40LB6IKw45YeGUDY2I=
 github.com/hashicorp/errwrap v1.1.0/go.mod h1:YH+1FKiLXxHSkmPseP+kNlulaMuP3n2brvKWEqk/Jc4=
@@ -421,6 +425,8 @@ github.com/josharian/native v1.1.0 h1:uuaP0hAbW7Y4l0ZRQ6C9zfb7Mg1mbFKry/xzDAfmtL
 github.com/josharian/native v1.1.0/go.mod h1:7X/raswPFr05uY3HiLlYeyQntB6OO7E/d2Cu7qoaN2w=
 github.com/jsimonetti/rtnetlink/v2 v2.0.3-0.20241216183107-2d6e9f8ad3f2 h1:4pspWog/mjnfv+B3rjEUfCoFL80T7J8ojK9ay8ApPCM=
 github.com/jsimonetti/rtnetlink/v2 v2.0.3-0.20241216183107-2d6e9f8ad3f2/go.mod h1:7MoNYNbb3UaDHtF8udiJo/RH6VsTKP1pqKLUTVCvToE=
+github.com/jsimonetti/rtnetlink/v2 v2.0.3 h1:Jcp7GTnTPepoUAJ9+LhTa7ZiebvNS56T1GtlEUaPNFE=
+github.com/jsimonetti/rtnetlink/v2 v2.0.3/go.mod h1:atIkksp/9fqtf6rpAw45JnttnP2gtuH9X88WPfWfS9A=
 github.com/keybase/go-keychain v0.0.0-20231219164618-57a3676c3af6 h1:IsMZxCuZqKuao2vNdfD82fjjgPLfyHLpR41Z88viRWs=
 github.com/keybase/go-keychain v0.0.0-20231219164618-57a3676c3af6/go.mod h1:3VeWNIJaW+O5xpRQbPp0Ybqu1vJd/pm7s2F473HRrkw=
 github.com/kr/pretty v0.3.1 h1:flRD4NNwYAUpkphVc1HcthR4KEIFJ65n8Mw5qdRn3LE=
@@ -534,6 +540,8 @@ github.com/siderolabs/talos/pkg/machinery v1.10.0-alpha.3 h1:AzXGsygDXGB+vPGDz9u
 github.com/siderolabs/talos/pkg/machinery v1.10.0-alpha.3/go.mod h1:t8eziRTH1D9xW7aHKh445b6zzX38UZTMoP1YreOynWA=
 github.com/siderolabs/talos/pkg/machinery v1.10.0-beta.0 h1:yy7cyrnHZCu3t8cEM4Qr5Xzr1uhQ5/Cq/+N4Tw+hS/k=
 github.com/siderolabs/talos/pkg/machinery v1.10.0-beta.0/go.mod h1:eX0xhhxwBLQW2wQcmvxsI8THKT3fifULiBDQA50Pjfg=
+github.com/siderolabs/talos/pkg/machinery v1.10.0-beta.1 h1:8FTI/XDWCNXql8IX4tqVdrZ2GqFsamJ+u3ihYfb6mHk=
+github.com/siderolabs/talos/pkg/machinery v1.10.0-beta.1/go.mod h1:MVJs1hsKm7N2GkQVeByjoDoLJmU/VhQO0cLJRZPxlZk=
 github.com/sirupsen/logrus v1.9.3 h1:dueUQJ1C2q9oE3F7wvmSGAaVtTmUizReu6fjN8uqzbQ=
 github.com/sirupsen/logrus v1.9.3/go.mod h1:naHLuLoDiP4jHNo9R0sCBMtWGeIprob74mVsIT4qYEQ=
 github.com/spf13/cast v1.7.0 h1:ntdiHjuueXFgm5nzDRdOS4yfT43P5Fnud6DH50rz/7w=
