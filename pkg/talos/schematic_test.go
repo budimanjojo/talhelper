@@ -26,6 +26,9 @@ func TestOnlineMode(t *testing.T) {
 		if errors.Is(err, errNotStatusCreated) {
 			t.Skipf("%v. Skipping this test...", err)
 		}
+		if errors.Is(err, errFailedtoPost) {
+			t.Skipf("%v. Skipping this test...", err)
+		}
 		t.Fatal(err)
 	}
 	expectedID, err := data.ID()

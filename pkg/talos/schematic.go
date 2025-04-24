@@ -13,7 +13,10 @@ import (
 	"github.com/siderolabs/image-factory/pkg/schematic"
 )
 
-var errNotStatusCreated = errors.New("server not replying StatusCreated")
+var (
+	errNotStatusCreated = errors.New("server not replying StatusCreated")
+	errFailedtoPost     = errors.New("server not wanting to reply")
+)
 
 type factoryPOSTResult struct {
 	ID string `json:"id"`
@@ -154,7 +157,7 @@ func getSchematicID(cfg *schematic.Schematic, iFactory *config.ImageFactory, off
 func doHTTPPOSTRequest(body []byte, url string, out interface{}) error {
 	resp, err := http.Post(url, "", bytes.NewReader(body))
 	if err != nil {
-		return err
+		return fmt.Errorf("%w: %v", errFailedtoPost, err)
 	}
 	if resp.StatusCode != http.StatusCreated {
 		return fmt.Errorf("%w (%v): %v", errNotStatusCreated, url, resp.Status)
