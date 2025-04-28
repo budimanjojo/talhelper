@@ -16,7 +16,7 @@ require (
 	github.com/invopop/jsonschema v0.13.0
 	github.com/joho/godotenv v1.5.1
 	github.com/sabhiram/go-gitignore v0.0.0-20210923224102-525f6e181f06
-	github.com/siderolabs/image-factory v0.6.8
+	github.com/siderolabs/image-factory v0.6.9
 	github.com/siderolabs/net v0.4.0
 	github.com/siderolabs/talos/pkg/machinery v1.10.0-beta.1
 	github.com/spf13/cobra v1.9.1
@@ -82,7 +82,7 @@ require (
 	github.com/cloudflare/circl v1.6.0 // indirect
 	github.com/cncf/xds/go v0.0.0-20250326154945-ae57f3c0d45f // indirect
 	github.com/containerd/go-cni v1.1.12 // indirect
-	github.com/containernetworking/cni v1.2.3 // indirect
+	github.com/containernetworking/cni v1.3.0 // indirect
 	github.com/cosi-project/runtime v0.10.2 // indirect
 	github.com/cpuguy83/go-md2man/v2 v2.0.6 // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect
@@ -123,7 +123,7 @@ require (
 	github.com/jsimonetti/rtnetlink/v2 v2.0.3 // indirect
 	github.com/kylelemons/godebug v1.1.0 // indirect
 	github.com/lib/pq v1.10.9 // indirect
-	github.com/mailru/easyjson v0.7.7 // indirect
+	github.com/mailru/easyjson v0.9.0 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/mdlayher/ethtool v0.4.0 // indirect
@@ -133,7 +133,7 @@ require (
 	github.com/mitchellh/copystructure v1.2.0 // indirect
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/mitchellh/go-wordwrap v1.0.1 // indirect
-	github.com/mitchellh/mapstructure v1.5.0 // indirect
+	github.com/mitchellh/mapstructure v1.5.1-0.20231216201459-8508981c8b6c // indirect
 	github.com/mitchellh/reflectwalk v1.0.2 // indirect
 	github.com/opencontainers/runtime-spec v1.2.1 // indirect
 	github.com/petermattis/goid v0.0.0-20240813172612-4fcff4a6cae7 // indirect
@@ -150,7 +150,7 @@ require (
 	github.com/siderolabs/go-pointer v1.0.1 // indirect
 	github.com/siderolabs/protoenc v0.2.2 // indirect
 	github.com/sirupsen/logrus v1.9.3 // indirect
-	github.com/spf13/cast v1.7.0 // indirect
+	github.com/spf13/cast v1.7.1 // indirect
 	github.com/spf13/pflag v1.0.6 // indirect
 	github.com/stoewer/go-strcase v1.3.0 // indirect
 	github.com/urfave/cli v1.22.16 // indirect
