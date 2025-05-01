@@ -5,7 +5,7 @@ go 1.24.0
 toolchain go1.24.2
 
 require (
-	github.com/budimanjojo/talhelper/v3 v3.0.21
+	github.com/budimanjojo/talhelper/v3 v3.0.22
 	github.com/google/go-containerregistry v0.20.3
 	github.com/sirupsen/logrus v1.9.3
 	gopkg.in/yaml.v3 v3.0.1
@@ -26,6 +26,6 @@ require (
 	github.com/stretchr/testify v1.9.0 // indirect
 	github.com/vbatts/tar-split v0.11.6 // indirect
 	golang.org/x/mod v0.24.0 // indirect
-	golang.org/x/sync v0.11.0 // indirect
-	golang.org/x/sys v0.30.0 // indirect
+	golang.org/x/sync v0.13.0 // indirect
+	golang.org/x/sys v0.32.0 // indirect
 )
