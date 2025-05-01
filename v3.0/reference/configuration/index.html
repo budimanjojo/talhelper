@@ -79,6 +79,8 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#volume">Volume</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#uservolume">UserVolume</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#networkrule">NetworkRule</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#cniconfig">CNIConfig</a>
@@ -106,6 +108,8 @@
     <li class="toctree-l2"><a class="reference internal" href="#configfile">ConfigFile</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#provisioningspec">ProvisioningSpec</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#filesystemspec">FilesystemSpec</a>
     </li>
     </ul>
                   </li>
@@ -588,6 +592,23 @@
 <td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
 </tr>
 <tr>
+<td><code>userVolumes</code></td>
+<td>[]<a href="#uservolume">UserVolume</a></td>
+<td>Machine user volume configs specification.<details><summary><em>Show example</em></summary>
+<div class="highlight"><pre><span></span><code><span class="nt">userVolumes</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ceph-data</span>
+<span class="w">    </span><span class="nt">provisioning</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">diskSelector</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">match</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">disk.transport == &quot;nvme&quot;</span>
+<span class="w">      </span><span class="nt">maxSize</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50GiB</span>
+<span class="w">    </span><span class="nt">filesystem</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">xfs</span>
+</code></pre></div>
+</summary></td>
+<td align="center"><code>nil</code></td>
+<td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
+</tr>
+<tr>
 <td><code>nodeLabels</code></td>
 <td>map[string]string</td>
 <td>Labels to be added to the node.<details><summary><em>Show example</em></summary>
@@ -630,7 +651,7 @@
 <tr>
 <td><code>machineDisks</code></td>
 <td>[]<a href="#machinedisk">MachineDisk</a></td>
-<td>List of additional disks to partition, format, mount.<details><summary><em>Show example</em></summary>
+<td>DEPRECATED: use <code>userVolumes</code> instead.<details><summary><em>Show example</em></summary>
 <div class="highlight"><pre><span></span><code><span class="nt">machineDisks</span><span class="p">:</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">device</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/dev/disk/by-id/ata-CT500MX500SSD1_2149E5EC1D9D</span>
 <span class="w">    </span><span class="nt">partitions</span><span class="p">:</span>
@@ -1030,6 +1051,48 @@
 <td align="center"><img align="center" alt="✅" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/2705.png" title=":white_check_mark:" width="20px" /></td>
 </tr>
 </table>
+<h2 id="uservolume">UserVolume</h2>
+<p><code>UserVolume</code> defines machine user volume configuration for a node.</p>
+<table>
+<tr>
+<th>Field</th>
+<p><th>Type</th><th>Description</th><th>Default Value</th><th>Required</th></p>
+</tr>
+<tr>
+<td><code>name</code></td>
+<td><code>string</code></td>
+<td>Name of the volume config.<details><summary><em>Show example</em></summary>
+<div class="highlight"><pre><span></span><code><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">ceph-data</span>
+</code></pre></div>
+</details></td>
+<td align="center"><code>nil</code></td>
+<td align="center"><img align="center" alt="✅" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/2705.png" title=":white_check_mark:" width="20px" /></td>
+</tr>
+<tr>
+<td><code>provisioning</code></td>
+<td><a href="#provisioningspec">ProvisioningSpec</a></td>
+<td>Provisioning spec of the volume config.<details><summary><em>Show example</em></summary>
+<div class="highlight"><pre><span></span><code><span class="nt">provisioning</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">diskSelector</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">match</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">disk.transport == &quot;nvme&quot;</span>
+<span class="w">  </span><span class="nt">maxSize</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50GiB</span>
+</code></pre></div>
+</details></td>
+<td align="center"><code>nil</code></td>
+<td align="center"><img align="center" alt="✅" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/2705.png" title=":white_check_mark:" width="20px" /></td>
+</tr>
+<tr>
+<td><code>filesystem</code></td>
+<td><a href="#filesystemspec">FilesystemSpec</a></td>
+<td>Filesystem spec of the volume config.<details><summary><em>Show example</em></summary>
+<div class="highlight"><pre><span></span><code><span class="nt">filesystem</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">xfs</span>
+</code></pre></div>
+</details></td>
+<td align="center"><code>nil</code></td>
+<td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
+</tr>
+</table>
 <h2 id="networkrule">NetworkRule</h2>
 <p><code>NetworkRule</code> defines the firewall rules to match.</p>
 <table>
@@ -1101,6 +1164,8 @@
 <p><code>ConfigFile</code> is type of upstream Talos <a href="https://www.talos.dev/v1.7/reference/configuration/extensions/extensionserviceconfig/#ExtensionServiceConfig.configFiles" target="_blank"><code>extensions.ConfigFile</code></a></p>
 <h2 id="provisioningspec">ProvisioningSpec</h2>
 <p><code>ProvisioningSpec</code> is type of upstream Talos <a href="https://www.talos.dev/v1.9/reference/configuration/block/volumeconfig/#VolumeConfig.provisioning" target="_blank"><code>block.ProvisioningSpec</code></a></p>
+<h2 id="filesystemspec">FilesystemSpec</h2>
+<p><code>FilesystemSpec</code> is type of upstream Talos <a href="https://www.talos.dev/v1.10/reference/configuration/block/uservolumeconfig/#UserVolumeConfig.filesystem" target="_blank"><code>block.ProvisioningSpec</code></a></p>
               
             </div>
           </div><footer>
