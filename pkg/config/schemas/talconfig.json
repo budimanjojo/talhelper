@@ -138,11 +138,6 @@
       "additionalProperties": false,
       "type": "object"
     },
-    "ByteSize": {
-      "properties": {},
-      "additionalProperties": false,
-      "type": "object"
-    },
     "CNIConfig": {
       "properties": {
         "name": {
@@ -372,17 +367,13 @@
       "additionalProperties": false,
       "type": "object"
     },
-    "DiskSelector": {
+    "DiskSelectorWrapper": {
       "properties": {
         "match": {
-          "$ref": "#/$defs/Expression"
+          "type": "string",
+          "description": "The Common Expression Language (CEL) expression to match the disk"
         }
       },
-      "additionalProperties": false,
-      "type": "object"
-    },
-    "Expression": {
-      "properties": {},
       "additionalProperties": false,
       "type": "object"
     },
@@ -407,10 +398,16 @@
       "additionalProperties": false,
       "type": "object"
     },
-    "FilesystemSpec": {
+    "FilesystemSpecWrapper": {
       "properties": {
         "type": {
-          "type": "integer"
+          "type": "string",
+          "enum": [
+            "ext4",
+            "xfs"
+          ],
+          "description": "Filesystem type",
+          "default": "xfs"
         }
       },
       "additionalProperties": false,
@@ -1031,19 +1028,29 @@
       "additionalProperties": false,
       "type": "object"
     },
-    "ProvisioningSpec": {
+    "ProvisioningSpecWrapper": {
       "properties": {
         "diskSelector": {
-          "$ref": "#/$defs/DiskSelector"
+          "$ref": "#/$defs/DiskSelectorWrapper",
+          "description": "The disk selector expression"
         },
         "grow": {
-          "type": "boolean"
+          "type": "boolean",
+          "description": "Should the volume grow to the size of the disk (if possible)"
         },
         "minSize": {
-          "$ref": "#/$defs/ByteSize"
+          "type": "string",
+          "description": "The minimum size of the volume",
+          "examples": [
+            "2.5GiB"
+          ]
         },
         "maxSize": {
-          "$ref": "#/$defs/ByteSize"
+          "type": "string",
+          "description": "The maximum size of the volume",
+          "examples": [
+            "50GiB"
+          ]
         }
       },
       "additionalProperties": false,
@@ -1231,11 +1238,11 @@
           "description": "Name of user volume config"
         },
         "provisioning": {
-          "$ref": "#/$defs/ProvisioningSpec",
+          "$ref": "#/$defs/ProvisioningSpecWrapper",
           "description": "Provisioning spec of the user volume config"
         },
         "filesystem": {
-          "$ref": "#/$defs/FilesystemSpec",
+          "$ref": "#/$defs/FilesystemSpecWrapper",
           "description": "Filesystem spec of the user volume config"
         }
       },
@@ -1309,7 +1316,7 @@
           "description": "Name of the volume config"
         },
         "provisioning": {
-          "$ref": "#/$defs/ProvisioningSpec",
+          "$ref": "#/$defs/ProvisioningSpecWrapper",
           "description": "Provisioning spec of the volume config"
         }
       },
