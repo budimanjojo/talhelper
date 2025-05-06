@@ -11,8 +11,11 @@ import (
 // It returns an error, if any.
 func (config *TalhelperConfig) GenerateGitignore(outputDir string) error {
 	for _, node := range config.Nodes {
-		fileName := config.ClusterName + "-" + node.Hostname + ".yaml"
-		err := createGitIgnore(outputDir, fileName)
+		fileName, err := node.GetOutputFileName(config)
+		if err != nil {
+			return err
+		}
+		err = createGitIgnore(outputDir, fileName)
 		if err != nil {
 			return err
 		}

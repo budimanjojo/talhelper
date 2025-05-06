@@ -65,6 +65,7 @@ type NodeConfigs struct {
 	ExtensionServices   []*ExtensionService            `yaml:"extensionServices,omitempty" jsonschema:"description=Machine extension services specification"`
 	Volumes             []*Volume                      `yaml:"volumes,omitempty" jsonschema:"description=Machine volume configs specification"`
 	UserVolumes         []*UserVolume                  `yaml:"userVolumes,omitempty" jsonschema:"description=Machine user volume configs specification"`
+	FilenameTmpl        string                         `yaml:"filenameTmpl" jsonschema:"default={{.ClusterName}}-{{Hostname}}.yaml,description=Template for the generated filename"`
 }
 
 type ImageFactory struct {
