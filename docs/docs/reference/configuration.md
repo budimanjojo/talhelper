@@ -452,6 +452,18 @@ machineSpec:
 </tr>
 
 <tr markdown="1">
+<td markdown="1">`filenameTmpl`</td>
+<td markdown="1">string</td>
+<td markdown="1"><details><summary>Go template for generated filename.</summary>Available placeholders: `ClusterName`,`Hostname`,`IPAddress`, `Role`</details><details><summary>*Show example*</summary>
+```yaml
+filenameTmpl: "{{.ClusterName}}-{{.Role}}-{{.Hostname}}.yaml"
+```
+</summary></td>
+<td markdown="1" align="center">`{{.ClusterName}}-{{.Hostname}}.yaml`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+</tr>
+
+<tr markdown="1">
 <td markdown="1">`ingressFirewall`</td>
 <td markdown="1">[IngressFirewall](#ingressfirewall)</td>
 <td markdown="1">Machine firewall specification for the node.<details><summary>*Show example*</summary>
