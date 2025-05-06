@@ -134,6 +134,15 @@ func (n *Node) GetIPAddresses() []string {
 	return result
 }
 
+func (n *Node) GetFilenameTmpl() string {
+	tmpl := "{{ .ClusterName }}-{{ .Hostname }}.yaml"
+	if n.NodeConfigs.FilenameTmpl != "" {
+		tmpl = n.NodeConfigs.FilenameTmpl
+	}
+
+	return tmpl
+}
+
 // ContainsIP returns true if `n.IPAddress` contains `ip`
 func (n *Node) ContainsIP(ip string) bool {
 	return slices.Contains(n.GetIPAddresses(), ip)

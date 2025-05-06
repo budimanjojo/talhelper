@@ -21,19 +21,27 @@ func GenerateApplyCommand(cfg *config.TalhelperConfig, outDir string, node strin
 		allNodesSelected := (node == "")
 
 		if isSelectedByIP {
+			filename, err := n.GetOutputFileName(cfg)
+			if err != nil {
+				return err
+			}
 			applyFlags := []string{
 				"--talosconfig=" + outDir + "/talosconfig",
 				"--nodes=" + node,
-				"--file=" + outDir + "/" + cfg.ClusterName + "-" + n.Hostname + ".yaml",
+				"--file=" + outDir + "/" + filename,
 			}
 			applyFlags = append(applyFlags, extraFlags...)
 			result = append(result, fmt.Sprintf("talosctl apply-config %s;", strings.Join(applyFlags, " ")))
 		} else if allNodesSelected || isSelectedByHostname {
 			for _, ip := range n.GetIPAddresses() {
+				filename, err := n.GetOutputFileName(cfg)
+				if err != nil {
+					return err
+				}
 				applyFlags := []string{
 					"--talosconfig=" + outDir + "/talosconfig",
 					"--nodes=" + ip,
-					"--file=" + outDir + "/" + cfg.ClusterName + "-" + n.Hostname + ".yaml",
+					"--file=" + outDir + "/" + filename,
 				}
 				applyFlags = append(applyFlags, extraFlags...)
 				result = append(result, fmt.Sprintf("talosctl apply-config %s;", strings.Join(applyFlags, " ")))

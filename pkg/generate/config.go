@@ -30,7 +30,10 @@ func GenerateConfig(c *config.TalhelperConfig, dryRun bool, outDir, secretFile, 
 	for _, node := range c.Nodes {
 		var rawcfg taloscfg.Provider
 
-		fileName := c.ClusterName + "-" + node.Hostname + ".yaml"
+		fileName, err := node.GetOutputFileName(c)
+		if err != nil {
+			return err
+		}
 		cfgFile := outDir + "/" + fileName
 		slog.Debug(fmt.Sprintf("generating %s for node %s", cfgFile, node.Hostname))
 
