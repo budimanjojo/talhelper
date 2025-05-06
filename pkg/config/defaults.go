@@ -136,8 +136,8 @@ func (n *Node) GetIPAddresses() []string {
 
 func (n *Node) GetFilenameTmpl() string {
 	tmpl := "{{ .ClusterName }}-{{ .Hostname }}.yaml"
-	if n.NodeConfigs.FilenameTmpl != "" {
-		tmpl = n.NodeConfigs.FilenameTmpl
+	if n.FilenameTmpl != "" {
+		tmpl = n.FilenameTmpl
 	}
 
 	return tmpl
