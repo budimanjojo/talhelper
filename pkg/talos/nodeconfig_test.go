@@ -127,7 +127,7 @@ nodes:
 			},
 		},
 	}
-	expectedNode1InstallImage := "factory.talos.dev/installer/647a0a54bff662aa12051bc0312097f29d3562107d8e6a8e87ab85b643e25bc0:v1.5.4"
+	expectedNode1InstallImage := "factory.talos.dev/metal-installer/647a0a54bff662aa12051bc0312097f29d3562107d8e6a8e87ab85b643e25bc0:v1.5.4"
 	expectedNode1InstallExtraKernelArgs := []string{"hello", "hihi"}
 	expectedNode2Type := "worker"
 	expectedNode2InstallDiskSelector := &v1alpha1.InstallDiskSelector{

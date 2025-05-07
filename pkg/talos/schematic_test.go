@@ -58,9 +58,11 @@ func TestGetInstallerURL(t *testing.T) {
 			iFactory: &config.ImageFactory{
 				RegistryURL: "factory.talos.dev",
 			},
-			machineSpec: &config.MachineSpec{},
+			machineSpec: &config.MachineSpec{
+				Mode: "metal",
+			},
 			version:     "v1.5.4",
-			expectedURL: "factory.talos.dev/installer/376567988ad370138ad8b2698212367b8edcb69b5fd68c80be1f2ec7d603b4ba:v1.5.4",
+			expectedURL: "factory.talos.dev/metal-installer/376567988ad370138ad8b2698212367b8edcb69b5fd68c80be1f2ec7d603b4ba:v1.5.4",
 		},
 
 		{
@@ -75,9 +77,11 @@ func TestGetInstallerURL(t *testing.T) {
 			iFactory: &config.ImageFactory{
 				RegistryURL: "",
 			},
-			machineSpec: &config.MachineSpec{},
+			machineSpec: &config.MachineSpec{
+				Mode: "metal",
+			},
 			version:     "v1.5.4",
-			expectedURL: "factory.talos.dev/installer/98442b5bb4e8d050f30978ce3e6ec22e7bf534d57cafcd51313235128057e612:v1.5.4",
+			expectedURL: "factory.talos.dev/metal-installer/98442b5bb4e8d050f30978ce3e6ec22e7bf534d57cafcd51313235128057e612:v1.5.4",
 		},
 
 		{
@@ -87,9 +91,11 @@ func TestGetInstallerURL(t *testing.T) {
 					ExtraKernelArgs: []string{"hihi", "hehe"},
 				},
 			},
-			iFactory:    &config.ImageFactory{},
-			machineSpec: &config.MachineSpec{},
-			expectedURL: "factory.talos.dev/installer/ff5083b14ccb03821ea738d712ac08a82b44d2693013622059edaae286665239:",
+			iFactory: &config.ImageFactory{},
+			machineSpec: &config.MachineSpec{
+				Mode: "gcp",
+			},
+			expectedURL: "factory.talos.dev/gcp-installer/ff5083b14ccb03821ea738d712ac08a82b44d2693013622059edaae286665239:",
 		},
 
 		{
@@ -106,10 +112,11 @@ func TestGetInstallerURL(t *testing.T) {
 				RegistryURL: "test.registry/",
 			},
 			machineSpec: &config.MachineSpec{
+				Mode:       "metal",
 				Secureboot: true,
 			},
 			version:     "1.5.4",
-			expectedURL: "test.registry//installer-secureboot/104c23dfe7c5bfeff6a4cc7e166d8b3bba0f371760592c7677c90c822bb1d109:1.5.4",
+			expectedURL: "test.registry//metal-installer-secureboot/104c23dfe7c5bfeff6a4cc7e166d8b3bba0f371760592c7677c90c822bb1d109:1.5.4",
 		},
 	} {
 		t.Run(test.name, func(t *testing.T) {
@@ -120,7 +127,7 @@ func TestGetInstallerURL(t *testing.T) {
 				t.Fatal(err)
 			}
 			if url != test.expectedURL {
-				t.Errorf("got %s, want %s", url, test.expectedURL)
+				t.Errorf("test: %s\ngot : %s\nwant: %s", test.name, url, test.expectedURL)
 			}
 		})
 	}
