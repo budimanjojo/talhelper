@@ -857,6 +857,11 @@
           },
           "type": "array",
           "description": "Machine user volume configs specification"
+        },
+        "filenameTmpl": {
+          "type": "string",
+          "description": "Template for the generated filename",
+          "default": "{{.ClusterName}}-{{Hostname}}.yaml"
         }
       },
       "additionalProperties": false,
@@ -993,6 +998,11 @@
           },
           "type": "array",
           "description": "Machine user volume configs specification"
+        },
+        "filenameTmpl": {
+          "type": "string",
+          "description": "Template for the generated filename",
+          "default": "{{.ClusterName}}-{{Hostname}}.yaml"
         }
       },
       "additionalProperties": false,
