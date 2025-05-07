@@ -26,6 +26,7 @@ type installerTmpl struct {
 	RegistryURL string
 	ID          string
 	Version     string
+	Mode        string
 	Secureboot  bool
 }
 
@@ -46,6 +47,7 @@ func GetInstallerURL(cfg *schematic.Schematic, factory *config.ImageFactory, spe
 	tmplData := installerTmpl{
 		RegistryURL: factory.RegistryURL,
 		Version:     version,
+		Mode:        spec.Mode,
 		Secureboot:  spec.Secureboot,
 	}
 

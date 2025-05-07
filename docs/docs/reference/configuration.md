@@ -828,12 +828,12 @@ schematicEndpoint: /schematics
 <tr markdown="1">
 <td markdown="1">`installerURLTmpl`</td>
 <td markdown="1">string</td>
-<td markdown="1"><details><summary>Go template to parse the full installer URL.</summary>Available placeholders: `RegistryURL`,`ID`,`Version`, `Secureboot`</details><details><summary>*Show example*</summary>
+<td markdown="1"><details><summary>Go template to parse the full installer URL.</summary>Available placeholders: `RegistryURL`,`ID`,`Version`, `Secureboot`, `Mode`</details><details><summary>*Show example*</summary>
 ```yaml
 installerURLTmpl: "{{.RegistryURL}}/installer/{{.ID}}:{{.Version}}"
 ```
 </summary></td>
-<td markdown="1" align="center">`{{.RegistryURL}}/installer{{if .Secureboot}}-secureboot{{end}}/{{.ID}}:{{.Version}}`</td>
+<td markdown="1" align="center">`{{.RegistryURL}}/{{.Mode}}-installer{{if .Secureboot}}-secureboot{{end}}/{{.ID}}:{{.Version}}`</td>
 <td markdown="1" align="center">:negative_squared_cross_mark:</td>
 </tr>
 
