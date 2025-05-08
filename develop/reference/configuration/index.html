@@ -867,11 +867,11 @@
 <tr>
 <td><code>installerURLTmpl</code></td>
 <td>string</td>
-<td><details><summary>Go template to parse the full installer URL.</summary>Available placeholders: <code>RegistryURL</code>,<code>ID</code>,<code>Version</code>, <code>Secureboot</code></details><details><summary><em>Show example</em></summary>
+<td><details><summary>Go template to parse the full installer URL.</summary>Available placeholders: <code>RegistryURL</code>,<code>ID</code>,<code>Version</code>, <code>Secureboot</code>, <code>Mode</code></details><details><summary><em>Show example</em></summary>
 <div class="highlight"><pre><span></span><code><span class="nt">installerURLTmpl</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;{{.RegistryURL}}/installer/{{.ID}}:{{.Version}}&quot;</span>
 </code></pre></div>
 </summary></td>
-<td align="center"><code>{{.RegistryURL}}/installer{{if .Secureboot}}-secureboot{{end}}/{{.ID}}:{{.Version}}</code></td>
+<td align="center"><code>{{.RegistryURL}}/{{.Mode}}-installer{{if .Secureboot}}-secureboot{{end}}/{{.ID}}:{{.Version}}</code></td>
 <td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
 </tr>
 <tr>
