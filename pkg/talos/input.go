@@ -7,6 +7,7 @@ import (
 	"github.com/budimanjojo/talhelper/v3/pkg/config"
 	"github.com/budimanjojo/talhelper/v3/pkg/decrypt"
 	"github.com/budimanjojo/talhelper/v3/pkg/substitute"
+	"github.com/fatih/color"
 	tconfig "github.com/siderolabs/talos/pkg/machinery/config"
 	"github.com/siderolabs/talos/pkg/machinery/config/generate"
 	"github.com/siderolabs/talos/pkg/machinery/config/generate/secrets"
@@ -46,7 +47,7 @@ func NewClusterInput(c *config.TalhelperConfig, secretFile string, mode string) 
 		}
 		sb.Clock = secrets.NewClock()
 	} else {
-		slog.Debug("generating new secret file because secret file is not found")
+		fmt.Printf("%s: secrets file is not found, new secrets will be generated everytime you run this command\n", color.YellowString("WARNING"))
 		sb, err = NewSecretBundle(secrets.NewClock(), *versionContract)
 		if err != nil {
 			return nil, err
