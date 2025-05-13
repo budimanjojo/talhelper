@@ -130,8 +130,12 @@ func applyNodeOverride(node *config.Node, cfg taloscfg.Provider) taloscfg.Provid
 	}
 
 	if node.Schematic != nil && len(node.Schematic.Customization.ExtraKernelArgs) > 0 {
-		slog.Debug("appending schematic kernel args to install kernel args")
-		cfg.RawV1Alpha1().MachineConfig.MachineInstall.InstallExtraKernelArgs = append(cfg.RawV1Alpha1().MachineConfig.MachineInstall.InstallExtraKernelArgs, node.Schematic.Customization.ExtraKernelArgs...)
+		// Talos doesn't support kernel arguments when using SDBoot
+		// see: https://github.com/budimanjojo/talhelper/issues/1000
+		if !node.MachineSpec.UseUKI {
+			slog.Debug("appending schematic kernel args to install kernel args")
+			cfg.RawV1Alpha1().MachineConfig.MachineInstall.InstallExtraKernelArgs = append(cfg.RawV1Alpha1().MachineConfig.MachineInstall.InstallExtraKernelArgs, node.Schematic.Customization.ExtraKernelArgs...)
+		}
 	}
 
 	if len(node.CertSANs) > 0 {
