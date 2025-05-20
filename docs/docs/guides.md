@@ -169,7 +169,7 @@ Or you can add them to `nodes[]` field for specific node you want to apply.
 
 ## Templating extra manifests
 
-You can use Go templating to extra manifests using the data of the generated `v1alpha1.Config` in `extraManifests`.
+You can use Go templating inside the files listed under `extraManifests`.
 Let's say you want to generate `v1alpha1.NetworkRuleConfig` that accepts/blocks port `50000` or `50001` depending on the node type coming from your `serviceSubnets` network:
 
 ```yaml title="./talconfig.yaml"
@@ -203,7 +203,7 @@ portSelector:
   protocol: tcp
 ingress:
 {{- range $subnet := .ClusterConfig.ClusterNetwork.ServiceSubnet }}
-  - {{ $subnet }}
+  - subnet: {{ $subnet }}
 {{- end -}}
 ```
 
@@ -221,7 +221,7 @@ portSelector:
     - 50000
   protocol: tcp
 ingress:
-  - 10.96.0.0/12
+  - subet: 10.96.0.0/12
 ```
 
 ```yaml title="./clusterconfig/mycluster-worker.yaml"
@@ -236,7 +236,7 @@ portSelector:
     - 50001
   protocol: tcp
 ingress:
-  - 10.96.0.0/12
+  - subnet: 10.96.0.0/12
 ```
 
 To get all the available data fields that you can use, the easiest place that I can find is from [upstream source code](https://raw.githubusercontent.com/siderolabs/talos/refs/heads/main/pkg/machinery/config/types/v1alpha1/v1alpha1_types.go).
