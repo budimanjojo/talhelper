@@ -177,6 +177,7 @@ Let's say you want to generate `v1alpha1.NetworkRuleConfig` that accepts/blocks 
 clusterName: mycluster
 clusterSvcNets:
   - 10.96.0.0/12
+  - 2001:db8::/64
 nodes:
   - hostname: cp
     controlPlane: true
@@ -221,7 +222,8 @@ portSelector:
     - 50000
   protocol: tcp
 ingress:
-  - subet: 10.96.0.0/12
+  - subnet: 10.96.0.0/12
+  - subnet: 2001:db8::/64
 ```
 
 ```yaml title="./clusterconfig/mycluster-worker.yaml"
@@ -237,6 +239,7 @@ portSelector:
   protocol: tcp
 ingress:
   - subnet: 10.96.0.0/12
+  - subnet: 2001:db8::/64
 ```
 
 To get all the available data fields that you can use, the easiest place that I can find is from [upstream source code](https://raw.githubusercontent.com/siderolabs/talos/refs/heads/main/pkg/machinery/config/types/v1alpha1/v1alpha1_types.go).
