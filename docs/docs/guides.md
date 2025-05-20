@@ -167,6 +167,80 @@ nodes:
 You can add `ingressFirewall` and `extraManifests` below `controlPlane` or `worker` field for node groups that you want to apply.
 Or you can add them to `nodes[]` field for specific node you want to apply.
 
+## Templating extra manifests
+
+You can use Go templating to extra manifests using the data of the generated `v1alpha1.Config` in `extraManifests`.
+Let's say you want to generate `v1alpha1.NetworkRuleConfig` that accepts/blocks port `50000` or `50001` depending on the node type coming from your `serviceSubnets` network:
+
+```yaml title="./talconfig.yaml"
+---
+clusterName: mycluster
+clusterSvcNets:
+  - 10.96.0.0/12
+nodes:
+  - hostname: cp
+    controlPlane: true
+    extraManifests:
+      - ./firewall.yaml
+  - hostname: worker
+    controlPlane: false
+    extraManifests:
+      - ./firewall.yaml
+```
+
+```yaml title="./firewall.yaml"
+---
+apiVersion: v1alpha1
+kind: NetworkRuleConfig
+name: testing
+portSelector:
+  ports:
+{{- if ne .MachineConfig.MachineType "worker" }}
+    - 50000
+{{- else }}
+    - 50001
+{{- end }}
+  protocol: tcp
+ingress:
+{{- range $subnet := .ClusterConfig.ClusterNetwork.ServiceSubnet }}
+  - {{ $subnet }}
+{{- end -}}
+```
+
+After running `talhelper genconfig` command, you'll get:
+
+```yaml title="./clusterconfig/mycluster-cp.yaml"
+---
+... # generated v1alpha1.Config document goes here
+---
+apiVersion: v1alpha1
+kind: NetworkRuleConfig
+name: testing
+portSelector:
+  ports:
+    - 50000
+  protocol: tcp
+ingress:
+  - 10.96.0.0/12
+```
+
+```yaml title="./clusterconfig/mycluster-worker.yaml"
+---
+... # generated v1alpha1.Config document goes here
+---
+apiVersion: v1alpha1
+kind: NetworkRuleConfig
+name: testing
+portSelector:
+  ports:
+    - 50001
+  protocol: tcp
+ingress:
+  - 10.96.0.0/12
+```
+
+To get all the available data fields that you can use, the easiest place that I can find is from [upstream source code](https://raw.githubusercontent.com/siderolabs/talos/refs/heads/main/pkg/machinery/config/types/v1alpha1/v1alpha1_types.go).
+
 ## Configuring SOPS for Talhelper
 
 [sops](https://github.com/getsops/sops) is a simple and flexible tool for managing secrets.

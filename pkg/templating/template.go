@@ -106,6 +106,10 @@ func RenderTemplate[T any](templateText string, data any) (T, error) {
 		return any(b.String()).(T), nil
 	}
 
+	if _, ok := any(t).([]byte); ok {
+		return any([]byte(b.String())).(T), nil
+	}
+
 	// Convert the string to the target type
 	if _, err := fmt.Sscan(b.String(), &t); err != nil {
 		return t, err

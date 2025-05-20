@@ -15,6 +15,7 @@ import (
 	"github.com/budimanjojo/talhelper/v3/pkg/config"
 	"github.com/budimanjojo/talhelper/v3/pkg/patcher"
 	"github.com/budimanjojo/talhelper/v3/pkg/talos"
+	"github.com/budimanjojo/talhelper/v3/pkg/templating"
 	taloscfg "github.com/siderolabs/talos/pkg/machinery/config"
 )
 
@@ -116,7 +117,7 @@ func GenerateConfig(c *config.TalhelperConfig, dryRun bool, outDir, secretFile, 
 
 		if len(node.ExtraManifests) > 0 {
 			slog.Debug(fmt.Sprintf("generating extra manifests for %s", node.Hostname))
-			content, err := combineExtraManifests(node.ExtraManifests)
+			content, err := combineExtraManifests(node.ExtraManifests, cfg)
 			if err != nil {
 				return err
 			}
@@ -195,13 +196,23 @@ func getFileContentByte(path string) ([]byte, error) {
 	}
 }
 
-// combineExtraManifests takes list of filepaths, combines them into
-// a single file in bytes with `---\n` prepended. It also returns an
-// error, if any
-func combineExtraManifests(extraFiles []string) ([]byte, error) {
+// combineExtraManifests takes list of filepaths, parse go template using data from
+// main config manifest, combines them into a single file in bytes with `---\n` prepended.
+// It also returns an error, if any
+func combineExtraManifests(extraFiles []string, templateData []byte) ([]byte, error) {
 	var result [][]byte
+	dataCfg, err := talos.LoadTalosConfig(templateData)
+	if err != nil {
+		return nil, err
+	}
+
 	for _, file := range extraFiles {
 		content, err := getFileContentByte(strings.TrimPrefix(file, "@"))
+		if err != nil {
+			return nil, err
+		}
+
+		content, err = templating.RenderTemplate[[]byte](string(content), dataCfg.RawV1Alpha1())
 		if err != nil {
 			return nil, err
 		}
