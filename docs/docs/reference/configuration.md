@@ -615,18 +615,6 @@ noSchematicValidate: true
 </tr>
 
 <tr markdown="1">
-<td markdown="1">`disableSearchDomain`</td>
-<td markdown="1">bool</td>
-<td markdown="1">Whether to disable generating default search domain.<details><summary>*Show example*</summary>
-```yaml
-disableSearchDomain: true
-```
-</summary></td>
-<td markdown="1" align="center">`false`</td>
-<td markdown="1" align="center">:negative_squared_cross_mark:</td>
-</tr>
-
-<tr markdown="1">
 <td markdown="1">`machineFiles`</td>
 <td markdown="1">[][MachineFile](#machinefile)</td>
 <td markdown="1">List of additional files to create inside the node.<details><summary>*Show example*</summary>
