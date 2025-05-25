@@ -64,6 +64,8 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#adding-ingress-firewall-and-extra-manifests-for-each-node">Adding Ingress Firewall and extra manifests for each node</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#templating-extra-manifests">Templating extra manifests</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#configuring-sops-for-talhelper">Configuring SOPS for Talhelper</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#using-doppler-instead-of-sops">Using Doppler instead of SOPS</a>
@@ -264,6 +266,71 @@ You can achieve it like so:</p>
 </span></code></pre></div>
 <p>You can add <code>ingressFirewall</code> and <code>extraManifests</code> below <code>controlPlane</code> or <code>worker</code> field for node groups that you want to apply.
 Or you can add them to <code>nodes[]</code> field for specific node you want to apply.</p>
+<h2 id="templating-extra-manifests">Templating extra manifests</h2>
+<p>You can use Go templating inside the files listed under <code>extraManifests</code>.
+Let's say you want to generate <code>v1alpha1.NetworkRuleConfig</code> that accepts/blocks port <code>50000</code> or <code>50001</code> depending on the node type coming from your <code>serviceSubnets</code> network:</p>
+<div class="highlight"><span class="filename">./talconfig.yaml</span><pre><span></span><code><span class="nn">---</span>
+<span class="nt">clusterName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mycluster</span>
+<span class="nt">clusterSvcNets</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.96.0.0/12</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2001:db8::/64</span>
+<span class="nt">nodes</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cp</span>
+<span class="w">    </span><span class="nt">controlPlane</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
+<span class="w">    </span><span class="nt">extraManifests</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./firewall.yaml</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">worker</span>
+<span class="w">    </span><span class="nt">controlPlane</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
+<span class="w">    </span><span class="nt">extraManifests</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./firewall.yaml</span>
+</code></pre></div>
+<div class="highlight"><span class="filename">./firewall.yaml</span><pre><span></span><code><span class="nn">---</span>
+<span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1alpha1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NetworkRuleConfig</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">testing</span>
+<span class="nt">portSelector</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">ports</span><span class="p">:</span>
+<span class="p p-Indicator">{{</span><span class="nv">- if ne .MachineConfig.MachineType &quot;worker&quot;</span><span class="w"> </span><span class="p p-Indicator">}}</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50000</span>
+<span class="p p-Indicator">{{</span><span class="nv">- else</span><span class="w"> </span><span class="p p-Indicator">}}</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50001</span>
+<span class="p p-Indicator">{{</span><span class="nv">- end</span><span class="w"> </span><span class="p p-Indicator">}}</span>
+<span class="w">  </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tcp</span>
+<span class="nt">ingress</span><span class="p">:</span>
+<span class="p p-Indicator">{{</span><span class="nv">- range $subnet</span><span class="w"> </span><span class="p p-Indicator">:</span><span class="nv">= .ClusterConfig.ClusterNetwork.ServiceSubnet</span><span class="w"> </span><span class="p p-Indicator">}}</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">subnet</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{{</span><span class="w"> </span><span class="nv">$subnet</span><span class="w"> </span><span class="p p-Indicator">}}</span>
+<span class="p p-Indicator">{{</span><span class="nv">- end -</span><span class="p p-Indicator">}}</span>
+</code></pre></div>
+<p>After running <code>talhelper genconfig</code> command, you'll get:</p>
+<div class="highlight"><span class="filename">./clusterconfig/mycluster-cp.yaml</span><pre><span></span><code><span class="nn">---</span>
+<span class="nn">...</span><span class="w"> </span><span class="c1"># generated v1alpha1.Config document goes here</span>
+<span class="nn">---</span>
+<span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1alpha1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NetworkRuleConfig</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">testing</span>
+<span class="nt">portSelector</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50000</span>
+<span class="w">  </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tcp</span>
+<span class="nt">ingress</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">subnet</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.96.0.0/12</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">subnet</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2001:db8::/64</span>
+</code></pre></div>
+<div class="highlight"><span class="filename">./clusterconfig/mycluster-worker.yaml</span><pre><span></span><code><span class="nn">---</span>
+<span class="nn">...</span><span class="w"> </span><span class="c1"># generated v1alpha1.Config document goes here</span>
+<span class="nn">---</span>
+<span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1alpha1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">NetworkRuleConfig</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">testing</span>
+<span class="nt">portSelector</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">ports</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50001</span>
+<span class="w">  </span><span class="nt">protocol</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">tcp</span>
+<span class="nt">ingress</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">subnet</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.96.0.0/12</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">subnet</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">2001:db8::/64</span>
+</code></pre></div>
+<p>To get all the available data fields that you can use, the easiest place that I can find is from <a href="https://raw.githubusercontent.com/siderolabs/talos/refs/heads/main/pkg/machinery/config/types/v1alpha1/v1alpha1_types.go">upstream source code</a>.</p>
 <h2 id="configuring-sops-for-talhelper">Configuring SOPS for Talhelper</h2>
 <p><a href="https://github.com/getsops/sops">sops</a> is a simple and flexible tool for managing secrets.</p>
 <p>If you haven't used <code>sops</code> before, the easiest way to get started is by using <a href="https://github.com/FiloSottile/age">age</a> as the encryption tool of choice.
