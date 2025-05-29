@@ -1,4 +1,5 @@
 #!/usr/bin/env bash
+set -euo pipefail
 
 ROOTDIR=$(git rev-parse --show-toplevel)
 NIXFILE="${ROOTDIR}"/default.nix
@@ -12,21 +13,24 @@ setKV () {
 }
 
 hash=$(nix-prefetch-url --quiet --unpack https://github.com/budimanjojo/talhelper/archive/"${LAST_COMMIT}".tar.gz)
-SHA256=$(nix hash to-sri --type sha256 "${hash}")
+SHA256=$(nix hash convert --to sri --hash-algo sha256 "${hash}")
 
 setKV version "${LAST_COMMIT}"
 setKV sha256 "${SHA256}"
 setKV vendorHash "" # so that the build will fail and provide the actual hash
 
 set +e
-vendorHash=$(nix build --no-link 2>&1 >/dev/null | grep "got:" | cut -d':' -f2 | sed 's| ||g')
-VENDOR_SHA256=$(nix hash to-sri --type sha256 "${vendorHash}")
+errMsg=$(nix build --no-link 2>&1 >/dev/null)
+vendorHash=$(echo "$errMsg" | grep "got:" | cut -d':' -f2 | sed 's| ||g')
 set -e
 
-if [ -n "${VENDOR_SHA256:-}" ]; then
-  setKV vendorHash "${VENDOR_SHA256}"
+if [[ -n "$vendorHash" ]]; then
+  VENDOR_SHA256=$(nix hash convert --to sri --hash-algo sha256 "${vendorHash}")
+  setKV vendorHash "$VENDOR_SHA256"
 else
   echo "Update failed. VENDOR_SHA256 is empty"
+  echo "ERROR MESSAGE:"
+  echo "${errMsg}"
   exit 1
 fi
 
