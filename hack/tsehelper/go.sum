@@ -50,6 +50,8 @@ github.com/budimanjojo/talhelper/v3 v3.0.26 h1:SICF6auUgCJNcaR71ipDu8A/UF7UN0Jul
 github.com/budimanjojo/talhelper/v3 v3.0.26/go.mod h1:fBncjaNXApgPA9OSWsHl7pSEoTAavh2jxGhPimsb98g=
 github.com/budimanjojo/talhelper/v3 v3.0.27 h1:zqadTrdh0Tny31VojtwZzGQRbwmxm92WpoYf5aLWBT8=
 github.com/budimanjojo/talhelper/v3 v3.0.27/go.mod h1:xFKKirlORIedCDV3h3ybHkjbNYlp7SVEC4CHAn+0sYU=
+github.com/budimanjojo/talhelper/v3 v3.0.28 h1:5nXpsHLD/hON6DK+Dr/ubxgKFuRK/Uk/FpCMQm1I4IM=
+github.com/budimanjojo/talhelper/v3 v3.0.28/go.mod h1:xFKKirlORIedCDV3h3ybHkjbNYlp7SVEC4CHAn+0sYU=
 github.com/containerd/stargz-snapshotter/estargz v0.15.1 h1:eXJjw9RbkLFgioVaTG+G/ZW/0kEe2oEKCdS/ZxIyoCU=
 github.com/containerd/stargz-snapshotter/estargz v0.15.1/go.mod h1:gr2RNwukQ/S9Nv33Lt6UC7xEx58C+LHRdoqbEKjz1Kk=
 github.com/containerd/stargz-snapshotter/estargz v0.16.3 h1:7evrXtoh1mSbGj/pfRccTampEyKpjpOnS3CyiV1Ebr8=
