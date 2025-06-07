@@ -118,6 +118,18 @@ func TestGetInstallerURL(t *testing.T) {
 			version:     "1.5.4",
 			expectedURL: "test.registry//metal-installer-secureboot/104c23dfe7c5bfeff6a4cc7e166d8b3bba0f371760592c7677c90c822bb1d109:1.5.4",
 		},
+
+		{
+			name: "sprig function in template",
+			cfg:  &schematic.Schematic{},
+			iFactory: &config.ImageFactory{
+				RegistryURL:      "     myregistry.com",
+				InstallerURLTmpl: "{{ trim .RegistryURL }}/{{ or (hasPrefix \"v\" .Version) (print \"v\" .Version) }}",
+			},
+			machineSpec: &config.MachineSpec{},
+			version:     "1.5.4",
+			expectedURL: "myregistry.com/v1.5.4",
+		},
 	} {
 		t.Run(test.name, func(t *testing.T) {
 			cfg := &config.TalhelperConfig{}

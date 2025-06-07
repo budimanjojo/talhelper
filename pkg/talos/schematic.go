@@ -9,6 +9,7 @@ import (
 	"net/http"
 	"text/template"
 
+	"github.com/Masterminds/sprig/v3"
 	"github.com/budimanjojo/talhelper/v3/pkg/config"
 	"github.com/siderolabs/image-factory/pkg/schematic"
 )
@@ -57,7 +58,7 @@ func GetInstallerURL(cfg *schematic.Schematic, factory *config.ImageFactory, spe
 	}
 	tmplData.ID = id
 
-	t, err := template.New("installer").Parse(factory.InstallerURLTmpl)
+	t, err := template.New("installer").Funcs(sprig.FuncMap()).Parse(factory.InstallerURLTmpl)
 	if err != nil {
 		return "", err
 	}
@@ -99,7 +100,7 @@ func GetImageURL(cfg *schematic.Schematic, factory *config.ImageFactory, spec *c
 }
 
 func genImageURL(data *imageTmpl, factory *config.ImageFactory) (string, error) {
-	t, err := template.New("image").Parse(factory.ImageURLTmpl)
+	t, err := template.New("image").Funcs(sprig.FuncMap()).Parse(factory.ImageURLTmpl)
 	if err != nil {
 		return "", err
 	}
