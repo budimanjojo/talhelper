@@ -72,6 +72,12 @@ You can get `talhelper` as [Nix Flakes](https://nixos.wiki/wiki/Flakes) from the
     }
     ```
 
+## Using Nixpkgs
+
+Thanks to [madeddie](https://github.com/madeddie), you can get `talhelper` from nixpkgs after [this PR](https://github.com/NixOS/nixpkgs/pull/415419).
+Please note that package update in nixpkgs is not automated and depends on the maintainer.
+It also takes time for package update to get into unstable release.
+
 ## Using Pacman
 
 Thanks to [grawlinson](https://github.com/grawlinson), you can get `talhelper` from official Arch Linux "Extra" repository.
