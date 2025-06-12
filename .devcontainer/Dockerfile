@@ -16,7 +16,6 @@ FROM golangci/golangci-lint:${GOLINT_VERSION} AS golangci-lint
 FROM goreleaser/goreleaser:${GORELEASER_VERSION} AS goreleaser
 FROM ghcr.io/getsops/sops:${SOPS_VERSION} AS sops
 FROM ghcr.io/mirceanton/age:${AGE_VERSION} AS age
-FROM ghcr.io/mirceanton/age-keygen:${AGE_KEYGEN_VERSION} AS age-keygen
 
 
 ## ================================================================================================
@@ -29,8 +28,8 @@ COPY --from=talosctl /talosctl /usr/local/bin/talosctl
 COPY --from=golangci-lint /usr/bin/golangci-lint /usr/local/bin/golangci-lint
 COPY --from=goreleaser /usr/bin/goreleaser /usr/local/bin/goreleaser
 COPY --from=sops /usr/local/bin/sops /usr/local/bin/sops
-COPY --from=age /age /usr/local/bin/age
-COPY --from=age-keygen /age-keygen /usr/local/bin/age-keygen
+COPY --from=age /usr/local/bin/age /usr/local/bin/age
+COPY --from=age /usr/local/bin/age-keygen /usr/local/bin/age-keygen
 
 RUN kubectl completion bash | sudo tee /etc/bash_completion.d/kubectl.bash > /dev/null
 RUN talosctl completion bash | sudo tee /etc/bash_completion.d/talosctl.bash > /dev/null
