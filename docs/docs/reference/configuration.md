@@ -533,6 +533,11 @@ userVolumes:
       maxSize: 50GiB
     filesystem:
       type: xfs
+    encryption:
+      provider: luks2
+      keys:
+        - slot: 0
+          tpm: {}
 ```
 </summary></td>
 <td markdown="1" align="center">`nil`</td>
@@ -1102,6 +1107,22 @@ filesystem:
 <td markdown="1" align="center">:negative_squared_cross_mark:</td>
 </tr>
 
+<tr markdown="1">
+<td markdown="1">`encryption`</td>
+<td markdown="1">[EncryptionSpec](#encryptionspec)</td>
+<td markdown="1">Encryption spec of the volume config.<details><summary>*Show example*</summary>
+```yaml
+encryption:
+  provider: luks2
+  keys:
+    - slot: 0
+      tpm: {}
+```
+</details></td>
+<td markdown="1" align="center">`nil`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+</tr>
+
 </table>
 
 ## NetworkRule
@@ -1215,3 +1236,7 @@ In addition to this, there's also a `skipEnvsubst` key that can be set to `true`
 ## FilesystemSpec
 
 `FilesystemSpec` is type of upstream Talos <a href="https://www.talos.dev/v1.10/reference/configuration/block/uservolumeconfig/#UserVolumeConfig.filesystem" target="_blank">`block.ProvisioningSpec`</a>
+
+## EncryptionSpec
+
+`Encryption` is type of upstream Talos <a href="https://www.talos.dev/v1.10/reference/configuration/block/uservolumeconfig/#UserVolumeConfig.encryption" target="_blank">`block.EncryptionSpec`</a>
