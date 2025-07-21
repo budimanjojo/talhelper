@@ -22,6 +22,14 @@ func TestGenerateNodeUserVolumeConfig(t *testing.T) {
           maxSize: 50GiB
         filesystem:
           type: xfs
+        encryption:
+          provider: luks2
+          keys:
+            - slot: 0
+              tpm: {}
+            - slot: 1
+              static:
+                passphrase: topsecret
       - name: ceph-data2
         provisioning:
           diskSelector:
@@ -42,6 +50,19 @@ func TestGenerateNodeUserVolumeConfig(t *testing.T) {
 	expectedVolume1Filesystem := block.FilesystemSpec{
 		FilesystemType: blocktype.FilesystemTypeXFS,
 	}
+	expectedVolume1Encryption := block.EncryptionSpec{
+		EncryptionProvider: blocktype.EncryptionProviderLUKS2,
+		EncryptionKeys: []block.EncryptionKey{
+			{
+				KeySlot: 0,
+				KeyTPM:  &block.EncryptionKeyTPM{},
+			},
+			{
+				KeySlot:   1,
+				KeyStatic: &block.EncryptionKeyStatic{KeyData: "topsecret"},
+			},
+		},
+	}
 	expectedVolume2Name := "ceph-data2"
 	expectedVolume2Provisioning := block.ProvisioningSpec{
 		DiskSelectorSpec: block.DiskSelector{
@@ -58,6 +79,7 @@ func TestGenerateNodeUserVolumeConfig(t *testing.T) {
 	compare(result[0].Name(), expectedVolume1Name, t)
 	compare(result[0].ProvisioningSpec, expectedVolume1Provisioning, t)
 	compare(result[0].FilesystemSpec, expectedVolume1Filesystem, t)
+	compare(result[0].EncryptionSpec, expectedVolume1Encryption, t)
 	compare(result[1].Name(), expectedVolume2Name, t)
 	compare(result[1].ProvisioningSpec, expectedVolume2Provisioning, t)
 }

@@ -49,6 +49,7 @@ func GenerateUserVolumeConfig(cfgs []*config.UserVolume, mode string) ([]*block.
 		uvc.MetaName = uv.Name
 		uvc.ProvisioningSpec = uv.Provisioning
 		uvc.FilesystemSpec = uv.Filesystem
+		uvc.EncryptionSpec = uv.Encryption
 
 		if _, err := uvc.Validate(m); err != nil {
 			return nil, err

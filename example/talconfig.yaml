@@ -40,6 +40,14 @@ nodes:
           maxSize: 50GiB
         filesystem:
           type: xfs
+        encryption:
+          provider: luks2
+          keys:
+            - slot: 0
+              tpm: {}
+            - slot: 1
+              static:
+                passphrase: topsecret
       - name: sata
         provisioning:
           diskSelector:
