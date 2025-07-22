@@ -377,6 +377,89 @@
       "additionalProperties": false,
       "type": "object"
     },
+    "EncryptionKey": {
+      "properties": {
+        "slot": {
+          "type": "integer"
+        },
+        "static": {
+          "$ref": "#/$defs/EncryptionKeyStatic"
+        },
+        "nodeID": {
+          "$ref": "#/$defs/EncryptionKeyNodeID"
+        },
+        "kms": {
+          "$ref": "#/$defs/EncryptionKeyKMS"
+        },
+        "tpm": {
+          "$ref": "#/$defs/EncryptionKeyTPM"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "EncryptionKeyKMS": {
+      "properties": {
+        "endpoint": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "EncryptionKeyNodeID": {
+      "properties": {},
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "EncryptionKeyStatic": {
+      "properties": {
+        "passphrase": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "EncryptionKeyTPM": {
+      "properties": {
+        "checkSecurebootStatusOnEnroll": {
+          "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "EncryptionSpec": {
+      "properties": {
+        "provider": {
+          "type": "integer"
+        },
+        "keys": {
+          "items": {
+            "$ref": "#/$defs/EncryptionKey"
+          },
+          "type": "array"
+        },
+        "cipher": {
+          "type": "string"
+        },
+        "keySize": {
+          "type": "integer"
+        },
+        "blockSize": {
+          "type": "integer"
+        },
+        "options": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
     "ExtensionService": {
       "properties": {
         "name": {
@@ -1254,6 +1337,10 @@
         "filesystem": {
           "$ref": "#/$defs/FilesystemSpecWrapper",
           "description": "Filesystem spec of the user volume config"
+        },
+        "encryption": {
+          "$ref": "#/$defs/EncryptionSpec",
+          "description": "Encryption spec of the user volume config"
         }
       },
       "additionalProperties": false,
