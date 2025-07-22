@@ -111,6 +111,8 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#filesystemspec">FilesystemSpec</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#encryptionspec">EncryptionSpec</a>
+    </li>
     </ul>
                   </li>
                   <li class="toctree-l1"><a class="reference internal" href="../supported-version/">Supported Talos Versions</a>
@@ -613,6 +615,11 @@
 <span class="w">      </span><span class="nt">maxSize</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">50GiB</span>
 <span class="w">    </span><span class="nt">filesystem</span><span class="p">:</span>
 <span class="w">      </span><span class="nt">type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">xfs</span>
+<span class="w">    </span><span class="nt">encryption</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">luks2</span>
+<span class="w">      </span><span class="nt">keys</span><span class="p">:</span>
+<span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">slot</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+<span class="w">          </span><span class="nt">tpm</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
 </code></pre></div>
 </summary></td>
 <td align="center"><code>nil</code></td>
@@ -1092,6 +1099,20 @@
 <td align="center"><code>nil</code></td>
 <td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
 </tr>
+<tr>
+<td><code>encryption</code></td>
+<td><a href="#encryptionspec">EncryptionSpec</a></td>
+<td>Encryption spec of the volume config.<details><summary><em>Show example</em></summary>
+<div class="highlight"><pre><span></span><code><span class="nt">encryption</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">provider</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">luks2</span>
+<span class="w">  </span><span class="nt">keys</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">slot</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0</span>
+<span class="w">      </span><span class="nt">tpm</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">{}</span>
+</code></pre></div>
+</details></td>
+<td align="center"><code>nil</code></td>
+<td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
+</tr>
 </table>
 <h2 id="networkrule">NetworkRule</h2>
 <p><code>NetworkRule</code> defines the firewall rules to match.</p>
@@ -1166,6 +1187,8 @@
 <p><code>ProvisioningSpec</code> is type of upstream Talos <a href="https://www.talos.dev/v1.9/reference/configuration/block/volumeconfig/#VolumeConfig.provisioning" target="_blank"><code>block.ProvisioningSpec</code></a></p>
 <h2 id="filesystemspec">FilesystemSpec</h2>
 <p><code>FilesystemSpec</code> is type of upstream Talos <a href="https://www.talos.dev/v1.10/reference/configuration/block/uservolumeconfig/#UserVolumeConfig.filesystem" target="_blank"><code>block.ProvisioningSpec</code></a></p>
+<h2 id="encryptionspec">EncryptionSpec</h2>
+<p><code>Encryption</code> is type of upstream Talos <a href="https://www.talos.dev/v1.10/reference/configuration/block/uservolumeconfig/#UserVolumeConfig.encryption" target="_blank"><code>block.EncryptionSpec</code></a></p>
               
             </div>
           </div><footer>
