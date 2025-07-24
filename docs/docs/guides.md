@@ -252,7 +252,7 @@ If you haven't used `sops` before, the easiest way to get started is by using [a
 To configure `talhelper` to use `sops` to encrypt and decrypt your secrets, here's the simplified step by step you can do:
 
 1. Install both `sops` and `age` into your system.
-2. Run `age-keygen -o <sops-config-dir>/age/keys.txt`. By default, `<sops-config-dir>` will be in `$XDG_CONFIG_HOME/sops` on Linux, `$HOME/Library/Application Support/sops` on MacOS, and `%AppData%\sops` on Windows.
+2. Run `age-keygen -o <sops-config-dir>/age/keys.txt`. By default, `<sops-config-dir>` will be in `$XDG_CONFIG_HOME/sops` and falls back to `$HOME/.config/sops` on Linux, `$HOME/Library/Application Support/sops` on MacOS, and `%AppData%\sops` on Windows.
 3. In the directory where your `talenv.sops.yaml`, and `talsecrets.sops.yaml` lives, create a `.sops.yaml` file with this content:
 
     ```yaml
