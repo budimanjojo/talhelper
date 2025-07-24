@@ -19,7 +19,7 @@ Depending on which situation you are currently in before integrating `talhelper`
 If you already have your Talos Kubernetes cluster up and running but you haven't GitOps it yet.
 Here are the steps you need to do:
 
-1. Get your node's `machineconfig` using `talosctl`: `talosctl -n <node-ip> read /system/state/config.yaml > /tmp/machineconfig.yaml`.
+1. Get your node's `machineconfig` using `talosctl`: `talosctl -n <controlplane-ip> get mc v1alpha1 -o jsonpath='{.spec}' > /tmp/machineconfig.yaml`.
 2. Run `talhelper gensecret -f /tmp/machineconfig.yaml > talsecret.sops.yaml`. This command will create a `talsecret.sops.yaml` file with all your current cluster secrets.
 3. Encrypt the secret with `sops`: `sops -e -i talsecret.sops.yaml` (you will need `sops` [configured properly](guides.md#configuring-sops-for-talhelper)).
 4. Create a `talconfig.yaml` based on your current cluster, here's the example [template](https://github.com/budimanjojo/talhelper/blob/master/example/talconfig.yaml). For all the available options, look at the [Configuration Reference](reference/configuration.md)
