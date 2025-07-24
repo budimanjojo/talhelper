@@ -337,7 +337,7 @@ Let's say you want to generate <code>v1alpha1.NetworkRuleConfig</code> that acce
 To configure <code>talhelper</code> to use <code>sops</code> to encrypt and decrypt your secrets, here's the simplified step by step you can do:</p>
 <ol>
 <li>Install both <code>sops</code> and <code>age</code> into your system.</li>
-<li>Run <code>age-keygen -o &lt;sops-config-dir&gt;/age/keys.txt</code>. By default, <code>&lt;sops-config-dir&gt;</code> will be in <code>$XDG_CONFIG_HOME/sops</code> on Linux, <code>$HOME/Library/Application Support/sops</code> on MacOS, and <code>%AppData%\sops</code> on Windows.</li>
+<li>Run <code>age-keygen -o &lt;sops-config-dir&gt;/age/keys.txt</code>. By default, <code>&lt;sops-config-dir&gt;</code> will be in <code>$XDG_CONFIG_HOME/sops</code> and falls back to <code>$HOME/.config/sops</code> on Linux, <code>$HOME/Library/Application Support/sops</code> on MacOS, and <code>%AppData%\sops</code> on Windows.</li>
 <li>
 <p>In the directory where your <code>talenv.sops.yaml</code>, and <code>talsecrets.sops.yaml</code> lives, create a <code>.sops.yaml</code> file with this content:</p>
 <div class="highlight"><pre><span></span><code><span class="nn">---</span>
