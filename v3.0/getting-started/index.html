@@ -127,7 +127,7 @@
 <p>If you already have your Talos Kubernetes cluster up and running but you haven't GitOps it yet.
 Here are the steps you need to do:</p>
 <ol>
-<li>Get your node's <code>machineconfig</code> using <code>talosctl</code>: <code>talosctl -n &lt;node-ip&gt; read /system/state/config.yaml &gt; /tmp/machineconfig.yaml</code>.</li>
+<li>Get your node's <code>machineconfig</code> using <code>talosctl</code>: <code>talosctl -n &lt;controlplane-ip&gt; get mc v1alpha1 -o jsonpath='{.spec}' &gt; /tmp/machineconfig.yaml</code>.</li>
 <li>Run <code>talhelper gensecret -f /tmp/machineconfig.yaml &gt; talsecret.sops.yaml</code>. This command will create a <code>talsecret.sops.yaml</code> file with all your current cluster secrets.</li>
 <li>Encrypt the secret with <code>sops</code>: <code>sops -e -i talsecret.sops.yaml</code> (you will need <code>sops</code> <a href="../guides/#configuring-sops-for-talhelper">configured properly</a>).</li>
 <li>Create a <code>talconfig.yaml</code> based on your current cluster, here's the example <a href="https://github.com/budimanjojo/talhelper/blob/master/example/talconfig.yaml">template</a>. For all the available options, look at the <a href="../reference/configuration/">Configuration Reference</a></li>
