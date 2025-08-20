@@ -393,6 +393,9 @@
         },
         "tpm": {
           "$ref": "#/$defs/EncryptionKeyTPM"
+        },
+        "lockToState": {
+          "type": "boolean"
         }
       },
       "additionalProperties": false,
@@ -1415,6 +1418,10 @@
         "provisioning": {
           "$ref": "#/$defs/ProvisioningSpecWrapper",
           "description": "Provisioning spec of the volume config"
+        },
+        "encryption": {
+          "$ref": "#/$defs/EncryptionSpec",
+          "description": "Encryption spec of the volume config"
         }
       },
       "additionalProperties": false,
