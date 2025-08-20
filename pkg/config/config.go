@@ -112,6 +112,7 @@ type UserVolume struct {
 type Volume struct {
 	Name         string                 `yaml:"name" jsonschema:"description=Name of the volume config"`
 	Provisioning block.ProvisioningSpec `yaml:"provisioning" jsonschema:"description=Provisioning spec of the volume config"`
+	Encryption   block.EncryptionSpec   `yaml:"encryption" jsonschema:"description=Encryption spec of the volume config"`
 }
 
 type MachineFiles []*MachineFile
