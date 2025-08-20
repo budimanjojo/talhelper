@@ -48,6 +48,7 @@ func GenerateVolumeConfig(cfgs []*config.Volume, mode string) ([]*block.VolumeCo
 		vc := block.NewVolumeConfigV1Alpha1()
 		vc.MetaName = v.Name
 		vc.ProvisioningSpec = v.Provisioning
+		vc.EncryptionSpec = v.Encryption
 
 		if _, err := vc.Validate(m); err != nil {
 			return nil, err

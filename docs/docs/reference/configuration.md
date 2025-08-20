@@ -514,6 +514,10 @@ volumes:
       diskSelector:
         match: disk.transport == "nvme"
       maxSize: 50GiB
+    encryption:
+      keys:
+        - kms:
+            endpoint: https://192.168.88.21:4443
 ```
 </summary></td>
 <td markdown="1" align="center">`nil`</td>
@@ -1054,6 +1058,21 @@ provisioning:
 </details></td>
 <td markdown="1" align="center">`nil`</td>
 <td markdown="1" align="center">:white_check_mark:</td>
+</tr>
+
+<tr markdown="1">
+<td markdown="1">`encryption`</td>
+<td markdown="1">[EncryptionSpec](#encryptionspec)</td>
+<td markdown="1">Encryption spec of the volume config.<details><summary>*Show example*</summary>
+```yaml
+encryption:
+  keys:
+    - kms:
+        endpoint: https://192.168.88.21:4443
+```
+</details></td>
+<td markdown="1" align="center">`nil`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
 </tr>
 
 </table>
