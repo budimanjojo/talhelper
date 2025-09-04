@@ -11,7 +11,7 @@ jobs:
       LOG_LEVEL: debug
     steps:
       - uses: actions/checkout@v5
-      - uses: actions/setup-go@v5
+      - uses: actions/setup-go@v6
         with:
           go-version: stable
           cache-dependency-path: hack/tsehelper/go.sum
