@@ -8,7 +8,7 @@ require (
 	github.com/evanphx/json-patch v5.9.11+incompatible
 	github.com/fatih/color v1.18.0
 	github.com/getsops/sops/v3 v3.10.2
-	github.com/gookit/validate v1.5.5
+	github.com/gookit/validate v1.5.6
 	github.com/hashicorp/go-multierror v1.1.1
 	github.com/hexops/gotextdiff v1.0.3
 	github.com/invopop/jsonschema v0.13.0
@@ -102,8 +102,8 @@ require (
 	github.com/google/uuid v1.6.0 // indirect
 	github.com/googleapis/enterprise-certificate-proxy v0.3.6 // indirect
 	github.com/googleapis/gax-go/v2 v2.14.2 // indirect
-	github.com/gookit/filter v1.2.2 // indirect
-	github.com/gookit/goutil v0.6.18 // indirect
+	github.com/gookit/filter v1.2.3 // indirect
+	github.com/gookit/goutil v0.7.1 // indirect
 	github.com/goware/prefixer v0.0.0-20160118172347-395022866408 // indirect
 	github.com/grpc-ecosystem/grpc-gateway/v2 v2.27.1 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
