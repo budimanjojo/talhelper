@@ -526,7 +526,7 @@ talhelper genurl image [flags]
       --offline-mode          Generate schematic ID without doing POST request to image-factory
   -r, --registry-url string   Registry url of the image (default "factory.talos.dev")
       --secure-boot           Whether to generate Secure Boot enabled URL
-  -v, --version string        Talos version to generate (defaults to latest Talos version) (default "v1.11.1")
+  -v, --version string        Talos version to generate (defaults to latest Talos version) (default "v1.11.2")
 ```
 
 ### SEE ALSO
@@ -559,7 +559,7 @@ talhelper genurl installer [flags]
       --offline-mode          Generate schematic ID without doing POST request to image-factory
   -r, --registry-url string   Registry url of the image (default "factory.talos.dev")
       --secure-boot           Whether to generate Secure Boot enabled URL
-  -v, --version string        Talos version to generate (defaults to latest Talos version) (default "v1.11.1")
+  -v, --version string        Talos version to generate (defaults to latest Talos version) (default "v1.11.2")
 ```
 
 ### SEE ALSO
@@ -582,7 +582,7 @@ Generate URL for Talos installer or ISO
       --offline-mode          Generate schematic ID without doing POST request to image-factory
   -r, --registry-url string   Registry url of the image (default "factory.talos.dev")
       --secure-boot           Whether to generate Secure Boot enabled URL
-  -v, --version string        Talos version to generate (defaults to latest Talos version) (default "v1.11.1")
+  -v, --version string        Talos version to generate (defaults to latest Talos version) (default "v1.11.2")
 ```
 
 ### Options inherited from parent commands
