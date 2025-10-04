@@ -637,8 +637,14 @@ func checkNodeIngressFirewall(node Node, idx int, result *Errors) *Errors {
 	return result
 }
 
-func checkNodeExtraManifests(node Node, idx int, result *Errors) *Errors {
+func checkNodeExtraManifests(node Node, idx int, result *Errors, warns *Warnings) (*Errors, *Warnings) {
 	if len(node.ExtraManifests) > 0 {
+		warns.Append(&Warning{
+			Kind:    "DeprecatedNodeMachineDisks",
+			Field:   getNodeFieldYamlTag(node, idx, "ExtraManifests"),
+			Message: formatWarning("`extraManifests` is deprecated, please use `patches` instead"),
+		})
+
 		var messages *multierror.Error
 
 		for k, manifest := range node.ExtraManifests {
@@ -652,11 +658,11 @@ func checkNodeExtraManifests(node Node, idx int, result *Errors) *Errors {
 				Kind:    "InvalidNodeExtraManifests",
 				Field:   getNodeFieldYamlTag(node, idx, "extraManifests"),
 				Message: formatError(messages),
-			})
+			}), warns
 		}
 	}
 
-	return result
+	return result, warns
 }
 
 var hostnamePattern = sync.OnceValue(func() *regexp.Regexp {

@@ -53,7 +53,7 @@ type NodeConfigs struct {
 	KernelModules       []*v1alpha1.KernelModuleConfig `yaml:"kernelModules,omitempty" jsonschema:"description=List of additional kernel modules to load inside the node"`
 	Nameservers         []string                       `yaml:"nameservers,omitempty" jsonschema:"description=List of nameservers for the node"`
 	NetworkInterfaces   []*v1alpha1.Device             `yaml:"networkInterfaces,omitempty" jsonschema:"description=List of network interface configuration for the node"`
-	ExtraManifests      []string                       `yaml:"extraManifests,omitempty" jsonschema:"description=List of manifest files to be added to the node"`
+	ExtraManifests      []string                       `yaml:"extraManifests,omitempty" jsonschema:"description=DEPRECATED: Use \"patches\" instead"`
 	CertSANs            []string                       `yaml:"certSANs,omitempty" jsonschema:"description=Additional certificate SANs to add to the machine certificate"`
 	Patches             []string                       `yaml:"patches,omitempty" jsonschema:"description=Patches to be applied to the node"`
 	TalosImageURL       string                         `yaml:"talosImageURL" jsonschema:"example=factory.talos.dev/installer/e9c7ef96884d4fbc8c0a1304ccca4bb0287d766a8b4125997cb9dbe84262144e,description=Talos installer image url for the node"`

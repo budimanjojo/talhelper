@@ -67,7 +67,7 @@ func (c TalhelperConfig) Validate() (Errors, Warnings) {
 		checkNodeNetworkInterfaces(node, k, &result)
 		checkNodeMachineSpec(node, k, &result)
 		checkNodeIngressFirewall(node, k, &result)
-		checkNodeExtraManifests(node, k, &result)
+		checkNodeExtraManifests(node, k, &result, &warns)
 	}
 	return result, warns
 }
