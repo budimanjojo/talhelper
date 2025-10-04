@@ -1,4 +1,5 @@
-- op: add
-  path: /machine/install/extraKernelArgs
-  value:
-    - talos.logging.kernel=${udp}
+---
+machine:
+  install:
+    extraKernelArgs:
+      - talos.logging.kernel=${udp}

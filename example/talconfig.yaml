@@ -19,10 +19,18 @@ cniConfig:
     - https://raw.githubusercontent.com/bjw-s/home-ops/main/infrastructure/talos/cluster-0/cni/install.yaml
 patches:
   - |-
-    - op: add
-      path: /machine/env
-      value:
+    machine:
+      env:
         GRPC_GO_LOG_SEVERITY_LEVEL: error
+  - |-
+    apiVersion: v1alpha1
+    kind: UserVolumeConfig
+    name: sata2
+    provisioning:
+      diskSelector:
+        match: disk.transport == "sata"
+      minSize: 100GiB
+  - "@./uservolumeconfig3.yaml"
 nodes:
   - hostname: kmaster1
     extensionServices:
@@ -172,11 +180,11 @@ nodes:
 controlPlane:
   patches:
     - |-
-      - op: add
-        path: /machine/kubelet/extraArgs
-        value:
-          feature-gates: GracefulNodeShutdown=true,MixedProtocolLBService=true
-          rotate-server-certificates: "true"
+      machine:
+        kubelet:
+          extraArgs:
+            feature-gates: GracefulNodeShutdown=true,MixedProtocolLBService=true
+            rotate-server-certificates: "true"
     - "@./extraKernelArgs-patch.yaml"
 worker:
   ingressFirewall:
@@ -191,11 +199,11 @@ worker:
           - subnet: 10.96.0.0/12
   patches:
     - |-
-      - op: add
-        path: /machine/kubelet/extraArgs
-        value:
-          feature-gates: GracefulNodeShutdown=false,MixedProtocolLBService=false
-          rotate-server-certificates: "true"
+      machine:
+        kubelet:
+          extraArgs:
+            feature-gates: GracefulNodeShutdown=false,MixedProtocolLBService=false
+            rotate-server-certificates: "true"
   schematic:
     customization:
       systemExtensions:

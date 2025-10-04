@@ -1,0 +1,38 @@
+version: v1alpha1
+debug: false
+persist: true
+machine:
+    type: controlplane
+    token: ""
+    certSANs: []
+cluster:
+    controlPlane:
+        endpoint: https://1.1.1.1:6443
+---
+apiVersion: v1alpha1
+kind: UserVolumeConfig
+name: ceph-data
+provisioning:
+    diskSelector:
+        match: disk.transport == "nvme"
+    maxSize: 50GiB
+filesystem:
+    type: xfs
+encryption:
+    provider: luks2
+    keys:
+        - slot: 0
+          tpm: {}
+        - slot: 1
+          static:
+            passphrase: topsecret
+---
+apiVersion: v1alpha1
+kind: UserVolumeConfig
+name: ceph-data2
+provisioning:
+    diskSelector:
+        match: disk.transport == "nvme"
+    maxSize: 50GiB
+filesystem:
+    type: xfs

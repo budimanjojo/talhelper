@@ -1,0 +1,9 @@
+---
+userVolumes:
+  - name: ceph-data2
+    provisioning:
+      diskSelector:
+        match: disk.transport == "nvme"
+      maxSize: 50GiB
+    filesystem:
+      type: xfs

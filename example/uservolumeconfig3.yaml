@@ -1,0 +1,7 @@
+apiVersion: v1alpha1
+kind: UserVolumeConfig
+name: sata3
+provisioning:
+  diskSelector:
+    match: disk.transport == "sata"
+  minSize: 100GiB

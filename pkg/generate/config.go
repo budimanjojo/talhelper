@@ -1,6 +1,7 @@
 package generate
 
 import (
+	"bytes"
 	"errors"
 	"fmt"
 	"log/slog"
@@ -11,12 +12,14 @@ import (
 	"github.com/hexops/gotextdiff"
 	"github.com/hexops/gotextdiff/myers"
 	"github.com/hexops/gotextdiff/span"
+	"gopkg.in/yaml.v3"
 
 	"github.com/budimanjojo/talhelper/v3/pkg/config"
 	"github.com/budimanjojo/talhelper/v3/pkg/patcher"
 	"github.com/budimanjojo/talhelper/v3/pkg/talos"
 	"github.com/budimanjojo/talhelper/v3/pkg/templating"
 	taloscfg "github.com/siderolabs/talos/pkg/machinery/config"
+	"github.com/siderolabs/talos/pkg/machinery/config/encoder"
 )
 
 // GenerateConfig takes `TalhelperConfig` and path to encrypted `secretFile` and generates
@@ -48,7 +51,12 @@ func GenerateConfig(c *config.TalhelperConfig, dryRun bool, outDir, secretFile, 
 			rawcfg.RawV1Alpha1().ClusterConfig.ClusterInlineManifests = *c.ClusterInlineManifests.GetIMs()
 		}
 
-		cfg, err := rawcfg.Bytes()
+		cfg, err := rawcfg.EncodeBytes(encoder.WithComments(encoder.CommentsDisabled))
+		if err != nil {
+			return err
+		}
+
+		cfg, err = talos.AddMultiDocs(&node, mode, cfg)
 		if err != nil {
 			return err
 		}
@@ -69,52 +77,6 @@ func GenerateConfig(c *config.TalhelperConfig, dryRun bool, outDir, secretFile, 
 			}
 		}
 
-		err = talos.ValidateConfigFromBytes(cfg, mode)
-		if err != nil {
-			return err
-		}
-
-		cfg, err = talos.ReEncodeTalosConfig(cfg)
-		if err != nil {
-			return err
-		}
-
-		if node.IngressFirewall != nil {
-			slog.Debug(fmt.Sprintf("generating machine firewall config for %s", node.Hostname))
-			nc, err := talos.GenerateNetworkConfigBytes(node.IngressFirewall)
-			if err != nil {
-				return err
-			}
-			cfg = append(cfg, nc...)
-		}
-
-		if len(node.ExtensionServices) > 0 {
-			slog.Debug(fmt.Sprintf("generating machine extension service config for %s", node.Hostname))
-			ext, err := talos.GenerateExtensionServicesConfigBytes(node.ExtensionServices)
-			if err != nil {
-				return err
-			}
-			cfg = append(cfg, ext...)
-		}
-
-		if len(node.Volumes) > 0 {
-			slog.Debug(fmt.Sprintf("generating volume config for %s", node.Hostname))
-			vc, err := talos.GenerateVolumeConfigBytes(node.Volumes, mode)
-			if err != nil {
-				return err
-			}
-			cfg = append(cfg, vc...)
-		}
-
-		if len(node.UserVolumes) > 0 {
-			slog.Debug(fmt.Sprintf("generating user volume config for %s", node.Hostname))
-			uvc, err := talos.GenerateUserVolumeConfigBytes(node.UserVolumes, mode)
-			if err != nil {
-				return err
-			}
-			cfg = append(cfg, uvc...)
-		}
-
 		if len(node.ExtraManifests) > 0 {
 			slog.Debug(fmt.Sprintf("generating extra manifests for %s", node.Hostname))
 			content, err := combineExtraManifests(node.ExtraManifests, cfg)
@@ -122,6 +84,16 @@ func GenerateConfig(c *config.TalhelperConfig, dryRun bool, outDir, secretFile, 
 				return err
 			}
 			cfg = append(cfg, content...)
+		}
+
+		err = talos.ValidateConfigFromBytes(cfg, mode)
+		if err != nil {
+			return err
+		}
+
+		cfg, err = reencodeYaml(cfg)
+		if err != nil {
+			return err
 		}
 
 		if !dryRun {
@@ -248,4 +220,31 @@ func dumpFile(path string, file []byte) error {
 	}
 
 	return nil
+}
+
+// reencodeYaml re encode yaml bytes but the indentation is set to 2.
+// It returns and error, if any.
+func reencodeYaml(input []byte) ([]byte, error) {
+	dec := yaml.NewDecoder(bytes.NewReader(input))
+
+	var buf bytes.Buffer
+	enc := yaml.NewEncoder(&buf)
+	enc.SetIndent(2)
+	defer enc.Close()
+
+	for {
+		var node yaml.Node
+		if err := dec.Decode(&node); err != nil {
+			if err.Error() == "EOF" {
+				break
+			}
+			return nil, err
+		}
+
+		if err := enc.Encode(&node); err != nil {
+			return nil, err
+		}
+	}
+
+	return buf.Bytes(), nil
 }
