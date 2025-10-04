@@ -880,7 +880,7 @@
             "type": "string"
           },
           "type": "array",
-          "description": "List of manifest files to be added to the node"
+          "description": "DEPRECATED: Use \"patches\" instead"
         },
         "certSANs": {
           "items": {
@@ -1021,7 +1021,7 @@
             "type": "string"
           },
           "type": "array",
-          "description": "List of manifest files to be added to the node"
+          "description": "DEPRECATED: Use \"patches\" instead"
         },
         "certSANs": {
           "items": {
