@@ -9,6 +9,7 @@ import (
 	"github.com/budimanjojo/talhelper/v3/pkg/templating"
 	"github.com/siderolabs/image-factory/pkg/schematic"
 	taloscfg "github.com/siderolabs/talos/pkg/machinery/config"
+	"github.com/siderolabs/talos/pkg/machinery/config/encoder"
 	"github.com/siderolabs/talos/pkg/machinery/config/generate"
 	"github.com/siderolabs/talos/pkg/machinery/config/machine"
 	"github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1"
@@ -19,7 +20,7 @@ func GenerateNodeConfigBytes(node *config.Node, input *generate.Input, iFactory 
 	if err != nil {
 		return nil, err
 	}
-	return cfg.Bytes()
+	return cfg.EncodeBytes(encoder.WithComments(encoder.CommentsDisabled))
 }
 
 func GenerateNodeConfig(node *config.Node, input *generate.Input, iFactory *config.ImageFactory, offlineMode bool) (taloscfg.Provider, error) {
@@ -45,6 +46,11 @@ func GenerateNodeConfig(node *config.Node, input *generate.Input, iFactory *conf
 		c.RawV1Alpha1().ClusterConfig.ClusterAESCBCEncryptionSecret = input.Options.SecretsBundle.Secrets.AESCBCEncryptionSecret
 	}
 
+	if !input.Options.VersionContract.MultidocNetworkConfigSupported() && !node.IgnoreHostname {
+		slog.Debug(fmt.Sprintf("setting hostname to %s", node.Hostname))
+		c.RawV1Alpha1().MachineConfig.MachineNetwork.NetworkHostname = node.Hostname
+	}
+
 	cfg := applyNodeOverride(node, c)
 
 	installerURL, err := installerURL(node, c, iFactory, offlineMode)
@@ -65,11 +71,6 @@ func GenerateNodeConfig(node *config.Node, input *generate.Input, iFactory *conf
 }
 
 func applyNodeOverride(node *config.Node, cfg taloscfg.Provider) taloscfg.Provider {
-	if !node.IgnoreHostname {
-		slog.Debug(fmt.Sprintf("setting hostname to %s", node.Hostname))
-		cfg.RawV1Alpha1().MachineConfig.MachineNetwork.NetworkHostname = node.Hostname
-	}
-
 	if len(node.Nameservers) > 0 {
 		slog.Debug(fmt.Sprintf("setting nameservers to %s", node.Nameservers))
 		cfg.RawV1Alpha1().MachineConfig.MachineNetwork.NameServers = node.Nameservers

@@ -18,7 +18,6 @@ import (
 	"github.com/budimanjojo/talhelper/v3/pkg/patcher"
 	"github.com/budimanjojo/talhelper/v3/pkg/talos"
 	"github.com/budimanjojo/talhelper/v3/pkg/templating"
-	taloscfg "github.com/siderolabs/talos/pkg/machinery/config"
 	"github.com/siderolabs/talos/pkg/machinery/config/encoder"
 )
 
@@ -32,8 +31,6 @@ func GenerateConfig(c *config.TalhelperConfig, dryRun bool, outDir, secretFile, 
 	}
 
 	for _, node := range c.Nodes {
-		var rawcfg taloscfg.Provider
-
 		fileName, err := node.GetOutputFileName(c)
 		if err != nil {
 			return err
@@ -41,7 +38,7 @@ func GenerateConfig(c *config.TalhelperConfig, dryRun bool, outDir, secretFile, 
 		cfgFile := outDir + "/" + fileName
 		slog.Debug(fmt.Sprintf("generating %s for node %s", cfgFile, node.Hostname))
 
-		rawcfg, err = talos.GenerateNodeConfig(&node, input, c.GetImageFactory(), offlineMode)
+		rawcfg, err := talos.GenerateNodeConfig(&node, input, c.GetImageFactory(), offlineMode)
 		if err != nil {
 			return err
 		}
@@ -56,7 +53,7 @@ func GenerateConfig(c *config.TalhelperConfig, dryRun bool, outDir, secretFile, 
 			return err
 		}
 
-		cfg, err = talos.AddMultiDocs(&node, mode, cfg)
+		cfg, err = talos.AddMultiDocs(&node, mode, cfg, input.Options.VersionContract)
 		if err != nil {
 			return err
 		}

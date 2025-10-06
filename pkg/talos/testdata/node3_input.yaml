@@ -1,0 +1,12 @@
+---
+ingressFirewall:
+  defaultAction: accept
+  rules:
+    - name: kubelet-ingress
+      portSelector:
+        ports:
+          - 10250
+        protocol: tcp
+      ingress:
+        - subnet: 172.20.0.0/24
+          except: 172.20.0.1/32

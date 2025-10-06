@@ -160,7 +160,7 @@ nodes:
 	wCfg := w.RawV1Alpha1().MachineConfig
 
 	compare(cpCfg.MachineType, expectedNode1Type, t)
-	compare(cpCfg.MachineNetwork.Hostname(), expectedNode1Hostname, t)
+	compare(cpCfg.MachineNetwork.NetworkHostname, expectedNode1Hostname, t)
 	compare(cpCfg.MachineInstall.InstallDisk, expectedNode1InstallDisk, t)
 	compare(cpCfg.MachineNetwork.DisableSearchDomain(), expectedNode1DisableSearchDomain, t)
 	compare(cpCfg.MachineFiles, expectedNode1MachineFiles, t)

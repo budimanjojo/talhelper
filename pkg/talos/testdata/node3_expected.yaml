@@ -1,0 +1,29 @@
+version: v1alpha1
+debug: false
+persist: true
+machine:
+    type: controlplane
+    token: ""
+    certSANs: []
+cluster:
+    controlPlane:
+        endpoint: https://1.1.1.1:6443
+---
+apiVersion: v1alpha1
+kind: HostnameConfig
+auto: "off"
+---
+apiVersion: v1alpha1
+kind: NetworkDefaultActionConfig
+ingress: accept
+---
+apiVersion: v1alpha1
+kind: NetworkRuleConfig
+name: kubelet-ingress
+portSelector:
+    ports:
+        - 10250
+    protocol: tcp
+ingress:
+    - subnet: 172.20.0.0/24
+      except: 172.20.0.1/32
