@@ -48,6 +48,7 @@ func GenerateNodeConfig(node *config.Node, input *generate.Input, iFactory *conf
 
 	if !input.Options.VersionContract.MultidocNetworkConfigSupported() && !node.IgnoreHostname {
 		slog.Debug(fmt.Sprintf("setting hostname to %s", node.Hostname))
+		//nolint:staticcheck
 		c.RawV1Alpha1().MachineConfig.MachineNetwork.NetworkHostname = node.Hostname
 	}
 
