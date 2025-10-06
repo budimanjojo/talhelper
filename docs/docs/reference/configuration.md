@@ -182,14 +182,9 @@ imageFactory:
 <tr markdown="1">
 <td markdown="1">`patches`</td>
 <td markdown="1">[]string</td>
-<td markdown="1"><details><summary>Patches to be applied to all nodes.</summary>List of strings containing RFC6902 JSON patches, strategic merge patches,<br />or a file containing them</details><details><summary>*Show example*</summary>
+<td markdown="1"><details><summary>Patches to be applied to all nodes.</summary>List of strings containing RFC6902 (deprecated) JSON patches, strategic merge patches,<br />or a file containing them</details><details><summary>*Show example*</summary>
 ```yaml
 patches:
-  - |-
-    - op: add
-      path: /machine/kubelet/extraArgs
-      value:
-        rotate-server-certificates: "true"
   - |-
     machine:
       env:
@@ -231,11 +226,6 @@ controlPlane:
         - nf_conntrack_max=131072
   patches:
     - |-
-      - op: add
-        path: /machine/kubelet/extraArgs
-        value:
-          rotate-server-certificates: "true"
-    - |-
       machine:
         env:
           MYENV: value
@@ -257,11 +247,6 @@ worker:
       parameters:
         - nf_conntrack_max=131072
   patches:
-    - |-
-      - op: add
-        path: /machine/kubelet/extraArgs
-        value:
-          rotate-server-certificates: "true"
     - |-
       machine:
         env:
@@ -728,7 +713,7 @@ networkInterfaces:
 <tr markdown="1">
 <td markdown="1">`extraManifests`</td>
 <td markdown="1">[]string</td>
-<td markdown="1">List of manifest files to be added for the node.<details><summary>*Show example*</summary>
+<td markdown="1">**DEPRECATED! Use `patches` instead**.List of manifest files to be added for the node.<details><summary>*Show example*</summary>
 ```yaml
 extraManifests:
   - etcd-firewall.yaml
@@ -756,14 +741,9 @@ certSANs:
 <tr markdown="1">
 <td markdown="1">`patches`</td>
 <td markdown="1">[]string</td>
-<td markdown="1"><details><summary>Patches to be applied to the node.</summary>List of strings containing RFC6902 JSON patches, strategic merge patches,<br />or a file containing them.</details><details><summary>*Show example*</summary>
+<td markdown="1"><details><summary>Patches to be applied to the node.</summary>List of strings containing RFC6902 (deprecated) JSON patches, strategic merge patches,<br />or a file containing them.</details><details><summary>*Show example*</summary>
 ```yaml
 patches:
-  - |-
-    - op: add
-      path: /machine/kubelet/extraArgs
-      value:
-        rotate-server-certificates: "true"
   - |-
     machine:
       env:
