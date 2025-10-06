@@ -310,13 +310,8 @@
 <tr>
 <td><code>patches</code></td>
 <td>[]string</td>
-<td><details><summary>Patches to be applied to all nodes.</summary>List of strings containing RFC6902 JSON patches, strategic merge patches,<br />or a file containing them</details><details><summary><em>Show example</em></summary>
+<td><details><summary>Patches to be applied to all nodes.</summary>List of strings containing RFC6902 (deprecated) JSON patches, strategic merge patches,<br />or a file containing them</details><details><summary><em>Show example</em></summary>
 <div class="highlight"><pre><span></span><code><span class="nt">patches</span><span class="p">:</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">|-</span>
-<span class="w">    </span><span class="no">- op: add</span>
-<span class="w">      </span><span class="no">path: /machine/kubelet/extraArgs</span>
-<span class="w">      </span><span class="no">value:</span>
-<span class="w">        </span><span class="no">rotate-server-certificates: &quot;true&quot;</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">|-</span>
 <span class="w">    </span><span class="no">machine:</span>
 <span class="w">      </span><span class="no">env:</span>
@@ -354,11 +349,6 @@
 <span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nf_conntrack_max=131072</span>
 <span class="w">  </span><span class="nt">patches</span><span class="p">:</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">|-</span>
-<span class="w">      </span><span class="no">- op: add</span>
-<span class="w">        </span><span class="no">path: /machine/kubelet/extraArgs</span>
-<span class="w">        </span><span class="no">value:</span>
-<span class="w">          </span><span class="no">rotate-server-certificates: &quot;true&quot;</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">|-</span>
 <span class="w">      </span><span class="no">machine:</span>
 <span class="w">        </span><span class="no">env:</span>
 <span class="w">          </span><span class="no">MYENV: value</span>
@@ -378,11 +368,6 @@
 <span class="w">      </span><span class="nt">parameters</span><span class="p">:</span>
 <span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">nf_conntrack_max=131072</span>
 <span class="w">  </span><span class="nt">patches</span><span class="p">:</span>
-<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">|-</span>
-<span class="w">      </span><span class="no">- op: add</span>
-<span class="w">        </span><span class="no">path: /machine/kubelet/extraArgs</span>
-<span class="w">        </span><span class="no">value:</span>
-<span class="w">          </span><span class="no">rotate-server-certificates: &quot;true&quot;</span>
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">|-</span>
 <span class="w">      </span><span class="no">machine:</span>
 <span class="w">        </span><span class="no">env:</span>
@@ -785,7 +770,7 @@
 <tr>
 <td><code>extraManifests</code></td>
 <td>[]string</td>
-<td>List of manifest files to be added for the node.<details><summary><em>Show example</em></summary>
+<td><strong>DEPRECATED! Use <code>patches</code> instead</strong>.List of manifest files to be added for the node.<details><summary><em>Show example</em></summary>
 <div class="highlight"><pre><span></span><code><span class="nt">extraManifests</span><span class="p">:</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">etcd-firewall.yaml</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">kubelet-firewall.yaml</span>
@@ -810,13 +795,8 @@
 <tr>
 <td><code>patches</code></td>
 <td>[]string</td>
-<td><details><summary>Patches to be applied to the node.</summary>List of strings containing RFC6902 JSON patches, strategic merge patches,<br />or a file containing them.</details><details><summary><em>Show example</em></summary>
+<td><details><summary>Patches to be applied to the node.</summary>List of strings containing RFC6902 (deprecated) JSON patches, strategic merge patches,<br />or a file containing them.</details><details><summary><em>Show example</em></summary>
 <div class="highlight"><pre><span></span><code><span class="nt">patches</span><span class="p">:</span>
-<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">|-</span>
-<span class="w">    </span><span class="no">- op: add</span>
-<span class="w">      </span><span class="no">path: /machine/kubelet/extraArgs</span>
-<span class="w">      </span><span class="no">value:</span>
-<span class="w">        </span><span class="no">rotate-server-certificates: &quot;true&quot;</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">|-</span>
 <span class="w">    </span><span class="no">machine:</span>
 <span class="w">      </span><span class="no">env:</span>
