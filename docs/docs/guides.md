@@ -64,10 +64,10 @@ controlPlane:
         - net.ifnames=0
   patches:
     - |-
-      - op: add
-        path: /machine/kubelet/extraArgs
-        value:
-          rotate-server-certificates: "true"
+      machine:
+        kubelet
+          extraArgs:
+            rotate-server-certificates: "true"
 ```
 
 The `schematic` and `patches` defined in `controlPlane` will be applied to both `cp1` and `cp2` because they're both in the group of `controlPlane` nodes.
@@ -275,15 +275,16 @@ Here's the simplified step by step to achieve this:
 
     ```yaml
     controlPlane:
-      inlinePatch:
-        cluster:
-          aescbcEncryptionSecret: ${AESCBCENCYPTIONKEY}
+      patches:
+        - |-
+          cluster:
+            aescbcEncryptionSecret: ${AESCBCENCYPTIONKEY}
     ```
 
 2. In `doppler`, create a project named i.e "talhelper". In that project, create a config i.e "env" that stores key and value of the secret like `AESCBCENCYPTIONKEY: <secret>.`.
 3. Run `doppler` CLI command that sets environment variable before running the `talhelper` command i.e: `doppler run -p talhelper -c env talhelper genconfig`.
 
-Thanks to [@jtcressy](https://github.com/jtcressy) you can also make use of `talsecret.yaml` file (which is a better way than doing `inlinePatch`).
+Thanks to [@jtcressy](https://github.com/jtcressy) you can also make use of `talsecret.yaml` file (which is a better way than doing `patches`).
 Note that you can only put the cluster secrets known by Talos here (you can use `talhelper gensecret` command and modify it).
 Here's the simplified step by step to achieve this:
 
