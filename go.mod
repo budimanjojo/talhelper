@@ -13,10 +13,11 @@ require (
 	github.com/hexops/gotextdiff v1.0.3
 	github.com/invopop/jsonschema v0.13.0
 	github.com/joho/godotenv v1.5.1
+	github.com/kylelemons/godebug v1.1.0
 	github.com/sabhiram/go-gitignore v0.0.0-20210923224102-525f6e181f06
 	github.com/siderolabs/image-factory v0.8.4
 	github.com/siderolabs/net v0.4.0
-	github.com/siderolabs/talos/pkg/machinery v1.12.0-alpha.0
+	github.com/siderolabs/talos/pkg/machinery v1.12.0-alpha.1
 	github.com/spf13/cobra v1.10.1
 	golang.org/x/mod v0.28.0
 	gopkg.in/yaml.v3 v3.0.1
@@ -81,7 +82,7 @@ require (
 	github.com/cncf/xds/go v0.0.0-20250501225837-2ac532fd4443 // indirect
 	github.com/containerd/go-cni v1.1.13 // indirect
 	github.com/containernetworking/cni v1.3.0 // indirect
-	github.com/cosi-project/runtime v1.10.7 // indirect
+	github.com/cosi-project/runtime v1.11.0 // indirect
 	github.com/cpuguy83/go-md2man/v2 v2.0.7 // indirect
 	github.com/dustin/go-humanize v1.0.1 // indirect
 	github.com/envoyproxy/go-control-plane v0.13.4 // indirect
@@ -105,7 +106,7 @@ require (
 	github.com/gookit/filter v1.2.3 // indirect
 	github.com/gookit/goutil v0.7.1 // indirect
 	github.com/goware/prefixer v0.0.0-20160118172347-395022866408 // indirect
-	github.com/grpc-ecosystem/grpc-gateway/v2 v2.27.1 // indirect
+	github.com/grpc-ecosystem/grpc-gateway/v2 v2.27.2 // indirect
 	github.com/hashicorp/errwrap v1.1.0 // indirect
 	github.com/hashicorp/go-cleanhttp v0.5.2 // indirect
 	github.com/hashicorp/go-retryablehttp v0.7.8 // indirect
@@ -119,7 +120,6 @@ require (
 	github.com/inconshreveable/mousetrap v1.1.0 // indirect
 	github.com/josharian/native v1.1.0 // indirect
 	github.com/jsimonetti/rtnetlink/v2 v2.0.5 // indirect
-	github.com/kylelemons/godebug v1.1.0 // indirect
 	github.com/lib/pq v1.10.9 // indirect
 	github.com/mailru/easyjson v0.9.0 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect
@@ -142,7 +142,7 @@ require (
 	github.com/ryanuber/go-glob v1.0.0 // indirect
 	github.com/sasha-s/go-deadlock v0.3.5 // indirect
 	github.com/shopspring/decimal v1.4.0 // indirect
-	github.com/siderolabs/crypto v0.6.3 // indirect
+	github.com/siderolabs/crypto v0.6.4 // indirect
 	github.com/siderolabs/gen v0.8.5 // indirect
 	github.com/siderolabs/go-blockdevice/v2 v2.0.19 // indirect
 	github.com/siderolabs/go-pointer v1.0.1 // indirect
@@ -179,8 +179,8 @@ require (
 	golang.org/x/time v0.13.0 // indirect
 	google.golang.org/api v0.250.0 // indirect
 	google.golang.org/genproto v0.0.0-20250603155806-513f23925822 // indirect
-	google.golang.org/genproto/googleapis/api v0.0.0-20250826171959-ef028d996bc1 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20250908214217-97024824d090 // indirect
+	google.golang.org/genproto/googleapis/api v0.0.0-20250929231259-57b25ae835d4 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20250929231259-57b25ae835d4 // indirect
 	google.golang.org/grpc v1.75.1 // indirect
 	google.golang.org/protobuf v1.36.9 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
