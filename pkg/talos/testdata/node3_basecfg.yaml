@@ -1,0 +1,9 @@
+---
+version: v1alpha1
+debug: false
+persist: true
+machine:
+  type: controlplane
+cluster:
+  controlPlane:
+    endpoint: https://1.1.1.1:6443

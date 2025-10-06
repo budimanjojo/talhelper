@@ -4,9 +4,39 @@ import (
 	"bytes"
 
 	"github.com/budimanjojo/talhelper/v3/pkg/config"
+	"github.com/siderolabs/go-pointer"
 	"github.com/siderolabs/talos/pkg/machinery/config/types/network"
+	"github.com/siderolabs/talos/pkg/machinery/nethelpers"
 	"gopkg.in/yaml.v3"
 )
+
+func GenerateNetworkHostnameConfigBytes(name string, stableHostname bool) ([]byte, error) {
+	var result [][]byte
+
+	hostname := GenerateNetworkHostnameConfig(name, stableHostname)
+	hostnameBytes, err := marshalYaml(hostname)
+	if err != nil {
+		return nil, err
+	}
+
+	return CombineYamlBytes(append(result, hostnameBytes)), nil
+}
+
+func GenerateNetworkHostnameConfig(name string, stableHostname bool) *network.HostnameConfigV1Alpha1 {
+	result := network.NewHostnameConfigV1Alpha1()
+
+	if stableHostname {
+		result.ConfigAuto = pointer.To(nethelpers.AutoHostnameKindStable)
+		return result
+	} else {
+		result.ConfigHostname = name
+		// TODO: this is awkward because the Generate API is handling this by default.
+		// On version greater than 1.1 above, stable hostname is enabled by default and it will conflict
+		// with us setting the hostname field
+		result.ConfigAuto = pointer.To(nethelpers.AutoHostnameKindOff)
+		return result
+	}
+}
 
 func GenerateNetworkConfigBytes(ifCfg *config.IngressFirewall) ([]byte, error) {
 	var result [][]byte
@@ -64,7 +94,7 @@ func GenerateNodeRuleConfig(ifCfg *config.IngressFirewall) ([]*network.RuleConfi
 
 // marshalYaml encodes `in` into `yaml` bytes with 2 indentation.
 // It also returns an error, if any.
-func marshalYaml(in interface{}) ([]byte, error) {
+func marshalYaml(in any) ([]byte, error) {
 	buf := new(bytes.Buffer)
 	encoder := yaml.NewEncoder(buf)
 	encoder.SetIndent(2)

@@ -5,10 +5,21 @@ import (
 	"testing"
 
 	"github.com/budimanjojo/talhelper/v3/pkg/config"
+	"github.com/siderolabs/go-pointer"
 	"github.com/siderolabs/talos/pkg/machinery/config/types/network"
 	"github.com/siderolabs/talos/pkg/machinery/nethelpers"
 	"gopkg.in/yaml.v3"
 )
+
+func TestGenerateNetworkHostname(t *testing.T) {
+	result1 := GenerateNetworkHostnameConfig("shouldbeignored", true)
+	result2 := GenerateNetworkHostnameConfig("hostname", false)
+
+	compare(result1.ConfigAuto, pointer.To(nethelpers.AutoHostnameKindStable), t)
+	compare(result1.ConfigHostname, "", t)
+	compare(result2.ConfigAuto, pointer.To(nethelpers.AutoHostnameKindOff), t)
+	compare(result2.ConfigHostname, "hostname", t)
+}
 
 func TestGenerateNodeDefaultActionConfig(t *testing.T) {
 	data := []byte(`nodes:

@@ -108,6 +108,27 @@ func PatchesPatcher(patches []string, target []byte) ([]byte, error) {
 	return cfg, nil
 }
 
+// YamlBytesPatcher applies StrategicMergePatch patches into target and returns
+// it. It doesn't do any substitution so it's more efficient. The patch should
+// be YAML encoded and can be multi-document machineconfig.
+// It also returns an error, if any.
+func YamlBytesPatcher(patch, target []byte) ([]byte, error) {
+	slog.Debug("patching multidocs configurations to main configurations")
+	var patches []configpatcher.Patch
+
+	p, err := configpatcher.LoadPatch(patch)
+	if err != nil {
+		return nil, err
+	}
+	patches = append(patches, p)
+	output, err := configpatcher.Apply(configpatcher.WithBytes(target), patches)
+	if err != nil {
+		return nil, err
+	}
+
+	return output.Bytes()
+}
+
 // isEmptyFile checks if the file is empty or contains only whitespaces.
 // It also returns an error, if any.
 func isEmptyFile(file string) (bool, error) {

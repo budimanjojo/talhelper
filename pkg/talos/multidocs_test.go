@@ -2,17 +2,23 @@ package talos
 
 import (
 	"bytes"
-	"fmt"
 	"os"
 	"testing"
 
 	"github.com/budimanjojo/talhelper/v3/pkg/config"
 	"github.com/kylelemons/godebug/diff"
+	tconfig "github.com/siderolabs/talos/pkg/machinery/config"
 	"gopkg.in/yaml.v3"
 )
 
 func TestAddMultiDocs(t *testing.T) {
-	for _, node := range []string{"node1", "node2"} {
+	data := map[string]*tconfig.VersionContract{
+		"node1": {Major: 1, Minor: 11},
+		"node2": {Major: 1, Minor: 11},
+		"node3": {Major: 1, Minor: 12},
+	}
+
+	for node, version := range data {
 		basecfg, err := os.ReadFile("testdata/" + node + "_basecfg.yaml")
 		if err != nil {
 			t.Fatal(err)
@@ -31,14 +37,13 @@ func TestAddMultiDocs(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		res, err := AddMultiDocs(&n, "metal", basecfg)
+		res, err := AddMultiDocs(&n, "metal", basecfg, version)
 		if err != nil {
 			t.Fatal(err)
 		}
 
 		if !bytes.Equal(res, expected) {
-			fmt.Println(diff.Diff(string(res), string(expected)))
-			t.Errorf("\ngot:\n%s\n\nwant:\n%s", res, expected)
+			t.Error(diff.Diff(string(res), string(expected)))
 		}
 	}
 }
