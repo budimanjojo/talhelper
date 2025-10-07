@@ -181,10 +181,10 @@ Instead of writing them multiple times for each node, you can make use of <code>
 </span><span class="hll"><span class="w">        </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">net.ifnames=0</span>
 </span><span class="hll"><span class="w">  </span><span class="nt">patches</span><span class="p">:</span>
 </span><span class="hll"><span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">|-</span>
-</span><span class="hll"><span class="w">      </span><span class="no">- op: add</span>
-</span><span class="hll"><span class="w">        </span><span class="no">path: /machine/kubelet/extraArgs</span>
-</span><span class="hll"><span class="w">        </span><span class="no">value:</span>
-</span><span class="hll"><span class="w">          </span><span class="no">rotate-server-certificates: &quot;true&quot;</span>
+</span><span class="hll"><span class="w">      </span><span class="no">machine:</span>
+</span><span class="hll"><span class="w">        </span><span class="no">kubelet</span>
+</span><span class="hll"><span class="w">          </span><span class="no">extraArgs:</span>
+</span><span class="hll"><span class="w">            </span><span class="no">rotate-server-certificates: &quot;true&quot;</span>
 </span></code></pre></div>
 <p>The <code>schematic</code> and <code>patches</code> defined in <code>controlPlane</code> will be applied to both <code>cp1</code> and <code>cp2</code> because they're both in the group of <code>controlPlane</code> nodes.</p>
 <div class="admonition note">
@@ -358,9 +358,10 @@ Here's the simplified step by step to achieve this:</p>
 <li>
 <p>In the place where you want to use environment secrets, put it in <code>talconfig.yaml</code> file with <code>${}</code> placeholder like this:</p>
 <div class="highlight"><pre><span></span><code><span class="nt">controlPlane</span><span class="p">:</span>
-<span class="w">  </span><span class="nt">inlinePatch</span><span class="p">:</span>
-<span class="w">    </span><span class="nt">cluster</span><span class="p">:</span>
-<span class="w">      </span><span class="nt">aescbcEncryptionSecret</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">${AESCBCENCYPTIONKEY}</span>
+<span class="w">  </span><span class="nt">patches</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="p p-Indicator">|-</span>
+<span class="w">      </span><span class="no">cluster:</span>
+<span class="w">        </span><span class="no">aescbcEncryptionSecret: ${AESCBCENCYPTIONKEY}</span>
 </code></pre></div>
 </li>
 <li>
@@ -368,7 +369,7 @@ Here's the simplified step by step to achieve this:</p>
 </li>
 <li>Run <code>doppler</code> CLI command that sets environment variable before running the <code>talhelper</code> command i.e: <code>doppler run -p talhelper -c env talhelper genconfig</code>.</li>
 </ol>
-<p>Thanks to <a href="https://github.com/jtcressy">@jtcressy</a> you can also make use of <code>talsecret.yaml</code> file (which is a better way than doing <code>inlinePatch</code>).
+<p>Thanks to <a href="https://github.com/jtcressy">@jtcressy</a> you can also make use of <code>talsecret.yaml</code> file (which is a better way than doing <code>patches</code>).
 Note that you can only put the cluster secrets known by Talos here (you can use <code>talhelper gensecret</code> command and modify it).
 Here's the simplified step by step to achieve this:</p>
 <ol>
