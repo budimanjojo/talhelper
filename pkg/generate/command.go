@@ -305,3 +305,44 @@ func GenerateResetCommand(cfg *config.TalhelperConfig, outDir string, node strin
 		return fmt.Errorf("node with IP or hostname %s not found", node)
 	}
 }
+
+func GenerateHealthCommand(cfg *config.TalhelperConfig, outDir string, node string, extraFlags []string) error {
+	var result []string
+
+	if node == "" {
+		for _, n := range cfg.Nodes {
+			if n.ControlPlane {
+				healthFlags := []string{
+					"--talosconfig=" + outDir + "/talosconfig",
+					"--nodes=" + n.GetIPAddresses()[0],
+				}
+				healthFlags = append(healthFlags, extraFlags...)
+				result = append(result, fmt.Sprintf("talosctl health %s;", strings.Join(healthFlags, " ")))
+				break
+			}
+		}
+	} else {
+		for _, n := range cfg.Nodes {
+			isSelectedByIP := (n.ContainsIP(node))
+			isSelectedByHostname := (node == n.Hostname)
+
+			if isSelectedByIP || isSelectedByHostname {
+				healthFlags := []string{
+					"--talosconfig=" + outDir + "/talosconfig",
+					"--nodes=" + node,
+				}
+				healthFlags = append(healthFlags, extraFlags...)
+				result = append(result, fmt.Sprintf("talosctl health %s;", strings.Join(healthFlags, " ")))
+				break
+			}
+		}
+	}
+	if len(result) > 0 {
+		for _, r := range result {
+			fmt.Printf("%s\n", r)
+		}
+		return nil
+	} else {
+		return fmt.Errorf("node with IP or hostname %s not found", node)
+	}
+}
