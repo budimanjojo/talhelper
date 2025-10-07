@@ -336,7 +336,7 @@ controlPlane: true
 <tr markdown="1">
 <td markdown="1">`ignoreHostname`</td>
 <td markdown="1">bool</td>
-<td markdown="1">Whether to set `machine.network.hostname` to the generated config file.<details><summary>*Show example*</summary>
+<td markdown="1"><details><summary>Whether to set `machine.network.hostname` to the generated config file.</summary>It will also set stable hostname to `true` when enabled.</details><details><summary>*Show example*</summary>
 ```yaml
 ignoreHostname: true
 ```
