@@ -265,6 +265,35 @@ talhelper gencommand bootstrap [flags]
 
 * [talhelper gencommand](#talhelper-gencommand)	 - Generate commands for talosctl.
 
+## talhelper gencommand health
+
+Generate talosctl health commands.
+
+```
+talhelper gencommand health [flags]
+```
+
+### Options
+
+```
+  -h, --help   help for health
+```
+
+### Options inherited from parent commands
+
+```
+  -c, --config-file string    File containing configurations for talhelper (default "talconfig.yaml")
+  -d, --debug                 Whether to enable debugging mode
+  -e, --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
+      --extra-flags strings   List of additional flags that will be injected into the generated commands.
+  -n, --node string           A specific node to generate the command for. If not specified, will generate for all nodes.
+  -o, --out-dir string        Directory that contains the generated config files to apply. (default "./clusterconfig")
+```
+
+### SEE ALSO
+
+* [talhelper gencommand](#talhelper-gencommand)	 - Generate commands for talosctl.
+
 ## talhelper gencommand kubeconfig
 
 Generate talosctl kubeconfig commands.
@@ -407,6 +436,7 @@ Generate commands for talosctl.
 * [talhelper](#talhelper)	 - A tool to help with creating Talos cluster
 * [talhelper gencommand apply](#talhelper-gencommand-apply)	 - Generate talosctl apply-config commands.
 * [talhelper gencommand bootstrap](#talhelper-gencommand-bootstrap)	 - Generate talosctl bootstrap commands.
+* [talhelper gencommand health](#talhelper-gencommand-health)	 - Generate talosctl health commands.
 * [talhelper gencommand kubeconfig](#talhelper-gencommand-kubeconfig)	 - Generate talosctl kubeconfig commands.
 * [talhelper gencommand reset](#talhelper-gencommand-reset)	 - Generate talosctl reset commands.
 * [talhelper gencommand upgrade](#talhelper-gencommand-upgrade)	 - Generate talosctl upgrade commands.
