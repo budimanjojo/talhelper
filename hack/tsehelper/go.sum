@@ -70,6 +70,8 @@ github.com/budimanjojo/talhelper/v3 v3.0.36 h1:o38RdUI2ZQLkZN3O1sg/gsijsluxIa9DL
 github.com/budimanjojo/talhelper/v3 v3.0.36/go.mod h1:OM4BjPsWJGD69LZNuyTb1bpGdphWStB1YP0JrDpCGHc=
 github.com/budimanjojo/talhelper/v3 v3.0.37 h1:bktRCiQPKr2xIlsfbYOp24OvQwp8rWSBk2zdBDpVovA=
 github.com/budimanjojo/talhelper/v3 v3.0.37/go.mod h1:SK9WQvDjR8P2Qxfb2He8p/I81xc71XWpw11krEeptvo=
+github.com/budimanjojo/talhelper/v3 v3.0.38 h1:xpJbKe1WnMcqrb1nihJ6yiqf71D119xiQ0Maa5g1umo=
+github.com/budimanjojo/talhelper/v3 v3.0.38/go.mod h1:CDa7CFI82iF51IJj/0LnV3E4kRHwX4xqNhIfw70AtrE=
 github.com/containerd/stargz-snapshotter/estargz v0.15.1 h1:eXJjw9RbkLFgioVaTG+G/ZW/0kEe2oEKCdS/ZxIyoCU=
 github.com/containerd/stargz-snapshotter/estargz v0.15.1/go.mod h1:gr2RNwukQ/S9Nv33Lt6UC7xEx58C+LHRdoqbEKjz1Kk=
 github.com/containerd/stargz-snapshotter/estargz v0.16.3 h1:7evrXtoh1mSbGj/pfRccTampEyKpjpOnS3CyiV1Ebr8=
@@ -181,6 +183,8 @@ golang.org/x/mod v0.27.0 h1:kb+q2PyFnEADO2IEF935ehFUXlWiNjJWtRNgBLSfbxQ=
 golang.org/x/mod v0.27.0/go.mod h1:rWI627Fq0DEoudcK+MBkNkCe0EetEaDSwJJkCcjpazc=
 golang.org/x/mod v0.28.0 h1:gQBtGhjxykdjY9YhZpSlZIsbnaE2+PgjfLWUQTnoZ1U=
 golang.org/x/mod v0.28.0/go.mod h1:yfB/L0NOf/kmEbXjzCPOx1iK1fRutOydrCMsqRhEBxI=
+golang.org/x/mod v0.29.0 h1:HV8lRxZC4l2cr3Zq1LvtOsi/ThTgWnUk/y64QSs8GwA=
+golang.org/x/mod v0.29.0/go.mod h1:NyhrlYXJ2H4eJiRy/WDBO6HMqZQ6q9nk4JzS3NuCK+w=
 golang.org/x/sync v0.7.0 h1:YsImfSBoP9QPYL0xyKJPq0gcaJdG3rInoqxTWbfQu9M=
 golang.org/x/sync v0.7.0/go.mod h1:Czt+wKu1gCyEFDUtn0jG5QVvpJ6rzVqr5aXyt9drQfk=
 golang.org/x/sync v0.8.0 h1:3NFvSEYkUoMifnESzZl15y791HH1qU2xm6eCJU5ZPXQ=
