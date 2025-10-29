@@ -2,6 +2,7 @@ package patcher
 
 import (
 	"os"
+	"reflect"
 	"testing"
 
 	"github.com/siderolabs/talos/pkg/machinery/config/configloader"
@@ -54,7 +55,7 @@ func TestYAMLInlinePatcher(t *testing.T) {
     d: added
   c: original
 `
-	var m map[interface{}]interface{}
+	var m map[any]any
 	if err := yaml.Unmarshal([]byte(patch), &m); err != nil {
 		t.Fatal(err)
 	}
@@ -123,5 +124,30 @@ version: v1alpha1
 
 	if string(expectedByte) != string(result) {
 		t.Errorf("got %s, want %s", string(result), string(expectedByte))
+	}
+}
+
+func TestPatchesPatherTemplating(t *testing.T) {
+	data := []string{"templating0", "templating1", "templating2"}
+
+	for _, d := range data {
+		base, err := os.ReadFile("testdata/" + d + "_base.yaml")
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		result, err := PatchesPatcher([]string{"@./testdata/" + d + "_input.yaml"}, base)
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		expected, err := os.ReadFile("testdata/" + d + "_expected.yaml")
+		if err != nil {
+			t.Fatal(err)
+		}
+
+		if !reflect.DeepEqual(expected, result) {
+			t.Errorf("%s\ngot:\n%v\nwant:\n%v", d, string(result), string(expected))
+		}
 	}
 }

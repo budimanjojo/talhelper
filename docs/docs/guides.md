@@ -167,9 +167,9 @@ nodes:
 You can add `ingressFirewall` and `extraManifests` below `controlPlane` or `worker` field for node groups that you want to apply.
 Or you can add them to `nodes[]` field for specific node you want to apply.
 
-## Templating extra manifests
+## Templating patches
 
-You can use Go templating inside the files listed under `extraManifests`.
+You can use Go templating inside the files listed under `patches`.
 Let's say you want to generate `v1alpha1.NetworkRuleConfig` that accepts/blocks port `50000` or `50001` depending on the node type coming from your `serviceSubnets` network:
 
 ```yaml title="./talconfig.yaml"
@@ -181,12 +181,12 @@ clusterSvcNets:
 nodes:
   - hostname: cp
     controlPlane: true
-    extraManifests:
-      - ./firewall.yaml
+    patches:
+      - @./firewall.yaml
   - hostname: worker
     controlPlane: false
-    extraManifests:
-      - ./firewall.yaml
+    patches:
+      - @./firewall.yaml
 ```
 
 ```yaml title="./firewall.yaml"

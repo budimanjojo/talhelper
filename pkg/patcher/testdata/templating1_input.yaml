@@ -1,0 +1,11 @@
+apiVersion: v1alpha1
+kind: ExtensionServiceConfig
+name: "{{ .MachineConfig.MachineNetwork.NetworkHostname }}"
+configFiles:
+    - content: hello world
+      mountPath: /etc/foo
+    - content: another hello
+      mountPath: /etc/bar
+environment:
+    - FOO=BAR
+    - XXX=YYY

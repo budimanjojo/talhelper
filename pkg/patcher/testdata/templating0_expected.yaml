@@ -1,0 +1,14 @@
+version: v1alpha1
+machine:
+    type: worker
+    token: ""
+    certSANs: []
+    network:
+        hostname: foo.bar
+    logging:
+        destinations:
+            - endpoint: udp://127.0.0.1:123456/
+              format: json_lines
+              extraTags:
+                server: foo.bar
+cluster: null
