@@ -1,0 +1,27 @@
+version: v1alpha1
+machine:
+    type: worker
+    token: ""
+    certSANs: []
+    network:
+        hostname: hostname1
+        interfaces:
+            - interface: eth0
+              dhcp: false
+cluster:
+    controlPlane: null
+    network:
+        dnsDomain: ""
+        podSubnets: []
+        serviceSubnets:
+            - 10.96.0.0/12
+---
+apiVersion: v1alpha1
+kind: NetworkRuleConfig
+name: testing
+portSelector:
+    ports:
+        - 50001
+    protocol: tcp
+ingress:
+    - subnet: 10.96.0.0/12

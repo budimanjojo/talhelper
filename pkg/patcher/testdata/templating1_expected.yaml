@@ -1,0 +1,23 @@
+version: v1alpha1
+machine:
+    type: ""
+    token: ""
+    certSANs: []
+    network:
+        hostname: hostname1
+        interfaces:
+            - interface: eth0
+              dhcp: false
+cluster: null
+---
+apiVersion: v1alpha1
+kind: ExtensionServiceConfig
+name: hostname1
+configFiles:
+    - content: hello world
+      mountPath: /etc/foo
+    - content: another hello
+      mountPath: /etc/bar
+environment:
+    - FOO=BAR
+    - XXX=YYY

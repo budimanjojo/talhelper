@@ -1,0 +1,7 @@
+---
+version: v1alpha1
+machine:
+  type: worker
+  token: ""
+  network:
+    hostname: foo.bar

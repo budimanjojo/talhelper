@@ -1,0 +1,12 @@
+---
+version: v1alpha1
+machine:
+    type: ""
+    token: ""
+    certSANs: []
+    network:
+        hostname: hostname1
+        interfaces:
+            - interface: eth0
+              dhcp: false
+cluster: null
