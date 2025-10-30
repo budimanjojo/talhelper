@@ -136,6 +136,7 @@ func applyNodeOverride(node *config.Node, cfg taloscfg.Provider) taloscfg.Provid
 		// see: https://github.com/budimanjojo/talhelper/issues/1000
 		if !node.MachineSpec.UseUKI {
 			slog.Debug("appending schematic kernel args to install kernel args")
+			//nolint:staticcheck
 			cfg.RawV1Alpha1().MachineConfig.MachineInstall.InstallExtraKernelArgs = append(cfg.RawV1Alpha1().MachineConfig.MachineInstall.InstallExtraKernelArgs, node.Schematic.Customization.ExtraKernelArgs...)
 		}
 	}
