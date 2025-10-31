@@ -1,0 +1,16 @@
+---
+apiVersion: v1alpha1
+kind: NetworkRuleConfig
+name: testing
+portSelector:
+  ports:
+{{- if ne .MachineConfig.MachineType "worker" }}
+    - 50000
+{{- else }}
+    - 50001
+{{- end }}
+  protocol: tcp
+ingress:
+{{- range $subnet := .ClusterConfig.ClusterNetwork.ServiceSubnet }}
+  - subnet: {{ $subnet }}
+{{- end -}}

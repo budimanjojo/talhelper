@@ -10,6 +10,8 @@ import (
 
 	"github.com/budimanjojo/talhelper/v3/pkg/decrypt"
 	"github.com/budimanjojo/talhelper/v3/pkg/substitute"
+	"github.com/budimanjojo/talhelper/v3/pkg/templating"
+	"github.com/siderolabs/talos/pkg/machinery/config/configloader"
 	"github.com/siderolabs/talos/pkg/machinery/config/configpatcher"
 	"gopkg.in/yaml.v3"
 )
@@ -55,6 +57,11 @@ func PatchesPatcher(patches []string, target []byte) ([]byte, error) {
 		substituted []string
 	)
 
+	templateData, err := configloader.NewFromBytes(target)
+	if err != nil {
+		return nil, err
+	}
+
 	for _, patchString := range patches {
 		if strings.HasPrefix(patchString, "@") {
 			filename := patchString[1:]
@@ -79,13 +86,26 @@ func PatchesPatcher(patches []string, target []byte) ([]byte, error) {
 				}
 			}
 
-			p, err := substitute.SubstituteEnvFromByte(contents)
+			// templating first before substitution so it doesn't breaks templating with variables
+			// like {{ $var }}. And it will only work for patches in a file too because substitution is
+			// being done in config file first, there's nothing I can do about it
+			p, err := templating.RenderTemplate[[]byte](string(contents), templateData.RawV1Alpha1())
+			if err != nil {
+				return nil, err
+			}
+
+			p, err = substitute.SubstituteEnvFromByte(p)
 			if err != nil {
 				return nil, err
 			}
 
 			substituted = append(substituted, string(p))
 		} else {
+			patchString, err = templating.RenderTemplate[string](patchString, templateData.RawV1Alpha1())
+			if err != nil {
+				return nil, err
+			}
+
 			substituted = append(substituted, patchString)
 		}
 	}

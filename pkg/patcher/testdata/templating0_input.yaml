@@ -1,0 +1,8 @@
+---
+machine:
+  logging:
+    destinations:
+      - endpoint: "udp://127.0.0.1:123456/"
+        format: json_lines
+        extraTags:
+          server: "{{ .MachineConfig.MachineNetwork.NetworkHostname }}"
