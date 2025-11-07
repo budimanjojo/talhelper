@@ -1,9 +1,9 @@
 module tsehelper
 
-go 1.25.0
+go 1.25.3
 
 require (
-	github.com/budimanjojo/talhelper/v3 v3.0.38
+	github.com/budimanjojo/talhelper/v3 v3.0.39
 	github.com/google/go-containerregistry v0.20.6
 	github.com/sirupsen/logrus v1.9.3
 	gopkg.in/yaml.v3 v3.0.1
@@ -25,5 +25,5 @@ require (
 	github.com/vbatts/tar-split v0.12.1 // indirect
 	golang.org/x/mod v0.29.0 // indirect
 	golang.org/x/sync v0.17.0 // indirect
-	golang.org/x/sys v0.36.0 // indirect
+	golang.org/x/sys v0.37.0 // indirect
 )
