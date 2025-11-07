@@ -64,7 +64,7 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#adding-ingress-firewall-and-extra-manifests-for-each-node">Adding Ingress Firewall and extra manifests for each node</a>
     </li>
-    <li class="toctree-l2"><a class="reference internal" href="#templating-extra-manifests">Templating extra manifests</a>
+    <li class="toctree-l2"><a class="reference internal" href="#templating-patches">Templating patches</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#configuring-sops-for-talhelper">Configuring SOPS for Talhelper</a>
     </li>
@@ -266,8 +266,8 @@ You can achieve it like so:</p>
 </span></code></pre></div>
 <p>You can add <code>ingressFirewall</code> and <code>extraManifests</code> below <code>controlPlane</code> or <code>worker</code> field for node groups that you want to apply.
 Or you can add them to <code>nodes[]</code> field for specific node you want to apply.</p>
-<h2 id="templating-extra-manifests">Templating extra manifests</h2>
-<p>You can use Go templating inside the files listed under <code>extraManifests</code>.
+<h2 id="templating-patches">Templating patches</h2>
+<p>You can use Go templating inside the files listed under <code>patches</code>.
 Let's say you want to generate <code>v1alpha1.NetworkRuleConfig</code> that accepts/blocks port <code>50000</code> or <code>50001</code> depending on the node type coming from your <code>serviceSubnets</code> network:</p>
 <div class="highlight"><span class="filename">./talconfig.yaml</span><pre><span></span><code><span class="nn">---</span>
 <span class="nt">clusterName</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">mycluster</span>
@@ -277,12 +277,12 @@ Let's say you want to generate <code>v1alpha1.NetworkRuleConfig</code> that acce
 <span class="nt">nodes</span><span class="p">:</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">cp</span>
 <span class="w">    </span><span class="nt">controlPlane</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">true</span>
-<span class="w">    </span><span class="nt">extraManifests</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./firewall.yaml</span>
+<span class="w">    </span><span class="nt">patches</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="err">@</span><span class="l l-Scalar l-Scalar-Plain">./firewall.yaml</span>
 <span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">worker</span>
 <span class="w">    </span><span class="nt">controlPlane</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">false</span>
-<span class="w">    </span><span class="nt">extraManifests</span><span class="p">:</span>
-<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">./firewall.yaml</span>
+<span class="w">    </span><span class="nt">patches</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="err">@</span><span class="l l-Scalar l-Scalar-Plain">./firewall.yaml</span>
 </code></pre></div>
 <div class="highlight"><span class="filename">./firewall.yaml</span><pre><span></span><code><span class="nn">---</span>
 <span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1alpha1</span>
