@@ -1,7 +1,7 @@
 ## ================================================================================================
 # Utility versions
 ## ================================================================================================
-ARG KUBECTL_VERSION=v1.34.1
+ARG KUBECTL_VERSION=v1.34.2
 ARG TALOSCTL_VERSION=v1.11.5
 ARG GOLINT_VERSION=v2.6.1-alpine
 ARG GORELEASER_VERSION=v2.12.7
