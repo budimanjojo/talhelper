@@ -62,8 +62,9 @@ func GenerateApplyCommand(cfg *config.TalhelperConfig, outDir string, node strin
 // GenerateUpgradeCommand prints out `talosctl upgrade` command for selected node.
 // `outDir` is directory where talosconfig is located.
 // If `node` is empty string, it prints commands for all nodes in `cfg.Nodes`.
+// If `useContext` is true, it uses --context with clusterName instead of --talosconfig.
 // It returns error, if any.
-func GenerateUpgradeCommand(cfg *config.TalhelperConfig, outDir string, node string, extraFlags []string) error {
+func GenerateUpgradeCommand(cfg *config.TalhelperConfig, outDir string, node string, extraFlags []string, useContext bool) error {
 	var result []string
 	for _, n := range cfg.Nodes {
 		isSelectedByIP := ((node != "") && (n.ContainsIP(node)))
@@ -84,19 +85,37 @@ func GenerateUpgradeCommand(cfg *config.TalhelperConfig, outDir string, node str
 		}
 
 		if isSelectedByIP {
-			upgradeFlags := []string{
-				"--talosconfig=" + outDir + "/talosconfig",
-				"--nodes=" + node,
-				"--image=" + url,
+			var upgradeFlags []string
+			if useContext {
+				upgradeFlags = []string{
+					"--context=" + cfg.ClusterName,
+					"--nodes=" + node,
+					"--image=" + url,
+				}
+			} else {
+				upgradeFlags = []string{
+					"--talosconfig=" + outDir + "/talosconfig",
+					"--nodes=" + node,
+					"--image=" + url,
+				}
 			}
 			upgradeFlags = append(upgradeFlags, extraFlags...)
 			result = append(result, fmt.Sprintf("talosctl upgrade %s;", strings.Join(upgradeFlags, " ")))
 		} else if allNodesSelected || isSelectedByHostname {
 			for _, ip := range n.GetIPAddresses() {
-				upgradeFlags := []string{
-					"--talosconfig=" + outDir + "/talosconfig",
-					"--nodes=" + ip,
-					"--image=" + url,
+				var upgradeFlags []string
+				if useContext {
+					upgradeFlags = []string{
+						"--context=" + cfg.ClusterName,
+						"--nodes=" + ip,
+						"--image=" + url,
+					}
+				} else {
+					upgradeFlags = []string{
+						"--talosconfig=" + outDir + "/talosconfig",
+						"--nodes=" + ip,
+						"--image=" + url,
+					}
 				}
 				upgradeFlags = append(upgradeFlags, extraFlags...)
 				result = append(result, fmt.Sprintf("talosctl upgrade %s;", strings.Join(upgradeFlags, " ")))
@@ -117,8 +136,9 @@ func GenerateUpgradeCommand(cfg *config.TalhelperConfig, outDir string, node str
 // GenerateUpgradeK8sCommand prints out `talosctl upgrade-k8s` command for selected node.
 // `outDir` is directory where talosconfig is located.
 // If `node` is empty string, it prints command for the first controlplane node found
-// in `cfg.Nodes`. It returns error if `node` is not found or is not controlplane.
-func GenerateUpgradeK8sCommand(cfg *config.TalhelperConfig, outDir string, node string, extraFlags []string) error {
+// in `cfg.Nodes`. If `useContext` is true, it uses --context with clusterName instead of --talosconfig.
+// It returns error if `node` is not found or is not controlplane.
+func GenerateUpgradeK8sCommand(cfg *config.TalhelperConfig, outDir string, node string, extraFlags []string, useContext bool) error {
 	var result string
 
 	if cfg.KubernetesVersion == "" {
@@ -129,9 +149,18 @@ func GenerateUpgradeK8sCommand(cfg *config.TalhelperConfig, outDir string, node 
 		isSelectedByIP := ((node != "") && (n.ContainsIP(node)))
 		isSelectedByHostname := ((node != "") && (node == n.Hostname))
 		noNodeSelected := (node == "")
-		upgradeFlags := []string{
-			"--talosconfig=" + outDir + "/talosconfig",
-			"--to=v" + cfg.GetK8sVersion(),
+
+		var upgradeFlags []string
+		if useContext {
+			upgradeFlags = []string{
+				"--context=" + cfg.ClusterName,
+				"--to=v" + cfg.GetK8sVersion(),
+			}
+		} else {
+			upgradeFlags = []string{
+				"--talosconfig=" + outDir + "/talosconfig",
+				"--to=v" + cfg.GetK8sVersion(),
+			}
 		}
 
 		if noNodeSelected && n.ControlPlane {
