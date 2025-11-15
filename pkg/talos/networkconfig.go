@@ -2,6 +2,7 @@ package talos
 
 import (
 	"bytes"
+	"net/netip"
 
 	"github.com/budimanjojo/talhelper/v3/pkg/config"
 	"github.com/siderolabs/go-pointer"
@@ -9,6 +10,32 @@ import (
 	"github.com/siderolabs/talos/pkg/machinery/nethelpers"
 	"gopkg.in/yaml.v3"
 )
+
+func GenerateResolverConfigBytes(nameservers []string, disableSearchDomain bool) ([]byte, error) {
+	var result [][]byte
+
+	resolver := GenerateResolverConfig(nameservers, disableSearchDomain)
+	resolverBytes, err := marshalYaml(resolver)
+	if err != nil {
+		return nil, err
+	}
+
+	return CombineYamlBytes(append(result, resolverBytes)), nil
+}
+
+func GenerateResolverConfig(nameservers []string, disableSearchDomain bool) *network.ResolverConfigV1Alpha1 {
+	result := network.NewResolverConfigV1Alpha1()
+
+	ns := []network.NameserverConfig{}
+	for _, n := range nameservers {
+		ns = append(ns, network.NameserverConfig{Address: network.Addr{Addr: netip.MustParseAddr(n)}})
+	}
+
+	result.ResolverNameservers = ns
+	result.ResolverSearchDomains.SearchDisableDefault = &disableSearchDomain
+
+	return result
+}
 
 func GenerateNetworkHostnameConfigBytes(name string, stableHostname bool) ([]byte, error) {
 	var result [][]byte

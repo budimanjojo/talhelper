@@ -52,6 +52,18 @@ func GenerateNodeConfig(node *config.Node, input *generate.Input, iFactory *conf
 		c.RawV1Alpha1().MachineConfig.MachineNetwork.NetworkHostname = node.Hostname
 	}
 
+	if !input.Options.VersionContract.MultidocNetworkConfigSupported() && len(node.Nameservers) > 0 {
+		slog.Debug(fmt.Sprintf("setting nameservers to %s", node.Nameservers))
+		//nolint:staticcheck
+		c.RawV1Alpha1().MachineConfig.MachineNetwork.NameServers = node.Nameservers
+	}
+
+	if !input.Options.VersionContract.MultidocNetworkConfigSupported() && node.DisableSearchDomain {
+		slog.Debug("setting disableSearchDomain to true")
+		//nolint:staticcheck
+		c.RawV1Alpha1().MachineConfig.MachineNetwork.NetworkDisableSearchDomain = &node.DisableSearchDomain
+	}
+
 	cfg := applyNodeOverride(node, c)
 
 	installerURL, err := installerURL(node, c, iFactory, offlineMode)
@@ -72,18 +84,9 @@ func GenerateNodeConfig(node *config.Node, input *generate.Input, iFactory *conf
 }
 
 func applyNodeOverride(node *config.Node, cfg taloscfg.Provider) taloscfg.Provider {
-	if len(node.Nameservers) > 0 {
-		slog.Debug(fmt.Sprintf("setting nameservers to %s", node.Nameservers))
-		cfg.RawV1Alpha1().MachineConfig.MachineNetwork.NameServers = node.Nameservers
-	}
-
-	if node.DisableSearchDomain {
-		slog.Debug("setting disableSearchDomain to true")
-		cfg.RawV1Alpha1().MachineConfig.MachineNetwork.NetworkDisableSearchDomain = &node.DisableSearchDomain
-	}
-
 	if len(node.NetworkInterfaces) > 0 {
 		slog.Debug("setting network interfaces")
+		//nolint:staticcheck
 		cfg.RawV1Alpha1().MachineConfig.MachineNetwork.NetworkInterfaces = node.NetworkInterfaces
 	}
 

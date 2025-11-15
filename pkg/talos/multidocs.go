@@ -27,6 +27,15 @@ func AddMultiDocs(node *config.Node, mode string, corecfg []byte, vc *tconfig.Ve
 func genMultiDocs(node *config.Node, mode string, vc *tconfig.VersionContract) ([]byte, error) {
 	var result []byte
 
+	if vc.MultidocNetworkConfigSupported() && (len(node.Nameservers) > 0 || node.DisableSearchDomain) {
+		slog.Debug(fmt.Sprintf("generating resolver config for %s", node.Hostname))
+		rc, err := GenerateResolverConfigBytes(node.Nameservers, node.DisableSearchDomain)
+		if err != nil {
+			return nil, err
+		}
+		result = append(result, rc...)
+	}
+
 	if vc.MultidocNetworkConfigSupported() {
 		slog.Debug(fmt.Sprintf("generating hostname config for %s", node.Hostname))
 		hc, err := GenerateNetworkHostnameConfigBytes(node.Hostname, node.IgnoreHostname)
