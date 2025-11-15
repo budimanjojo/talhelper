@@ -225,6 +225,7 @@ talhelper gencommand apply [flags]
 
 ```
   -c, --config-file string    File containing configurations for talhelper (default "talconfig.yaml")
+      --context               Use clusterName from talconfig.yaml as talosctl context instead of --talosconfig flag.
   -d, --debug                 Whether to enable debugging mode
   -e, --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
       --extra-flags strings   List of additional flags that will be injected into the generated commands.
@@ -254,6 +255,7 @@ talhelper gencommand bootstrap [flags]
 
 ```
   -c, --config-file string    File containing configurations for talhelper (default "talconfig.yaml")
+      --context               Use clusterName from talconfig.yaml as talosctl context instead of --talosconfig flag.
   -d, --debug                 Whether to enable debugging mode
   -e, --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
       --extra-flags strings   List of additional flags that will be injected into the generated commands.
@@ -283,6 +285,7 @@ talhelper gencommand health [flags]
 
 ```
   -c, --config-file string    File containing configurations for talhelper (default "talconfig.yaml")
+      --context               Use clusterName from talconfig.yaml as talosctl context instead of --talosconfig flag.
   -d, --debug                 Whether to enable debugging mode
   -e, --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
       --extra-flags strings   List of additional flags that will be injected into the generated commands.
@@ -312,6 +315,7 @@ talhelper gencommand kubeconfig [flags]
 
 ```
   -c, --config-file string    File containing configurations for talhelper (default "talconfig.yaml")
+      --context               Use clusterName from talconfig.yaml as talosctl context instead of --talosconfig flag.
   -d, --debug                 Whether to enable debugging mode
   -e, --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
       --extra-flags strings   List of additional flags that will be injected into the generated commands.
@@ -341,6 +345,7 @@ talhelper gencommand reset [flags]
 
 ```
   -c, --config-file string    File containing configurations for talhelper (default "talconfig.yaml")
+      --context               Use clusterName from talconfig.yaml as talosctl context instead of --talosconfig flag.
   -d, --debug                 Whether to enable debugging mode
   -e, --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
       --extra-flags strings   List of additional flags that will be injected into the generated commands.
@@ -370,11 +375,29 @@ talhelper gencommand upgrade [flags]
 
 ```
   -c, --config-file string    File containing configurations for talhelper (default "talconfig.yaml")
+      --context               Use clusterName from talconfig.yaml as talosctl context instead of --talosconfig flag.
   -d, --debug                 Whether to enable debugging mode
   -e, --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
       --extra-flags strings   List of additional flags that will be injected into the generated commands.
   -n, --node string           A specific node to generate the command for. If not specified, will generate for all nodes.
   -o, --out-dir string        Directory that contains the generated config files to apply. (default "./clusterconfig")
+```
+
+### Example
+
+Generate upgrade commands using the clusterName as talosctl context:
+```
+talhelper gencommand upgrade --context --extra-flags --preserve=true
+```
+
+If your `talconfig.yaml` has `clusterName: k8s-lab`, this will generate commands like:
+```
+talosctl --context=k8s-lab upgrade --nodes=10.10.40.90 --image=factory.talos.dev/... --preserve=true;
+```
+
+Without the `--context` flag, it will use the default `--talosconfig` flag:
+```
+talosctl upgrade --talosconfig=./clusterconfig/talosconfig --nodes=10.10.40.90 --image=factory.talos.dev/... --preserve=true;
 ```
 
 ### SEE ALSO
@@ -399,11 +422,29 @@ talhelper gencommand upgrade-k8s [flags]
 
 ```
   -c, --config-file string    File containing configurations for talhelper (default "talconfig.yaml")
+      --context               Use clusterName from talconfig.yaml as talosctl context instead of --talosconfig flag.
   -d, --debug                 Whether to enable debugging mode
   -e, --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
       --extra-flags strings   List of additional flags that will be injected into the generated commands.
   -n, --node string           A specific node to generate the command for. If not specified, will generate for all nodes.
   -o, --out-dir string        Directory that contains the generated config files to apply. (default "./clusterconfig")
+```
+
+### Example
+
+Generate upgrade-k8s commands using the clusterName as talosctl context:
+```
+talhelper gencommand upgrade-k8s --context
+```
+
+If your `talconfig.yaml` has `clusterName: k8s-lab`, this will generate commands like:
+```
+talosctl --context=k8s-lab upgrade-k8s --to=v1.32.1 --nodes=10.10.40.90;
+```
+
+Without the `--context` flag, it will use the default `--talosconfig` flag:
+```
+talosctl upgrade-k8s --talosconfig=./clusterconfig/talosconfig --to=v1.32.1 --nodes=10.10.40.90;
 ```
 
 ### SEE ALSO
@@ -418,6 +459,7 @@ Generate commands for talosctl.
 
 ```
   -c, --config-file string    File containing configurations for talhelper (default "talconfig.yaml")
+      --context               Use clusterName from talconfig.yaml as talosctl context instead of --talosconfig flag.
   -e, --env-file strings      List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
       --extra-flags strings   List of additional flags that will be injected into the generated commands.
   -h, --help                  help for gencommand

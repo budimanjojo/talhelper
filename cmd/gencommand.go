@@ -11,6 +11,7 @@ var (
 	gencommandEnvFile    []string
 	gencommandExtraFlags []string
 	gencommandNode       string
+	gencommandContext    bool
 )
 
 var gencommandCmd = &cobra.Command{
@@ -25,5 +26,6 @@ func init() {
 	gencommandCmd.PersistentFlags().StringSliceVarP(&gencommandEnvFile, "env-file", "e", []string{"talenv.yaml", "talenv.sops.yaml", "talenv.yml", "talenv.sops.yml"}, "List of files containing env variables for config file")
 	gencommandCmd.PersistentFlags().StringSliceVar(&gencommandExtraFlags, "extra-flags", []string{}, "List of additional flags that will be injected into the generated commands.")
 	gencommandCmd.PersistentFlags().StringVarP(&gencommandNode, "node", "n", "", "A specific node to generate the command for. If not specified, will generate for all nodes.")
+	gencommandCmd.PersistentFlags().BoolVar(&gencommandContext, "context", false, "Use clusterName from talconfig.yaml as talosctl context instead of --talosconfig flag.")
 	_ = helpers.MakeNodeCompletion(gencommandCmd)
 }
