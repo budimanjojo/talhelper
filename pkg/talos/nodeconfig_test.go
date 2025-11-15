@@ -163,8 +163,10 @@ nodes:
 	//nolint:staticcheck
 	compare(cpCfg.MachineNetwork.NetworkHostname, expectedNode1Hostname, t)
 	compare(cpCfg.MachineInstall.InstallDisk, expectedNode1InstallDisk, t)
+	//nolint:staticcheck
 	compare(cpCfg.MachineNetwork.NetworkDisableSearchDomain, &expectedNode1DisableSearchDomain, t)
 	compare(cpCfg.MachineFiles, expectedNode1MachineFiles, t)
+	//nolint:staticcheck
 	compare(cpCfg.MachineNetwork.NetworkInterfaces, expectedNode1NetworkInterfaces, t)
 	compare(cpCfg.MachineKernel, expectedNode1KernelModules, t)
 	compare(cpCfg.MachineInstall.InstallImage, expectedNode1InstallImage, t)
@@ -176,6 +178,7 @@ nodes:
 	compare(wCfg.MachineNodeLabels, expectedNode2NodeLabels, t)
 	compare(wCfg.MachineNodeAnnotations, expectedNode2NodeAnnotations, t)
 	compare(wCfg.MachineInstall.InstallImage, expectedNode2InstallImage, t)
+	//nolint:staticcheck
 	compare(wCfg.MachineNetwork.NameServers, expectedNode2Nameservers, t)
 }
 
