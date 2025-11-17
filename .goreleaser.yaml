@@ -83,7 +83,7 @@ scoops:
     homepage: "https://github.com/budimanjojo/talhelper"
     description: "A tool to help creating Talos kubernetes cluster"
     ids:
-      - zip
+      - targz
     license: BSD-3
     depends:
       - sops
