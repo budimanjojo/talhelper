@@ -95,6 +95,14 @@ Example using [`yay`](https://github.com/Jguer/yay):
 yay -S talhelper-bin
 ```
 
+## Using Winget
+
+You can get `talhelper` from [winget](https://learn.microsoft.com/windows/package-manager/winget/) if you're a Windows user (thanks to [@DRSchlaubi](https://github.com/DRSchlaubi)).
+
+```powershell
+winget install talhelper.talhelper
+```
+
 ## Using Scoop
 
 You can get `talhelper` from [Scoop](https://scoop.sh/) if you're a Windows user (thanks to [@dedene](https://github.com/dedene)).
