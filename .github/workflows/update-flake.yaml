@@ -11,7 +11,7 @@ jobs:
   update-flake:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           fetch-depth: 0
       - uses: cachix/install-nix-action@v31
