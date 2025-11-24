@@ -148,6 +148,32 @@ additionalApiServerCertSans:
 </tr>
 
 <tr markdown="1">
+<td markdown="1">`clusterPodNets`</td>
+<td markdown="1">[]string</td>
+<td markdown="1">The pod subnet CIDR list.<details><summary>*Show example*</summary>
+```yaml
+clusterPodNets:
+  - 10.244.0.0/16
+```
+</details></td>
+<td markdown="1" align="center">`nil`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+</tr>
+
+<tr markdown="1">
+<td markdown="1">`clusterSvcNets`</td>
+<td markdown="1">[]string</td>
+<td markdown="1">The service subnet CIDR list.<details><summary>*Show example*</summary>
+```yaml
+clusterSvcNets:
+  - 10.96.0.0/12
+```
+</details></td>
+<td markdown="1" align="center">`[]`</td>
+<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+</tr>
+
+<tr markdown="1">
 <td markdown="1">`cniConfig`</td>
 <td markdown="1">[CNIConfig](#cniconfig)</td>
 <td markdown="1">The CNI to be used for the cluster's network.<details><summary>*Show example*</summary>
@@ -158,7 +184,7 @@ cniConfig:
     - https://docs.projectcalico.org/archive/v3.20/manifests/canal.yaml
 ```
 </details></td>
-<td markdown="1" align="center">`nil`</td>
+<td markdown="1" align="center">`[]`</td>
 <td markdown="1" align="center">:negative_squared_cross_mark:</td>
 </tr>
 
