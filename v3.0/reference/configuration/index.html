@@ -280,6 +280,28 @@
 <td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
 </tr>
 <tr>
+<td><code>clusterPodNets</code></td>
+<td>[]string</td>
+<td>The pod subnet CIDR list.<details><summary><em>Show example</em></summary>
+<div class="highlight"><pre><span></span><code><span class="nt">clusterPodNets</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.244.0.0/16</span>
+</code></pre></div>
+</details></td>
+<td align="center"><code>nil</code></td>
+<td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
+</tr>
+<tr>
+<td><code>clusterSvcNets</code></td>
+<td>[]string</td>
+<td>The service subnet CIDR list.<details><summary><em>Show example</em></summary>
+<div class="highlight"><pre><span></span><code><span class="nt">clusterSvcNets</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">10.96.0.0/12</span>
+</code></pre></div>
+</details></td>
+<td align="center"><code>[]</code></td>
+<td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
+</tr>
+<tr>
 <td><code>cniConfig</code></td>
 <td><a href="#cniconfig">CNIConfig</a></td>
 <td>The CNI to be used for the cluster's network.<details><summary><em>Show example</em></summary>
@@ -289,7 +311,7 @@
 <span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://docs.projectcalico.org/archive/v3.20/manifests/canal.yaml</span>
 </code></pre></div>
 </details></td>
-<td align="center"><code>nil</code></td>
+<td align="center"><code>[]</code></td>
 <td align="center"><img align="center" alt="❎" class="emojione" height="20px" src="https://cdnjs.cloudflare.com/ajax/libs/emojione/2.2.7/assets/png/274e.png" title=":negative_squared_cross_mark:" width="20px" /></td>
 </tr>
 <tr>
