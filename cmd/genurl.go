@@ -17,6 +17,7 @@ var (
 	genurlOfflineMode bool
 	genurlSecureboot  bool
 	genurlTalosMode   string
+	genurlCustFile    string
 )
 
 var genurlCmd = &cobra.Command{
@@ -37,6 +38,7 @@ func init() {
 	genurlCmd.PersistentFlags().BoolVar(&genurlOfflineMode, "offline-mode", false, "Generate schematic ID without doing POST request to image-factory")
 	genurlCmd.PersistentFlags().BoolVar(&genurlSecureboot, "secure-boot", false, "Whether to generate Secure Boot enabled URL")
 	genurlCmd.PersistentFlags().StringVarP(&genurlTalosMode, "talos-mode", "m", "metal", "Talos runtime mode to generate URL")
+	genurlCmd.PersistentFlags().StringVar(&genurlCustFile, "customization-file", "", "File containing customization spec, this will ignore talconfig.yaml file")
 
 	_ = helpers.MakeNodeCompletion(genurlCmd)
 }
