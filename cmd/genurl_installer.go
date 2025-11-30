@@ -12,12 +12,43 @@ import (
 	"github.com/budimanjojo/talhelper/v3/pkg/talos"
 	"github.com/siderolabs/image-factory/pkg/schematic"
 	"github.com/spf13/cobra"
+	"gopkg.in/yaml.v3"
 )
 
 var genurlInstallerCmd = &cobra.Command{
 	Use:   "installer",
 	Short: "Generate URL for Talos installer image",
 	Run: func(cmd *cobra.Command, args []string) {
+		if genurlCustFile != "" {
+			slog.Debug("generating from provided customization file", slog.Any("customization-file", genurlCustFile))
+
+			f, err := os.ReadFile(genurlCustFile)
+			if err != nil {
+				log.Fatalf("Failed to read the provided customization file, %v", err)
+			}
+
+			var cfg schematic.Schematic
+			if err := yaml.Unmarshal(f, &cfg); err != nil {
+				log.Fatalf("Failed to generate customization from customization file, %v", err)
+			}
+
+			tconfig := &config.TalhelperConfig{}
+			tconfig.ImageFactory.RegistryURL = genurlRegistryURL
+
+			spec := &config.MachineSpec{
+				Secureboot: genurlSecureboot,
+				Mode:       genurlTalosMode,
+			}
+
+			url, err := talos.GetInstallerURL(&cfg, tconfig.GetImageFactory(), spec, genurlVersion, genurlOfflineMode)
+			if err != nil {
+				log.Fatalf("Failed to generate installer url, %v", err)
+			}
+
+			fmt.Println(url)
+			return
+		}
+
 		if _, err := os.Stat(genurlCfgFile); err == nil {
 			cfg, err := config.LoadAndValidateFromFile(genurlCfgFile, genurlEnvFile, false)
 			if err != nil {
