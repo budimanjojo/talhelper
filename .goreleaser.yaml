@@ -98,7 +98,7 @@ winget:
     publisher_support_url: https://github.com/budimanjojo/talhelper/issues
     package_identifier: talhelper.talhelper
     url_template: "https://github.com/budimanjojo/talhelper/releases/download/{{ .Tag }}/{{ .ArtifactName }}"
-    commit_msg_template: "feat: update Scoop for {{ .ProjectName }} version {{ .Tag }}"
+    commit_msg_template: "feat: update WinGet manifest for {{ .ProjectName }} version {{ .Tag }}"
     path: manifests/t/talhelper/talhelper/{{ .Version }}
     ids: [zip]
     dependencies:
