@@ -13,6 +13,7 @@ import (
 	"github.com/budimanjojo/talhelper/v3/pkg/talos"
 	"github.com/siderolabs/image-factory/pkg/schematic"
 	"github.com/spf13/cobra"
+	"gopkg.in/yaml.v3"
 )
 
 var (
@@ -29,6 +30,38 @@ var genurlImageCmd = &cobra.Command{
 		if !slices.Contains([]string{"iso", "disk-image", "pxe"}, genurlImageBootMethod) {
 			log.Fatalf("invalid boot-method, should be one of iso, disk-image, pxe")
 		}
+
+		if genurlCustFile != "" {
+			slog.Debug("generating from provided customization file", slog.Any("customization-file", genurlCustFile))
+
+			f, err := os.ReadFile(genurlCustFile)
+			if err != nil {
+				log.Fatalf("Failed to read the provided customization file, %v", err)
+			}
+
+			var cfg schematic.Schematic
+			if err := yaml.Unmarshal(f, &cfg); err != nil {
+				log.Fatalf("Failed to generate customization from customization file, %v", err)
+			}
+
+			tcfg := &config.TalhelperConfig{}
+			spec := &config.MachineSpec{}
+			spec.Mode = genurlTalosMode
+			spec.Arch = genurlImageArch
+			spec.Secureboot = genurlSecureboot
+			spec.UseUKI = genurlImageUseUKI
+			spec.BootMethod = genurlImageBootMethod
+			spec.ImageSuffix = genurlImageSuffix
+
+			url, err := talos.GetImageURL(&cfg, tcfg.GetImageFactory(), spec, genurlVersion, genurlOfflineMode)
+			if err != nil {
+				log.Fatalf("Failed to generate installer url, %v", err)
+			}
+
+			fmt.Println(url)
+			return
+		}
+
 		if _, err := os.Stat(genurlCfgFile); err == nil {
 			cfg, err := config.LoadAndValidateFromFile(genurlCfgFile, genurlEnvFile, false)
 			if err != nil {
