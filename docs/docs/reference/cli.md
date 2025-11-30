@@ -540,7 +540,6 @@ talhelper genurl image [flags]
       --boot-method string   Boot method of the image (can be disk-image, iso, or pxe) (default "iso")
   -h, --help                 help for image
       --suffix string        The image file extension (only used when boot-method is not iso) (e.g: raw.xz, raw.tar.gz, qcow2)
-  -m, --talos-mode string    Talos runtime mode to generate URL (default "metal")
       --use-uki              Whether to generate UKI image url if Secure Boot is enabled
 ```
 
@@ -556,6 +555,7 @@ talhelper genurl image [flags]
       --offline-mode          Generate schematic ID without doing POST request to image-factory
   -r, --registry-url string   Registry url of the image (default "factory.talos.dev")
       --secure-boot           Whether to generate Secure Boot enabled URL
+  -m, --talos-mode string     Talos runtime mode to generate URL (default "metal")
   -v, --version string        Talos version to generate (defaults to latest Talos version) (default "v1.11.5")
 ```
 
@@ -589,6 +589,7 @@ talhelper genurl installer [flags]
       --offline-mode          Generate schematic ID without doing POST request to image-factory
   -r, --registry-url string   Registry url of the image (default "factory.talos.dev")
       --secure-boot           Whether to generate Secure Boot enabled URL
+  -m, --talos-mode string     Talos runtime mode to generate URL (default "metal")
   -v, --version string        Talos version to generate (defaults to latest Talos version) (default "v1.11.5")
 ```
 
@@ -612,6 +613,7 @@ Generate URL for Talos installer or ISO
       --offline-mode          Generate schematic ID without doing POST request to image-factory
   -r, --registry-url string   Registry url of the image (default "factory.talos.dev")
       --secure-boot           Whether to generate Secure Boot enabled URL
+  -m, --talos-mode string     Talos runtime mode to generate URL (default "metal")
   -v, --version string        Talos version to generate (defaults to latest Talos version) (default "v1.11.5")
 ```
 
