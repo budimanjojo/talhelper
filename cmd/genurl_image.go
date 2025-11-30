@@ -16,7 +16,6 @@ import (
 )
 
 var (
-	genurlImageTalosMode  string
 	genurlImageArch       string
 	genurlImageUseUKI     bool
 	genurlImageBootMethod string
@@ -91,7 +90,7 @@ var genurlImageCmd = &cobra.Command{
 			}
 			tcfg := &config.TalhelperConfig{}
 			n := &config.Node{}
-			n.MachineSpec.Mode = genurlImageTalosMode
+			n.MachineSpec.Mode = genurlTalosMode
 			n.MachineSpec.Arch = genurlImageArch
 			n.MachineSpec.Secureboot = genurlSecureboot
 			n.MachineSpec.UseUKI = genurlImageUseUKI
@@ -113,7 +112,6 @@ var genurlImageCmd = &cobra.Command{
 func init() {
 	genurlCmd.AddCommand(genurlImageCmd)
 
-	genurlImageCmd.Flags().StringVarP(&genurlImageTalosMode, "talos-mode", "m", "metal", "Talos runtime mode to generate URL")
 	genurlImageCmd.Flags().StringVarP(&genurlImageArch, "arch", "a", "amd64", "CPU architecture support of the image")
 	genurlImageCmd.Flags().BoolVar(&genurlImageUseUKI, "use-uki", false, "Whether to generate UKI image url if Secure Boot is enabled")
 	genurlImageCmd.Flags().StringVar(&genurlImageBootMethod, "boot-method", "iso", "Boot method of the image (can be disk-image, iso, or pxe)")

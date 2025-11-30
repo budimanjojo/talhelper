@@ -89,6 +89,7 @@ var genurlInstallerCmd = &cobra.Command{
 
 			spec := &config.MachineSpec{
 				Secureboot: genurlSecureboot,
+				Mode:       genurlTalosMode,
 			}
 
 			url, err := talos.GetInstallerURL(cfg, tconfig.GetImageFactory(), spec, genurlVersion, genurlOfflineMode)
