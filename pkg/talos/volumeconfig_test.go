@@ -33,7 +33,7 @@ func TestGenerateNodeVolumeConfig(t *testing.T) {
 		DiskSelectorSpec: block.DiskSelector{
 			Match: cel.MustExpression(cel.ParseBooleanExpression(`disk.transport == "nvme"`, celenv.DiskLocator())),
 		},
-		ProvisioningMaxSize: block.MustByteSize("50GiB"),
+		ProvisioningMaxSize: block.MustSize("50GiB"),
 	}
 	expectedVolume2Name := "IMAGECACHE"
 	expectedVolume2Provisioning := block.ProvisioningSpec{
