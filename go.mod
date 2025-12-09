@@ -18,7 +18,7 @@ require (
 	github.com/siderolabs/go-pointer v1.0.1
 	github.com/siderolabs/image-factory v0.9.0
 	github.com/siderolabs/net v0.4.0
-	github.com/siderolabs/talos/pkg/machinery v1.12.0-beta.1
+	github.com/siderolabs/talos/pkg/machinery v1.12.0-rc.0
 	github.com/spf13/cobra v1.10.2
 	golang.org/x/mod v0.31.0
 	gopkg.in/yaml.v3 v3.0.1
