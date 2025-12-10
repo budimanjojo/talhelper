@@ -36190,6 +36190,301 @@
                 "siderolabs/nonfree-kmod-nvidia-production"
             ],
             "overlays": null
+        },
+        {
+            "version": "v1.12.0-beta.1-8-gad6107e",
+            "systemExtensions": [
+                "siderolabs/amazon-ena",
+                "siderolabs/amdgpu",
+                "siderolabs/amd-ucode",
+                "siderolabs/binfmt-misc",
+                "siderolabs/bird2",
+                "siderolabs/bnx2-bnx2x",
+                "siderolabs/btrfs",
+                "siderolabs/chelsio-drivers",
+                "siderolabs/chelsio-firmware",
+                "siderolabs/cloudflared",
+                "siderolabs/crun",
+                "siderolabs/ctr",
+                "siderolabs/drbd",
+                "siderolabs/dvb-cx23885",
+                "siderolabs/dvb-m88ds3103",
+                "siderolabs/ecr-credential-provider",
+                "siderolabs/fuse3",
+                "siderolabs/gasket-driver",
+                "siderolabs/glibc",
+                "siderolabs/gvisor",
+                "siderolabs/gvisor-debug",
+                "siderolabs/hailort",
+                "siderolabs/hello-world-service",
+                "siderolabs/i915",
+                "siderolabs/intel-ice-firmware",
+                "siderolabs/intel-ucode",
+                "siderolabs/iscsi-tools",
+                "siderolabs/kata-containers",
+                "siderolabs/lldpd",
+                "siderolabs/mdadm",
+                "siderolabs/mei",
+                "siderolabs/metal-agent",
+                "siderolabs/multipath-tools",
+                "siderolabs/nebula",
+                "siderolabs/netbird",
+                "siderolabs/newt",
+                "siderolabs/nfs-utils",
+                "siderolabs/nfsd",
+                "siderolabs/nfsrahead",
+                "siderolabs/nut-client",
+                "siderolabs/nvidia-container-toolkit-lts",
+                "siderolabs/nvidia-container-toolkit-production",
+                "siderolabs/nvidia-fabricmanager-lts",
+                "siderolabs/nvidia-fabricmanager-production",
+                "siderolabs/nvidia-gdrdrv-device",
+                "siderolabs/nvidia-open-gpu-kernel-modules-lts",
+                "siderolabs/nvidia-open-gpu-kernel-modules-production",
+                "siderolabs/nvme-cli",
+                "siderolabs/soci-snapshotter",
+                "siderolabs/panfrost",
+                "siderolabs/qemu-guest-agent",
+                "siderolabs/qlogic-firmware",
+                "siderolabs/realtek-firmware",
+                "siderolabs/revpi-firmware",
+                "siderolabs/spin",
+                "siderolabs/stargz-snapshotter",
+                "siderolabs/tailscale",
+                "siderolabs/tenstorrent",
+                "siderolabs/thunderbolt",
+                "siderolabs/trident-iscsi-tools",
+                "siderolabs/uinput",
+                "siderolabs/usb-modem-drivers",
+                "siderolabs/usb-audio-drivers",
+                "siderolabs/util-linux-tools",
+                "siderolabs/v4l-uvc-drivers",
+                "siderolabs/vc4",
+                "siderolabs/vmtoolsd-guest-agent",
+                "siderolabs/wasmedge",
+                "siderolabs/xdma-driver",
+                "siderolabs/xe",
+                "siderolabs/xen-guest-agent",
+                "siderolabs/youki",
+                "siderolabs/zerotier",
+                "siderolabs/zfs",
+                "siderolabs/nonfree-kmod-nvidia-lts",
+                "siderolabs/nonfree-kmod-nvidia-production"
+            ],
+            "overlays": null
+        },
+        {
+            "version": "v1.12.0-rc.0",
+            "systemExtensions": [
+                "siderolabs/amazon-ena",
+                "siderolabs/amdgpu",
+                "siderolabs/amd-ucode",
+                "siderolabs/binfmt-misc",
+                "siderolabs/bird2",
+                "siderolabs/bnx2-bnx2x",
+                "siderolabs/btrfs",
+                "siderolabs/chelsio-drivers",
+                "siderolabs/chelsio-firmware",
+                "siderolabs/cloudflared",
+                "siderolabs/crun",
+                "siderolabs/ctr",
+                "siderolabs/drbd",
+                "siderolabs/dvb-cx23885",
+                "siderolabs/dvb-m88ds3103",
+                "siderolabs/ecr-credential-provider",
+                "siderolabs/fuse3",
+                "siderolabs/gasket-driver",
+                "siderolabs/glibc",
+                "siderolabs/gvisor",
+                "siderolabs/gvisor-debug",
+                "siderolabs/hailort",
+                "siderolabs/hello-world-service",
+                "siderolabs/i915",
+                "siderolabs/intel-ice-firmware",
+                "siderolabs/intel-ucode",
+                "siderolabs/iscsi-tools",
+                "siderolabs/kata-containers",
+                "siderolabs/lldpd",
+                "siderolabs/mdadm",
+                "siderolabs/mei",
+                "siderolabs/metal-agent",
+                "siderolabs/multipath-tools",
+                "siderolabs/nebula",
+                "siderolabs/netbird",
+                "siderolabs/newt",
+                "siderolabs/nfs-utils",
+                "siderolabs/nfsd",
+                "siderolabs/nfsrahead",
+                "siderolabs/nut-client",
+                "siderolabs/nvidia-container-toolkit-lts",
+                "siderolabs/nvidia-container-toolkit-production",
+                "siderolabs/nvidia-fabricmanager-lts",
+                "siderolabs/nvidia-fabricmanager-production",
+                "siderolabs/nvidia-gdrdrv-device",
+                "siderolabs/nvidia-open-gpu-kernel-modules-lts",
+                "siderolabs/nvidia-open-gpu-kernel-modules-production",
+                "siderolabs/nvme-cli",
+                "siderolabs/soci-snapshotter",
+                "siderolabs/panfrost",
+                "siderolabs/qemu-guest-agent",
+                "siderolabs/qlogic-firmware",
+                "siderolabs/realtek-firmware",
+                "siderolabs/revpi-firmware",
+                "siderolabs/spin",
+                "siderolabs/stargz-snapshotter",
+                "siderolabs/tailscale",
+                "siderolabs/tenstorrent",
+                "siderolabs/thunderbolt",
+                "siderolabs/trident-iscsi-tools",
+                "siderolabs/uinput",
+                "siderolabs/usb-modem-drivers",
+                "siderolabs/usb-audio-drivers",
+                "siderolabs/util-linux-tools",
+                "siderolabs/v4l-uvc-drivers",
+                "siderolabs/vc4",
+                "siderolabs/vmtoolsd-guest-agent",
+                "siderolabs/wasmedge",
+                "siderolabs/xdma-driver",
+                "siderolabs/xe",
+                "siderolabs/xen-guest-agent",
+                "siderolabs/youki",
+                "siderolabs/zerotier",
+                "siderolabs/zfs",
+                "siderolabs/nonfree-kmod-nvidia-lts",
+                "siderolabs/nonfree-kmod-nvidia-production"
+            ],
+            "overlays": [
+                {
+                    "image": "siderolabs/sbc-allwinner",
+                    "name": "bananapi_m64",
+                    "digest": "sha256:18923818116dfbadddc08475468913c9539fa1ff42f07bf3bdfbb7796061a26d"
+                },
+                {
+                    "image": "siderolabs/sbc-allwinner",
+                    "name": "libretech_all_h3_cc_h5",
+                    "digest": "sha256:18923818116dfbadddc08475468913c9539fa1ff42f07bf3bdfbb7796061a26d"
+                },
+                {
+                    "image": "siderolabs/sbc-allwinner",
+                    "name": "pine64",
+                    "digest": "sha256:18923818116dfbadddc08475468913c9539fa1ff42f07bf3bdfbb7796061a26d"
+                },
+                {
+                    "image": "siderolabs/sbc-jetson",
+                    "name": "jetson_nano",
+                    "digest": "sha256:95b3fc78653f8070fac6add5226fb589845ba189032c74aea045d574a5d2134a"
+                },
+                {
+                    "image": "siderolabs/sbc-raspberrypi",
+                    "name": "revpi_generic",
+                    "digest": "sha256:b277ac4ebbeba33b57c7dd5aeff940e894dcaf3735753e743cc57087fcf22091"
+                },
+                {
+                    "image": "siderolabs/sbc-raspberrypi",
+                    "name": "rpi_generic",
+                    "digest": "sha256:b277ac4ebbeba33b57c7dd5aeff940e894dcaf3735753e743cc57087fcf22091"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "helios64",
+                    "digest": "sha256:4d3cf4882cb1dc37afd125ea27d0cc3f64767748ea81213c9c6f04bea5e68d5a"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "nanopi-r4s",
+                    "digest": "sha256:4d3cf4882cb1dc37afd125ea27d0cc3f64767748ea81213c9c6f04bea5e68d5a"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "nanopi-r5s",
+                    "digest": "sha256:4d3cf4882cb1dc37afd125ea27d0cc3f64767748ea81213c9c6f04bea5e68d5a"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "odroid-m1",
+                    "digest": "sha256:4d3cf4882cb1dc37afd125ea27d0cc3f64767748ea81213c9c6f04bea5e68d5a"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "orangepi-5",
+                    "digest": "sha256:4d3cf4882cb1dc37afd125ea27d0cc3f64767748ea81213c9c6f04bea5e68d5a"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "orangepi-5-max",
+                    "digest": "sha256:4d3cf4882cb1dc37afd125ea27d0cc3f64767748ea81213c9c6f04bea5e68d5a"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "orangepi-5-plus",
+                    "digest": "sha256:4d3cf4882cb1dc37afd125ea27d0cc3f64767748ea81213c9c6f04bea5e68d5a"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "orangepi-r1-plus-lts",
+                    "digest": "sha256:4d3cf4882cb1dc37afd125ea27d0cc3f64767748ea81213c9c6f04bea5e68d5a"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "radxa-zero-3e",
+                    "digest": "sha256:4d3cf4882cb1dc37afd125ea27d0cc3f64767748ea81213c9c6f04bea5e68d5a"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "rock3b",
+                    "digest": "sha256:4d3cf4882cb1dc37afd125ea27d0cc3f64767748ea81213c9c6f04bea5e68d5a"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "rock4cplus",
+                    "digest": "sha256:4d3cf4882cb1dc37afd125ea27d0cc3f64767748ea81213c9c6f04bea5e68d5a"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "rock4se",
+                    "digest": "sha256:4d3cf4882cb1dc37afd125ea27d0cc3f64767748ea81213c9c6f04bea5e68d5a"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "rock5a",
+                    "digest": "sha256:4d3cf4882cb1dc37afd125ea27d0cc3f64767748ea81213c9c6f04bea5e68d5a"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "rock5b",
+                    "digest": "sha256:4d3cf4882cb1dc37afd125ea27d0cc3f64767748ea81213c9c6f04bea5e68d5a"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "rock5t",
+                    "digest": "sha256:4d3cf4882cb1dc37afd125ea27d0cc3f64767748ea81213c9c6f04bea5e68d5a"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "rock64",
+                    "digest": "sha256:4d3cf4882cb1dc37afd125ea27d0cc3f64767748ea81213c9c6f04bea5e68d5a"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "rockpi4",
+                    "digest": "sha256:4d3cf4882cb1dc37afd125ea27d0cc3f64767748ea81213c9c6f04bea5e68d5a"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "rockpi4c",
+                    "digest": "sha256:4d3cf4882cb1dc37afd125ea27d0cc3f64767748ea81213c9c6f04bea5e68d5a"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "rockpro64",
+                    "digest": "sha256:4d3cf4882cb1dc37afd125ea27d0cc3f64767748ea81213c9c6f04bea5e68d5a"
+                },
+                {
+                    "image": "siderolabs/sbc-rockchip",
+                    "name": "turingrk1",
+                    "digest": "sha256:4d3cf4882cb1dc37afd125ea27d0cc3f64767748ea81213c9c6f04bea5e68d5a"
+                }
+            ]
         }
     ]
 }
