@@ -44,7 +44,7 @@ To get started, hop over to the [Getting Started](getting-started.md) section.
 There are some alternatives you can consider instead of `talhelper`.
 
 - The official [Terraform provider](https://registry.terraform.io/providers/siderolabs/talos/latest)
-- The official [Pulumi provider](https://github.com/siderolabs/pulumi-provider-talos)
+- The official [Pulumi provider](https://www.pulumi.com/registry/packages/talos/)
 
 ## Bug report and feature request
 
