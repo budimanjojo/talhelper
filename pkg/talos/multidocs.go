@@ -82,5 +82,48 @@ func genMultiDocs(node *config.Node, mode string, vc *tconfig.VersionContract) (
 		result = append(result, uvc...)
 	}
 
+	if vc.MultidocNetworkConfigSupported() && len(node.NetworkInterfaces) > 0 {
+		slog.Debug(fmt.Sprintf("generating bond config for %s", node.Hostname))
+		bondCfg, err := GenerateBondConfigBytes(node.NetworkInterfaces)
+		if err != nil {
+			return nil, err
+		}
+		if bondCfg != nil {
+			result = append(result, bondCfg...)
+		}
+	}
+
+	if vc.MultidocNetworkConfigSupported() && len(node.NetworkInterfaces) > 0 {
+		slog.Debug(fmt.Sprintf("generating dhcp4 config for %s", node.Hostname))
+		dhcp4Cfg, err := GenerateDHCP4ConfigBytes(node.NetworkInterfaces)
+		if err != nil {
+			return nil, err
+		}
+		if dhcp4Cfg != nil {
+			result = append(result, dhcp4Cfg...)
+		}
+	}
+
+	if vc.MultidocNetworkConfigSupported() && len(node.NetworkInterfaces) > 0 {
+		slog.Debug(fmt.Sprintf("generating dhcp6 config for %s", node.Hostname))
+		dhcp6Cfg, err := GenerateDHCP6ConfigBytes(node.NetworkInterfaces)
+		if err != nil {
+			return nil, err
+		}
+		if dhcp6Cfg != nil {
+			result = append(result, dhcp6Cfg...)
+		}
+	}
+
+	if vc.MultidocNetworkConfigSupported() && len(node.NetworkInterfaces) > 0 {
+		slog.Debug(fmt.Sprintf("generating vip config for %s", node.Hostname))
+		vipCfg, err := GenerateVIPConfigBytes(node.NetworkInterfaces)
+		if err != nil {
+			return nil, err
+		}
+		if vipCfg != nil {
+			result = append(result, vipCfg...)
+		}
+	}
 	return result, nil
 }
