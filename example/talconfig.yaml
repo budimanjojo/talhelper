@@ -1,7 +1,7 @@
 ---
 clusterName: home-cluster
-talosVersion: v1.7.1
-kubernetesVersion: v1.27.0
+talosVersion: v1.12.0
+kubernetesVersion: v1.35.0
 endpoint: https://192.168.200.10:6443
 domain: ${myDomainName}
 allowSchedulingOnMasters: true
@@ -122,7 +122,7 @@ nodes:
         }}
     nodeAnnotations:
       rack: rack1a
-      installerUrl: '{{ .MachineConfig.MachineInstall.InstallImage }}'
+      installerUrl: "{{ .MachineConfig.MachineInstall.InstallImage }}"
     nodeTaints:
       mytaint: mytaints:NoSchedule
     disableSearchDomain: true
@@ -134,8 +134,9 @@ nodes:
       - 1.1.1.1
       - 8.8.8.8
     networkInterfaces:
-      - interface: eth0
+      - interface: bond0
         bond:
+          mode: 802.3ad
           deviceSelectors:
             - hardwareAddr: "00:50:56:*"
         addresses:
@@ -144,6 +145,7 @@ nodes:
         routes:
           - network: 0.0.0.0/0
             gateway: 192.168.200.1
+      - interface: wg0
         wireguard:
           privateKey: 6NtibgkNWGSLp7ud6NgZr9k3kNhlQiaJCVW6vN+j9UY=
           listenPort: 51111
@@ -177,6 +179,7 @@ nodes:
                 routes:
                   - gateway: 192.168.200.1
                   - network: 0.0.0.0/0
+      - "@./extraNodeLabels-patch.yaml"
 controlPlane:
   patches:
     - |-
@@ -185,7 +188,7 @@ controlPlane:
           extraArgs:
             feature-gates: GracefulNodeShutdown=true,MixedProtocolLBService=true
             rotate-server-certificates: "true"
-    - "@./extraKernelArgs-patch.yaml"
+    - "@./extraNodeLabels-patch.yaml"
 worker:
   ingressFirewall:
     defaultAction: block

@@ -84,7 +84,7 @@ func GenerateNodeConfig(node *config.Node, input *generate.Input, iFactory *conf
 }
 
 func applyNodeOverride(node *config.Node, cfg taloscfg.Provider, vc taloscfg.VersionContract) taloscfg.Provider {
-	if len(node.NetworkInterfaces) > 0 {
+	if !vc.MultidocNetworkConfigSupported() && len(node.NetworkInterfaces) > 0 {
 		slog.Debug("setting network interfaces")
 		//nolint:staticcheck
 		cfg.RawV1Alpha1().MachineConfig.MachineNetwork.NetworkInterfaces = node.NetworkInterfaces
