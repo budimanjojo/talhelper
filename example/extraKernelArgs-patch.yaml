@@ -1,5 +1,0 @@
----
-machine:
-  install:
-    extraKernelArgs:
-      - talos.logging.kernel=${udp}

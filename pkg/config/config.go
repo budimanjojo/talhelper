@@ -104,7 +104,7 @@ type ExtensionService struct {
 
 type UserVolume struct {
 	Name         string                 `yaml:"name" jsonschema:"description=Name of user volume config"`
-	VolumeType   *block.VolumeType		`yaml:"volumeType" jsonschema:"description=Volume type of user volume config"`
+	VolumeType   *block.VolumeType      `yaml:"volumeType" jsonschema:"description=Volume type of user volume config"`
 	Provisioning block.ProvisioningSpec `yaml:"provisioning" jsonschema:"description=Provisioning spec of the user volume config"`
 	Filesystem   block.FilesystemSpec   `yaml:"filesystem" jsonschema:"description=Filesystem spec of the user volume config"`
 	Encryption   block.EncryptionSpec   `yaml:"encryption" jsonschema:"description=Encryption spec of the user volume config"`
