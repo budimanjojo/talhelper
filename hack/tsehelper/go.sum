@@ -78,6 +78,8 @@ github.com/budimanjojo/talhelper/v3 v3.0.41 h1:KpuW3VJfGZ/XC6MwbKRNg02MQ8YHRkx77
 github.com/budimanjojo/talhelper/v3 v3.0.41/go.mod h1:y3QWbSM7UjfgUucE8PY/q6HNSerk4D0E1OX+sScPEE0=
 github.com/budimanjojo/talhelper/v3 v3.0.42 h1:bRIU7TVCdfuUF+ETL4P2Eb+4tbe9Y+o9OUSPQMbj+bk=
 github.com/budimanjojo/talhelper/v3 v3.0.42/go.mod h1:gU3ckD0laOeQUOqaQelIb5WmPrTrx8NscmxwtprecUU=
+github.com/budimanjojo/talhelper/v3 v3.0.43 h1:1iB7R/ItQPa9ztnGxo6lpu7PhtN07qS+incBiyTsZCY=
+github.com/budimanjojo/talhelper/v3 v3.0.43/go.mod h1:gU3ckD0laOeQUOqaQelIb5WmPrTrx8NscmxwtprecUU=
 github.com/containerd/stargz-snapshotter/estargz v0.15.1 h1:eXJjw9RbkLFgioVaTG+G/ZW/0kEe2oEKCdS/ZxIyoCU=
 github.com/containerd/stargz-snapshotter/estargz v0.15.1/go.mod h1:gr2RNwukQ/S9Nv33Lt6UC7xEx58C+LHRdoqbEKjz1Kk=
 github.com/containerd/stargz-snapshotter/estargz v0.16.3 h1:7evrXtoh1mSbGj/pfRccTampEyKpjpOnS3CyiV1Ebr8=
