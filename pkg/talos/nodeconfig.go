@@ -64,7 +64,7 @@ func GenerateNodeConfig(node *config.Node, input *generate.Input, iFactory *conf
 		c.RawV1Alpha1().MachineConfig.MachineNetwork.NetworkDisableSearchDomain = &node.DisableSearchDomain
 	}
 
-	cfg := applyNodeOverride(node, c)
+	cfg := applyNodeOverride(node, c, *input.Options.VersionContract)
 
 	installerURL, err := installerURL(node, c, iFactory, offlineMode)
 	if err != nil {
@@ -83,7 +83,7 @@ func GenerateNodeConfig(node *config.Node, input *generate.Input, iFactory *conf
 	return cfg, nil
 }
 
-func applyNodeOverride(node *config.Node, cfg taloscfg.Provider) taloscfg.Provider {
+func applyNodeOverride(node *config.Node, cfg taloscfg.Provider, vc taloscfg.VersionContract) taloscfg.Provider {
 	if len(node.NetworkInterfaces) > 0 {
 		slog.Debug("setting network interfaces")
 		//nolint:staticcheck
@@ -137,7 +137,9 @@ func applyNodeOverride(node *config.Node, cfg taloscfg.Provider) taloscfg.Provid
 	if node.Schematic != nil && len(node.Schematic.Customization.ExtraKernelArgs) > 0 {
 		// Talos doesn't support kernel arguments when using SDBoot
 		// see: https://github.com/budimanjojo/talhelper/issues/1000
-		if !node.MachineSpec.UseUKI {
+		// Talos 1.12+ defaults to grubUseUKICmdline=true, which is incompatible with install.extraKernelArgs
+		// see: https://github.com/budimanjojo/talhelper/issues/1341
+		if !node.MachineSpec.UseUKI && !vc.GrubUseUKICmdlineDefault() {
 			slog.Debug("appending schematic kernel args to install kernel args")
 			//nolint:staticcheck
 			cfg.RawV1Alpha1().MachineConfig.MachineInstall.InstallExtraKernelArgs = append(cfg.RawV1Alpha1().MachineConfig.MachineInstall.InstallExtraKernelArgs, node.Schematic.Customization.ExtraKernelArgs...)
