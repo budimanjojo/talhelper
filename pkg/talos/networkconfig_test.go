@@ -932,7 +932,6 @@ func TestBondConfigWithAddressesAndRoutes(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	// BondConfig should contain addresses, routes, and MTU
 	bondConfig := GenerateBondConfig(m.Nodes[0].NetworkInterfaces[0])
 	if bondConfig == nil {
 		t.Fatal("expected bond config, got nil")
@@ -1119,5 +1118,178 @@ func TestHasSpecialConfig(t *testing.T) {
 
 	if hasSpecialConfig(m.Nodes[0].NetworkInterfaces[4]) {
 		t.Error("expected regular interface to NOT have special config")
+	}
+}
+func TestGenerateLinkAliasConfig(t *testing.T) {
+	data := []byte(`nodes:
+  - hostname: node1
+    networkInterfaces:
+      - interface: eth0
+        deviceSelector:
+          hardwareAddr: "00:50:56:*"
+      - interface: eth1
+        deviceSelector:
+          busPath: "0000:01:*"
+          driver: virtio_net
+      - interface: bond0
+        deviceSelector:
+          permanentAddr: "aa:bb:cc:dd:ee:ff"
+          physical: true`)
+
+	var m config.TalhelperConfig
+	if err := yaml.Unmarshal(data, &m); err != nil {
+		t.Fatal(err)
+	}
+
+	result1 := GenerateLinkAliasConfig(m.Nodes[0].NetworkInterfaces[0])
+	if result1 == nil {
+		t.Fatal("expected link alias config, got nil")
+	}
+	if result1.MetaName != "eth0" {
+		t.Errorf("expected name=eth0, got %s", result1.MetaName)
+	}
+	expr1 := result1.Selector.Match.String()
+	t.Logf("CEL expression 1: %s", expr1)
+	if !bytes.Contains([]byte(expr1), []byte(`glob(`)) || !bytes.Contains([]byte(expr1), []byte(`00:50:56:*`)) {
+		t.Errorf("expected CEL expression to contain glob function with MAC pattern, got: %s", expr1)
+	}
+
+	result2 := GenerateLinkAliasConfig(m.Nodes[0].NetworkInterfaces[1])
+	if result2 == nil {
+		t.Fatal("expected link alias config, got nil")
+	}
+	if result2.MetaName != "eth1" {
+		t.Errorf("expected name=eth1, got %s", result2.MetaName)
+	}
+	expr2 := result2.Selector.Match.String()
+	t.Logf("CEL expression 2: %s", expr2)
+	if !bytes.Contains([]byte(expr2), []byte(`link.bus_path`)) {
+		t.Errorf("expected expression to contain bus_path, got: %s", expr2)
+	}
+	if !bytes.Contains([]byte(expr2), []byte(`link.driver`)) {
+		t.Errorf("expected expression to contain driver, got: %s", expr2)
+	}
+	if !bytes.Contains([]byte(expr2), []byte(`0000:01:*`)) {
+		t.Errorf("expected expression to contain bus path pattern, got: %s", expr2)
+	}
+	if !bytes.Contains([]byte(expr2), []byte(`virtio_net`)) {
+		t.Errorf("expected expression to contain driver name, got: %s", expr2)
+	}
+
+	result3 := GenerateLinkAliasConfig(m.Nodes[0].NetworkInterfaces[2])
+	if result3 == nil {
+		t.Fatal("expected link alias config, got nil")
+	}
+	if result3.MetaName != "bond0" {
+		t.Errorf("expected name=bond0, got %s", result3.MetaName)
+	}
+	expr3 := result3.Selector.Match.String()
+	t.Logf("CEL expression 3: %s", expr3)
+	if !bytes.Contains([]byte(expr3), []byte(`permanent_addr`)) {
+		t.Errorf("expected expression to contain permanent_addr, got: %s", expr3)
+	}
+	if !bytes.Contains([]byte(expr3), []byte(`aa:bb:cc:dd:ee:ff`)) {
+		t.Errorf("expected expression to contain MAC address, got: %s", expr3)
+	}
+	if !bytes.Contains([]byte(expr3), []byte(`link.physical`)) {
+		t.Errorf("expected expression to contain physical match, got: %s", expr3)
+	}
+}
+
+func TestGenerateLinkAliasConfigBytes(t *testing.T) {
+	data := []byte(`nodes:
+  - hostname: node1
+    networkInterfaces:
+      - interface: net0
+        deviceSelector:
+          hardwareAddr: "00:50:56:12:34:56"
+          driver: e1000
+        dhcp: true
+      - interface: eth1`)
+
+	var m config.TalhelperConfig
+	if err := yaml.Unmarshal(data, &m); err != nil {
+		t.Fatal(err)
+	}
+
+	aliasBytes, err := GenerateLinkAliasConfigBytes(m.Nodes[0].NetworkInterfaces)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if aliasBytes == nil {
+		t.Fatal("expected link alias config bytes, got nil")
+	}
+
+	aliasStr := string(aliasBytes)
+	if !bytes.Contains(aliasBytes, []byte("kind: LinkAliasConfig")) {
+		t.Error("expected output to contain 'kind: LinkAliasConfig'")
+	}
+	if !bytes.Contains(aliasBytes, []byte("name: net0")) {
+		t.Error("expected output to contain 'name: net0'")
+	}
+	if !bytes.Contains(aliasBytes, []byte("match:")) {
+		t.Error("expected output to contain 'match:'")
+	}
+	t.Logf("Link alias config output:\n%s", aliasStr)
+}
+func TestGenerateBondMemberAliasConfig(t *testing.T) {
+	data := []byte(`nodes:
+  - hostname: node1
+    networkInterfaces:
+      - interface: bond0
+        bond:
+          deviceSelectors:
+            - hardwareAddr: "58:47:ca:76:9c:*"
+              driver: i40e
+            - hardwareAddr: "58:47:ca:76:9d:*"
+              driver: i40e
+          mode: 802.3ad`)
+
+	var m config.TalhelperConfig
+	if err := yaml.Unmarshal(data, &m); err != nil {
+		t.Fatal(err)
+	}
+
+	bondConfig := GenerateBondConfig(m.Nodes[0].NetworkInterfaces[0])
+	if bondConfig == nil {
+		t.Fatal("expected bond config, got nil")
+	}
+
+	if len(bondConfig.BondLinks) != 2 {
+		t.Fatalf("expected 2 bond links, got %d", len(bondConfig.BondLinks))
+	}
+
+	if bondConfig.BondLinks[0] != "bond0-m0" {
+		t.Errorf("expected first link=bond0-m0, got %s", bondConfig.BondLinks[0])
+	}
+
+	if bondConfig.BondLinks[1] != "bond0-m1" {
+		t.Errorf("expected second link=bond0-m1, got %s", bondConfig.BondLinks[1])
+	}
+
+	aliasBytes, err := GenerateBondMemberAliasConfigBytes(m.Nodes[0].NetworkInterfaces)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if aliasBytes == nil {
+		t.Fatal("expected bond member alias config bytes, got nil")
+	}
+
+	aliasStr := string(aliasBytes)
+	t.Logf("Bond member alias config output:\n%s", aliasStr)
+
+	if !bytes.Contains(aliasBytes, []byte("name: bond0-m0")) {
+		t.Error("expected output to contain 'name: bond0-m0'")
+	}
+	if !bytes.Contains(aliasBytes, []byte("name: bond0-m1")) {
+		t.Error("expected output to contain 'name: bond0-m1'")
+	}
+	if !bytes.Contains(aliasBytes, []byte("58:47:ca:76:9c:*")) {
+		t.Error("expected output to contain first MAC pattern")
+	}
+	if !bytes.Contains(aliasBytes, []byte("58:47:ca:76:9d:*")) {
+		t.Error("expected output to contain second MAC pattern")
 	}
 }

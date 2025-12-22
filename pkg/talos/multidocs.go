@@ -107,6 +107,14 @@ func genMultiDocs(node *config.Node, mode string, vc *tconfig.VersionContract) (
 		result = append(result, uvc...)
 	}
 
+	if err := appendNetworkConfig(&result, vc, node, "link alias", GenerateLinkAliasConfigBytes); err != nil {
+		return nil, err
+	}
+
+	if err := appendNetworkConfig(&result, vc, node, "bond member alias", GenerateBondMemberAliasConfigBytes); err != nil {
+		return nil, err
+	}
+
 	if err := appendNetworkConfig(&result, vc, node, "bond", GenerateBondConfigBytes); err != nil {
 		return nil, err
 	}
