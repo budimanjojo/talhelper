@@ -2,7 +2,9 @@ package talos
 
 import (
 	"bytes"
+	"fmt"
 	"net/netip"
+	"strings"
 
 	"github.com/budimanjojo/talhelper/v3/pkg/config"
 	"github.com/siderolabs/go-pointer"
@@ -94,6 +96,141 @@ func GenerateNetworkConfigBytes(ifCfg *config.IngressFirewall) ([]byte, error) {
 	return CombineYamlBytes(result), nil
 }
 
+func GenerateLinkAliasConfigBytes(devices []*v1alpha1.Device) ([]byte, error) {
+	var result [][]byte
+
+	for _, device := range devices {
+		if device.DeviceSelector == nil {
+			continue
+		}
+
+		aliasConfig := GenerateLinkAliasConfig(device)
+		if aliasConfig == nil {
+			continue
+		}
+
+		aliasBytes, err := marshalYaml(aliasConfig)
+		if err != nil {
+			return nil, err
+		}
+
+		result = append(result, aliasBytes)
+	}
+
+	if len(result) == 0 {
+		return nil, nil
+	}
+
+	return CombineYamlBytes(result), nil
+}
+
+func GenerateLinkAliasConfig(device *v1alpha1.Device) *network.LinkAliasConfigV1Alpha1 {
+	if device == nil || device.DeviceSelector == nil {
+		return nil
+	}
+
+	aliasConfig := network.NewLinkAliasConfigV1Alpha1(device.DeviceInterface)
+
+	celExpr := buildCELExpression(device.DeviceSelector)
+	if celExpr == "" {
+		return nil
+	}
+
+	if err := aliasConfig.Selector.Match.UnmarshalText([]byte(celExpr)); err != nil {
+		return nil
+	}
+
+	return aliasConfig
+}
+
+func GenerateBondMemberAliasConfigBytes(devices []*v1alpha1.Device) ([]byte, error) {
+	var result [][]byte
+
+	for _, device := range devices {
+		if device.DeviceBond == nil || len(device.DeviceBond.BondDeviceSelectors) == 0 {
+			continue
+		}
+
+		for i, selector := range device.DeviceBond.BondDeviceSelectors {
+			aliasName := fmt.Sprintf("%s-m%d", device.DeviceInterface, i)
+			aliasConfig := generateBondMemberAliasConfig(aliasName, &selector)
+			if aliasConfig == nil {
+				continue
+			}
+
+			aliasBytes, err := marshalYaml(aliasConfig)
+			if err != nil {
+				return nil, err
+			}
+
+			result = append(result, aliasBytes)
+		}
+	}
+
+	if len(result) == 0 {
+		return nil, nil
+	}
+
+	return CombineYamlBytes(result), nil
+}
+
+func generateBondMemberAliasConfig(aliasName string, selector *v1alpha1.NetworkDeviceSelector) *network.LinkAliasConfigV1Alpha1 {
+	if selector == nil {
+		return nil
+	}
+
+	aliasConfig := network.NewLinkAliasConfigV1Alpha1(aliasName)
+
+	celExpr := buildCELExpression(selector)
+	if celExpr == "" {
+		return nil
+	}
+
+	if err := aliasConfig.Selector.Match.UnmarshalText([]byte(celExpr)); err != nil {
+		return nil
+	}
+
+	return aliasConfig
+}
+
+func buildCELExpression(selector *v1alpha1.NetworkDeviceSelector) string {
+	if selector == nil {
+		return ""
+	}
+
+	var conditions []string
+
+	if selector.NetworkDeviceHardwareAddress != "" {
+		conditions = append(conditions, fmt.Sprintf(`glob("%s", mac(link.hardware_addr))`, selector.NetworkDeviceHardwareAddress))
+	}
+
+	if selector.NetworkDevicePermanentAddress != "" {
+		conditions = append(conditions, fmt.Sprintf(`glob("%s", mac(link.permanent_addr))`, selector.NetworkDevicePermanentAddress))
+	}
+
+	if selector.NetworkDeviceBus != "" {
+		conditions = append(conditions, fmt.Sprintf(`glob("%s", link.bus_path)`, selector.NetworkDeviceBus))
+	}
+
+	if selector.NetworkDeviceKernelDriver != "" {
+		conditions = append(conditions, fmt.Sprintf(`glob("%s", link.driver)`, selector.NetworkDeviceKernelDriver))
+	}
+
+	if selector.NetworkDevicePCIID != "" {
+		conditions = append(conditions, fmt.Sprintf(`glob("%s", link.pci_id)`, selector.NetworkDevicePCIID))
+	}
+
+	if selector.NetworkDevicePhysical != nil && *selector.NetworkDevicePhysical {
+		conditions = append(conditions, "link.physical")
+	}
+
+	if len(conditions) == 0 {
+		return ""
+	}
+
+	return strings.Join(conditions, " && ")
+}
+
 func GenerateNodeDefaultActionConfig(ifCfg *config.IngressFirewall) *network.DefaultActionConfigV1Alpha1 {
 	result := network.NewDefaultActionConfigV1Alpha1()
 	result.Ingress = ifCfg.DefaultAction
@@ -157,6 +294,13 @@ func GenerateBondConfig(device *v1alpha1.Device) *network.BondConfigV1Alpha1 {
 
 	if len(device.DeviceBond.BondInterfaces) > 0 {
 		bondConfig.BondLinks = device.DeviceBond.BondInterfaces
+	}
+
+	if len(device.DeviceBond.BondDeviceSelectors) > 0 {
+		for i := range device.DeviceBond.BondDeviceSelectors {
+			aliasName := fmt.Sprintf("%s-m%d", device.DeviceInterface, i)
+			bondConfig.BondLinks = append(bondConfig.BondLinks, aliasName)
+		}
 	}
 
 	if device.DeviceBond.BondMode != "" {
