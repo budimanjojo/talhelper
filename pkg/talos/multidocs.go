@@ -7,6 +7,7 @@ import (
 	"github.com/budimanjojo/talhelper/v3/pkg/config"
 	"github.com/budimanjojo/talhelper/v3/pkg/patcher"
 	tconfig "github.com/siderolabs/talos/pkg/machinery/config"
+	"github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1"
 )
 
 // AddMultiDocs appends multi-documents machine configuration to the main machine configuration
@@ -22,6 +23,30 @@ func AddMultiDocs(node *config.Node, mode string, corecfg []byte, vc *tconfig.Ve
 	// But the problem is upstream Generate API is generating not just the core config
 	// Resulting in error because of duplicates with the ones we created
 	return patcher.YamlBytesPatcher(extradocs, corecfg)
+}
+
+// appendNetworkConfig is a helper function that checks if multidoc network config is supported
+// and if network interfaces exist, then generates and appends the config bytes to result.
+func appendNetworkConfig(
+	result *[]byte,
+	vc *tconfig.VersionContract,
+	node *config.Node,
+	configType string,
+	generator func([]*v1alpha1.Device) ([]byte, error),
+) error {
+	if !vc.MultidocNetworkConfigSupported() || len(node.NetworkInterfaces) == 0 {
+		return nil
+	}
+
+	slog.Debug(fmt.Sprintf("generating %s config for %s", configType, node.Hostname))
+	cfg, err := generator(node.NetworkInterfaces)
+	if err != nil {
+		return err
+	}
+	if cfg != nil {
+		*result = append(*result, cfg...)
+	}
+	return nil
 }
 
 func genMultiDocs(node *config.Node, mode string, vc *tconfig.VersionContract) ([]byte, error) {
@@ -82,48 +107,45 @@ func genMultiDocs(node *config.Node, mode string, vc *tconfig.VersionContract) (
 		result = append(result, uvc...)
 	}
 
-	if vc.MultidocNetworkConfigSupported() && len(node.NetworkInterfaces) > 0 {
-		slog.Debug(fmt.Sprintf("generating bond config for %s", node.Hostname))
-		bondCfg, err := GenerateBondConfigBytes(node.NetworkInterfaces)
-		if err != nil {
-			return nil, err
-		}
-		if bondCfg != nil {
-			result = append(result, bondCfg...)
-		}
+	if err := appendNetworkConfig(&result, vc, node, "bond", GenerateBondConfigBytes); err != nil {
+		return nil, err
 	}
 
-	if vc.MultidocNetworkConfigSupported() && len(node.NetworkInterfaces) > 0 {
-		slog.Debug(fmt.Sprintf("generating dhcp4 config for %s", node.Hostname))
-		dhcp4Cfg, err := GenerateDHCP4ConfigBytes(node.NetworkInterfaces)
-		if err != nil {
-			return nil, err
-		}
-		if dhcp4Cfg != nil {
-			result = append(result, dhcp4Cfg...)
-		}
+	if err := appendNetworkConfig(&result, vc, node, "dhcp4", GenerateDHCP4ConfigBytes); err != nil {
+		return nil, err
 	}
 
-	if vc.MultidocNetworkConfigSupported() && len(node.NetworkInterfaces) > 0 {
-		slog.Debug(fmt.Sprintf("generating dhcp6 config for %s", node.Hostname))
-		dhcp6Cfg, err := GenerateDHCP6ConfigBytes(node.NetworkInterfaces)
-		if err != nil {
-			return nil, err
-		}
-		if dhcp6Cfg != nil {
-			result = append(result, dhcp6Cfg...)
-		}
+	if err := appendNetworkConfig(&result, vc, node, "dhcp6", GenerateDHCP6ConfigBytes); err != nil {
+		return nil, err
 	}
 
-	if vc.MultidocNetworkConfigSupported() && len(node.NetworkInterfaces) > 0 {
-		slog.Debug(fmt.Sprintf("generating vip config for %s", node.Hostname))
-		vipCfg, err := GenerateVIPConfigBytes(node.NetworkInterfaces)
-		if err != nil {
-			return nil, err
-		}
-		if vipCfg != nil {
-			result = append(result, vipCfg...)
-		}
+	if err := appendNetworkConfig(&result, vc, node, "vip", GenerateVIPConfigBytes); err != nil {
+		return nil, err
 	}
+
+	if err := appendNetworkConfig(&result, vc, node, "address", GenerateAddressConfigBytes); err != nil {
+		return nil, err
+	}
+
+	if err := appendNetworkConfig(&result, vc, node, "route", GenerateRouteConfigBytes); err != nil {
+		return nil, err
+	}
+
+	if err := appendNetworkConfig(&result, vc, node, "link", GenerateLinkConfigBytes); err != nil {
+		return nil, err
+	}
+
+	if err := appendNetworkConfig(&result, vc, node, "vlan", GenerateVLANConfigBytes); err != nil {
+		return nil, err
+	}
+
+	if err := appendNetworkConfig(&result, vc, node, "wireguard", GenerateWireguardConfigBytes); err != nil {
+		return nil, err
+	}
+
+	if err := appendNetworkConfig(&result, vc, node, "bridge", GenerateBridgeConfigBytes); err != nil {
+		return nil, err
+	}
+
 	return result, nil
 }

@@ -260,6 +260,8 @@ func GenerateBondConfig(device *v1alpha1.Device) *network.BondConfigV1Alpha1 {
 		}
 	}
 
+	addCommonLinkConfig(&bondConfig.CommonLinkConfig, device)
+
 	return bondConfig
 }
 
@@ -385,6 +387,495 @@ func GenerateVIPConfig(device *v1alpha1.Device) *network.Layer2VIPConfigV1Alpha1
 	vipConfig.LinkName = device.DeviceInterface
 
 	return vipConfig
+}
+
+func GenerateAddressConfigBytes(devices []*v1alpha1.Device) ([]byte, error) {
+	var result [][]byte
+
+	for _, device := range devices {
+		if len(device.DeviceAddresses) == 0 || hasSpecialConfig(device) {
+			continue
+		}
+
+		addressConfig := GenerateAddressConfig(device)
+		if addressConfig == nil {
+			continue
+		}
+
+		addressBytes, err := marshalYaml(addressConfig)
+		if err != nil {
+			return nil, err
+		}
+
+		result = append(result, addressBytes)
+	}
+
+	if len(result) == 0 {
+		return nil, nil
+	}
+
+	return CombineYamlBytes(result), nil
+}
+
+func GenerateAddressConfig(device *v1alpha1.Device) *network.LinkConfigV1Alpha1 {
+	if device == nil || len(device.DeviceAddresses) == 0 {
+		return nil
+	}
+
+	linkConfig := network.NewLinkConfigV1Alpha1(device.DeviceInterface)
+
+	for _, address := range device.DeviceAddresses {
+		prefix, err := netip.ParsePrefix(address)
+		if err != nil {
+			ip, ipErr := netip.ParseAddr(address)
+			if ipErr != nil {
+				continue
+			}
+			bits := 32
+			if ip.Is6() {
+				bits = 128
+			}
+			prefix = netip.PrefixFrom(ip, bits)
+		}
+
+		linkConfig.LinkAddresses = append(linkConfig.LinkAddresses, network.AddressConfig{
+			AddressAddress: prefix,
+		})
+	}
+
+	return linkConfig
+}
+
+func GenerateRouteConfigBytes(devices []*v1alpha1.Device) ([]byte, error) {
+	var result [][]byte
+
+	for _, device := range devices {
+		if len(device.DeviceRoutes) == 0 || hasSpecialConfig(device) {
+			continue
+		}
+
+		routeConfig := GenerateRouteConfig(device)
+		if routeConfig == nil {
+			continue
+		}
+
+		routeBytes, err := marshalYaml(routeConfig)
+		if err != nil {
+			return nil, err
+		}
+
+		result = append(result, routeBytes)
+	}
+
+	if len(result) == 0 {
+		return nil, nil
+	}
+
+	return CombineYamlBytes(result), nil
+}
+
+func GenerateRouteConfig(device *v1alpha1.Device) *network.LinkConfigV1Alpha1 {
+	if device == nil || len(device.DeviceRoutes) == 0 {
+		return nil
+	}
+
+	linkConfig := network.NewLinkConfigV1Alpha1(device.DeviceInterface)
+
+	for _, route := range device.DeviceRoutes {
+		routeConfig := network.RouteConfig{}
+
+		if route.Network() != "" {
+			prefix, err := netip.ParsePrefix(route.Network())
+			if err == nil {
+				routeConfig.RouteDestination = network.Prefix{Prefix: prefix}
+			}
+		}
+
+		if route.Gateway() != "" {
+			gateway, err := netip.ParseAddr(route.Gateway())
+			if err == nil {
+				routeConfig.RouteGateway = network.Addr{Addr: gateway}
+			}
+		}
+
+		if route.Source() != "" {
+			source, err := netip.ParseAddr(route.Source())
+			if err == nil {
+				routeConfig.RouteSource = network.Addr{Addr: source}
+			}
+		}
+
+		if route.Metric() > 0 {
+			routeConfig.RouteMetric = route.Metric()
+		}
+
+		if route.MTU() > 0 {
+			routeConfig.RouteMTU = route.MTU()
+		}
+
+		linkConfig.LinkRoutes = append(linkConfig.LinkRoutes, routeConfig)
+	}
+
+	return linkConfig
+}
+
+func GenerateLinkConfigBytes(devices []*v1alpha1.Device) ([]byte, error) {
+	var result [][]byte
+
+	for _, device := range devices {
+		if hasSpecialConfig(device) {
+			continue
+		}
+		linkConfig := GenerateLinkConfig(device)
+		if linkConfig == nil {
+			continue
+		}
+
+		linkBytes, err := marshalYaml(linkConfig)
+		if err != nil {
+			return nil, err
+		}
+
+		result = append(result, linkBytes)
+	}
+
+	if len(result) == 0 {
+		return nil, nil
+	}
+
+	return CombineYamlBytes(result), nil
+}
+
+func GenerateLinkConfig(device *v1alpha1.Device) *network.LinkConfigV1Alpha1 {
+	if device == nil {
+		return nil
+	}
+
+	if device.DeviceMTU == 0 {
+		return nil
+	}
+
+	linkConfig := network.NewLinkConfigV1Alpha1(device.DeviceInterface)
+
+	if device.DeviceMTU > 0 {
+		linkConfig.LinkMTU = uint32(device.DeviceMTU)
+	}
+
+	return linkConfig
+}
+
+func GenerateVLANConfigBytes(devices []*v1alpha1.Device) ([]byte, error) {
+	var result [][]byte
+
+	for _, device := range devices {
+		if len(device.DeviceVlans) == 0 {
+			continue
+		}
+
+		for _, vlan := range device.DeviceVlans {
+			vlanConfig := GenerateVLANConfig(device, vlan)
+			if vlanConfig == nil {
+				continue
+			}
+
+			vlanBytes, err := marshalYaml(vlanConfig)
+			if err != nil {
+				return nil, err
+			}
+
+			result = append(result, vlanBytes)
+		}
+	}
+
+	if len(result) == 0 {
+		return nil, nil
+	}
+
+	return CombineYamlBytes(result), nil
+}
+
+func GenerateVLANConfig(device *v1alpha1.Device, vlan *v1alpha1.Vlan) *network.VLANConfigV1Alpha1 {
+	if device == nil || vlan == nil {
+		return nil
+	}
+
+	vlanInterface := device.DeviceInterface
+	if vlan.VlanID > 0 {
+		vlanConfig := network.NewVLANConfigV1Alpha1(vlanInterface)
+		vlanConfig.VLANIDConfig = vlan.VlanID
+		vlanConfig.ParentLinkConfig = device.DeviceInterface
+
+		if len(vlan.VlanAddresses) > 0 {
+			for _, addr := range vlan.VlanAddresses {
+				prefix, err := netip.ParsePrefix(addr)
+				if err != nil {
+					ip, ipErr := netip.ParseAddr(addr)
+					if ipErr != nil {
+						continue
+					}
+					bits := 32
+					if ip.Is6() {
+						bits = 128
+					}
+					prefix = netip.PrefixFrom(ip, bits)
+				}
+				vlanConfig.LinkAddresses = append(vlanConfig.LinkAddresses, network.AddressConfig{
+					AddressAddress: prefix,
+				})
+			}
+		}
+
+		if len(vlan.VlanRoutes) > 0 {
+			for _, route := range vlan.VlanRoutes {
+				routeSpec := network.RouteConfig{}
+
+				if route.Network() != "" {
+					prefix, err := netip.ParsePrefix(route.Network())
+					if err == nil {
+						routeSpec.RouteDestination = network.Prefix{Prefix: prefix}
+					}
+				}
+
+				if route.Gateway() != "" {
+					gateway, err := netip.ParseAddr(route.Gateway())
+					if err == nil {
+						routeSpec.RouteGateway = network.Addr{Addr: gateway}
+					}
+				}
+
+				if route.Source() != "" {
+					source, err := netip.ParseAddr(route.Source())
+					if err == nil {
+						routeSpec.RouteSource = network.Addr{Addr: source}
+					}
+				}
+
+				if route.Metric() > 0 {
+					routeSpec.RouteMetric = route.Metric()
+				}
+
+				if route.MTU() > 0 {
+					routeSpec.RouteMTU = route.MTU()
+				}
+
+				vlanConfig.LinkRoutes = append(vlanConfig.LinkRoutes, routeSpec)
+			}
+		}
+
+		if vlan.VlanMTU > 0 {
+			vlanConfig.LinkMTU = uint32(vlan.VlanMTU)
+		}
+
+		return vlanConfig
+	}
+
+	return nil
+}
+
+func GenerateWireguardConfigBytes(devices []*v1alpha1.Device) ([]byte, error) {
+	var result [][]byte
+
+	for _, device := range devices {
+		if device.DeviceWireguardConfig == nil {
+			continue
+		}
+
+		wgConfig := GenerateWireguardConfig(device)
+		if wgConfig == nil {
+			continue
+		}
+
+		wgBytes, err := marshalYaml(wgConfig)
+		if err != nil {
+			return nil, err
+		}
+
+		result = append(result, wgBytes)
+	}
+
+	if len(result) == 0 {
+		return nil, nil
+	}
+
+	return CombineYamlBytes(result), nil
+}
+
+func GenerateWireguardConfig(device *v1alpha1.Device) *network.WireguardConfigV1Alpha1 {
+	if device == nil || device.DeviceWireguardConfig == nil {
+		return nil
+	}
+
+	wgConfig := network.NewWireguardConfigV1Alpha1(device.DeviceInterface)
+
+	if device.DeviceWireguardConfig.WireguardPrivateKey != "" {
+		wgConfig.WireguardPrivateKey = device.DeviceWireguardConfig.WireguardPrivateKey
+	}
+
+	if device.DeviceWireguardConfig.WireguardListenPort > 0 {
+		wgConfig.WireguardListenPort = device.DeviceWireguardConfig.WireguardListenPort
+	}
+
+	if device.DeviceWireguardConfig.WireguardFirewallMark > 0 {
+		wgConfig.WireguardFirewallMark = device.DeviceWireguardConfig.WireguardFirewallMark
+	}
+
+	if len(device.DeviceWireguardConfig.WireguardPeers) > 0 {
+		for _, peer := range device.DeviceWireguardConfig.WireguardPeers {
+			wgPeer := network.WireguardPeer{}
+
+			if peer.WireguardPublicKey != "" {
+				wgPeer.WireguardPublicKey = peer.WireguardPublicKey
+			}
+
+			if peer.WireguardEndpoint != "" {
+				addrPort, err := netip.ParseAddrPort(peer.WireguardEndpoint)
+				if err == nil {
+					wgPeer.WireguardEndpoint = network.AddrPort{AddrPort: addrPort}
+				}
+			}
+
+			if peer.WireguardPersistentKeepaliveInterval > 0 {
+				wgPeer.WireguardPersistentKeepaliveInterval = peer.WireguardPersistentKeepaliveInterval
+			}
+
+			if len(peer.WireguardAllowedIPs) > 0 {
+				for _, allowedIP := range peer.WireguardAllowedIPs {
+					prefix, err := netip.ParsePrefix(allowedIP)
+					if err == nil {
+						wgPeer.WireguardAllowedIPs = append(wgPeer.WireguardAllowedIPs, network.Prefix{Prefix: prefix})
+					}
+				}
+			}
+
+			wgConfig.WireguardPeers = append(wgConfig.WireguardPeers, wgPeer)
+		}
+	}
+
+	addCommonLinkConfig(&wgConfig.CommonLinkConfig, device)
+
+	return wgConfig
+}
+
+func GenerateBridgeConfigBytes(devices []*v1alpha1.Device) ([]byte, error) {
+	var result [][]byte
+
+	for _, device := range devices {
+		if device.DeviceBridge == nil {
+			continue
+		}
+
+		bridgeConfig := GenerateBridgeConfig(device)
+		if bridgeConfig == nil {
+			continue
+		}
+
+		bridgeBytes, err := marshalYaml(bridgeConfig)
+		if err != nil {
+			return nil, err
+		}
+
+		result = append(result, bridgeBytes)
+	}
+
+	if len(result) == 0 {
+		return nil, nil
+	}
+
+	return CombineYamlBytes(result), nil
+}
+
+func GenerateBridgeConfig(device *v1alpha1.Device) *network.BridgeConfigV1Alpha1 {
+	if device == nil || device.DeviceBridge == nil {
+		return nil
+	}
+
+	bridgeConfig := network.NewBridgeConfigV1Alpha1(device.DeviceInterface)
+
+	if len(device.DeviceBridge.BridgedInterfaces) > 0 {
+		bridgeConfig.BridgeLinks = device.DeviceBridge.BridgedInterfaces
+	}
+
+	if device.DeviceBridge.BridgeSTP != nil && device.DeviceBridge.BridgeSTP.STPEnabled != nil {
+		bridgeConfig.BridgeSTP = network.BridgeSTPConfig{
+			BridgeSTPEnabled: device.DeviceBridge.BridgeSTP.STPEnabled,
+		}
+	}
+
+	addCommonLinkConfig(&bridgeConfig.CommonLinkConfig, device)
+
+	return bridgeConfig
+}
+
+func hasSpecialConfig(device *v1alpha1.Device) bool {
+	if device == nil {
+		return false
+	}
+	return device.DeviceBond != nil || len(device.DeviceVlans) > 0 ||
+		device.DeviceWireguardConfig != nil || device.DeviceBridge != nil
+}
+
+func addCommonLinkConfig(linkConfig *network.CommonLinkConfig, device *v1alpha1.Device) {
+	if device == nil || linkConfig == nil {
+		return
+	}
+
+	for _, address := range device.DeviceAddresses {
+		prefix, err := netip.ParsePrefix(address)
+		if err != nil {
+			ip, ipErr := netip.ParseAddr(address)
+			if ipErr != nil {
+				continue
+			}
+			bits := 32
+			if ip.Is6() {
+				bits = 128
+			}
+			prefix = netip.PrefixFrom(ip, bits)
+		}
+
+		linkConfig.LinkAddresses = append(linkConfig.LinkAddresses, network.AddressConfig{
+			AddressAddress: prefix,
+		})
+	}
+
+	for _, route := range device.DeviceRoutes {
+		routeConfig := network.RouteConfig{}
+
+		if route.Network() != "" {
+			prefix, err := netip.ParsePrefix(route.Network())
+			if err == nil {
+				routeConfig.RouteDestination = network.Prefix{Prefix: prefix}
+			}
+		}
+
+		if route.Gateway() != "" {
+			gateway, err := netip.ParseAddr(route.Gateway())
+			if err == nil {
+				routeConfig.RouteGateway = network.Addr{Addr: gateway}
+			}
+		}
+
+		if route.Source() != "" {
+			source, err := netip.ParseAddr(route.Source())
+			if err == nil {
+				routeConfig.RouteSource = network.Addr{Addr: source}
+			}
+		}
+
+		if route.Metric() > 0 {
+			routeConfig.RouteMetric = route.Metric()
+		}
+
+		if route.MTU() > 0 {
+			routeConfig.RouteMTU = route.MTU()
+		}
+
+		linkConfig.LinkRoutes = append(linkConfig.LinkRoutes, routeConfig)
+	}
+
+	if device.DeviceMTU > 0 {
+		linkConfig.LinkMTU = uint32(device.DeviceMTU)
+	}
 }
 
 // marshalYaml encodes `in` into `yaml` bytes with 2 indentation.
