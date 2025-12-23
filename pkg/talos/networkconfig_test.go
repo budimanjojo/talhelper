@@ -1134,7 +1134,7 @@ func TestGenerateLinkAliasConfig(t *testing.T) {
       - interface: bond0
         deviceSelector:
           permanentAddr: "aa:bb:cc:dd:ee:ff"
-          physical: true`)
+          pciID: "8086:1533"`)
 
 	var m config.TalhelperConfig
 	if err := yaml.Unmarshal(data, &m); err != nil {
@@ -1191,8 +1191,11 @@ func TestGenerateLinkAliasConfig(t *testing.T) {
 	if !bytes.Contains([]byte(expr3), []byte(`aa:bb:cc:dd:ee:ff`)) {
 		t.Errorf("expected expression to contain MAC address, got: %s", expr3)
 	}
-	if !bytes.Contains([]byte(expr3), []byte(`link.physical`)) {
-		t.Errorf("expected expression to contain physical match, got: %s", expr3)
+	if !bytes.Contains([]byte(expr3), []byte(`link.pciid`)) {
+		t.Errorf("expected expression to contain pciid, got: %s", expr3)
+	}
+	if !bytes.Contains([]byte(expr3), []byte(`8086:1533`)) {
+		t.Errorf("expected expression to contain PCI ID, got: %s", expr3)
 	}
 }
 

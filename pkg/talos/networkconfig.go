@@ -8,6 +8,8 @@ import (
 
 	"github.com/budimanjojo/talhelper/v3/pkg/config"
 	"github.com/siderolabs/go-pointer"
+	"github.com/siderolabs/talos/pkg/machinery/cel"
+	"github.com/siderolabs/talos/pkg/machinery/cel/celenv"
 	"github.com/siderolabs/talos/pkg/machinery/config/types/network"
 	"github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1"
 	"github.com/siderolabs/talos/pkg/machinery/nethelpers"
@@ -131,8 +133,8 @@ func GenerateLinkAliasConfig(device *v1alpha1.Device) *network.LinkAliasConfigV1
 
 	aliasConfig := network.NewLinkAliasConfigV1Alpha1(device.DeviceInterface)
 
-	celExpr := buildCELExpression(device.DeviceSelector)
-	if celExpr == "" {
+	celExpr, err := buildDeviceSelectorCELExpression(device.DeviceSelector)
+	if err != nil || celExpr == "" {
 		return nil
 	}
 
@@ -181,8 +183,8 @@ func generateBondMemberAliasConfig(aliasName string, selector *v1alpha1.NetworkD
 
 	aliasConfig := network.NewLinkAliasConfigV1Alpha1(aliasName)
 
-	celExpr := buildCELExpression(selector)
-	if celExpr == "" {
+	celExpr, err := buildDeviceSelectorCELExpression(selector)
+	if err != nil || celExpr == "" {
 		return nil
 	}
 
@@ -193,9 +195,9 @@ func generateBondMemberAliasConfig(aliasName string, selector *v1alpha1.NetworkD
 	return aliasConfig
 }
 
-func buildCELExpression(selector *v1alpha1.NetworkDeviceSelector) string {
+func buildDeviceSelectorCELExpression(selector *v1alpha1.NetworkDeviceSelector) (string, error) {
 	if selector == nil {
-		return ""
+		return "", nil
 	}
 
 	var conditions []string
@@ -217,18 +219,20 @@ func buildCELExpression(selector *v1alpha1.NetworkDeviceSelector) string {
 	}
 
 	if selector.NetworkDevicePCIID != "" {
-		conditions = append(conditions, fmt.Sprintf(`glob("%s", link.pci_id)`, selector.NetworkDevicePCIID))
-	}
-
-	if selector.NetworkDevicePhysical != nil && *selector.NetworkDevicePhysical {
-		conditions = append(conditions, "link.physical")
+		conditions = append(conditions, fmt.Sprintf(`glob("%s", link.pciid)`, selector.NetworkDevicePCIID))
 	}
 
 	if len(conditions) == 0 {
-		return ""
+		return "", nil
 	}
 
-	return strings.Join(conditions, " && ")
+	exprStr := strings.Join(conditions, " && ")
+
+	if _, err := cel.ParseBooleanExpression(exprStr, celenv.LinkLocator()); err != nil {
+		return "", fmt.Errorf("invalid CEL expression: %w", err)
+	}
+
+	return exprStr, nil
 }
 
 func GenerateNodeDefaultActionConfig(ifCfg *config.IngressFirewall) *network.DefaultActionConfigV1Alpha1 {
