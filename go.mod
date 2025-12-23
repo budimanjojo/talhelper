@@ -1,6 +1,6 @@
 module github.com/budimanjojo/talhelper/v3
 
-go 1.25.4
+go 1.25.5
 
 require (
 	github.com/Masterminds/sprig/v3 v3.3.0
@@ -156,7 +156,7 @@ require (
 	github.com/siderolabs/crypto v0.6.4 // indirect
 	github.com/siderolabs/gen v0.8.6 // indirect
 	github.com/siderolabs/protoenc v0.2.4 // indirect
-	github.com/siderolabs/talos v1.12.0-rc.1 // indirect
+	github.com/siderolabs/talos v1.12.0 // indirect
 	github.com/sirupsen/logrus v1.9.4-0.20230606125235-dd1b4c2e81af // indirect
 	github.com/spf13/afero v1.15.0 // indirect
 	github.com/spf13/cast v1.10.0 // indirect
