@@ -63,7 +63,7 @@ func GenerateApplyCommand(cfg *config.TalhelperConfig, outDir string, node strin
 // `outDir` is directory where talosconfig is located.
 // If `node` is empty string, it prints commands for all nodes in `cfg.Nodes`.
 // It returns error, if any.
-func GenerateUpgradeCommand(cfg *config.TalhelperConfig, outDir string, node string, extraFlags []string) error {
+func GenerateUpgradeCommand(cfg *config.TalhelperConfig, outDir string, node string, extraFlags []string, offlineMode bool) error {
 	var result []string
 	for _, n := range cfg.Nodes {
 		isSelectedByIP := ((node != "") && (n.ContainsIP(node)))
@@ -75,12 +75,12 @@ func GenerateUpgradeCommand(cfg *config.TalhelperConfig, outDir string, node str
 			url = n.TalosImageURL + ":" + cfg.GetTalosVersion()
 		} else if n.Schematic != nil {
 			var err error
-			url, err = talos.GetInstallerURL(n.Schematic, cfg.GetImageFactory(), n.GetMachineSpec(), cfg.GetTalosVersion(), true)
+			url, err = talos.GetInstallerURL(n.Schematic, cfg.GetImageFactory(), n.GetMachineSpec(), cfg.GetTalosVersion(), offlineMode)
 			if err != nil {
 				return fmt.Errorf("failed to generate installer url for %s, %v", n.Hostname, err)
 			}
 		} else {
-			url, _ = talos.GetInstallerURL(&schematic.Schematic{}, cfg.GetImageFactory(), n.GetMachineSpec(), cfg.GetTalosVersion(), true)
+			url, _ = talos.GetInstallerURL(&schematic.Schematic{}, cfg.GetImageFactory(), n.GetMachineSpec(), cfg.GetTalosVersion(), offlineMode)
 		}
 
 		if isSelectedByIP {

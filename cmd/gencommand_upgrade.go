@@ -9,6 +9,8 @@ import (
 	"github.com/budimanjojo/talhelper/v3/pkg/generate"
 )
 
+var gencommandOfflineMode         bool
+
 var gencommandUpgradeCmd = &cobra.Command{
 	Use:   "upgrade",
 	Short: "Generate talosctl upgrade commands.",
@@ -28,4 +30,6 @@ var gencommandUpgradeCmd = &cobra.Command{
 
 func init() {
 	gencommandCmd.AddCommand(gencommandUpgradeCmd)
+
+	gencommandUpgradeCmd.Flags().BoolVar(&gencommandOfflineMode, "offline-mode", false, "Generate schematic ID without doing POST request to image-factory")
 }
