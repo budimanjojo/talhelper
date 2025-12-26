@@ -363,7 +363,8 @@ talhelper gencommand upgrade [flags]
 ### Options
 
 ```
-  -h, --help   help for upgrade
+  -h, --help           help for upgrade
+      --offline-mode   Generate schematic ID without doing POST request to image-factory
 ```
 
 ### Options inherited from parent commands
