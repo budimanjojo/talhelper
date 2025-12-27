@@ -52,6 +52,12 @@ func appendNetworkConfig(
 func genMultiDocs(node *config.Node, mode string, vc *tconfig.VersionContract) ([]byte, error) {
 	var result []byte
 
+	if vc.MultidocNetworkConfigSupported() && len(node.NetworkInterfaces) > 0 {
+		if err := validateInterfaceNames(node.NetworkInterfaces); err != nil {
+			return nil, fmt.Errorf("invalid network configuration: %w", err)
+		}
+	}
+
 	if vc.MultidocNetworkConfigSupported() && (len(node.Nameservers) > 0 || node.DisableSearchDomain) {
 		slog.Debug(fmt.Sprintf("generating resolver config for %s", node.Hostname))
 		rc, err := GenerateResolverConfigBytes(node.Nameservers, node.DisableSearchDomain)
@@ -128,14 +134,6 @@ func genMultiDocs(node *config.Node, mode string, vc *tconfig.VersionContract) (
 	}
 
 	if err := appendNetworkConfig(&result, vc, node, "vip", GenerateVIPConfigBytes); err != nil {
-		return nil, err
-	}
-
-	if err := appendNetworkConfig(&result, vc, node, "address", GenerateAddressConfigBytes); err != nil {
-		return nil, err
-	}
-
-	if err := appendNetworkConfig(&result, vc, node, "route", GenerateRouteConfigBytes); err != nil {
 		return nil, err
 	}
 

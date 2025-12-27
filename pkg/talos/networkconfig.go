@@ -16,6 +16,58 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
+func validateInterfaceNames(devices []*v1alpha1.Device) error {
+	interfaceTypes := map[string]string{}
+
+	for i, device := range devices {
+		if device.DeviceInterface == "" {
+			continue
+		}
+
+		var configTypes []string
+		if device.DeviceBond != nil {
+			configTypes = append(configTypes, "bond")
+		}
+		if device.DeviceBridge != nil {
+			configTypes = append(configTypes, "bridge")
+		}
+		if device.DeviceWireguardConfig != nil {
+			configTypes = append(configTypes, "wireguard")
+		}
+
+		// A device can only have ONE primary config type (bond, bridge, or wireguard)
+		if len(configTypes) > 1 {
+			return fmt.Errorf("interface '%s' (device %d) cannot have multiple config types: %v",
+				device.DeviceInterface, i, configTypes)
+		}
+
+		var configType string
+		switch {
+		case device.DeviceBond != nil:
+			configType = "BondConfig"
+		case device.DeviceBridge != nil:
+			configType = "BridgeConfig"
+		case device.DeviceWireguardConfig != nil:
+			configType = "WireguardConfig"
+		case len(device.DeviceVlans) > 0:
+			configType = "VLANConfig"
+		default:
+			configType = "LinkConfig"
+		}
+
+		// Check for conflicts across different devices
+		if existingType, exists := interfaceTypes[device.DeviceInterface]; exists {
+			if existingType != configType {
+				return fmt.Errorf("interface '%s' cannot be both %s and %s",
+					device.DeviceInterface, existingType, configType)
+			}
+		}
+		interfaceTypes[device.DeviceInterface] = configType
+	}
+
+	return nil
+}
+
 func GenerateResolverConfigBytes(nameservers []string, disableSearchDomain bool) ([]byte, error) {
 	var result [][]byte
 
@@ -101,12 +153,69 @@ func GenerateNetworkConfigBytes(ifCfg *config.IngressFirewall) ([]byte, error) {
 func GenerateLinkAliasConfigBytes(devices []*v1alpha1.Device) ([]byte, error) {
 	var result [][]byte
 
+	usedNames := map[string]bool{}
+	for _, device := range devices {
+		if device.DeviceInterface != "" {
+			usedNames[device.DeviceInterface] = true
+		}
+	}
+
+	ethIndex := 0
+	bondIndex := 0
+	brIndex := 0
+	wgIndex := 0
+
 	for _, device := range devices {
 		if device.DeviceSelector == nil {
 			continue
 		}
 
-		aliasConfig := GenerateLinkAliasConfig(device)
+		var aliasName string
+		if device.DeviceInterface != "" {
+			aliasName = device.DeviceInterface
+		} else {
+			switch {
+			case device.DeviceBond != nil:
+				for {
+					aliasName = fmt.Sprintf("bond%d", bondIndex)
+					bondIndex++
+					if !usedNames[aliasName] {
+						break
+					}
+				}
+			case device.DeviceBridge != nil:
+				for {
+					aliasName = fmt.Sprintf("br%d", brIndex)
+					brIndex++
+					if !usedNames[aliasName] {
+						break
+					}
+				}
+			case device.DeviceWireguardConfig != nil:
+				for {
+					aliasName = fmt.Sprintf("wg%d", wgIndex)
+					wgIndex++
+					if !usedNames[aliasName] {
+						break
+					}
+				}
+			default:
+				for {
+					aliasName = fmt.Sprintf("eth%d", ethIndex)
+					ethIndex++
+					if !usedNames[aliasName] {
+						break
+					}
+				}
+			}
+			usedNames[aliasName] = true
+			device.DeviceInterface = aliasName
+		}
+
+		aliasConfig, err := GenerateLinkAliasConfig(device, aliasName)
+		if err != nil {
+			return nil, fmt.Errorf("failed to generate link alias config for %s: %w", aliasName, err)
+		}
 		if aliasConfig == nil {
 			continue
 		}
@@ -126,23 +235,26 @@ func GenerateLinkAliasConfigBytes(devices []*v1alpha1.Device) ([]byte, error) {
 	return CombineYamlBytes(result), nil
 }
 
-func GenerateLinkAliasConfig(device *v1alpha1.Device) *network.LinkAliasConfigV1Alpha1 {
+func GenerateLinkAliasConfig(device *v1alpha1.Device, aliasName string) (*network.LinkAliasConfigV1Alpha1, error) {
 	if device == nil || device.DeviceSelector == nil {
-		return nil
+		return nil, nil
 	}
 
-	aliasConfig := network.NewLinkAliasConfigV1Alpha1(device.DeviceInterface)
+	aliasConfig := network.NewLinkAliasConfigV1Alpha1(aliasName)
 
 	celExpr, err := buildDeviceSelectorCELExpression(device.DeviceSelector)
-	if err != nil || celExpr == "" {
-		return nil
+	if err != nil {
+		return nil, err
+	}
+	if celExpr == "" {
+		return nil, nil
 	}
 
 	if err := aliasConfig.Selector.Match.UnmarshalText([]byte(celExpr)); err != nil {
-		return nil
+		return nil, fmt.Errorf("failed to unmarshal CEL expression: %w", err)
 	}
 
-	return aliasConfig
+	return aliasConfig, nil
 }
 
 func GenerateBondMemberAliasConfigBytes(devices []*v1alpha1.Device) ([]byte, error) {
@@ -155,7 +267,10 @@ func GenerateBondMemberAliasConfigBytes(devices []*v1alpha1.Device) ([]byte, err
 
 		for i, selector := range device.DeviceBond.BondDeviceSelectors {
 			aliasName := fmt.Sprintf("%s-m%d", device.DeviceInterface, i)
-			aliasConfig := generateBondMemberAliasConfig(aliasName, &selector)
+			aliasConfig, err := generateBondMemberAliasConfig(aliasName, &selector)
+			if err != nil {
+				return nil, fmt.Errorf("failed to generate bond member alias config for %s: %w", aliasName, err)
+			}
 			if aliasConfig == nil {
 				continue
 			}
@@ -176,23 +291,26 @@ func GenerateBondMemberAliasConfigBytes(devices []*v1alpha1.Device) ([]byte, err
 	return CombineYamlBytes(result), nil
 }
 
-func generateBondMemberAliasConfig(aliasName string, selector *v1alpha1.NetworkDeviceSelector) *network.LinkAliasConfigV1Alpha1 {
+func generateBondMemberAliasConfig(aliasName string, selector *v1alpha1.NetworkDeviceSelector) (*network.LinkAliasConfigV1Alpha1, error) {
 	if selector == nil {
-		return nil
+		return nil, nil
 	}
 
 	aliasConfig := network.NewLinkAliasConfigV1Alpha1(aliasName)
 
 	celExpr, err := buildDeviceSelectorCELExpression(selector)
-	if err != nil || celExpr == "" {
-		return nil
+	if err != nil {
+		return nil, err
+	}
+	if celExpr == "" {
+		return nil, nil
 	}
 
 	if err := aliasConfig.Selector.Match.UnmarshalText([]byte(celExpr)); err != nil {
-		return nil
+		return nil, fmt.Errorf("failed to unmarshal CEL expression: %w", err)
 	}
 
-	return aliasConfig
+	return aliasConfig, nil
 }
 
 func buildDeviceSelectorCELExpression(selector *v1alpha1.NetworkDeviceSelector) (string, error) {
@@ -402,9 +520,9 @@ func GenerateBondConfig(device *v1alpha1.Device) *network.BondConfigV1Alpha1 {
 	}
 
 	if len(device.DeviceBond.BondARPIPTarget) > 0 {
-		bondConfig.BondARPIPTargets = make([]netip.Addr, len(device.DeviceBond.BondARPIPTarget))
-		for i, ip := range device.DeviceBond.BondARPIPTarget {
-			bondConfig.BondARPIPTargets[i] = netip.MustParseAddr(ip)
+		bondConfig.BondARPIPTargets = []netip.Addr{}
+		for _, ip := range device.DeviceBond.BondARPIPTarget {
+			bondConfig.BondARPIPTargets = append(bondConfig.BondARPIPTargets, netip.MustParseAddr(ip))
 		}
 	}
 
@@ -537,25 +655,25 @@ func GenerateVIPConfig(device *v1alpha1.Device) *network.Layer2VIPConfigV1Alpha1
 	return vipConfig
 }
 
-func GenerateAddressConfigBytes(devices []*v1alpha1.Device) ([]byte, error) {
+func GenerateLinkConfigBytes(devices []*v1alpha1.Device) ([]byte, error) {
 	var result [][]byte
 
 	for _, device := range devices {
-		if len(device.DeviceAddresses) == 0 || hasSpecialConfig(device) {
+		if hasSpecialConfig(device) {
 			continue
 		}
 
-		addressConfig := GenerateAddressConfig(device)
-		if addressConfig == nil {
+		linkConfig := GenerateLinkConfig(device)
+		if linkConfig == nil {
 			continue
 		}
 
-		addressBytes, err := marshalYaml(addressConfig)
+		linkBytes, err := marshalYaml(linkConfig)
 		if err != nil {
 			return nil, err
 		}
 
-		result = append(result, addressBytes)
+		result = append(result, linkBytes)
 	}
 
 	if len(result) == 0 {
@@ -565,8 +683,16 @@ func GenerateAddressConfigBytes(devices []*v1alpha1.Device) ([]byte, error) {
 	return CombineYamlBytes(result), nil
 }
 
-func GenerateAddressConfig(device *v1alpha1.Device) *network.LinkConfigV1Alpha1 {
-	if device == nil || len(device.DeviceAddresses) == 0 {
+func GenerateLinkConfig(device *v1alpha1.Device) *network.LinkConfigV1Alpha1 {
+	if device == nil {
+		return nil
+	}
+
+	hasAddresses := len(device.DeviceAddresses) > 0
+	hasRoutes := len(device.DeviceRoutes) > 0
+	hasMTU := device.DeviceMTU > 0
+
+	if !hasAddresses && !hasRoutes && !hasMTU {
 		return nil
 	}
 
@@ -590,44 +716,6 @@ func GenerateAddressConfig(device *v1alpha1.Device) *network.LinkConfigV1Alpha1 
 			AddressAddress: prefix,
 		})
 	}
-
-	return linkConfig
-}
-
-func GenerateRouteConfigBytes(devices []*v1alpha1.Device) ([]byte, error) {
-	var result [][]byte
-
-	for _, device := range devices {
-		if len(device.DeviceRoutes) == 0 || hasSpecialConfig(device) {
-			continue
-		}
-
-		routeConfig := GenerateRouteConfig(device)
-		if routeConfig == nil {
-			continue
-		}
-
-		routeBytes, err := marshalYaml(routeConfig)
-		if err != nil {
-			return nil, err
-		}
-
-		result = append(result, routeBytes)
-	}
-
-	if len(result) == 0 {
-		return nil, nil
-	}
-
-	return CombineYamlBytes(result), nil
-}
-
-func GenerateRouteConfig(device *v1alpha1.Device) *network.LinkConfigV1Alpha1 {
-	if device == nil || len(device.DeviceRoutes) == 0 {
-		return nil
-	}
-
-	linkConfig := network.NewLinkConfigV1Alpha1(device.DeviceInterface)
 
 	for _, route := range device.DeviceRoutes {
 		routeConfig := network.RouteConfig{}
@@ -663,47 +751,6 @@ func GenerateRouteConfig(device *v1alpha1.Device) *network.LinkConfigV1Alpha1 {
 
 		linkConfig.LinkRoutes = append(linkConfig.LinkRoutes, routeConfig)
 	}
-
-	return linkConfig
-}
-
-func GenerateLinkConfigBytes(devices []*v1alpha1.Device) ([]byte, error) {
-	var result [][]byte
-
-	for _, device := range devices {
-		if hasSpecialConfig(device) {
-			continue
-		}
-		linkConfig := GenerateLinkConfig(device)
-		if linkConfig == nil {
-			continue
-		}
-
-		linkBytes, err := marshalYaml(linkConfig)
-		if err != nil {
-			return nil, err
-		}
-
-		result = append(result, linkBytes)
-	}
-
-	if len(result) == 0 {
-		return nil, nil
-	}
-
-	return CombineYamlBytes(result), nil
-}
-
-func GenerateLinkConfig(device *v1alpha1.Device) *network.LinkConfigV1Alpha1 {
-	if device == nil {
-		return nil
-	}
-
-	if device.DeviceMTU == 0 {
-		return nil
-	}
-
-	linkConfig := network.NewLinkConfigV1Alpha1(device.DeviceInterface)
 
 	if device.DeviceMTU > 0 {
 		linkConfig.LinkMTU = uint32(device.DeviceMTU)

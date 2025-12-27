@@ -7,10 +7,64 @@ import (
 
 	"github.com/budimanjojo/talhelper/v3/pkg/config"
 	"github.com/siderolabs/go-pointer"
+	networktypes "github.com/siderolabs/talos/pkg/machinery/api/resource/definitions/network"
+	"github.com/siderolabs/talos/pkg/machinery/cel"
+	"github.com/siderolabs/talos/pkg/machinery/cel/celenv"
 	"github.com/siderolabs/talos/pkg/machinery/config/types/network"
 	"github.com/siderolabs/talos/pkg/machinery/nethelpers"
 	"gopkg.in/yaml.v3"
 )
+
+func TestValidateInterfaceNames(t *testing.T) {
+	data1 := []byte(`nodes:
+  - hostname: node1
+    networkInterfaces:
+      - interface: eth0
+        bond:
+          deviceSelectors:
+            - hardwareAddr: "00:50:56:*"
+        wireguard:
+          privateKey: test`)
+
+	var m1 config.TalhelperConfig
+	if err := yaml.Unmarshal(data1, &m1); err != nil {
+		t.Fatal(err)
+	}
+
+	err := validateInterfaceNames(m1.Nodes[0].NetworkInterfaces)
+	if err == nil {
+		t.Error("expected error for device with both bond and wireguard configs")
+	}
+	if err != nil && !bytes.Contains([]byte(err.Error()), []byte("cannot have multiple config types")) {
+		t.Errorf("expected error about multiple config types, got: %s", err.Error())
+	}
+
+	data2 := []byte(`nodes:
+  - hostname: node1
+    networkInterfaces:
+      - interface: eth0
+        bond:
+          deviceSelectors:
+            - hardwareAddr: "00:50:56:*"
+      - interface: eth0
+        wireguard:
+          privateKey: test`)
+
+	var m2 config.TalhelperConfig
+	if err := yaml.Unmarshal(data2, &m2); err != nil {
+		t.Fatal(err)
+	}
+
+	err = validateInterfaceNames(m2.Nodes[0].NetworkInterfaces)
+	if err == nil {
+		t.Error("expected error for duplicate interface names with different config types")
+	}
+
+	expectedMsg := "interface 'eth0' cannot be both BondConfig and WireguardConfig"
+	if err != nil && err.Error() != expectedMsg {
+		t.Errorf("expected error message '%s', got '%s'", expectedMsg, err.Error())
+	}
+}
 
 func TestGenerateNetworkHostname(t *testing.T) {
 	result1 := GenerateNetworkHostnameConfig("shouldbeignored", true)
@@ -404,9 +458,9 @@ func TestGenerateAddressConfig(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	result := GenerateAddressConfig(m.Nodes[0].NetworkInterfaces[0])
+	result := GenerateLinkConfig(m.Nodes[0].NetworkInterfaces[0])
 	if result == nil {
-		t.Fatal("expected address config, got nil")
+		t.Fatal("expected link config, got nil")
 	}
 
 	if result.MetaName != "eth0" {
@@ -447,26 +501,26 @@ func TestGenerateAddressConfigBytes(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	addressBytes, err := GenerateAddressConfigBytes(m.Nodes[0].NetworkInterfaces)
+	linkBytes, err := GenerateLinkConfigBytes(m.Nodes[0].NetworkInterfaces)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if addressBytes == nil {
-		t.Fatal("expected address config bytes, got nil")
+	if linkBytes == nil {
+		t.Fatal("expected link config bytes, got nil")
 	}
 
-	addressStr := string(addressBytes)
-	if !bytes.Contains(addressBytes, []byte("kind: LinkConfig")) {
+	linkStr := string(linkBytes)
+	if !bytes.Contains(linkBytes, []byte("kind: LinkConfig")) {
 		t.Error("expected output to contain 'kind: LinkConfig'")
 	}
-	if !bytes.Contains(addressBytes, []byte("name: eth0")) {
+	if !bytes.Contains(linkBytes, []byte("name: eth0")) {
 		t.Error("expected output to contain 'name: eth0'")
 	}
-	if !bytes.Contains(addressBytes, []byte("address: 192.168.1.100/24")) {
+	if !bytes.Contains(linkBytes, []byte("address: 192.168.1.100/24")) {
 		t.Error("expected output to contain 'address: 192.168.1.100/24'")
 	}
-	t.Logf("Address config output:\n%s", addressStr)
+	t.Logf("Link config output:\n%s", linkStr)
 }
 
 func TestGenerateRouteConfig(t *testing.T) {
@@ -486,9 +540,9 @@ func TestGenerateRouteConfig(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	result := GenerateRouteConfig(m.Nodes[0].NetworkInterfaces[0])
+	result := GenerateLinkConfig(m.Nodes[0].NetworkInterfaces[0])
 	if result == nil {
-		t.Fatal("expected route config, got nil")
+		t.Fatal("expected link config, got nil")
 	}
 
 	if result.MetaName != "eth0" {
@@ -532,29 +586,29 @@ func TestGenerateRouteConfigBytes(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	routeBytes, err := GenerateRouteConfigBytes(m.Nodes[0].NetworkInterfaces)
+	linkBytes, err := GenerateLinkConfigBytes(m.Nodes[0].NetworkInterfaces)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if routeBytes == nil {
-		t.Fatal("expected route config bytes, got nil")
+	if linkBytes == nil {
+		t.Fatal("expected link config bytes, got nil")
 	}
 
-	routeStr := string(routeBytes)
-	if !bytes.Contains(routeBytes, []byte("kind: LinkConfig")) {
+	linkStr := string(linkBytes)
+	if !bytes.Contains(linkBytes, []byte("kind: LinkConfig")) {
 		t.Error("expected output to contain 'kind: LinkConfig'")
 	}
-	if !bytes.Contains(routeBytes, []byte("name: eth0")) {
+	if !bytes.Contains(linkBytes, []byte("name: eth0")) {
 		t.Error("expected output to contain 'name: eth0'")
 	}
-	if !bytes.Contains(routeBytes, []byte("destination: 10.0.0.0/8")) {
+	if !bytes.Contains(linkBytes, []byte("destination: 10.0.0.0/8")) {
 		t.Error("expected output to contain 'destination: 10.0.0.0/8'")
 	}
-	if !bytes.Contains(routeBytes, []byte("gateway: 192.168.1.1")) {
+	if !bytes.Contains(linkBytes, []byte("gateway: 192.168.1.1")) {
 		t.Error("expected output to contain 'gateway: 192.168.1.1'")
 	}
-	t.Logf("Route config output:\n%s", routeStr)
+	t.Logf("Link config output:\n%s", linkStr)
 }
 
 func TestGenerateLinkConfig(t *testing.T) {
@@ -957,22 +1011,6 @@ func TestBondConfigWithAddressesAndRoutes(t *testing.T) {
 		t.Errorf("expected MTU 9000, got %d", bondConfig.LinkMTU)
 	}
 
-	addressBytes, err := GenerateAddressConfigBytes(m.Nodes[0].NetworkInterfaces)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if addressBytes != nil {
-		t.Error("expected no AddressConfig for bond interface, but got one")
-	}
-
-	routeBytes, err := GenerateRouteConfigBytes(m.Nodes[0].NetworkInterfaces)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if routeBytes != nil {
-		t.Error("expected no RouteConfig for bond interface, but got one")
-	}
-
 	linkBytes, err := GenerateLinkConfigBytes(m.Nodes[0].NetworkInterfaces)
 	if err != nil {
 		t.Fatal(err)
@@ -1014,14 +1052,6 @@ func TestWireguardConfigWithAddresses(t *testing.T) {
 
 	if wgConfig.LinkMTU != 1420 {
 		t.Errorf("expected MTU 1420, got %d", wgConfig.LinkMTU)
-	}
-
-	addressBytes, err := GenerateAddressConfigBytes(m.Nodes[0].NetworkInterfaces)
-	if err != nil {
-		t.Fatal(err)
-	}
-	if addressBytes != nil {
-		t.Error("expected no AddressConfig for wireguard interface, but got one")
 	}
 
 	linkBytes, err := GenerateLinkConfigBytes(m.Nodes[0].NetworkInterfaces)
@@ -1141,7 +1171,10 @@ func TestGenerateLinkAliasConfig(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	result1 := GenerateLinkAliasConfig(m.Nodes[0].NetworkInterfaces[0])
+	result1, err := GenerateLinkAliasConfig(m.Nodes[0].NetworkInterfaces[0], "eth0")
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
 	if result1 == nil {
 		t.Fatal("expected link alias config, got nil")
 	}
@@ -1154,7 +1187,10 @@ func TestGenerateLinkAliasConfig(t *testing.T) {
 		t.Errorf("expected CEL expression to contain glob function with MAC pattern, got: %s", expr1)
 	}
 
-	result2 := GenerateLinkAliasConfig(m.Nodes[0].NetworkInterfaces[1])
+	result2, err := GenerateLinkAliasConfig(m.Nodes[0].NetworkInterfaces[1], "eth1")
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
 	if result2 == nil {
 		t.Fatal("expected link alias config, got nil")
 	}
@@ -1176,7 +1212,10 @@ func TestGenerateLinkAliasConfig(t *testing.T) {
 		t.Errorf("expected expression to contain driver name, got: %s", expr2)
 	}
 
-	result3 := GenerateLinkAliasConfig(m.Nodes[0].NetworkInterfaces[2])
+	result3, err := GenerateLinkAliasConfig(m.Nodes[0].NetworkInterfaces[2], "bond0")
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
 	if result3 == nil {
 		t.Fatal("expected link alias config, got nil")
 	}
@@ -1196,6 +1235,262 @@ func TestGenerateLinkAliasConfig(t *testing.T) {
 	}
 	if !bytes.Contains([]byte(expr3), []byte(`8086:1533`)) {
 		t.Errorf("expected expression to contain PCI ID, got: %s", expr3)
+	}
+}
+
+func TestGenerateLinkAliasConfigWithoutInterfaceName(t *testing.T) {
+	data := []byte(`nodes:
+  - hostname: node1
+    networkInterfaces:
+      - deviceSelector:
+          hardwareAddr: "00:11:22:33:44:55"
+      - deviceSelector:
+          driver: "e1000"
+        bond:
+          mode: 802.3ad
+          interfaces: []
+      - deviceSelector:
+          busPath: "0000:03:*"
+        bridge:
+          interfaces: []`)
+
+	var m config.TalhelperConfig
+	if err := yaml.Unmarshal(data, &m); err != nil {
+		t.Fatal(err)
+	}
+
+	// Eth interface
+	result1, err := GenerateLinkAliasConfig(m.Nodes[0].NetworkInterfaces[0], "eth0")
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if result1 == nil {
+		t.Fatal("expected link alias config, got nil")
+	}
+	if result1.MetaName != "eth0" {
+		t.Errorf("expected synthetic name=eth0, got %s", result1.MetaName)
+	}
+
+	// Bond interface
+	result2, err := GenerateLinkAliasConfig(m.Nodes[0].NetworkInterfaces[1], "bond0")
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if result2 == nil {
+		t.Fatal("expected link alias config, got nil")
+	}
+	if result2.MetaName != "bond0" {
+		t.Errorf("expected synthetic name=bond0, got %s", result2.MetaName)
+	}
+
+	// Bridge interface
+	result3, err := GenerateLinkAliasConfig(m.Nodes[0].NetworkInterfaces[2], "br0")
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+	if result3 == nil {
+		t.Fatal("expected link alias config, got nil")
+	}
+	if result3.MetaName != "br0" {
+		t.Errorf("expected synthetic name=br0, got %s", result3.MetaName)
+	}
+}
+
+func TestGenerateLinkAliasConfigAvoidsDuplicateNames(t *testing.T) {
+	data := []byte(`nodes:
+  - hostname: test-node
+    networkInterfaces:
+      - interface: eth0
+        addresses:
+          - 192.168.1.10/24
+      - deviceSelector:
+          hardwareAddr: "00:30:93:*"
+        addresses:
+          - 10.0.0.10/24
+      - deviceSelector:
+          hardwareAddr: "00:50:56:*"
+        addresses:
+          - 172.16.0.10/24`)
+
+	var m config.TalhelperConfig
+	if err := yaml.Unmarshal(data, &m); err != nil {
+		t.Fatal(err)
+	}
+
+	aliasBytes, err := GenerateLinkAliasConfigBytes(m.Nodes[0].NetworkInterfaces)
+	if err != nil {
+		t.Fatalf("unexpected error: %v", err)
+	}
+
+	aliasConfigs := string(aliasBytes)
+	t.Logf("Generated LinkAlias configs:\n%s", aliasConfigs)
+
+	linkAliasCount := bytes.Count(aliasBytes, []byte("kind: LinkAliasConfig"))
+	if linkAliasCount != 2 {
+		t.Errorf("expected 2 LinkAliasConfig documents (for 2nd and 3rd interfaces), got %d", linkAliasCount)
+	}
+
+	lines := bytes.Split(aliasBytes, []byte("\n"))
+	for _, line := range lines {
+		if bytes.Contains(line, []byte("name: eth0")) {
+			t.Error("found 'name: eth0' in generated LinkAlias - should not generate alias for explicitly named interface")
+		}
+	}
+
+	if !bytes.Contains(aliasBytes, []byte("name: eth1")) {
+		t.Error("expected second interface (first with deviceSelector) to be named eth1")
+	}
+	if !bytes.Contains(aliasBytes, []byte("name: eth2")) {
+		t.Error("expected third interface (second with deviceSelector) to be named eth2")
+	}
+}
+
+func TestDeviceSelectorUpdatesDeviceInterface(t *testing.T) {
+	data := []byte(`nodes:
+  - hostname: node1
+    networkInterfaces:
+      - interface: eth0
+        addresses:
+          - 192.168.1.10/24
+      - deviceSelector:
+          hardwareAddr: "00:50:56:*"
+        addresses:
+          - 10.0.0.10/24`)
+
+	var m config.TalhelperConfig
+	if err := yaml.Unmarshal(data, &m); err != nil {
+		t.Fatal(err)
+	}
+
+	if len(m.Nodes) == 0 || len(m.Nodes[0].NetworkInterfaces) != 2 {
+		t.Fatal("failed to parse test data")
+	}
+
+	devices := m.Nodes[0].NetworkInterfaces
+
+	_, err := GenerateLinkAliasConfigBytes(devices)
+	if err != nil {
+		t.Fatalf("failed to generate link alias config: %v", err)
+	}
+
+	if devices[1].DeviceInterface == "" {
+		t.Error("expected Device.DeviceInterface to be updated with synthetic name, but it's still empty")
+	}
+	if devices[1].DeviceInterface != "eth1" {
+		t.Errorf("expected Device.DeviceInterface to be 'eth1', got '%s'", devices[1].DeviceInterface)
+	}
+
+	linkBytes, err := GenerateLinkConfigBytes(devices)
+	if err != nil {
+		t.Fatalf("failed to generate link config: %v", err)
+	}
+
+	if !bytes.Contains(linkBytes, []byte("name: eth0")) {
+		t.Error("expected LinkConfig for eth0")
+	}
+	if !bytes.Contains(linkBytes, []byte("name: eth1")) {
+		t.Error("expected LinkConfig for eth1 (synthetic name)")
+	}
+
+	emptyNameCount := bytes.Count(linkBytes, []byte("name: \"\""))
+	if emptyNameCount > 0 {
+		t.Errorf("found %d LinkConfig with empty name, expected 0", emptyNameCount)
+	}
+}
+
+func TestCELExpressionEvaluation(t *testing.T) {
+	tests := []struct {
+		name       string
+		expression string
+		mockLink   *networktypes.LinkStatusSpec
+		expected   bool
+	}{
+		{
+			name:       "driver match",
+			expression: `glob("e1000", link.driver)`,
+			mockLink: &networktypes.LinkStatusSpec{
+				Driver: "e1000",
+			},
+			expected: true,
+		},
+		{
+			name:       "driver no match",
+			expression: `glob("e1000", link.driver)`,
+			mockLink: &networktypes.LinkStatusSpec{
+				Driver: "virtio_net",
+			},
+			expected: false,
+		},
+		{
+			name:       "MAC address wildcard match",
+			expression: `glob("00:50:56:*", mac(link.hardware_addr))`,
+			mockLink: &networktypes.LinkStatusSpec{
+				HardwareAddr: []byte{0x00, 0x50, 0x56, 0x12, 0x34, 0x56},
+			},
+			expected: true,
+		},
+		{
+			name:       "MAC address no match",
+			expression: `glob("aa:bb:cc:*", mac(link.hardware_addr))`,
+			mockLink: &networktypes.LinkStatusSpec{
+				HardwareAddr: []byte{0x00, 0x50, 0x56, 0x12, 0x34, 0x56},
+			},
+			expected: false,
+		},
+		{
+			name:       "compound expression - both match",
+			expression: `glob("e1000", link.driver) && glob("00:50:56:*", mac(link.hardware_addr))`,
+			mockLink: &networktypes.LinkStatusSpec{
+				Driver:       "e1000",
+				HardwareAddr: []byte{0x00, 0x50, 0x56, 0x12, 0x34, 0x56},
+			},
+			expected: true,
+		},
+		{
+			name:       "compound expression - one fails",
+			expression: `glob("virtio_net", link.driver) && glob("00:50:56:*", mac(link.hardware_addr))`,
+			mockLink: &networktypes.LinkStatusSpec{
+				Driver:       "e1000",
+				HardwareAddr: []byte{0x00, 0x50, 0x56, 0x12, 0x34, 0x56},
+			},
+			expected: false,
+		},
+		{
+			name:       "bus path match",
+			expression: `glob("0000:01:*", link.bus_path)`,
+			mockLink: &networktypes.LinkStatusSpec{
+				BusPath: "0000:01:00.0",
+			},
+			expected: true,
+		},
+		{
+			name:       "PCI ID match",
+			expression: `glob("8086:1533", link.pciid)`,
+			mockLink: &networktypes.LinkStatusSpec{
+				Pciid: "8086:1533",
+			},
+			expected: true,
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			celExpr, err := cel.ParseBooleanExpression(tt.expression, celenv.LinkLocator())
+			if err != nil {
+				t.Fatalf("failed to parse CEL expression: %v", err)
+			}
+
+			result, err := celExpr.EvalBool(celenv.LinkLocator(), map[string]any{
+				"link": tt.mockLink,
+			})
+			if err != nil {
+				t.Fatalf("failed to evaluate CEL expression: %v", err)
+			}
+
+			if result != tt.expected {
+				t.Errorf("expected %v, got %v", tt.expected, result)
+			}
+		})
 	}
 }
 
