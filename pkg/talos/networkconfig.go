@@ -16,58 +16,6 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-func validateInterfaceNames(devices []*v1alpha1.Device) error {
-	interfaceTypes := map[string]string{}
-
-	for i, device := range devices {
-		if device.DeviceInterface == "" {
-			continue
-		}
-
-		var configTypes []string
-		if device.DeviceBond != nil {
-			configTypes = append(configTypes, "bond")
-		}
-		if device.DeviceBridge != nil {
-			configTypes = append(configTypes, "bridge")
-		}
-		if device.DeviceWireguardConfig != nil {
-			configTypes = append(configTypes, "wireguard")
-		}
-
-		// A device can only have ONE primary config type (bond, bridge, or wireguard)
-		if len(configTypes) > 1 {
-			return fmt.Errorf("interface '%s' (device %d) cannot have multiple config types: %v",
-				device.DeviceInterface, i, configTypes)
-		}
-
-		var configType string
-		switch {
-		case device.DeviceBond != nil:
-			configType = "BondConfig"
-		case device.DeviceBridge != nil:
-			configType = "BridgeConfig"
-		case device.DeviceWireguardConfig != nil:
-			configType = "WireguardConfig"
-		case len(device.DeviceVlans) > 0:
-			configType = "VLANConfig"
-		default:
-			configType = "LinkConfig"
-		}
-
-		// Check for conflicts across different devices
-		if existingType, exists := interfaceTypes[device.DeviceInterface]; exists {
-			if existingType != configType {
-				return fmt.Errorf("interface '%s' cannot be both %s and %s",
-					device.DeviceInterface, existingType, configType)
-			}
-		}
-		interfaceTypes[device.DeviceInterface] = configType
-	}
-
-	return nil
-}
-
 func GenerateResolverConfigBytes(nameservers []string, disableSearchDomain bool) ([]byte, error) {
 	var result [][]byte
 
@@ -722,9 +670,12 @@ func GenerateLinkConfig(device *v1alpha1.Device) *network.LinkConfigV1Alpha1 {
 
 		if route.Network() != "" {
 			prefix, err := netip.ParsePrefix(route.Network())
-			if err == nil {
-				routeConfig.RouteDestination = network.Prefix{Prefix: prefix}
+			if err != nil {
+				continue
 			}
+			routeConfig.RouteDestination = network.Prefix{Prefix: prefix}
+		} else {
+			continue
 		}
 
 		if route.Gateway() != "" {
@@ -826,9 +777,12 @@ func GenerateVLANConfig(device *v1alpha1.Device, vlan *v1alpha1.Vlan) *network.V
 
 				if route.Network() != "" {
 					prefix, err := netip.ParsePrefix(route.Network())
-					if err == nil {
-						routeSpec.RouteDestination = network.Prefix{Prefix: prefix}
+					if err != nil {
+						continue
 					}
+					routeSpec.RouteDestination = network.Prefix{Prefix: prefix}
+				} else {
+					continue
 				}
 
 				if route.Gateway() != "" {
@@ -1038,9 +992,12 @@ func addCommonLinkConfig(linkConfig *network.CommonLinkConfig, device *v1alpha1.
 
 		if route.Network() != "" {
 			prefix, err := netip.ParsePrefix(route.Network())
-			if err == nil {
-				routeConfig.RouteDestination = network.Prefix{Prefix: prefix}
+			if err != nil {
+				continue
 			}
+			routeConfig.RouteDestination = network.Prefix{Prefix: prefix}
+		} else {
+			continue
 		}
 
 		if route.Gateway() != "" {

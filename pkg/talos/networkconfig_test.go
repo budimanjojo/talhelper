@@ -15,57 +15,6 @@ import (
 	"gopkg.in/yaml.v3"
 )
 
-func TestValidateInterfaceNames(t *testing.T) {
-	data1 := []byte(`nodes:
-  - hostname: node1
-    networkInterfaces:
-      - interface: eth0
-        bond:
-          deviceSelectors:
-            - hardwareAddr: "00:50:56:*"
-        wireguard:
-          privateKey: test`)
-
-	var m1 config.TalhelperConfig
-	if err := yaml.Unmarshal(data1, &m1); err != nil {
-		t.Fatal(err)
-	}
-
-	err := validateInterfaceNames(m1.Nodes[0].NetworkInterfaces)
-	if err == nil {
-		t.Error("expected error for device with both bond and wireguard configs")
-	}
-	if err != nil && !bytes.Contains([]byte(err.Error()), []byte("cannot have multiple config types")) {
-		t.Errorf("expected error about multiple config types, got: %s", err.Error())
-	}
-
-	data2 := []byte(`nodes:
-  - hostname: node1
-    networkInterfaces:
-      - interface: eth0
-        bond:
-          deviceSelectors:
-            - hardwareAddr: "00:50:56:*"
-      - interface: eth0
-        wireguard:
-          privateKey: test`)
-
-	var m2 config.TalhelperConfig
-	if err := yaml.Unmarshal(data2, &m2); err != nil {
-		t.Fatal(err)
-	}
-
-	err = validateInterfaceNames(m2.Nodes[0].NetworkInterfaces)
-	if err == nil {
-		t.Error("expected error for duplicate interface names with different config types")
-	}
-
-	expectedMsg := "interface 'eth0' cannot be both BondConfig and WireguardConfig"
-	if err != nil && err.Error() != expectedMsg {
-		t.Errorf("expected error message '%s', got '%s'", expectedMsg, err.Error())
-	}
-}
-
 func TestGenerateNetworkHostname(t *testing.T) {
 	result1 := GenerateNetworkHostnameConfig("shouldbeignored", true)
 	result2 := GenerateNetworkHostnameConfig("hostname", false)
