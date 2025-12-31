@@ -668,14 +668,21 @@ func GenerateLinkConfig(device *v1alpha1.Device) *network.LinkConfigV1Alpha1 {
 	for _, route := range device.DeviceRoutes {
 		routeConfig := network.RouteConfig{}
 
-		if route.Network() != "" {
-			prefix, err := netip.ParsePrefix(route.Network())
-			if err != nil {
-				continue
-			}
-			routeConfig.RouteDestination = network.Prefix{Prefix: prefix}
-		} else {
+		networkStr := route.Network()
+		if networkStr == "" {
 			continue
+		}
+
+		prefix, err := netip.ParsePrefix(networkStr)
+		if err != nil {
+			continue
+		}
+
+		// For default routes (0.0.0.0/0 or ::/0), omit the destination field
+		// and let Talos infer it from the gateway's address family
+		isDefaultRoute := (prefix.String() == "0.0.0.0/0" || prefix.String() == "::/0")
+		if !isDefaultRoute {
+			routeConfig.RouteDestination = network.Prefix{Prefix: prefix}
 		}
 
 		if route.Gateway() != "" {
@@ -990,14 +997,21 @@ func addCommonLinkConfig(linkConfig *network.CommonLinkConfig, device *v1alpha1.
 	for _, route := range device.DeviceRoutes {
 		routeConfig := network.RouteConfig{}
 
-		if route.Network() != "" {
-			prefix, err := netip.ParsePrefix(route.Network())
-			if err != nil {
-				continue
-			}
-			routeConfig.RouteDestination = network.Prefix{Prefix: prefix}
-		} else {
+		networkStr := route.Network()
+		if networkStr == "" {
 			continue
+		}
+
+		prefix, err := netip.ParsePrefix(networkStr)
+		if err != nil {
+			continue
+		}
+
+		// For default routes (0.0.0.0/0 or ::/0), omit the destination field
+		// and let Talos infer it from the gateway's address family
+		isDefaultRoute := (prefix.String() == "0.0.0.0/0" || prefix.String() == "::/0")
+		if !isDefaultRoute {
+			routeConfig.RouteDestination = network.Prefix{Prefix: prefix}
 		}
 
 		if route.Gateway() != "" {

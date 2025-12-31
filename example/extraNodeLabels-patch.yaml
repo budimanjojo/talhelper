@@ -1,0 +1,4 @@
+---
+machine:
+  nodeLabels:
+    domainname: "${myDomainName}"
