@@ -514,9 +514,12 @@ func TestGenerateRouteConfig(t *testing.T) {
 		t.Errorf("expected metric 100, got %d", result.LinkRoutes[0].RouteMetric)
 	}
 
-	expectedDest2 := netip.MustParsePrefix("0.0.0.0/0")
-	if result.LinkRoutes[1].RouteDestination.Prefix != expectedDest2 {
-		t.Errorf("expected destination %s, got %s", expectedDest2, result.LinkRoutes[1].RouteDestination.Prefix)
+	if result.LinkRoutes[1].RouteDestination.Prefix.IsValid() {
+		t.Errorf("expected no destination for default route, got %s", result.LinkRoutes[1].RouteDestination.Prefix)
+	}
+	expectedGw2 := netip.MustParseAddr("192.168.1.254")
+	if result.LinkRoutes[1].RouteGateway.Addr != expectedGw2 {
+		t.Errorf("expected gateway %s, got %s", expectedGw2, result.LinkRoutes[1].RouteGateway.Addr)
 	}
 }
 
