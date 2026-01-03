@@ -213,6 +213,9 @@
         "systemExtensions": {
           "$ref": "#/$defs/SystemExtensions"
         },
+        "bootloader": {
+          "type": "integer"
+        },
         "secureboot": {
           "$ref": "#/$defs/SecureBootCustomization"
         }
@@ -426,8 +429,23 @@
     },
     "EncryptionKeyTPM": {
       "properties": {
+        "options": {
+          "$ref": "#/$defs/EncryptionKeyTPMOptions"
+        },
         "checkSecurebootStatusOnEnroll": {
           "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "EncryptionKeyTPMOptions": {
+      "properties": {
+        "pcrs": {
+          "items": {
+            "type": "integer"
+          },
+          "type": "array"
         }
       },
       "additionalProperties": false,
@@ -793,6 +811,10 @@
         "controlPlane": {
           "type": "boolean",
           "description": "Whether the node is a controlplane"
+        },
+        "grubUseUKICmdline": {
+          "type": "boolean",
+          "description": "Whether to use UKI cmdline for grub configuration. If not specified"
         },
         "installDisk": {
           "type": "string",
