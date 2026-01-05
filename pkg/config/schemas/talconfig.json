@@ -213,6 +213,9 @@
         "systemExtensions": {
           "$ref": "#/$defs/SystemExtensions"
         },
+        "bootloader": {
+          "type": "integer"
+        },
         "secureboot": {
           "$ref": "#/$defs/SecureBootCustomization"
         }
@@ -426,8 +429,23 @@
     },
     "EncryptionKeyTPM": {
       "properties": {
+        "options": {
+          "$ref": "#/$defs/EncryptionKeyTPMOptions"
+        },
         "checkSecurebootStatusOnEnroll": {
           "type": "boolean"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "EncryptionKeyTPMOptions": {
+      "properties": {
+        "pcrs": {
+          "items": {
+            "type": "integer"
+          },
+          "type": "array"
         }
       },
       "additionalProperties": false,
@@ -1332,6 +1350,10 @@
         "name": {
           "type": "string",
           "description": "Name of user volume config"
+        },
+        "volumeType": {
+          "type": "integer",
+          "description": "Volume type of user volume config"
         },
         "provisioning": {
           "$ref": "#/$defs/ProvisioningSpecWrapper",
