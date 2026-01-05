@@ -47,6 +47,7 @@ func GenerateUserVolumeConfig(cfgs []*config.UserVolume, mode string) ([]*block.
 		names = append(names, uv.Name)
 		uvc := block.NewUserVolumeConfigV1Alpha1()
 		uvc.MetaName = uv.Name
+		uvc.VolumeType = uv.VolumeType
 		uvc.ProvisioningSpec = uv.Provisioning
 		uvc.FilesystemSpec = uv.Filesystem
 		uvc.EncryptionSpec = uv.Encryption

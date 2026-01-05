@@ -16,6 +16,7 @@ func TestGenerateNodeUserVolumeConfig(t *testing.T) {
   - hostname: node1
     userVolumes:
       - name: ceph-data
+        volumeType: partition
         provisioning:
           diskSelector:
             match: disk.transport == "nvme"
@@ -41,6 +42,7 @@ func TestGenerateNodeUserVolumeConfig(t *testing.T) {
 	}
 
 	expectedVolume1Name := "ceph-data"
+	expectedVolume1VolumeType := blocktype.DeviceTypePartition
 	expectedVolume1Provisioning := block.ProvisioningSpec{
 		DiskSelectorSpec: block.DiskSelector{
 			Match: cel.MustExpression(cel.ParseBooleanExpression(`disk.transport == "nvme"`, celenv.DiskLocator())),
@@ -77,6 +79,7 @@ func TestGenerateNodeUserVolumeConfig(t *testing.T) {
 	}
 
 	compare(result[0].Name(), expectedVolume1Name, t)
+	compare(result[0].VolumeType.String(), expectedVolume1VolumeType, t)
 	compare(result[0].ProvisioningSpec, expectedVolume1Provisioning, t)
 	compare(result[0].FilesystemSpec, expectedVolume1Filesystem, t)
 	compare(result[0].EncryptionSpec, expectedVolume1Encryption, t)

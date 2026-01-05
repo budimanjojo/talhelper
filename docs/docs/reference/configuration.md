@@ -1105,6 +1105,18 @@ name: ceph-data
 </tr>
 
 <tr markdown="1">
+<td markdown="1">`volumeType`</td>
+<td markdown="1">`string`</td>
+<td markdown="1">Volume type of the volume config.<details><summary>*Show example*</summary>
+```yaml
+volumeType: partition
+```
+</details></td>
+<td markdown="1" align="center">`nil`</td>
+<td markdown="1" align="center">:white_check_mark:</td>
+</tr>
+
+<tr markdown="1">
 <td markdown="1">`provisioning`</td>
 <td markdown="1">[ProvisioningSpec](#provisioningspec)</td>
 <td markdown="1">Provisioning spec of the volume config.<details><summary>*Show example*</summary>
