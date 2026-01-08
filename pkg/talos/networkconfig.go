@@ -149,7 +149,7 @@ func GenerateLinkAliasConfigBytes(devices []*v1alpha1.Device) ([]byte, error) {
 				}
 			default:
 				for {
-					aliasName = fmt.Sprintf("eth%d", ethIndex)
+					aliasName = fmt.Sprintf("ethSel%d", ethIndex)
 					ethIndex++
 					if !usedNames[aliasName] {
 						break

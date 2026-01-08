@@ -514,6 +514,8 @@ func TestGenerateRouteConfig(t *testing.T) {
 		t.Errorf("expected metric 100, got %d", result.LinkRoutes[0].RouteMetric)
 	}
 
+	// For default routes (0.0.0.0/0), the destination field should be omitted (zero value)
+	// so Talos can infer it from the gateway's address family
 	if result.LinkRoutes[1].RouteDestination.Prefix.IsValid() {
 		t.Errorf("expected no destination for default route, got %s", result.LinkRoutes[1].RouteDestination.Prefix)
 	}
@@ -1289,11 +1291,11 @@ func TestGenerateLinkAliasConfigAvoidsDuplicateNames(t *testing.T) {
 		}
 	}
 
-	if !bytes.Contains(aliasBytes, []byte("name: eth1")) {
-		t.Error("expected second interface (first with deviceSelector) to be named eth1")
+	if !bytes.Contains(aliasBytes, []byte("name: ethSel0")) {
+		t.Error("expected second interface (first with deviceSelector) to be named ethSel0")
 	}
-	if !bytes.Contains(aliasBytes, []byte("name: eth2")) {
-		t.Error("expected third interface (second with deviceSelector) to be named eth2")
+	if !bytes.Contains(aliasBytes, []byte("name: ethSel1")) {
+		t.Error("expected third interface (second with deviceSelector) to be named ethSel1")
 	}
 }
 
@@ -1328,8 +1330,8 @@ func TestDeviceSelectorUpdatesDeviceInterface(t *testing.T) {
 	if devices[1].DeviceInterface == "" {
 		t.Error("expected Device.DeviceInterface to be updated with synthetic name, but it's still empty")
 	}
-	if devices[1].DeviceInterface != "eth1" {
-		t.Errorf("expected Device.DeviceInterface to be 'eth1', got '%s'", devices[1].DeviceInterface)
+	if devices[1].DeviceInterface != "ethSel0" {
+		t.Errorf("expected Device.DeviceInterface to be 'ethSel0', got '%s'", devices[1].DeviceInterface)
 	}
 
 	linkBytes, err := GenerateLinkConfigBytes(devices)
@@ -1340,8 +1342,8 @@ func TestDeviceSelectorUpdatesDeviceInterface(t *testing.T) {
 	if !bytes.Contains(linkBytes, []byte("name: eth0")) {
 		t.Error("expected LinkConfig for eth0")
 	}
-	if !bytes.Contains(linkBytes, []byte("name: eth1")) {
-		t.Error("expected LinkConfig for eth1 (synthetic name)")
+	if !bytes.Contains(linkBytes, []byte("name: ethSel0")) {
+		t.Error("expected LinkConfig for ethSel0 (synthetic name)")
 	}
 
 	emptyNameCount := bytes.Count(linkBytes, []byte("name: \"\""))
