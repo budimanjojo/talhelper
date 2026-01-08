@@ -188,7 +188,7 @@ controlPlane:
           extraArgs:
             feature-gates: GracefulNodeShutdown=true,MixedProtocolLBService=true
             rotate-server-certificates: "true"
-    - "@./extraKernelArgs-patch.yaml"
+    - "@./extraNodeLabels-patch.yaml"
 worker:
   ingressFirewall:
     defaultAction: block
