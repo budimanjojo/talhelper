@@ -812,6 +812,10 @@
           "type": "boolean",
           "description": "Whether the node is a controlplane"
         },
+        "grubUseUKICmdline": {
+          "type": "boolean",
+          "description": "Whether to use UKI cmdline for grub configuration. If not specified"
+        },
         "installDisk": {
           "type": "string",
           "description": "The disk used for installation"
