@@ -394,6 +394,7 @@ func TestGenerateVIPConfigBytes(t *testing.T) {
 	}
 	t.Logf("VIP config output:\n%s", vipStr)
 }
+
 func TestGenerateAddressConfig(t *testing.T) {
 	data := []byte(`nodes:
   - hostname: node1
@@ -518,7 +519,7 @@ func TestGenerateRouteConfig(t *testing.T) {
 
 	// For default routes (0.0.0.0/0), the destination field should be omitted (zero value)
 	// so Talos can infer it from the gateway's address family
-	if result.LinkRoutes[1].RouteDestination.Prefix.IsValid() {
+	if result.LinkRoutes[1].RouteDestination.IsValid() {
 		t.Errorf("expected no destination for default route, got %s", result.LinkRoutes[1].RouteDestination.Prefix)
 	}
 	expectedGw2 := netip.MustParseAddr("192.168.1.254")
@@ -920,6 +921,7 @@ func TestGenerateBridgeConfigBytes(t *testing.T) {
 	}
 	t.Logf("Bridge config output:\n%s", bridgeStr)
 }
+
 func TestBondConfigWithAddressesAndRoutes(t *testing.T) {
 	data := []byte(`nodes:
   - hostname: node1
@@ -1106,6 +1108,7 @@ func TestHasSpecialConfig(t *testing.T) {
 		t.Error("expected regular interface to NOT have special config")
 	}
 }
+
 func TestGenerateLinkAliasConfig(t *testing.T) {
 	data := []byte(`nodes:
   - hostname: node1
@@ -1535,6 +1538,7 @@ func TestGenerateLinkAliasConfigBytes(t *testing.T) {
 	}
 	t.Logf("Link alias config output:\n%s", aliasStr)
 }
+
 func TestGenerateBondMemberAliasConfig(t *testing.T) {
 	data := []byte(`nodes:
   - hostname: node1
