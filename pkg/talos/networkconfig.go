@@ -3,6 +3,7 @@ package talos
 import (
 	"bytes"
 	"fmt"
+	"log/slog"
 	"net/netip"
 	"strings"
 
@@ -305,6 +306,8 @@ func buildDeviceSelectorCELExpression(selector *v1alpha1.NetworkDeviceSelector) 
 	if _, err := cel.ParseBooleanExpression(exprStr, celenv.LinkLocator()); err != nil {
 		return "", fmt.Errorf("invalid CEL expression: %w", err)
 	}
+
+	slog.Debug("WARNING: the selector MUST match exactly one device or Talos will refuse to continue, globbing is technically not possible with LinkAliasConfig")
 
 	return exprStr, nil
 }
