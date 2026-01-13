@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="author" content="budimanjojo" />
+      <link rel="shortcut icon" href="../img/favicon.ico" />
+    <title>Getting Started - Talhelper</title>
+    <link rel="stylesheet" href="../css/theme.css" />
+    <link rel="stylesheet" href="../css/theme_extra.css" />
+        <link href="../css/extra.css" rel="stylesheet" />
+        <link href="../css/highlight.css" rel="stylesheet" />
+        <link href="../css/version-select.css" rel="stylesheet" />
+    
+      <script>
+        // Current page data
+        var mkdocs_page_name = "Getting Started";
+        var mkdocs_page_input_path = "getting-started.md";
+        var mkdocs_page_url = null;
+      </script>
+    
+    <script src="../js/jquery-3.6.0.min.js" defer></script>
+    <!--[if lt IE 9]>
+      <script src="../js/html5shiv.min.js"></script>
+    <![endif]--> 
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side stickynav">
+    <div class="wy-side-scroll">
+      <div class="wy-side-nav-search">
+          <a href="..">
+          <img src="../img/logo.svg" class="logo" alt="Logo"/>
+        </a><div role="search">
+  <form id ="rtd-search-form" class="wy-form" action="../search.html" method="get">
+      <input type="text" name="q" placeholder="Search docs" title="Type search term here" />
+  </form>
+</div>
+      </div>
+
+      <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="..">Introduction</a>
+                </li>
+              </ul>
+              <ul class="current">
+                <li class="toctree-l1 current"><a class="reference internal current" href="./">Getting Started</a>
+    <ul class="current">
+    <li class="toctree-l2"><a class="reference internal" href="#before-you-begin">Before you begin</a>
+    </li>
+    <li class="toctree-l2"><a class="reference internal" href="#scenarios">Scenarios</a>
+        <ul>
+    <li class="toctree-l3"><a class="reference internal" href="#you-already-have-a-talos-cluster-running">You already have a Talos cluster running</a>
+    </li>
+    <li class="toctree-l3"><a class="reference internal" href="#you-are-starting-from-scratch">You are starting from scratch</a>
+    </li>
+        </ul>
+    </li>
+    </ul>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../installation/">Installation</a>
+                </li>
+              </ul>
+              <ul>
+                <li class="toctree-l1"><a class="reference internal" href="../guides/">Guides</a>
+                </li>
+              </ul>
+              <p class="caption"><span class="caption-text">Reference</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="reference internal" href="../reference/cli/">CLI</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../reference/configuration/">Configuration</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../reference/supported-version/">Supported Talos Versions</a>
+                  </li>
+              </ul>
+              <p class="caption"><span class="caption-text">GitHub</span></p>
+              <ul>
+                  <li class="toctree-l1"><a class="" href="https://github.com/budimanjojo/talhelper">Homepage</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="https://github.com/budimanjojo/talhelper/issues">Issue Tracker</a>
+                  </li>
+                  <li class="toctree-l1"><a class="reference internal" href="../contributing/">Contributing</a>
+                  </li>
+                  <li class="toctree-l1"><a class="" href="https://github.com/sponsors/budimanjojo">Sponsor Me</a>
+                  </li>
+              </ul>
+      </div>
+    </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+      <nav class="wy-nav-top" role="navigation" aria-label="Mobile navigation menu">
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="..">Talhelper</a>
+        
+      </nav>
+      <div class="wy-nav-content">
+        <div class="rst-content"><div role="navigation" aria-label="breadcrumbs navigation">
+  <ul class="wy-breadcrumbs">
+    <li><a href=".." class="icon icon-home" alt="Docs"></a> &raquo;</li>
+      <li>Getting Started</li>
+    <li class="wy-breadcrumbs-aside">
+    </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+            <div class="section" itemprop="articleBody">
+              
+                <h1 id="getting-started">Getting Started</h1>
+<h2 id="before-you-begin">Before you begin</h2>
+<p>There are some prerequisites before you start using <code>talhelper</code>.</p>
+<ul>
+<li>You need <code>talhelper</code> installed on your workstation (of course), head over to the <a href="../installation/">Installation</a> page for more detail.</li>
+<li>You also need <code>sops</code> installed and configured with your preferred encryption tool (<code>age</code>, <code>pgp</code>, etc). If you want to use <code>doppler</code> instead, there's an alternative way to do this thanks to <a href="https://github.com/truxnell">@truxnell</a> which you can read <a href="../guides/#using-doppler-instead-of-sops">here</a></li>
+<li>You also need <code>talosctl</code> installed on your workstation to apply the generated machine config files.</li>
+</ul>
+<p>Once you have all of the above conditions met, you can now start with the <a href="#scenarios">Scenario</a> that suits your current situation.</p>
+<h2 id="scenarios">Scenarios</h2>
+<p>Depending on which situation you are currently in before integrating <code>talhelper</code> to your stack, here are some simplified steps to get you started:</p>
+<h3 id="you-already-have-a-talos-cluster-running">You already have a Talos cluster running</h3>
+<p>If you already have your Talos Kubernetes cluster up and running but you haven't GitOps it yet.
+Here are the steps you need to do:</p>
+<ol>
+<li>Get your node's <code>machineconfig</code> using <code>talosctl</code>: <code>talosctl -n &lt;controlplane-ip&gt; get mc v1alpha1 -o jsonpath='{.spec}' &gt; /tmp/machineconfig.yaml</code>.</li>
+<li>Run <code>talhelper gensecret -f /tmp/machineconfig.yaml &gt; talsecret.sops.yaml</code>. This command will create a <code>talsecret.sops.yaml</code> file with all your current cluster secrets.</li>
+<li>Encrypt the secret with <code>sops</code>: <code>sops -e -i talsecret.sops.yaml</code> (you will need <code>sops</code> <a href="../guides/#configuring-sops-for-talhelper">configured properly</a>).</li>
+<li>Create a <code>talconfig.yaml</code> based on your current cluster, here's the example <a href="https://github.com/budimanjojo/talhelper/blob/master/example/talconfig.yaml">template</a>. For all the available options, look at the <a href="../reference/configuration/">Configuration Reference</a></li>
+<li>Run <code>talhelper genconfig</code> and the output files will be in <code>./clusterconfig</code> by default.</li>
+<li>You can now do <a href="https://www.talos.dev/latest/reference/cli/#talosctl-apply-config">talosctl apply-config</a> commands to the generated files.</li>
+<li>Commit your <code>talconfig.yaml</code> and <code>talsecret.yaml</code> in your git repository.</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please don't push the generated files into your public git repository.
+By default <code>talhelper</code> will create a <code>.gitignore</code> file to ignore the generated files for you unless you use <code>--no-gitignore</code> flag.</p>
+<p>The generated files contain unencrypted secrets and you don't want people to get a hand on them.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Do not update or change your <code>talsecret.sops.yaml</code> file once you have a working cluster unless you want to recreate a new cluster or know what you're doing as you will break the cluster and lose access to it.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Running <code>talhelper genconfig</code> will request a brand new <code>talosconfig</code> that is valid for 365 days since the time you run the command. This means the content of the file will be different everytime. This is the equivalent to <a href="https://www.talos.dev/latest/talos-guides/howto/cert-management/#generating-new-client-configuration">Generating new client configuration</a> that you can use to re-request a new client configuration.</p>
+</div>
+<h3 id="you-are-starting-from-scratch">You are starting from scratch</h3>
+<p>If you are creating a Talos Kubernetes cluster from scratch and you want to use <code>talhelper</code>, that's awesome!
+Here are the steps you need to do:</p>
+<ol>
+<li>Create a <code>talconfig.yaml</code> according to your needs, here's the example <a href="https://github.com/budimanjojo/talhelper/blob/master/example/talconfig.yaml">template</a>. For all the available options, look at the <a href="../reference/configuration/">Configuration Reference</a></li>
+<li>Run <code>talhelper gensecret &gt; talsecret.sops.yaml</code>. This command will create a <code>talsecret.sops.yaml</code> file with your future cluster secrets.</li>
+<li>Encrypt the secret with <code>sops</code>: <code>sops -e -i talsecret.sops.yaml</code> (you will need <code>sops</code> <a href="../guides/#configuring-sops-for-talhelper">configured properly</a>).</li>
+<li>Run <code>talhelper genconfig</code> and the output files will be in <code>./clusterconfig</code> by default.</li>
+<li>You can now do <a href="https://www.talos.dev/latest/reference/cli/#talosctl-apply-config">talosctl apply-config</a> commands to the generated files.</li>
+<li>Commit your <code>talconfig.yaml</code> and <code>talsecret.yaml</code> in your git repository.</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Please don't push the generated files into your public git repository.
+By default <code>talhelper</code> will create a <code>.gitignore</code> file to ignore the generated files for you unless you use <code>--no-gitignore</code> flag.</p>
+<p>The generated files contain unencrypted secrets and you don't want people to get a hand on them.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Do not update or change your <code>talsecret.sops.yaml</code> file once you have a working cluster unless you want to recreate a new cluster or know what you're doing as you will break the cluster and lose access to it.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Running <code>talhelper genconfig</code> will request a brand new <code>talosconfig</code> that is valid for 365 days since the time you run the command. This means the content of the file will be different everytime. This is the equivalent to <a href="https://www.talos.dev/latest/talos-guides/howto/cert-management/#generating-new-client-configuration">Generating new client configuration</a> that you can use to re-request a new client configuration.</p>
+</div>
+              
+            </div>
+          </div><footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <!-- Copyright etc -->
+  </div>
+
+  Built with <a href="https://www.mkdocs.org/">MkDocs</a> using a <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>.
+</footer>
+          
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+
+  <div class="rst-versions" role="note" aria-label="Versions">
+  <span class="rst-current-version" data-toggle="rst-current-version">
+    
+    
+      <span><a href=".." style="color: #fcfcfc">&laquo; Previous</a></span>
+    
+    
+      <span><a href="../installation/" style="color: #fcfcfc">Next &raquo;</a></span>
+    
+  </span>
+</div>
+    <script>var base_url = '..';</script>
+    <script src="../js/theme_extra.js" defer></script>
+    <script src="../js/theme.js" defer></script>
+      <script src="../js/version-select.js" defer></script>
+      <script src="../search/main.js" defer></script>
+    <script defer>
+        window.onload = function () {
+            SphinxRtdTheme.Navigation.enable(true);
+        };
+    </script>
+
+</body>
+</html>
