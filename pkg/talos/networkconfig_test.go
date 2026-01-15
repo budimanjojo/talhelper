@@ -664,8 +664,8 @@ func TestGenerateVLANConfig(t *testing.T) {
 		t.Fatal("expected VLAN config, got nil")
 	}
 
-	if result.MetaName != "eth0" {
-		t.Errorf("expected name=eth0, got %s", result.MetaName)
+	if result.MetaName != "eth0.100" {
+		t.Errorf("expected name=eth0.100, got %s", result.MetaName)
 	}
 
 	if result.VLANIDConfig != 100 {
@@ -722,8 +722,8 @@ func TestGenerateVLANConfigBytes(t *testing.T) {
 	if !bytes.Contains(vlanBytes, []byte("kind: VLANConfig")) {
 		t.Error("expected output to contain 'kind: VLANConfig'")
 	}
-	if !bytes.Contains(vlanBytes, []byte("name: eth0")) {
-		t.Error("expected output to contain 'name: eth0'")
+	if !bytes.Contains(vlanBytes, []byte("name: eth0.100")) {
+		t.Error("expected output to contain 'name: eth0.100'")
 	}
 	if !bytes.Contains(vlanBytes, []byte("vlanID: 100")) {
 		t.Error("expected output to contain 'vlanID: 100'")
