@@ -677,48 +677,11 @@ func GenerateLinkConfig(device *v1alpha1.Device) *network.LinkConfigV1Alpha1 {
 	}
 
 	for _, route := range device.DeviceRoutes {
-		routeConfig := network.RouteConfig{}
-
-		networkStr := route.Network()
-		if networkStr == "" {
-			continue
-		}
-
-		prefix, err := netip.ParsePrefix(networkStr)
+		routeConfig, err := buildRouteConfig(route)
 		if err != nil {
 			continue
 		}
-
-		// For default routes (0.0.0.0/0 or ::/0), omit the destination field
-		// and let Talos infer it from the gateway's address family
-		isDefaultRoute := (prefix.String() == "0.0.0.0/0" || prefix.String() == "::/0")
-		if !isDefaultRoute {
-			routeConfig.RouteDestination = network.Prefix{Prefix: prefix}
-		}
-
-		if route.Gateway() != "" {
-			gateway, err := netip.ParseAddr(route.Gateway())
-			if err == nil {
-				routeConfig.RouteGateway = network.Addr{Addr: gateway}
-			}
-		}
-
-		if route.Source() != "" {
-			source, err := netip.ParseAddr(route.Source())
-			if err == nil {
-				routeConfig.RouteSource = network.Addr{Addr: source}
-			}
-		}
-
-		if route.Metric() > 0 {
-			routeConfig.RouteMetric = route.Metric()
-		}
-
-		if route.MTU() > 0 {
-			routeConfig.RouteMTU = route.MTU()
-		}
-
-		linkConfig.LinkRoutes = append(linkConfig.LinkRoutes, routeConfig)
+		linkConfig.LinkRoutes = append(linkConfig.LinkRoutes, *routeConfig)
 	}
 
 	if device.DeviceMTU > 0 {
@@ -763,8 +726,8 @@ func GenerateVLANConfig(device *v1alpha1.Device, vlan *v1alpha1.Vlan) *network.V
 		return nil
 	}
 
-	vlanInterface := device.DeviceInterface
 	if vlan.VlanID > 0 {
+		vlanInterface := fmt.Sprintf("%s.%d", device.DeviceInterface, vlan.VlanID)
 		vlanConfig := network.NewVLANConfigV1Alpha1(vlanInterface)
 		vlanConfig.VLANIDConfig = vlan.VlanID
 		vlanConfig.ParentLinkConfig = device.DeviceInterface
@@ -791,41 +754,11 @@ func GenerateVLANConfig(device *v1alpha1.Device, vlan *v1alpha1.Vlan) *network.V
 
 		if len(vlan.VlanRoutes) > 0 {
 			for _, route := range vlan.VlanRoutes {
-				routeSpec := network.RouteConfig{}
-
-				if route.Network() != "" {
-					prefix, err := netip.ParsePrefix(route.Network())
-					if err != nil {
-						continue
-					}
-					routeSpec.RouteDestination = network.Prefix{Prefix: prefix}
-				} else {
+				routeConfig, err := buildRouteConfig(route)
+				if err != nil {
 					continue
 				}
-
-				if route.Gateway() != "" {
-					gateway, err := netip.ParseAddr(route.Gateway())
-					if err == nil {
-						routeSpec.RouteGateway = network.Addr{Addr: gateway}
-					}
-				}
-
-				if route.Source() != "" {
-					source, err := netip.ParseAddr(route.Source())
-					if err == nil {
-						routeSpec.RouteSource = network.Addr{Addr: source}
-					}
-				}
-
-				if route.Metric() > 0 {
-					routeSpec.RouteMetric = route.Metric()
-				}
-
-				if route.MTU() > 0 {
-					routeSpec.RouteMTU = route.MTU()
-				}
-
-				vlanConfig.LinkRoutes = append(vlanConfig.LinkRoutes, routeSpec)
+				vlanConfig.LinkRoutes = append(vlanConfig.LinkRoutes, *routeConfig)
 			}
 		}
 
@@ -981,6 +914,57 @@ func hasSpecialConfig(device *v1alpha1.Device) bool {
 		device.DeviceWireguardConfig != nil || device.DeviceBridge != nil
 }
 
+func buildRouteConfig(route interface {
+	Network() string
+	Gateway() string
+	Source() string
+	Metric() uint32
+	MTU() uint32
+}) (*network.RouteConfig, error) {
+	networkStr := route.Network()
+	if networkStr == "" {
+		return nil, fmt.Errorf("route network is empty")
+	}
+
+	prefix, err := netip.ParsePrefix(networkStr)
+	if err != nil {
+		return nil, fmt.Errorf("invalid network prefix: %w", err)
+	}
+
+	routeConfig := &network.RouteConfig{}
+
+	// For default routes (0.0.0.0/0 or ::/0), omit the destination field
+	// and let Talos infer it from the gateway's address family
+	isDefaultRoute := (prefix.String() == "0.0.0.0/0" || prefix.String() == "::/0")
+	if !isDefaultRoute {
+		routeConfig.RouteDestination = network.Prefix{Prefix: prefix}
+	}
+
+	if route.Gateway() != "" {
+		gateway, err := netip.ParseAddr(route.Gateway())
+		if err == nil {
+			routeConfig.RouteGateway = network.Addr{Addr: gateway}
+		}
+	}
+
+	if route.Source() != "" {
+		source, err := netip.ParseAddr(route.Source())
+		if err == nil {
+			routeConfig.RouteSource = network.Addr{Addr: source}
+		}
+	}
+
+	if route.Metric() > 0 {
+		routeConfig.RouteMetric = route.Metric()
+	}
+
+	if route.MTU() > 0 {
+		routeConfig.RouteMTU = route.MTU()
+	}
+
+	return routeConfig, nil
+}
+
 func addCommonLinkConfig(linkConfig *network.CommonLinkConfig, device *v1alpha1.Device) {
 	if device == nil || linkConfig == nil {
 		return
@@ -1006,48 +990,11 @@ func addCommonLinkConfig(linkConfig *network.CommonLinkConfig, device *v1alpha1.
 	}
 
 	for _, route := range device.DeviceRoutes {
-		routeConfig := network.RouteConfig{}
-
-		networkStr := route.Network()
-		if networkStr == "" {
-			continue
-		}
-
-		prefix, err := netip.ParsePrefix(networkStr)
+		routeConfig, err := buildRouteConfig(route)
 		if err != nil {
 			continue
 		}
-
-		// For default routes (0.0.0.0/0 or ::/0), omit the destination field
-		// and let Talos infer it from the gateway's address family
-		isDefaultRoute := (prefix.String() == "0.0.0.0/0" || prefix.String() == "::/0")
-		if !isDefaultRoute {
-			routeConfig.RouteDestination = network.Prefix{Prefix: prefix}
-		}
-
-		if route.Gateway() != "" {
-			gateway, err := netip.ParseAddr(route.Gateway())
-			if err == nil {
-				routeConfig.RouteGateway = network.Addr{Addr: gateway}
-			}
-		}
-
-		if route.Source() != "" {
-			source, err := netip.ParseAddr(route.Source())
-			if err == nil {
-				routeConfig.RouteSource = network.Addr{Addr: source}
-			}
-		}
-
-		if route.Metric() > 0 {
-			routeConfig.RouteMetric = route.Metric()
-		}
-
-		if route.MTU() > 0 {
-			routeConfig.RouteMTU = route.MTU()
-		}
-
-		linkConfig.LinkRoutes = append(linkConfig.LinkRoutes, routeConfig)
+		linkConfig.LinkRoutes = append(linkConfig.LinkRoutes, *routeConfig)
 	}
 
 	if device.DeviceMTU > 0 {

@@ -664,8 +664,8 @@ func TestGenerateVLANConfig(t *testing.T) {
 		t.Fatal("expected VLAN config, got nil")
 	}
 
-	if result.MetaName != "eth0" {
-		t.Errorf("expected name=eth0, got %s", result.MetaName)
+	if result.MetaName != "eth0.100" {
+		t.Errorf("expected name=eth0.100, got %s", result.MetaName)
 	}
 
 	if result.VLANIDConfig != 100 {
@@ -722,8 +722,8 @@ func TestGenerateVLANConfigBytes(t *testing.T) {
 	if !bytes.Contains(vlanBytes, []byte("kind: VLANConfig")) {
 		t.Error("expected output to contain 'kind: VLANConfig'")
 	}
-	if !bytes.Contains(vlanBytes, []byte("name: eth0")) {
-		t.Error("expected output to contain 'name: eth0'")
+	if !bytes.Contains(vlanBytes, []byte("name: eth0.100")) {
+		t.Error("expected output to contain 'name: eth0.100'")
 	}
 	if !bytes.Contains(vlanBytes, []byte("vlanID: 100")) {
 		t.Error("expected output to contain 'vlanID: 100'")
@@ -732,6 +732,107 @@ func TestGenerateVLANConfigBytes(t *testing.T) {
 		t.Error("expected output to contain 'parent: eth0'")
 	}
 	t.Logf("VLAN config output:\n%s", vlanStr)
+}
+
+func TestGenerateVLANConfigMultipleVLANs(t *testing.T) {
+	data := []byte(`nodes:
+  - hostname: node1
+    networkInterfaces:
+      - interface: eth0
+        vlans:
+          - vlanId: 100
+            addresses:
+              - 192.168.100.1/24
+          - vlanId: 200
+            addresses:
+              - 192.168.200.1/24
+          - vlanId: 300
+            addresses:
+              - 192.168.300.1/24`)
+
+	var m config.TalhelperConfig
+	if err := yaml.Unmarshal(data, &m); err != nil {
+		t.Fatal(err)
+	}
+
+	vlans := m.Nodes[0].NetworkInterfaces[0].DeviceVlans
+	if len(vlans) != 3 {
+		t.Fatalf("expected 3 VLANs, got %d", len(vlans))
+	}
+
+	vlan100 := GenerateVLANConfig(m.Nodes[0].NetworkInterfaces[0], vlans[0])
+	vlan200 := GenerateVLANConfig(m.Nodes[0].NetworkInterfaces[0], vlans[1])
+	vlan300 := GenerateVLANConfig(m.Nodes[0].NetworkInterfaces[0], vlans[2])
+
+	if vlan100 == nil || vlan200 == nil || vlan300 == nil {
+		t.Fatal("expected all VLAN configs to be non-nil")
+	}
+
+	names := map[string]bool{
+		vlan100.MetaName: true,
+		vlan200.MetaName: true,
+		vlan300.MetaName: true,
+	}
+
+	if len(names) != 3 {
+		t.Errorf("expected 3 unique VLAN names, got %d: vlan100=%s, vlan200=%s, vlan300=%s",
+			len(names), vlan100.MetaName, vlan200.MetaName, vlan300.MetaName)
+	}
+
+	expectedNames := map[string]bool{
+		"eth0.100": true,
+		"eth0.200": true,
+		"eth0.300": true,
+	}
+
+	if vlan100.MetaName != "eth0.100" {
+		t.Errorf("expected VLAN 100 name to be eth0.100, got %s", vlan100.MetaName)
+	}
+	if vlan200.MetaName != "eth0.200" {
+		t.Errorf("expected VLAN 200 name to be eth0.200, got %s", vlan200.MetaName)
+	}
+	if vlan300.MetaName != "eth0.300" {
+		t.Errorf("expected VLAN 300 name to be eth0.300, got %s", vlan300.MetaName)
+	}
+
+	if vlan100.ParentLinkConfig != "eth0" {
+		t.Errorf("expected parent eth0, got %s", vlan100.ParentLinkConfig)
+	}
+	if vlan200.ParentLinkConfig != "eth0" {
+		t.Errorf("expected parent eth0, got %s", vlan200.ParentLinkConfig)
+	}
+	if vlan300.ParentLinkConfig != "eth0" {
+		t.Errorf("expected parent eth0, got %s", vlan300.ParentLinkConfig)
+	}
+
+	if vlan100.VLANIDConfig != 100 {
+		t.Errorf("expected VLAN ID 100, got %d", vlan100.VLANIDConfig)
+	}
+	if vlan200.VLANIDConfig != 200 {
+		t.Errorf("expected VLAN ID 200, got %d", vlan200.VLANIDConfig)
+	}
+	if vlan300.VLANIDConfig != 300 {
+		t.Errorf("expected VLAN ID 300, got %d", vlan300.VLANIDConfig)
+	}
+
+	vlanBytes, err := GenerateVLANConfigBytes(m.Nodes[0].NetworkInterfaces)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if vlanBytes == nil {
+		t.Fatal("expected VLAN config bytes, got nil")
+	}
+
+	vlanStr := string(vlanBytes)
+
+	for name := range expectedNames {
+		if !bytes.Contains(vlanBytes, []byte("name: "+name)) {
+			t.Errorf("expected output to contain 'name: %s'", name)
+		}
+	}
+
+	t.Logf("Multiple VLAN config output:\n%s", vlanStr)
 }
 
 func TestGenerateWireguardConfig(t *testing.T) {
