@@ -763,7 +763,7 @@ func GenerateVLANConfig(device *v1alpha1.Device, vlan *v1alpha1.Vlan) *network.V
 		return nil
 	}
 
-	vlanInterface := device.DeviceInterface
+	vlanInterface := fmt.Sprintf("%s.%d", device.DeviceInterface, vlan.VlanID)
 	if vlan.VlanID > 0 {
 		vlanConfig := network.NewVLANConfigV1Alpha1(vlanInterface)
 		vlanConfig.VLANIDConfig = vlan.VlanID
