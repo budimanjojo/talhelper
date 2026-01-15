@@ -5,7 +5,7 @@ go 1.25.5
 require (
 	github.com/budimanjojo/talhelper/v3 v3.1.0
 	github.com/google/go-containerregistry v0.20.7
-	github.com/sirupsen/logrus v1.9.4-0.20251023124752-b61f268f75b6
+	github.com/sirupsen/logrus v1.9.4
 	gopkg.in/yaml.v3 v3.0.1
 )
 
