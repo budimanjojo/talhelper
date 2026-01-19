@@ -11,6 +11,7 @@ import (
 	"github.com/siderolabs/go-pointer"
 	"github.com/siderolabs/talos/pkg/machinery/cel"
 	"github.com/siderolabs/talos/pkg/machinery/cel/celenv"
+	cinterfaces "github.com/siderolabs/talos/pkg/machinery/config/config"
 	"github.com/siderolabs/talos/pkg/machinery/config/types/network"
 	"github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1"
 	"github.com/siderolabs/talos/pkg/machinery/nethelpers"
@@ -490,89 +491,35 @@ func GenerateBondConfig(device *v1alpha1.Device) *network.BondConfigV1Alpha1 {
 	return bondConfig
 }
 
-func GenerateDHCP4ConfigBytes(devices []*v1alpha1.Device) ([]byte, error) {
+func GenerateDHCPConfigsBytes(devices []*v1alpha1.Device) ([]byte, error) {
 	var result [][]byte
 
 	for _, device := range devices {
-		if device.DeviceDHCP == nil || !*device.DeviceDHCP {
-			continue
+		dhcpConfigs := GenerateDHCPConfigs(device)
+		if len(dhcpConfigs) > 0 {
+			for _, dhcpConfig := range dhcpConfigs {
+				dhcpBytes, err := marshalYaml(dhcpConfig)
+				if err != nil {
+					return nil, err
+				}
+				result = append(result, dhcpBytes)
+			}
 		}
-
-		dhcpConfig := GenerateDHCP4Config(device)
-		if dhcpConfig == nil {
-			continue
-		}
-
-		dhcpBytes, err := marshalYaml(dhcpConfig)
-		if err != nil {
-			return nil, err
-		}
-
-		result = append(result, dhcpBytes)
 	}
 
-	if len(result) == 0 {
-		return nil, nil
+	if len(result) > 0 {
+		return CombineYamlBytes(result), nil
 	}
-	return CombineYamlBytes(result), nil
+
+	return nil, nil
 }
 
-func GenerateDHCP4Config(device *v1alpha1.Device) *network.DHCPv4ConfigV1Alpha1 {
-	if device == nil || device.DeviceDHCP == nil || !*device.DeviceDHCP {
-		return nil
+func GenerateDHCPConfigs(device *v1alpha1.Device) []cinterfaces.NetworkDHCPConfig {
+	if device != nil && device.DHCP() {
+		return generateDHCPConfigs(device.DeviceInterface, device.DeviceDHCPOptions)
 	}
 
-	dhcpConfig := network.NewDHCPv4ConfigV1Alpha1(device.DeviceInterface)
-
-	if device.DeviceDHCPOptions != nil {
-		if device.DeviceDHCPOptions.DHCPRouteMetric != 0 {
-			dhcpConfig.ConfigRouteMetric = device.DeviceDHCPOptions.DHCPRouteMetric
-		}
-	}
-
-	return dhcpConfig
-}
-
-func GenerateDHCP6ConfigBytes(devices []*v1alpha1.Device) ([]byte, error) {
-	var result [][]byte
-
-	for _, device := range devices {
-		if device.DeviceDHCPOptions == nil || device.DeviceDHCPOptions.DHCPIPv6 == nil || !*device.DeviceDHCPOptions.DHCPIPv6 {
-			continue
-		}
-
-		dhcp6Config := GenerateDHCP6Config(device)
-		if dhcp6Config == nil {
-			continue
-		}
-
-		dhcp6Bytes, err := marshalYaml(dhcp6Config)
-		if err != nil {
-			return nil, err
-		}
-
-		result = append(result, dhcp6Bytes)
-	}
-
-	if len(result) == 0 {
-		return nil, nil
-	}
-
-	return CombineYamlBytes(result), nil
-}
-
-func GenerateDHCP6Config(device *v1alpha1.Device) *network.DHCPv6ConfigV1Alpha1 {
-	if device == nil || device.DeviceDHCPOptions == nil || device.DeviceDHCPOptions.DHCPIPv6 == nil || !*device.DeviceDHCPOptions.DHCPIPv6 {
-		return nil
-	}
-
-	dhcp6Config := network.NewDHCPv6ConfigV1Alpha1(device.DeviceInterface)
-
-	if device.DeviceDHCPOptions.DHCPRouteMetric != 0 {
-		dhcp6Config.ConfigRouteMetric = device.DeviceDHCPOptions.DHCPRouteMetric
-	}
-
-	return dhcp6Config
+	return nil
 }
 
 func GenerateVIPConfigBytes(devices []*v1alpha1.Device) ([]byte, error) {
@@ -700,17 +647,16 @@ func GenerateVLANConfigBytes(devices []*v1alpha1.Device) ([]byte, error) {
 		}
 
 		for _, vlan := range device.DeviceVlans {
-			vlanConfig := GenerateVLANConfig(device, vlan)
-			if vlanConfig == nil {
-				continue
+			vlanConfigs := GenerateVLANConfig(device, vlan)
+			if vlanConfigs != nil {
+				for _, vlanConfig := range vlanConfigs {
+					bytes, err := marshalYaml(vlanConfig)
+					if err != nil {
+						return nil, err
+					}
+					result = append(result, bytes)
+				}
 			}
-
-			vlanBytes, err := marshalYaml(vlanConfig)
-			if err != nil {
-				return nil, err
-			}
-
-			result = append(result, vlanBytes)
 		}
 	}
 
@@ -721,12 +667,14 @@ func GenerateVLANConfigBytes(devices []*v1alpha1.Device) ([]byte, error) {
 	return CombineYamlBytes(result), nil
 }
 
-func GenerateVLANConfig(device *v1alpha1.Device, vlan *v1alpha1.Vlan) *network.VLANConfigV1Alpha1 {
+func GenerateVLANConfig(device *v1alpha1.Device, vlan *v1alpha1.Vlan) []cinterfaces.NamedDocument {
 	if device == nil || vlan == nil {
 		return nil
 	}
 
 	if vlan.VlanID > 0 {
+		var docs []cinterfaces.NamedDocument
+
 		vlanInterface := fmt.Sprintf("%s.%d", device.DeviceInterface, vlan.VlanID)
 		vlanConfig := network.NewVLANConfigV1Alpha1(vlanInterface)
 		vlanConfig.VLANIDConfig = vlan.VlanID
@@ -766,7 +714,18 @@ func GenerateVLANConfig(device *v1alpha1.Device, vlan *v1alpha1.Vlan) *network.V
 			vlanConfig.LinkMTU = uint32(vlan.VlanMTU)
 		}
 
-		return vlanConfig
+		docs = append(docs, vlanConfig)
+
+		if vlan.DHCP() {
+			dhcpConfigs := generateDHCPConfigs(vlanInterface, vlan.VlanDHCPOptions)
+			if len(dhcpConfigs) > 0 {
+				for _, dhcpConfig := range dhcpConfigs {
+					docs = append(docs, dhcpConfig)
+				}
+			}
+		}
+
+		return docs
 	}
 
 	return nil
@@ -906,6 +865,32 @@ func GenerateBridgeConfig(device *v1alpha1.Device) *network.BridgeConfigV1Alpha1
 	return bridgeConfig
 }
 
+func generateDHCPConfigs(name string, options *v1alpha1.DHCPOptions) []cinterfaces.NetworkDHCPConfig {
+	if options == nil {
+		options = &v1alpha1.DHCPOptions{}
+	}
+
+	result := []cinterfaces.NetworkDHCPConfig{}
+
+	if options.IPv4() {
+		ipv4 := network.NewDHCPv4ConfigV1Alpha1(name)
+		if options.RouteMetric() > 0 {
+			ipv4.ConfigRouteMetric = options.RouteMetric()
+		}
+		result = append(result, ipv4)
+	}
+
+	if options.IPv6() {
+		ipv6 := network.NewDHCPv6ConfigV1Alpha1(name)
+		if options.RouteMetric() > 0 {
+			ipv6.ConfigRouteMetric = options.RouteMetric()
+		}
+		result = append(result, ipv6)
+	}
+
+	return result
+}
+
 func hasSpecialConfig(device *v1alpha1.Device) bool {
 	if device == nil {
 		return false
@@ -920,7 +905,8 @@ func buildRouteConfig(route interface {
 	Source() string
 	Metric() uint32
 	MTU() uint32
-}) (*network.RouteConfig, error) {
+},
+) (*network.RouteConfig, error) {
 	networkStr := route.Network()
 	if networkStr == "" {
 		return nil, fmt.Errorf("route network is empty")
