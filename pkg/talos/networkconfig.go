@@ -347,7 +347,11 @@ func GenerateBondConfigBytes(devices []*v1alpha1.Device) ([]byte, error) {
 			continue
 		}
 
-		bondConfig := GenerateBondConfig(device)
+		bondConfig, err := GenerateBondConfig(device)
+		if err != nil {
+			return nil, err
+		}
+
 		if bondConfig == nil {
 			continue
 		}
@@ -367,9 +371,9 @@ func GenerateBondConfigBytes(devices []*v1alpha1.Device) ([]byte, error) {
 	return CombineYamlBytes(result), nil
 }
 
-func GenerateBondConfig(device *v1alpha1.Device) *network.BondConfigV1Alpha1 {
+func GenerateBondConfig(device *v1alpha1.Device) (*network.BondConfigV1Alpha1, error) {
 	if device == nil || device.DeviceBond == nil {
-		return nil
+		return nil, nil
 	}
 
 	bondConfig := network.NewBondConfigV1Alpha1(device.DeviceInterface)
@@ -486,9 +490,11 @@ func GenerateBondConfig(device *v1alpha1.Device) *network.BondConfigV1Alpha1 {
 		}
 	}
 
-	addCommonLinkConfig(&bondConfig.CommonLinkConfig, device)
+	if err := addCommonLinkConfig(&bondConfig.CommonLinkConfig, device); err != nil {
+		return nil, err
+	}
 
-	return bondConfig
+	return bondConfig, nil
 }
 
 func GenerateDHCPConfigsBytes(devices []*v1alpha1.Device) ([]byte, error) {
@@ -569,7 +575,11 @@ func GenerateLinkConfigBytes(devices []*v1alpha1.Device) ([]byte, error) {
 			continue
 		}
 
-		linkConfig := GenerateLinkConfig(device)
+		linkConfig, err := GenerateLinkConfig(device)
+		if err != nil {
+			return nil, err
+		}
+
 		if linkConfig == nil {
 			continue
 		}
@@ -589,9 +599,9 @@ func GenerateLinkConfigBytes(devices []*v1alpha1.Device) ([]byte, error) {
 	return CombineYamlBytes(result), nil
 }
 
-func GenerateLinkConfig(device *v1alpha1.Device) *network.LinkConfigV1Alpha1 {
+func GenerateLinkConfig(device *v1alpha1.Device) (*network.LinkConfigV1Alpha1, error) {
 	if device == nil {
-		return nil
+		return nil, nil
 	}
 
 	hasAddresses := len(device.DeviceAddresses) > 0
@@ -599,7 +609,7 @@ func GenerateLinkConfig(device *v1alpha1.Device) *network.LinkConfigV1Alpha1 {
 	hasMTU := device.DeviceMTU > 0
 
 	if !hasAddresses && !hasRoutes && !hasMTU {
-		return nil
+		return nil, nil
 	}
 
 	linkConfig := network.NewLinkConfigV1Alpha1(device.DeviceInterface)
@@ -607,9 +617,9 @@ func GenerateLinkConfig(device *v1alpha1.Device) *network.LinkConfigV1Alpha1 {
 	for _, address := range device.DeviceAddresses {
 		prefix, err := netip.ParsePrefix(address)
 		if err != nil {
-			ip, ipErr := netip.ParseAddr(address)
-			if ipErr != nil {
-				continue
+			ip, err := netip.ParseAddr(address)
+			if err != nil {
+				return nil, err
 			}
 			bits := 32
 			if ip.Is6() {
@@ -626,7 +636,7 @@ func GenerateLinkConfig(device *v1alpha1.Device) *network.LinkConfigV1Alpha1 {
 	for _, route := range device.DeviceRoutes {
 		routeConfig, err := buildRouteConfig(route)
 		if err != nil {
-			continue
+			return nil, err
 		}
 		linkConfig.LinkRoutes = append(linkConfig.LinkRoutes, *routeConfig)
 	}
@@ -635,7 +645,7 @@ func GenerateLinkConfig(device *v1alpha1.Device) *network.LinkConfigV1Alpha1 {
 		linkConfig.LinkMTU = uint32(device.DeviceMTU)
 	}
 
-	return linkConfig
+	return linkConfig, nil
 }
 
 func GenerateVLANConfigBytes(devices []*v1alpha1.Device) ([]byte, error) {
@@ -647,7 +657,11 @@ func GenerateVLANConfigBytes(devices []*v1alpha1.Device) ([]byte, error) {
 		}
 
 		for _, vlan := range device.DeviceVlans {
-			vlanConfigs := GenerateVLANConfig(device, vlan)
+			vlanConfigs, err := GenerateVLANConfig(device, vlan)
+			if err != nil {
+				return nil, err
+			}
+
 			for _, vlanConfig := range vlanConfigs {
 				bytes, err := marshalYaml(vlanConfig)
 				if err != nil {
@@ -665,9 +679,9 @@ func GenerateVLANConfigBytes(devices []*v1alpha1.Device) ([]byte, error) {
 	return CombineYamlBytes(result), nil
 }
 
-func GenerateVLANConfig(device *v1alpha1.Device, vlan *v1alpha1.Vlan) []cinterfaces.NamedDocument {
+func GenerateVLANConfig(device *v1alpha1.Device, vlan *v1alpha1.Vlan) ([]cinterfaces.NamedDocument, error) {
 	if device == nil || vlan == nil {
-		return nil
+		return nil, nil
 	}
 
 	if vlan.VlanID > 0 {
@@ -723,10 +737,10 @@ func GenerateVLANConfig(device *v1alpha1.Device, vlan *v1alpha1.Vlan) []cinterfa
 			}
 		}
 
-		return docs
+		return docs, nil
 	}
 
-	return nil
+	return nil, nil
 }
 
 func GenerateWireguardConfigBytes(devices []*v1alpha1.Device) ([]byte, error) {
@@ -737,7 +751,11 @@ func GenerateWireguardConfigBytes(devices []*v1alpha1.Device) ([]byte, error) {
 			continue
 		}
 
-		wgConfig := GenerateWireguardConfig(device)
+		wgConfig, err := GenerateWireguardConfig(device)
+		if err != nil {
+			return nil, err
+		}
+
 		if wgConfig == nil {
 			continue
 		}
@@ -757,9 +775,9 @@ func GenerateWireguardConfigBytes(devices []*v1alpha1.Device) ([]byte, error) {
 	return CombineYamlBytes(result), nil
 }
 
-func GenerateWireguardConfig(device *v1alpha1.Device) *network.WireguardConfigV1Alpha1 {
+func GenerateWireguardConfig(device *v1alpha1.Device) (*network.WireguardConfigV1Alpha1, error) {
 	if device == nil || device.DeviceWireguardConfig == nil {
-		return nil
+		return nil, nil
 	}
 
 	wgConfig := network.NewWireguardConfigV1Alpha1(device.DeviceInterface)
@@ -808,9 +826,11 @@ func GenerateWireguardConfig(device *v1alpha1.Device) *network.WireguardConfigV1
 		}
 	}
 
-	addCommonLinkConfig(&wgConfig.CommonLinkConfig, device)
+	if err := addCommonLinkConfig(&wgConfig.CommonLinkConfig, device); err != nil {
+		return nil, err
+	}
 
-	return wgConfig
+	return wgConfig, nil
 }
 
 func GenerateBridgeConfigBytes(devices []*v1alpha1.Device) ([]byte, error) {
@@ -821,7 +841,11 @@ func GenerateBridgeConfigBytes(devices []*v1alpha1.Device) ([]byte, error) {
 			continue
 		}
 
-		bridgeConfig := GenerateBridgeConfig(device)
+		bridgeConfig, err := GenerateBridgeConfig(device)
+		if err != nil {
+			return nil, err
+		}
+
 		if bridgeConfig == nil {
 			continue
 		}
@@ -841,9 +865,9 @@ func GenerateBridgeConfigBytes(devices []*v1alpha1.Device) ([]byte, error) {
 	return CombineYamlBytes(result), nil
 }
 
-func GenerateBridgeConfig(device *v1alpha1.Device) *network.BridgeConfigV1Alpha1 {
+func GenerateBridgeConfig(device *v1alpha1.Device) (*network.BridgeConfigV1Alpha1, error) {
 	if device == nil || device.DeviceBridge == nil {
-		return nil
+		return nil, nil
 	}
 
 	bridgeConfig := network.NewBridgeConfigV1Alpha1(device.DeviceInterface)
@@ -858,9 +882,11 @@ func GenerateBridgeConfig(device *v1alpha1.Device) *network.BridgeConfigV1Alpha1
 		}
 	}
 
-	addCommonLinkConfig(&bridgeConfig.CommonLinkConfig, device)
+	if err := addCommonLinkConfig(&bridgeConfig.CommonLinkConfig, device); err != nil {
+		return nil, err
+	}
 
-	return bridgeConfig
+	return bridgeConfig, nil
 }
 
 func generateDHCPConfigs(name string, options *v1alpha1.DHCPOptions) []cinterfaces.NetworkDHCPConfig {
@@ -905,37 +931,37 @@ func buildRouteConfig(route interface {
 	MTU() uint32
 },
 ) (*network.RouteConfig, error) {
-	networkStr := route.Network()
-	if networkStr == "" {
-		return nil, fmt.Errorf("route network is empty")
-	}
-
-	prefix, err := netip.ParsePrefix(networkStr)
-	if err != nil {
-		return nil, fmt.Errorf("invalid network prefix: %w", err)
-	}
-
 	routeConfig := &network.RouteConfig{}
 
-	// For default routes (0.0.0.0/0 or ::/0), omit the destination field
-	// and let Talos infer it from the gateway's address family
-	isDefaultRoute := (prefix.String() == "0.0.0.0/0" || prefix.String() == "::/0")
-	if !isDefaultRoute {
-		routeConfig.RouteDestination = network.Prefix{Prefix: prefix}
+	networkStr := route.Network()
+	if networkStr != "" {
+		prefix, err := netip.ParsePrefix(networkStr)
+		if err != nil {
+			return nil, fmt.Errorf("invalid network prefix: %w", err)
+		}
+
+		// For default routes (0.0.0.0/0 or ::/0), omit the destination field
+		// and let Talos infer it from the gateway's address family
+		isDefaultRoute := (prefix.String() == "0.0.0.0/0" || prefix.String() == "::/0")
+		if !isDefaultRoute {
+			routeConfig.RouteDestination = network.Prefix{Prefix: prefix}
+		}
 	}
 
 	if route.Gateway() != "" {
 		gateway, err := netip.ParseAddr(route.Gateway())
-		if err == nil {
-			routeConfig.RouteGateway = network.Addr{Addr: gateway}
+		if err != nil {
+			return nil, err
 		}
+		routeConfig.RouteGateway = network.Addr{Addr: gateway}
 	}
 
 	if route.Source() != "" {
 		source, err := netip.ParseAddr(route.Source())
-		if err == nil {
-			routeConfig.RouteSource = network.Addr{Addr: source}
+		if err != nil {
+			return nil, err
 		}
+		routeConfig.RouteSource = network.Addr{Addr: source}
 	}
 
 	if route.Metric() > 0 {
@@ -949,17 +975,17 @@ func buildRouteConfig(route interface {
 	return routeConfig, nil
 }
 
-func addCommonLinkConfig(linkConfig *network.CommonLinkConfig, device *v1alpha1.Device) {
+func addCommonLinkConfig(linkConfig *network.CommonLinkConfig, device *v1alpha1.Device) error {
 	if device == nil || linkConfig == nil {
-		return
+		return nil
 	}
 
 	for _, address := range device.DeviceAddresses {
 		prefix, err := netip.ParsePrefix(address)
 		if err != nil {
-			ip, ipErr := netip.ParseAddr(address)
-			if ipErr != nil {
-				continue
+			ip, err := netip.ParseAddr(address)
+			if err != nil {
+				return err
 			}
 			bits := 32
 			if ip.Is6() {
@@ -976,7 +1002,7 @@ func addCommonLinkConfig(linkConfig *network.CommonLinkConfig, device *v1alpha1.
 	for _, route := range device.DeviceRoutes {
 		routeConfig, err := buildRouteConfig(route)
 		if err != nil {
-			continue
+			return err
 		}
 		linkConfig.LinkRoutes = append(linkConfig.LinkRoutes, *routeConfig)
 	}
@@ -984,6 +1010,8 @@ func addCommonLinkConfig(linkConfig *network.CommonLinkConfig, device *v1alpha1.
 	if device.DeviceMTU > 0 {
 		linkConfig.LinkMTU = uint32(device.DeviceMTU)
 	}
+
+	return nil
 }
 
 // marshalYaml encodes `in` into `yaml` bytes with 2 indentation.
