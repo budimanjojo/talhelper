@@ -648,14 +648,12 @@ func GenerateVLANConfigBytes(devices []*v1alpha1.Device) ([]byte, error) {
 
 		for _, vlan := range device.DeviceVlans {
 			vlanConfigs := GenerateVLANConfig(device, vlan)
-			if vlanConfigs != nil {
-				for _, vlanConfig := range vlanConfigs {
-					bytes, err := marshalYaml(vlanConfig)
-					if err != nil {
-						return nil, err
-					}
-					result = append(result, bytes)
+			for _, vlanConfig := range vlanConfigs {
+				bytes, err := marshalYaml(vlanConfig)
+				if err != nil {
+					return nil, err
 				}
+				result = append(result, bytes)
 			}
 		}
 	}
