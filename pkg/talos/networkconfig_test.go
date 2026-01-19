@@ -142,7 +142,11 @@ func TestGenerateBondConfig(t *testing.T) {
 		t.Fatal("failed to parse test data")
 	}
 
-	result := GenerateBondConfig(m.Nodes[0].NetworkInterfaces[0])
+	result, err := GenerateBondConfig(m.Nodes[0].NetworkInterfaces[0])
+	if err != nil {
+		t.Fatal(err)
+	}
+
 	if result == nil {
 		t.Fatal("expected bond config, got nil")
 	}
@@ -397,7 +401,11 @@ func TestGenerateAddressConfig(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	result := GenerateLinkConfig(m.Nodes[0].NetworkInterfaces[0])
+	result, err := GenerateLinkConfig(m.Nodes[0].NetworkInterfaces[0])
+	if err != nil {
+		t.Fatal(err)
+	}
+
 	if result == nil {
 		t.Fatal("expected link config, got nil")
 	}
@@ -479,7 +487,11 @@ func TestGenerateRouteConfig(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	result := GenerateLinkConfig(m.Nodes[0].NetworkInterfaces[0])
+	result, err := GenerateLinkConfig(m.Nodes[0].NetworkInterfaces[0])
+	if err != nil {
+		t.Fatal(err)
+	}
+
 	if result == nil {
 		t.Fatal("expected link config, got nil")
 	}
@@ -568,7 +580,11 @@ func TestGenerateLinkConfig(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	result := GenerateLinkConfig(m.Nodes[0].NetworkInterfaces[0])
+	result, err := GenerateLinkConfig(m.Nodes[0].NetworkInterfaces[0])
+	if err != nil {
+		t.Fatal(err)
+	}
+
 	if result == nil {
 		t.Fatal("expected link config, got nil")
 	}
@@ -581,7 +597,11 @@ func TestGenerateLinkConfig(t *testing.T) {
 		t.Errorf("expected MTU 9000, got %d", result.LinkMTU)
 	}
 
-	result2 := GenerateLinkConfig(m.Nodes[0].NetworkInterfaces[1])
+	result2, err := GenerateLinkConfig(m.Nodes[0].NetworkInterfaces[1])
+	if err != nil {
+		t.Fatal(err)
+	}
+
 	if result2 != nil {
 		t.Error("expected nil for interface without MTU")
 	}
@@ -647,7 +667,11 @@ func TestGenerateVLANConfig(t *testing.T) {
 		t.Fatal("expected VLANs, got none")
 	}
 
-	result := GenerateVLANConfig(m.Nodes[0].NetworkInterfaces[0], vlans[0])
+	result, err := GenerateVLANConfig(m.Nodes[0].NetworkInterfaces[0], vlans[0])
+	if err != nil {
+		t.Fatal(err)
+	}
+
 	if len(result) != 2 {
 		t.Fatalf("expected 2 documents, got %v document(s)", len(result))
 	}
@@ -871,7 +895,11 @@ func TestGenerateWireguardConfig(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	result := GenerateWireguardConfig(m.Nodes[0].NetworkInterfaces[0])
+	result, err := GenerateWireguardConfig(m.Nodes[0].NetworkInterfaces[0])
+	if err != nil {
+		t.Fatal(err)
+	}
+
 	if result == nil {
 		t.Fatal("expected WireGuard config, got nil")
 	}
@@ -972,7 +1000,11 @@ func TestGenerateBridgeConfig(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	result := GenerateBridgeConfig(m.Nodes[0].NetworkInterfaces[0])
+	result, err := GenerateBridgeConfig(m.Nodes[0].NetworkInterfaces[0])
+	if err != nil {
+		t.Fatal(err)
+	}
+
 	if result == nil {
 		t.Fatal("expected bridge config, got nil")
 	}
@@ -1060,7 +1092,11 @@ func TestBondConfigWithAddressesAndRoutes(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	bondConfig := GenerateBondConfig(m.Nodes[0].NetworkInterfaces[0])
+	bondConfig, err := GenerateBondConfig(m.Nodes[0].NetworkInterfaces[0])
+	if err != nil {
+		t.Fatal(err)
+	}
+
 	if bondConfig == nil {
 		t.Fatal("expected bond config, got nil")
 	}
@@ -1111,7 +1147,11 @@ func TestWireguardConfigWithAddresses(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	wgConfig := GenerateWireguardConfig(m.Nodes[0].NetworkInterfaces[0])
+	wgConfig, err := GenerateWireguardConfig(m.Nodes[0].NetworkInterfaces[0])
+	if err != nil {
+		t.Fatal(err)
+	}
+
 	if wgConfig == nil {
 		t.Fatal("expected wireguard config, got nil")
 	}
@@ -1155,7 +1195,11 @@ func TestBridgeConfigWithMTU(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	bridgeConfig := GenerateBridgeConfig(m.Nodes[0].NetworkInterfaces[0])
+	bridgeConfig, err := GenerateBridgeConfig(m.Nodes[0].NetworkInterfaces[0])
+	if err != nil {
+		t.Fatal(err)
+	}
+
 	if bridgeConfig == nil {
 		t.Fatal("expected bridge config, got nil")
 	}
@@ -1673,7 +1717,11 @@ func TestGenerateBondMemberAliasConfig(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	bondConfig := GenerateBondConfig(m.Nodes[0].NetworkInterfaces[0])
+	bondConfig, err := GenerateBondConfig(m.Nodes[0].NetworkInterfaces[0])
+	if err != nil {
+		t.Fatal(err)
+	}
+
 	if bondConfig == nil {
 		t.Fatal("expected bond config, got nil")
 	}
