@@ -119,11 +119,7 @@ func genMultiDocs(node *config.Node, mode string, vc *tconfig.VersionContract) (
 		return nil, err
 	}
 
-	if err := appendNetworkConfig(&result, vc, node, "dhcp4", GenerateDHCP4ConfigBytes); err != nil {
-		return nil, err
-	}
-
-	if err := appendNetworkConfig(&result, vc, node, "dhcp6", GenerateDHCP6ConfigBytes); err != nil {
+	if err := appendNetworkConfig(&result, vc, node, "dhcp", GenerateDHCPConfigsBytes); err != nil {
 		return nil, err
 	}
 

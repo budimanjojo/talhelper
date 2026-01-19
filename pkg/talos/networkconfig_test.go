@@ -11,6 +11,8 @@ import (
 	networktypes "github.com/siderolabs/talos/pkg/machinery/api/resource/definitions/network"
 	"github.com/siderolabs/talos/pkg/machinery/cel"
 	"github.com/siderolabs/talos/pkg/machinery/cel/celenv"
+	cinterfaces "github.com/siderolabs/talos/pkg/machinery/config/config"
+	"github.com/siderolabs/talos/pkg/machinery/config/configloader"
 	"github.com/siderolabs/talos/pkg/machinery/config/types/network"
 	v1alpha1 "github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1"
 	"github.com/siderolabs/talos/pkg/machinery/nethelpers"
@@ -194,11 +196,15 @@ func TestGenerateBondConfig(t *testing.T) {
 	}
 }
 
-func TestGenerateDHCP4Config(t *testing.T) {
+func TestGenerateDHCPConfigs(t *testing.T) {
 	data := []byte(`nodes:
   - hostname: node1
     networkInterfaces:
       - interface: eth0
+        dhcp: true
+        dhcpOptions:
+          ipv6: true
+      - interface: eth1
         dhcp: true
         dhcpOptions:
           routeMetric: 1024`)
@@ -208,53 +214,66 @@ func TestGenerateDHCP4Config(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	if len(m.Nodes) == 0 || len(m.Nodes[0].NetworkInterfaces) == 0 {
+	if len(m.Nodes) == 0 || len(m.Nodes[0].NetworkInterfaces) != 2 {
 		t.Fatal("failed to parse test data")
 	}
 
-	result := GenerateDHCP4Config(m.Nodes[0].NetworkInterfaces[0])
-	if result == nil {
-		t.Fatal("expected DHCP4 config, got nil")
+	var results []cinterfaces.NetworkDHCPConfig
+
+	results = append(results, GenerateDHCPConfigs(m.Nodes[0].NetworkInterfaces[0])...)
+	results = append(results, GenerateDHCPConfigs(m.Nodes[0].NetworkInterfaces[1])...)
+
+	type check struct {
+		kind        string
+		name        string
+		routeMetric uint32
 	}
 
-	if result.Name() != "eth0" {
-		t.Errorf("expected name=eth0, got %s", result.Name())
+	expected := []check{
+		{
+			kind: "DHCPv4Config",
+			name: "eth0",
+		},
+		{
+			kind: "DHCPv6Config",
+			name: "eth0",
+		},
+		{
+			kind:        "DHCPv4Config",
+			name:        "eth1",
+			routeMetric: 1024,
+		},
 	}
 
-	if result.ConfigRouteMetric != 1024 {
-		t.Errorf("expected route metric=1024, got %d", result.ConfigRouteMetric)
-	}
-}
-
-func TestGenerateDHCP6Config(t *testing.T) {
-	data := []byte(`nodes:
-  - hostname: node1
-    networkInterfaces:
-      - interface: eth0
-        dhcpOptions:
-          ipv6: true
-          routeMetric: 2048`)
-
-	var m config.TalhelperConfig
-	if err := yaml.Unmarshal(data, &m); err != nil {
-		t.Fatal(err)
+	if len(results) != len(expected) {
+		t.Fatalf("expected results to have length of %d, got %d", len(expected), len(results))
 	}
 
-	if len(m.Nodes) == 0 || len(m.Nodes[0].NetworkInterfaces) == 0 {
-		t.Fatal("failed to parse test data")
-	}
-
-	result := GenerateDHCP6Config(m.Nodes[0].NetworkInterfaces[0])
-	if result == nil {
-		t.Fatal("expected DHCP6 config, got nil")
-	}
-
-	if result.Name() != "eth0" {
-		t.Errorf("expected name=eth0, got %s", result.Name())
-	}
-
-	if result.ConfigRouteMetric != 2048 {
-		t.Errorf("expected route metric=2048, got %d", result.ConfigRouteMetric)
+	for k, v := range results {
+		switch doc := v.(type) {
+		case *network.DHCPv4ConfigV1Alpha1:
+			if doc.MetaKind != expected[k].kind {
+				t.Errorf("expected results[%d] kind to be %s, got %s", k, expected[k].kind, doc.MetaKind)
+			}
+			if doc.MetaName != expected[k].name {
+				t.Errorf("expected results[%d] name to be %s, got %s", k, expected[k].name, doc.MetaName)
+			}
+			if doc.ConfigRouteMetric != expected[k].routeMetric {
+				t.Errorf("expected results[%d] route metric to be %d, got %d", k, expected[k].routeMetric, doc.ConfigRouteMetric)
+			}
+		case *network.DHCPv6ConfigV1Alpha1:
+			if doc.MetaKind != expected[k].kind {
+				t.Errorf("expected results[%d] kind to be %s, got %s", k, expected[k].kind, doc.MetaKind)
+			}
+			if doc.MetaName != expected[k].name {
+				t.Errorf("expected results[%d] name to be %s, got %s", k, expected[k].name, doc.MetaName)
+			}
+			if doc.ConfigRouteMetric != expected[k].routeMetric {
+				t.Errorf("expected results[%d] route metric to be %d, got %d", k, expected[k].routeMetric, doc.ConfigRouteMetric)
+			}
+		default:
+			t.Errorf("unexpected type for results[%d]: %T", k, doc)
+		}
 	}
 }
 
@@ -294,38 +313,6 @@ func TestGenerateBondConfigBytes(t *testing.T) {
 		t.Error("expected output to contain YAML document delimiter")
 	}
 	t.Logf("Bond config output:\n%s", bondStr)
-}
-
-func TestGenerateDHCP4ConfigBytes(t *testing.T) {
-	data := []byte(`nodes:
-  - hostname: node1
-    networkInterfaces:
-      - interface: eth0
-        dhcp: true
-      - interface: eth1`)
-
-	var m config.TalhelperConfig
-	if err := yaml.Unmarshal(data, &m); err != nil {
-		t.Fatal(err)
-	}
-
-	dhcpBytes, err := GenerateDHCP4ConfigBytes(m.Nodes[0].NetworkInterfaces)
-	if err != nil {
-		t.Fatal(err)
-	}
-
-	if dhcpBytes == nil {
-		t.Fatal("expected DHCP4 config bytes, got nil")
-	}
-
-	dhcpStr := string(dhcpBytes)
-	if !bytes.Contains(dhcpBytes, []byte("kind: DHCPv4Config")) {
-		t.Error("expected output to contain 'kind: DHCPv4Config'")
-	}
-	if !bytes.Contains(dhcpBytes, []byte("name: eth0")) {
-		t.Error("expected output to contain 'name: eth0'")
-	}
-	t.Logf("DHCP4 config output:\n%s", dhcpStr)
 }
 
 func TestGenerateVIPConfig(t *testing.T) {
@@ -647,7 +634,8 @@ func TestGenerateVLANConfig(t *testing.T) {
             routes:
               - network: 10.0.0.0/8
                 gateway: 192.168.100.254
-            mtu: 1500`)
+            mtu: 1500
+            dhcp: true`)
 
 	var m config.TalhelperConfig
 	if err := yaml.Unmarshal(data, &m); err != nil {
@@ -660,37 +648,55 @@ func TestGenerateVLANConfig(t *testing.T) {
 	}
 
 	result := GenerateVLANConfig(m.Nodes[0].NetworkInterfaces[0], vlans[0])
-	if result == nil {
-		t.Fatal("expected VLAN config, got nil")
+	if len(result) != 2 {
+		t.Fatalf("expected 2 documents, got %v document(s)", len(result))
 	}
 
-	if result.MetaName != "eth0.100" {
-		t.Errorf("expected name=eth0.100, got %s", result.MetaName)
+	result0, ok := result[0].(*network.VLANConfigV1Alpha1)
+	if !ok {
+		t.Errorf("expected first document to be type of VlanConfig, got %T", result0)
 	}
 
-	if result.VLANIDConfig != 100 {
-		t.Errorf("expected VLAN ID 100, got %d", result.VLANIDConfig)
+	if result0.MetaName != "eth0.100" {
+		t.Errorf("expected first document name=eth0.100, got %s", result0.MetaName)
 	}
 
-	if result.ParentLinkConfig != "eth0" {
-		t.Errorf("expected parent=eth0, got %s", result.ParentLinkConfig)
+	if result0.VLANIDConfig != 100 {
+		t.Errorf("expected VLAN ID 100, got %d", result0.VLANIDConfig)
 	}
 
-	if len(result.LinkAddresses) != 1 {
-		t.Fatalf("expected 1 address, got %d", len(result.LinkAddresses))
+	if result0.ParentLinkConfig != "eth0" {
+		t.Errorf("expected parent=eth0, got %s", result0.ParentLinkConfig)
+	}
+
+	if len(result0.LinkAddresses) != 1 {
+		t.Fatalf("expected 1 address, got %d", len(result0.LinkAddresses))
 	}
 
 	expectedAddr := netip.MustParsePrefix("192.168.100.1/24")
-	if result.LinkAddresses[0].AddressAddress != expectedAddr {
-		t.Errorf("expected address %s, got %s", expectedAddr, result.LinkAddresses[0].AddressAddress)
+	if result0.LinkAddresses[0].AddressAddress != expectedAddr {
+		t.Errorf("expected address %s, got %s", expectedAddr, result0.LinkAddresses[0].AddressAddress)
 	}
 
-	if len(result.LinkRoutes) != 1 {
-		t.Fatalf("expected 1 route, got %d", len(result.LinkRoutes))
+	if len(result0.LinkRoutes) != 1 {
+		t.Fatalf("expected 1 route, got %d", len(result0.LinkRoutes))
 	}
 
-	if result.LinkMTU != 1500 {
-		t.Errorf("expected MTU 1500, got %d", result.LinkMTU)
+	if result0.LinkMTU != 1500 {
+		t.Errorf("expected MTU 1500, got %d", result0.LinkMTU)
+	}
+
+	if result[0].Name() != "eth0.100" || result[1].Name() != "eth0.100" {
+		t.Errorf("expected name=eth0.100, got %s and %s", result[0].Name(), result[1].Name())
+	}
+
+	result1, ok := result[1].(*network.DHCPv4ConfigV1Alpha1)
+	if !ok {
+		t.Errorf("expected second document to be type of DHCPv4Config, got %T", result1)
+	}
+
+	if result1.MetaName != "eth0.100" {
+		t.Errorf("expected second document name=eth0.100, got %s", result1.MetaName)
 	}
 }
 
@@ -734,21 +740,19 @@ func TestGenerateVLANConfigBytes(t *testing.T) {
 	t.Logf("VLAN config output:\n%s", vlanStr)
 }
 
-func TestGenerateVLANConfigMultipleVLANs(t *testing.T) {
+func TestGenerateVLANConfigBytesMultipleVLANs(t *testing.T) {
 	data := []byte(`nodes:
   - hostname: node1
     networkInterfaces:
       - interface: eth0
         vlans:
           - vlanId: 100
-            addresses:
-              - 192.168.100.1/24
+            dhcp: true
           - vlanId: 200
-            addresses:
-              - 192.168.200.1/24
-          - vlanId: 300
-            addresses:
-              - 192.168.300.1/24`)
+            dhcp: true
+            dhcpOptions:
+              ipv6: true
+          - vlanId: 300`)
 
 	var m config.TalhelperConfig
 	if err := yaml.Unmarshal(data, &m); err != nil {
@@ -756,83 +760,94 @@ func TestGenerateVLANConfigMultipleVLANs(t *testing.T) {
 	}
 
 	vlans := m.Nodes[0].NetworkInterfaces[0].DeviceVlans
+
 	if len(vlans) != 3 {
 		t.Fatalf("expected 3 VLANs, got %d", len(vlans))
 	}
 
-	vlan100 := GenerateVLANConfig(m.Nodes[0].NetworkInterfaces[0], vlans[0])
-	vlan200 := GenerateVLANConfig(m.Nodes[0].NetworkInterfaces[0], vlans[1])
-	vlan300 := GenerateVLANConfig(m.Nodes[0].NetworkInterfaces[0], vlans[2])
-
-	if vlan100 == nil || vlan200 == nil || vlan300 == nil {
-		t.Fatal("expected all VLAN configs to be non-nil")
-	}
-
-	names := map[string]bool{
-		vlan100.MetaName: true,
-		vlan200.MetaName: true,
-		vlan300.MetaName: true,
-	}
-
-	if len(names) != 3 {
-		t.Errorf("expected 3 unique VLAN names, got %d: vlan100=%s, vlan200=%s, vlan300=%s",
-			len(names), vlan100.MetaName, vlan200.MetaName, vlan300.MetaName)
-	}
-
-	expectedNames := map[string]bool{
-		"eth0.100": true,
-		"eth0.200": true,
-		"eth0.300": true,
-	}
-
-	if vlan100.MetaName != "eth0.100" {
-		t.Errorf("expected VLAN 100 name to be eth0.100, got %s", vlan100.MetaName)
-	}
-	if vlan200.MetaName != "eth0.200" {
-		t.Errorf("expected VLAN 200 name to be eth0.200, got %s", vlan200.MetaName)
-	}
-	if vlan300.MetaName != "eth0.300" {
-		t.Errorf("expected VLAN 300 name to be eth0.300, got %s", vlan300.MetaName)
-	}
-
-	if vlan100.ParentLinkConfig != "eth0" {
-		t.Errorf("expected parent eth0, got %s", vlan100.ParentLinkConfig)
-	}
-	if vlan200.ParentLinkConfig != "eth0" {
-		t.Errorf("expected parent eth0, got %s", vlan200.ParentLinkConfig)
-	}
-	if vlan300.ParentLinkConfig != "eth0" {
-		t.Errorf("expected parent eth0, got %s", vlan300.ParentLinkConfig)
-	}
-
-	if vlan100.VLANIDConfig != 100 {
-		t.Errorf("expected VLAN ID 100, got %d", vlan100.VLANIDConfig)
-	}
-	if vlan200.VLANIDConfig != 200 {
-		t.Errorf("expected VLAN ID 200, got %d", vlan200.VLANIDConfig)
-	}
-	if vlan300.VLANIDConfig != 300 {
-		t.Errorf("expected VLAN ID 300, got %d", vlan300.VLANIDConfig)
-	}
-
-	vlanBytes, err := GenerateVLANConfigBytes(m.Nodes[0].NetworkInterfaces)
+	result, err := GenerateVLANConfigBytes(m.Nodes[0].NetworkInterfaces)
 	if err != nil {
 		t.Fatal(err)
 	}
 
-	if vlanBytes == nil {
-		t.Fatal("expected VLAN config bytes, got nil")
+	test, err := configloader.NewFromBytes(result)
+	if err != nil {
+		t.Fatal(err)
 	}
 
-	vlanStr := string(vlanBytes)
+	type check struct {
+		kind   string
+		name   string
+		vlanId uint16
+	}
 
-	for name := range expectedNames {
-		if !bytes.Contains(vlanBytes, []byte("name: "+name)) {
-			t.Errorf("expected output to contain 'name: %s'", name)
+	expected := []check{
+		{
+			kind:   "VLANConfig",
+			name:   "eth0.100",
+			vlanId: 100,
+		},
+		{
+			kind: "DHCPv4Config",
+			name: "eth0.100",
+		},
+		{
+			kind:   "VLANConfig",
+			name:   "eth0.200",
+			vlanId: 200,
+		},
+		{
+			kind: "DHCPv4Config",
+			name: "eth0.200",
+		},
+		{
+			kind: "DHCPv6Config",
+			name: "eth0.200",
+		},
+		{
+			kind:   "VLANConfig",
+			name:   "eth0.300",
+			vlanId: 300,
+		},
+	}
+
+	if len(test.Documents()) != len(expected) {
+		t.Fatalf("expected %d documents, got %d documents", len(expected), len(test.Documents()))
+	}
+
+	for k, v := range test.Documents() {
+		switch doc := v.(type) {
+		case *network.VLANConfigV1Alpha1:
+			if doc.MetaKind != expected[k].kind {
+				t.Errorf("expected result[%d] kind to be %s, got %s", k, expected[k].kind, doc.MetaKind)
+			}
+			if doc.MetaName != expected[k].name {
+				t.Errorf("expected result[%d] name to be %s, got %s", k, expected[k].name, doc.MetaName)
+			}
+			if doc.VLANIDConfig != expected[k].vlanId {
+				t.Errorf("expected result[%d] vlanId to be %d, got %d", k, expected[k].vlanId, doc.VLANIDConfig)
+			}
+			if doc.ParentLinkConfig != "eth0" {
+				t.Errorf("expected result[%d] parent name to be eth0, got %s", k, doc.ParentLinkConfig)
+			}
+		case *network.DHCPv4ConfigV1Alpha1:
+			if doc.MetaKind != expected[k].kind {
+				t.Errorf("expected result[%d] kind to be %s, got %s", k, expected[k].kind, doc.MetaKind)
+			}
+			if doc.MetaName != expected[k].name {
+				t.Errorf("expected result[%d] name to be %s, got %s", k, expected[k].name, doc.MetaName)
+			}
+		case *network.DHCPv6ConfigV1Alpha1:
+			if doc.MetaKind != expected[k].kind {
+				t.Errorf("expected result[%d] kind to be %s, got %s", k, expected[k].kind, doc.MetaKind)
+			}
+			if doc.MetaName != expected[k].name {
+				t.Errorf("expected result[%d] name to be %s, got %s", k, expected[k].name, doc.MetaName)
+			}
+		default:
+			t.Errorf("unexpected result[%d] kind: %T", k, doc)
 		}
 	}
-
-	t.Logf("Multiple VLAN config output:\n%s", vlanStr)
 }
 
 func TestGenerateWireguardConfig(t *testing.T) {
