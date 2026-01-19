@@ -1260,8 +1260,8 @@ func TestHasSpecialConfig(t *testing.T) {
 		t.Error("expected bridge interface to have special config")
 	}
 
-	if !hasSpecialConfig(m.Nodes[0].NetworkInterfaces[3]) {
-		t.Error("expected interface with VLAN to have special config")
+	if hasSpecialConfig(m.Nodes[0].NetworkInterfaces[3]) {
+		t.Error("expected interface with VLAN to NOT have special config")
 	}
 
 	if hasSpecialConfig(m.Nodes[0].NetworkInterfaces[4]) {

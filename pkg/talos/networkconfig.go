@@ -919,8 +919,7 @@ func hasSpecialConfig(device *v1alpha1.Device) bool {
 	if device == nil {
 		return false
 	}
-	return device.DeviceBond != nil || len(device.DeviceVlans) > 0 ||
-		device.DeviceWireguardConfig != nil || device.DeviceBridge != nil
+	return device.DeviceBond != nil || device.DeviceWireguardConfig != nil || device.DeviceBridge != nil
 }
 
 func buildRouteConfig(route interface {
