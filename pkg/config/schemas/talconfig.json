@@ -214,7 +214,12 @@
           "$ref": "#/$defs/SystemExtensions"
         },
         "bootloader": {
-          "type": "integer"
+          "type": "string",
+          "enum": [
+            "dual-boot",
+            "grub",
+            "sd-boot"
+          ]
         },
         "secureboot": {
           "$ref": "#/$defs/SecureBootCustomization"
