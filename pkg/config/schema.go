@@ -1,5 +1,20 @@
 package config
 
+import "github.com/siderolabs/image-factory/pkg/schematic"
+
+type SchematicWrapper struct {
+	Overlay       schematic.Overlay    `yaml:"overlay" jsonschema:"description=The overlay options for image generation"`
+	Customization CustomizationWrapper `yaml:"customization" jsonschema:"description=Talos image customization"`
+}
+
+type CustomizationWrapper struct {
+	ExtraKernelArgs  []string                          `yaml:"extraKernelArgs" jsonschema:"description=Extra kernel arguments to be passed to the kernel"`
+	Meta             schematic.MetaValue               `yaml:"meta" jsonschema:"desciption=Initial META contents for the image"`
+	SystemExtensions schematic.SystemExtensions        `yaml:"systemExtensions" jsonschema:"description=Talos system extensions to be installed"`
+	Bootloader       string                            `yaml:"bootloader" jsonschema:"description=The bootloader to be used in the image,enum=sd-boot,enum=grub,enum=dual-boot"`
+	SecureBoot       schematic.SecureBootCustomization `yaml:"secureboot" jsonschema:"description=The secure boot options for the image"`
+}
+
 type InstallDiskSelectorWrapper struct {
 	Size     string `yaml:"size" jsonschema:"description=Disk size,example=4GB"`
 	Name     string `yaml:"name" jsonschema:"Disk name"`
@@ -51,6 +66,13 @@ type FilesystemSpecWrapper struct {
 func (Node) JSONSchemaProperty(prop string) any {
 	if prop == "installDiskSelector" {
 		return &InstallDiskSelectorWrapper{}
+	}
+	return nil
+}
+
+func (NodeConfigs) JSONSchemaProperty(prop string) any {
+	if prop == "schematic" {
+		return &SchematicWrapper{}
 	}
 	return nil
 }
