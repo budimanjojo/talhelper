@@ -214,15 +214,43 @@
           "$ref": "#/$defs/SystemExtensions"
         },
         "bootloader": {
-          "type": "string",
-          "enum": [
-            "dual-boot",
-            "grub",
-            "sd-boot"
-          ]
+          "type": "integer"
         },
         "secureboot": {
           "$ref": "#/$defs/SecureBootCustomization"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "CustomizationWrapper": {
+      "properties": {
+        "extraKernelArgs": {
+          "items": {
+            "type": "string"
+          },
+          "type": "array",
+          "description": "Extra kernel arguments to be passed to the kernel"
+        },
+        "meta": {
+          "$ref": "#/$defs/MetaValue"
+        },
+        "systemExtensions": {
+          "$ref": "#/$defs/SystemExtensions",
+          "description": "Talos system extensions to be installed"
+        },
+        "bootloader": {
+          "type": "string",
+          "enum": [
+            "sd-boot",
+            "grub",
+            "dual-boot"
+          ],
+          "description": "The bootloader to be used in the image"
+        },
+        "secureboot": {
+          "$ref": "#/$defs/SecureBootCustomization",
+          "description": "The secure boot options for the image"
         }
       },
       "additionalProperties": false,
@@ -931,7 +959,7 @@
           "description": "Whether to skip schematic validation"
         },
         "schematic": {
-          "$ref": "#/$defs/Schematic",
+          "$ref": "#/$defs/SchematicWrapper",
           "description": "Talos image customization to be used in the installer image"
         },
         "imageSchematic": {
@@ -1072,7 +1100,7 @@
           "description": "Whether to skip schematic validation"
         },
         "schematic": {
-          "$ref": "#/$defs/Schematic",
+          "$ref": "#/$defs/SchematicWrapper",
           "description": "Talos image customization to be used in the installer image"
         },
         "imageSchematic": {
@@ -1212,6 +1240,20 @@
         },
         "customization": {
           "$ref": "#/$defs/Customization"
+        }
+      },
+      "additionalProperties": false,
+      "type": "object"
+    },
+    "SchematicWrapper": {
+      "properties": {
+        "overlay": {
+          "$ref": "#/$defs/Overlay",
+          "description": "The overlay options for image generation"
+        },
+        "customization": {
+          "$ref": "#/$defs/CustomizationWrapper",
+          "description": "Talos image customization"
         }
       },
       "additionalProperties": false,
