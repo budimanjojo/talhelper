@@ -2,8 +2,8 @@ package templating
 
 import (
 	"fmt"
-	"html/template"
 	"strings"
+	"text/template"
 
 	"github.com/Masterminds/sprig/v3"
 )
