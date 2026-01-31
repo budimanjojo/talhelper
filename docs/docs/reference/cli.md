@@ -455,6 +455,7 @@ talhelper genconfig [flags]
 
 ```
   -c, --config-file string      File containing configurations for talhelper (default "talconfig.yaml")
+      --crt-ttl duration        certificate TTL (default 8760h0m0s)
       --disable-nodes-section   Disable filling the taloscontrol nodes section
   -n, --dry-run                 Skip generating manifests and show diff instead
   -e, --env-file strings        List of files containing env variables for config file (default [talenv.yaml,talenv.sops.yaml,talenv.yml,talenv.sops.yml])
