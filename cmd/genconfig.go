@@ -6,7 +6,9 @@ import (
 	"log"
 	"log/slog"
 	"os"
+	"time"
 
+	"github.com/siderolabs/talos/pkg/machinery/constants"
 	"github.com/spf13/cobra"
 
 	"github.com/budimanjojo/talhelper/v3/pkg/config"
@@ -23,6 +25,7 @@ var (
 	genconfigDryRun              bool
 	genconfigOfflineMode         bool
 	genconfigDisableNodesSection bool
+	genconfigCrtTTL              time.Duration
 )
 
 var genconfigCmd = &cobra.Command{
@@ -48,7 +51,7 @@ var genconfigCmd = &cobra.Command{
 		}
 
 		slog.Debug("start generating config file")
-		err = generate.GenerateConfig(cfg, genconfigDryRun, genconfigOutDir, secretFile, genconfigTalosMode, genconfigOfflineMode, genconfigDisableNodesSection)
+		err = generate.GenerateConfig(cfg, genconfigDryRun, genconfigOutDir, secretFile, genconfigTalosMode, genconfigOfflineMode, genconfigDisableNodesSection, genconfigCrtTTL)
 		if err != nil {
 			log.Fatalf("failed to generate talos config: %s", err)
 		}
@@ -74,4 +77,5 @@ func init() {
 	genconfigCmd.Flags().BoolVarP(&genconfigDryRun, "dry-run", "n", false, "Skip generating manifests and show diff instead")
 	genconfigCmd.Flags().BoolVar(&genconfigOfflineMode, "offline-mode", false, "Generate schematic ID without doing POST request to image-factory")
 	genconfigCmd.Flags().BoolVar(&genconfigDisableNodesSection, "disable-nodes-section", false, "Disable filling the taloscontrol nodes section")
+	genconfigCmd.Flags().DurationVar(&genconfigCrtTTL, "crt-ttl", constants.TalosAPIDefaultCertificateValidityDuration, "certificate TTL")
 }
