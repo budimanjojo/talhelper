@@ -441,6 +441,8 @@ github.com/siderolabs/image-factory v0.9.0 h1:T7tTDEXiMAAVakyg4kZQomRXT5ecwPQTnf
 github.com/siderolabs/image-factory v0.9.0/go.mod h1:s/+13Ccp6ReMtCB2OXxtlqkkZWVoe88qwcNrS+wpy6g=
 github.com/siderolabs/image-factory v1.0.0 h1:35d9XPQrphgKcKolqaRZft7mhVx9dkpdaMPbPvsQrBE=
 github.com/siderolabs/image-factory v1.0.0/go.mod h1:rRMN+e4W4RjZRf+bRdyyscp7VLbkhyPmo9WFXLGfKEo=
+github.com/siderolabs/image-factory v1.0.2 h1:g309sdLdRQ5Vrm2nNm9rxBDv3k8+KzrmNm+uPh7NXGY=
+github.com/siderolabs/image-factory v1.0.2/go.mod h1:3DfC1+0ygh/RR3O2/yqMR9EOJHZIbqLhH986xMdMR3o=
 github.com/siderolabs/net v0.4.0 h1:1bOgVay/ijPkJz4qct98nHsiB/ysLQU0KLoBC4qLm7I=
 github.com/siderolabs/net v0.4.0/go.mod h1:/ibG+Hm9HU27agp5r9Q3eZicEfjquzNzQNux5uEk0kM=
 github.com/siderolabs/protoenc v0.2.4 h1:D3Fpn2nQSQOhl8ZlAxijZAf7K6F8CM1uZq0afIGsr8Q=
@@ -449,6 +451,8 @@ github.com/siderolabs/talos v1.12.0 h1:ESejLcot+q41sHH/oP4Ndd5pUrXQS6z7KTMwzIqsu
 github.com/siderolabs/talos v1.12.0/go.mod h1:3fLGpDYbwgvH/4Z2RJ+soZ1GwobwSKywlfCfTbd8ZA0=
 github.com/siderolabs/talos v1.13.0-alpha.0.0.20260126150111-859d3f03c444 h1:CnnZT+60dT5GJBE4tDXfi0rN2ggxxcFjDYnx7HrsKCA=
 github.com/siderolabs/talos v1.13.0-alpha.0.0.20260126150111-859d3f03c444/go.mod h1:cXu7s85WHRXox3UJLgDTtedV+KZc0wIPrFMecc9PzpA=
+github.com/siderolabs/talos v1.13.0-alpha.1 h1:UaAEUjWkb5BBQNEGYC2oaQfo66kHn66Frek1JkUHJCw=
+github.com/siderolabs/talos v1.13.0-alpha.1/go.mod h1:1pYtI5xF3suBLylL0FCdbZHHDlBavRlVU7iqqscVLcw=
 github.com/siderolabs/talos/pkg/machinery v1.12.0 h1:SDXXCTEuPhaXIA84WuBeG8cxR71DkF8FhXXgb2S1048=
 github.com/siderolabs/talos/pkg/machinery v1.12.0/go.mod h1:dNc4lG9yb2CzCwnJbfSUO9ZmkXE6P3BnVo1UsCITr/U=
 github.com/siderolabs/talos/pkg/machinery v1.13.0-alpha.0 h1:GjWKqQKRJX5+CfClQPLrnkJHMo4eGupbxIl0iA2yd08=
@@ -603,10 +607,14 @@ google.golang.org/genproto/googleapis/rpc v0.0.0-20251111163417-95abcf5c77ba h1:
 google.golang.org/genproto/googleapis/rpc v0.0.0-20251111163417-95abcf5c77ba/go.mod h1:7i2o+ce6H/6BluujYR+kqX3GKH+dChPTQU19wjRPiGk=
 google.golang.org/genproto/googleapis/rpc v0.0.0-20251213004720-97cd9d5aeac2 h1:2I6GHUeJ/4shcDpoUlLs/2WPnhg7yJwvXtqcMJt9liA=
 google.golang.org/genproto/googleapis/rpc v0.0.0-20251213004720-97cd9d5aeac2/go.mod h1:7i2o+ce6H/6BluujYR+kqX3GKH+dChPTQU19wjRPiGk=
+google.golang.org/genproto/googleapis/rpc v0.0.0-20251222181119-0a764e51fe1b h1:Mv8VFug0MP9e5vUxfBcE3vUkV6CImK3cMNMIDFjmzxU=
+google.golang.org/genproto/googleapis/rpc v0.0.0-20251222181119-0a764e51fe1b/go.mod h1:j9x/tPzZkyxcgEFkiKEEGxfvyumM01BEtsW8xzOahRQ=
 google.golang.org/grpc v1.76.0 h1:UnVkv1+uMLYXoIz6o7chp59WfQUYA2ex/BXQ9rHZu7A=
 google.golang.org/grpc v1.76.0/go.mod h1:Ju12QI8M6iQJtbcsV+awF5a4hfJMLi4X0JLo94ULZ6c=
 google.golang.org/grpc v1.77.0 h1:wVVY6/8cGA6vvffn+wWK5ToddbgdU3d8MNENr4evgXM=
 google.golang.org/grpc v1.77.0/go.mod h1:z0BY1iVj0q8E1uSQCjL9cppRj+gnZjzDnzV0dHhrNig=
+google.golang.org/grpc v1.78.0 h1:K1XZG/yGDJnzMdd/uZHAkVqJE+xIDOcmdSFZkBUicNc=
+google.golang.org/grpc v1.78.0/go.mod h1:I47qjTo4OKbMkjA/aOOwxDIiPSBofUtQUI5EfpWvW7U=
 google.golang.org/protobuf v1.36.10 h1:AYd7cD/uASjIL6Q9LiTjz8JLcrh/88q5UObnmY3aOOE=
 google.golang.org/protobuf v1.36.10/go.mod h1:HTf+CrKn2C3g5S8VImy6tdcUvCska2kB7j23XfzDpco=
 google.golang.org/protobuf v1.36.11 h1:fV6ZwhNocDyBLK0dj+fg8ektcVegBBuEolpbTQyBNVE=

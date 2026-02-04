@@ -16,7 +16,7 @@ require (
 	github.com/kylelemons/godebug v1.1.0
 	github.com/sabhiram/go-gitignore v0.0.0-20210923224102-525f6e181f06
 	github.com/siderolabs/go-pointer v1.0.1
-	github.com/siderolabs/image-factory v1.0.0
+	github.com/siderolabs/image-factory v1.0.2
 	github.com/siderolabs/net v0.4.0
 	github.com/siderolabs/talos/pkg/machinery v1.13.0-alpha.1
 	github.com/spf13/cobra v1.10.2
@@ -157,7 +157,7 @@ require (
 	github.com/siderolabs/crypto v0.6.4 // indirect
 	github.com/siderolabs/gen v0.8.6 // indirect
 	github.com/siderolabs/protoenc v0.2.4 // indirect
-	github.com/siderolabs/talos v1.13.0-alpha.0.0.20260126150111-859d3f03c444 // indirect
+	github.com/siderolabs/talos v1.13.0-alpha.1 // indirect
 	github.com/sirupsen/logrus v1.9.4-0.20230606125235-dd1b4c2e81af // indirect
 	github.com/spf13/afero v1.15.0 // indirect
 	github.com/spf13/cast v1.10.0 // indirect
@@ -193,8 +193,8 @@ require (
 	google.golang.org/api v0.251.0 // indirect
 	google.golang.org/genproto v0.0.0-20250922171735-9219d122eba9 // indirect
 	google.golang.org/genproto/googleapis/api v0.0.0-20251213004720-97cd9d5aeac2 // indirect
-	google.golang.org/genproto/googleapis/rpc v0.0.0-20251213004720-97cd9d5aeac2 // indirect
-	google.golang.org/grpc v1.77.0 // indirect
+	google.golang.org/genproto/googleapis/rpc v0.0.0-20251222181119-0a764e51fe1b // indirect
+	google.golang.org/grpc v1.78.0 // indirect
 	google.golang.org/protobuf v1.36.11 // indirect
 	gopkg.in/ini.v1 v1.67.0 // indirect
 	gopkg.in/yaml.v2 v2.4.0 // indirect
