@@ -20,7 +20,7 @@ require (
 	github.com/siderolabs/net v0.4.0
 	github.com/siderolabs/talos/pkg/machinery v1.13.0-alpha.1.0.20260207193313-2628eb2ece05
 	github.com/spf13/cobra v1.10.2
-	golang.org/x/mod v0.32.0
+	golang.org/x/mod v0.33.0
 	gopkg.in/yaml.v3 v3.0.1
 	sigs.k8s.io/yaml v1.6.0
 )
