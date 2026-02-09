@@ -443,6 +443,8 @@ github.com/siderolabs/image-factory v1.0.0 h1:35d9XPQrphgKcKolqaRZft7mhVx9dkpdaM
 github.com/siderolabs/image-factory v1.0.0/go.mod h1:rRMN+e4W4RjZRf+bRdyyscp7VLbkhyPmo9WFXLGfKEo=
 github.com/siderolabs/image-factory v1.0.2 h1:g309sdLdRQ5Vrm2nNm9rxBDv3k8+KzrmNm+uPh7NXGY=
 github.com/siderolabs/image-factory v1.0.2/go.mod h1:3DfC1+0ygh/RR3O2/yqMR9EOJHZIbqLhH986xMdMR3o=
+github.com/siderolabs/image-factory v1.0.3 h1:qcivcfaTNSnLMKMWH82r8oEmxymz3fzqxefZbk5lKx8=
+github.com/siderolabs/image-factory v1.0.3/go.mod h1:7ydfVZ4cfMgTAdaPdeqCADKc280GRyUHSygKQAxSfgQ=
 github.com/siderolabs/net v0.4.0 h1:1bOgVay/ijPkJz4qct98nHsiB/ysLQU0KLoBC4qLm7I=
 github.com/siderolabs/net v0.4.0/go.mod h1:/ibG+Hm9HU27agp5r9Q3eZicEfjquzNzQNux5uEk0kM=
 github.com/siderolabs/protoenc v0.2.4 h1:D3Fpn2nQSQOhl8ZlAxijZAf7K6F8CM1uZq0afIGsr8Q=
@@ -453,6 +455,8 @@ github.com/siderolabs/talos v1.13.0-alpha.0.0.20260126150111-859d3f03c444 h1:Cnn
 github.com/siderolabs/talos v1.13.0-alpha.0.0.20260126150111-859d3f03c444/go.mod h1:cXu7s85WHRXox3UJLgDTtedV+KZc0wIPrFMecc9PzpA=
 github.com/siderolabs/talos v1.13.0-alpha.1 h1:UaAEUjWkb5BBQNEGYC2oaQfo66kHn66Frek1JkUHJCw=
 github.com/siderolabs/talos v1.13.0-alpha.1/go.mod h1:1pYtI5xF3suBLylL0FCdbZHHDlBavRlVU7iqqscVLcw=
+github.com/siderolabs/talos v1.13.0-alpha.1.0.20260207193313-2628eb2ece05 h1:/KSvrd8Ns0QMhOKNZ7Y67mg297OOL8qPtO8kWdm4EHU=
+github.com/siderolabs/talos v1.13.0-alpha.1.0.20260207193313-2628eb2ece05/go.mod h1:1pYtI5xF3suBLylL0FCdbZHHDlBavRlVU7iqqscVLcw=
 github.com/siderolabs/talos/pkg/machinery v1.12.0 h1:SDXXCTEuPhaXIA84WuBeG8cxR71DkF8FhXXgb2S1048=
 github.com/siderolabs/talos/pkg/machinery v1.12.0/go.mod h1:dNc4lG9yb2CzCwnJbfSUO9ZmkXE6P3BnVo1UsCITr/U=
 github.com/siderolabs/talos/pkg/machinery v1.13.0-alpha.0 h1:GjWKqQKRJX5+CfClQPLrnkJHMo4eGupbxIl0iA2yd08=
@@ -461,6 +465,8 @@ github.com/siderolabs/talos/pkg/machinery v1.13.0-alpha.0.0.20260126150111-859d3
 github.com/siderolabs/talos/pkg/machinery v1.13.0-alpha.0.0.20260126150111-859d3f03c444/go.mod h1:QKitWcS6eF4RnOUK7mJZEUwUTVi34hNKw4t4BFNpCoM=
 github.com/siderolabs/talos/pkg/machinery v1.13.0-alpha.1 h1:cC1YviG+E4qGSnt+/6jeHujsy7mtl2Cq4ksgyy5NW/8=
 github.com/siderolabs/talos/pkg/machinery v1.13.0-alpha.1/go.mod h1:QKitWcS6eF4RnOUK7mJZEUwUTVi34hNKw4t4BFNpCoM=
+github.com/siderolabs/talos/pkg/machinery v1.13.0-alpha.1.0.20260207193313-2628eb2ece05 h1:aDdI8fSf1+CwNa00EYA4g0aCV864cwBvx1on7X8uzzU=
+github.com/siderolabs/talos/pkg/machinery v1.13.0-alpha.1.0.20260207193313-2628eb2ece05/go.mod h1:QKitWcS6eF4RnOUK7mJZEUwUTVi34hNKw4t4BFNpCoM=
 github.com/sirupsen/logrus v1.9.4-0.20230606125235-dd1b4c2e81af h1:Sp5TG9f7K39yfB+If0vjp97vuT74F72r8hfRpP8jLU0=
 github.com/sirupsen/logrus v1.9.4-0.20230606125235-dd1b4c2e81af/go.mod h1:naHLuLoDiP4jHNo9R0sCBMtWGeIprob74mVsIT4qYEQ=
 github.com/spf13/afero v1.15.0 h1:b/YBCLWAJdFWJTN9cLhiXXcD7mzKn9Dm86dNnfyQw1I=
