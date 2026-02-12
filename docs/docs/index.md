@@ -45,6 +45,7 @@ There are some alternatives you can consider instead of `talhelper`.
 
 - The official [Terraform provider](https://registry.terraform.io/providers/siderolabs/talos/latest)
 - The official [Pulumi provider](https://www.pulumi.com/registry/packages/talos/)
+- [TOPF](https://github.com/postfinance/topf) — manages Talos cluster lifecycle with layered patches and SOPS support
 
 ## Bug report and feature request
 
