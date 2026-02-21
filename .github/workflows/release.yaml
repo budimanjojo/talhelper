@@ -51,7 +51,7 @@ jobs:
           username: ${{ github.repository_owner }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - uses: goreleaser/goreleaser-action@v6
+      - uses: goreleaser/goreleaser-action@v7
         with:
           args: release --clean ${{ env.GORELEASER_DRY_RUN == 'true' && '--snapshot' || '' }}
         env:
