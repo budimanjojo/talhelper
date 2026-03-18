@@ -54,6 +54,7 @@ func (c TalhelperConfig) Validate() (Errors, Warnings) {
 		checkNodeIPAddress(node, k, &result)
 		checkNodeInstallDiskSelector(node, k, &result)
 		checkNodeHostname(node, k, &result)
+		checkNodeTalosImageURL(node, k, &result)
 		checkNodeLabels(node, k, &result)
 		checkNodeAnnotations(node, k, &result)
 		checkNodeTaints(node, k, &result)

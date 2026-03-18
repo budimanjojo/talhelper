@@ -11,6 +11,7 @@ import (
 
 	"github.com/budimanjojo/talhelper/v3/pkg/config/schemas/versiontags"
 	"github.com/budimanjojo/talhelper/v3/pkg/templating"
+	"github.com/distribution/reference"
 	"github.com/gookit/validate"
 	"github.com/hashicorp/go-multierror"
 	"github.com/siderolabs/net"
@@ -313,6 +314,28 @@ func checkNodeHostname(node Node, idx int, result *Errors) *Errors {
 				Message: formatError(multierror.Append(fmt.Errorf("%q is not a valid hostname", node.Hostname))),
 			})
 		}
+	}
+	return result
+}
+
+func checkNodeTalosImageURL(node Node, idx int, result *Errors) *Errors {
+	if node.TalosImageURL != "" {
+		ref, err := reference.ParseNamed(node.TalosImageURL)
+		if err != nil {
+			return result.Append(&Error{
+				Kind:    "InvalidNodeTalosImageURL",
+				Field:   getNodeFieldYamlTag(node, idx, "TalosImageURL"),
+				Message: formatError(multierror.Append(err)),
+			})
+		}
+		if !reference.IsNameOnly(ref) {
+			return result.Append(&Error{
+				Kind:    "InvalidNodeTalosImageURL",
+				Field:   getNodeFieldYamlTag(node, idx, "TalosImageURL"),
+				Message: formatError(multierror.Append(fmt.Errorf("should not contains version or digest"))),
+			})
+		}
+
 	}
 	return result
 }
