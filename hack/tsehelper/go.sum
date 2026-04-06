@@ -130,6 +130,8 @@ github.com/docker/cli v29.2.1+incompatible h1:n3Jt0QVCN65eiVBoUTZQM9mcQICCJt3akW
 github.com/docker/cli v29.2.1+incompatible/go.mod h1:JLrzqnKDaYBop7H2jaqPtU4hHvMKP+vjCwu2uszcLI8=
 github.com/docker/cli v29.3.0+incompatible h1:z3iWveU7h19Pqx7alZES8j+IeFQZ1lhTwb2F+V9SVvk=
 github.com/docker/cli v29.3.0+incompatible/go.mod h1:JLrzqnKDaYBop7H2jaqPtU4hHvMKP+vjCwu2uszcLI8=
+github.com/docker/cli v29.3.1+incompatible h1:M04FDj2TRehDacrosh7Vlkgc7AuQoWloQkf1PA5hmoI=
+github.com/docker/cli v29.3.1+incompatible/go.mod h1:JLrzqnKDaYBop7H2jaqPtU4hHvMKP+vjCwu2uszcLI8=
 github.com/docker/distribution v2.8.3+incompatible h1:AtKxIZ36LoNK51+Z6RpzLpddBirtxJnzDrHLEKxTAYk=
 github.com/docker/distribution v2.8.3+incompatible/go.mod h1:J2gT2udsDAN96Uj4KfcMRqY0/ypR+oyYUYmja8H+y+w=
 github.com/docker/docker v24.0.7+incompatible h1:Wo6l37AuwP3JaMnZa226lzVXGA3F9Ig1seQen0cKYlM=
@@ -174,6 +176,8 @@ github.com/google/go-containerregistry v0.21.2 h1:vYaMU4nU55JJGFC9JR/s8NZcTjbE9D
 github.com/google/go-containerregistry v0.21.2/go.mod h1:ctO5aCaewH4AK1AumSF5DPW+0+R+d2FmylMJdp5G7p0=
 github.com/google/go-containerregistry v0.21.3 h1:Xr+yt3VvwOOn/5nJzd7UoOhwPGiPkYW0zWDLLUXqAi4=
 github.com/google/go-containerregistry v0.21.3/go.mod h1:D5ZrJF1e6dMzvInpBPuMCX0FxURz7GLq2rV3Us9aPkc=
+github.com/google/go-containerregistry v0.21.4 h1:VrhlIQtdhE6riZW//MjPrcJ1snAjPoCCpPHqGOygrv8=
+github.com/google/go-containerregistry v0.21.4/go.mod h1:kxgc23zQ2qMY/hAKt0wCbB/7tkeovAP2mE2ienynJUw=
 github.com/klauspost/compress v1.17.4 h1:Ej5ixsIri7BrIjBkRZLTo6ghwrEtHFk7ijlczPW4fZ4=
 github.com/klauspost/compress v1.17.4/go.mod h1:/dCuZOvVtNoHsyb+cuJD3itjs3NbnF6KH9zAO4BDxPM=
 github.com/klauspost/compress v1.17.11 h1:In6xLpyWOi1+C7tXUUWv2ot1QvBjxevKAaI6IXrJmUc=
@@ -186,6 +190,8 @@ github.com/klauspost/compress v1.18.3 h1:9PJRvfbmTabkOX8moIpXPbMMbYN60bWImDDU7L+
 github.com/klauspost/compress v1.18.3/go.mod h1:R0h/fSBs8DE4ENlcrlib3PsXS61voFxhIs2DeRhCvJ4=
 github.com/klauspost/compress v1.18.4 h1:RPhnKRAQ4Fh8zU2FY/6ZFDwTVTxgJ/EMydqSTzE9a2c=
 github.com/klauspost/compress v1.18.4/go.mod h1:R0h/fSBs8DE4ENlcrlib3PsXS61voFxhIs2DeRhCvJ4=
+github.com/klauspost/compress v1.18.5 h1:/h1gH5Ce+VWNLSWqPzOVn6XBO+vJbCNGvjoaGBFW2IE=
+github.com/klauspost/compress v1.18.5/go.mod h1:cwPg85FWrGar70rWktvGQj8/hthj3wpl0PGDogxkrSQ=
 github.com/kr/pretty v0.3.1 h1:flRD4NNwYAUpkphVc1HcthR4KEIFJ65n8Mw5qdRn3LE=
 github.com/kr/pretty v0.3.1/go.mod h1:hoEshYVHaxMs3cyo3Yncou5ZscifuDolrwPKZanG3xk=
 github.com/kr/text v0.2.0 h1:5Nx0Ya0ZqY2ygV366QzturHI13Jq95ApcVaJBhpS+AY=
