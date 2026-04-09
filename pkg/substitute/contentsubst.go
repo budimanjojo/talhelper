@@ -3,8 +3,9 @@ package substitute
 import (
 	"fmt"
 	"log/slog"
-	"os"
 	"strings"
+
+	"github.com/budimanjojo/talhelper/v3/pkg/decrypt"
 )
 
 // SubstituteFileContent will read and return the content of a file if `value` is string prefixed with `@`
@@ -16,7 +17,7 @@ func SubstituteFileContent(value string, envsubst bool) (string, error) {
 		slog.Debug(fmt.Sprintf("getting file content of %s", value))
 		filename := value[1:]
 
-		contents, err := os.ReadFile(filename)
+		contents, err := decrypt.DecryptFileWithSops(filename)
 		if err != nil {
 			return "", err
 		}
