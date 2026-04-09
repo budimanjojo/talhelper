@@ -1,10 +1,13 @@
 package decrypt
 
 import (
+	"errors"
 	"fmt"
 	"log/slog"
 	"os"
 
+	sops "github.com/getsops/sops/v3"
+	"github.com/getsops/sops/v3/cmd/sops/formats"
 	"github.com/getsops/sops/v3/decrypt"
 	"sigs.k8s.io/yaml"
 )
@@ -51,4 +54,23 @@ func DecryptYamlWithSops(filePath string) ([]byte, error) {
 // isEncrypted returns true if `sops` key exists.
 func (s *sopsFile) isEncrypted() bool {
 	return len(s.Sops) != 0
+}
+
+func DecryptFileWithSops(filePath string) ([]byte, error) {
+	slog.Debug(fmt.Sprintf("attempting SOPS decryption of %s", filePath))
+
+	decrypted, err := decrypt.File(filePath, "")
+	if err == nil {
+		return decrypted, nil
+	}
+
+	if errors.Is(err, sops.MetadataNotFound) {
+		return os.ReadFile(filePath)
+	}
+
+	if formats.FormatForPath(filePath) == formats.Binary {
+		return os.ReadFile(filePath)
+	}
+
+	return nil, fmt.Errorf("SOPS decryption failed for %s: %w", filePath, err)
 }

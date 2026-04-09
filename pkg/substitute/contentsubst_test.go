@@ -6,6 +6,67 @@ import (
 	"testing"
 )
 
+func TestSubstituteFileContent_SopsEncryptedFile(t *testing.T) {
+	os.Setenv("SOPS_AGE_KEY", "AGE-SECRET-KEY-172FENV3SDP8JSRRX2SWTA9JQMAW7MW3GSKJ2JZDNXS4GVFAS5STQUW8WN4")
+
+	result, err := SubstituteFileContent("@./testdata/encrypted-manifest.sops.yaml", false)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if !strings.Contains(result, "password: supersecret") {
+		t.Errorf("expected decrypted content to contain 'password: supersecret', got %q", result)
+	}
+	if !strings.Contains(result, "name: my-secret") {
+		t.Errorf("expected decrypted content to contain 'name: my-secret', got %q", result)
+	}
+}
+
+func TestSubstituteFileContent_SopsEncryptedWithMissingKey(t *testing.T) {
+	os.Setenv("SOPS_AGE_KEY", "")
+
+	_, err := SubstituteFileContent("@./testdata/encrypted-manifest.sops.yaml", false)
+	if err == nil {
+		t.Fatal("expected SOPS decryption error when key is missing, got nil")
+	}
+}
+
+func TestSubstituteFileContent_SopsEncryptedWithEnvsubst(t *testing.T) {
+	os.Setenv("SOPS_AGE_KEY", "AGE-SECRET-KEY-172FENV3SDP8JSRRX2SWTA9JQMAW7MW3GSKJ2JZDNXS4GVFAS5STQUW8WN4")
+	os.Setenv("EXPECTED_NAME", "my-secret")
+
+	result, err := SubstituteFileContent("@./testdata/encrypted-manifest.sops.yaml", true)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if !strings.Contains(result, "password: supersecret") {
+		t.Errorf("expected decrypted content to contain 'password: supersecret', got %q", result)
+	}
+}
+
+func TestSubstituteFileContent_NonSopsFile(t *testing.T) {
+	result, err := SubstituteFileContent("@./testdata/content.yaml", false)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if !strings.Contains(result, "hubble-ui-nginx") {
+		t.Errorf("expected content to contain 'hubble-ui-nginx', got %q", result)
+	}
+}
+
+func TestSubstituteFileContent_NoAtPrefix(t *testing.T) {
+	result, err := SubstituteFileContent("literal value", false)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if result != "literal value" {
+		t.Errorf("got %q, want %q", result, "literal value")
+	}
+}
+
 func TestSubstituteFileContent(t *testing.T) {
 	contents := []string{
 		"@./testdata/content.yaml",

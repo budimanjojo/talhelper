@@ -16,6 +16,7 @@ import (
 	"gopkg.in/yaml.v3"
 
 	"github.com/budimanjojo/talhelper/v3/pkg/config"
+	"github.com/budimanjojo/talhelper/v3/pkg/decrypt"
 	"github.com/budimanjojo/talhelper/v3/pkg/patcher"
 	"github.com/budimanjojo/talhelper/v3/pkg/talos"
 	"github.com/budimanjojo/talhelper/v3/pkg/templating"
@@ -154,11 +155,7 @@ func getFileContent(path string) (string, error) {
 // if any
 func getFileContentByte(path string) ([]byte, error) {
 	if _, osErr := os.Stat(path); osErr == nil {
-		content, err := os.ReadFile(path)
-		if err != nil {
-			return nil, err
-		}
-		return content, nil
+		return decrypt.DecryptFileWithSops(path)
 	} else if errors.Is(osErr, os.ErrNotExist) {
 		return nil, nil
 	} else {
