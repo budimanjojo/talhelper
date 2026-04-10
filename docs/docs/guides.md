@@ -264,6 +264,54 @@ To configure `talhelper` to use `sops` to encrypt and decrypt your secrets, here
 
 4. Now, if you encrypt your `talenv.sops.yaml` and `talsecret.sops.yaml` files with `sops`, `talhelper` will be able to decrypt it when generating config files.
 
+## Using SOPS encrypted files in manifests and patches
+
+Beyond `talsecret` and `talenv` files, `talhelper` automatically decrypts SOPS-encrypted files referenced in `inlineManifests`, `machineFiles`, `patches`, and `extraManifests`.
+
+The detection is transparent: when a file is loaded, `talhelper` checks whether it contains SOPS metadata and decrypts it if needed. No special naming convention is required — any file encrypted with `sops` will be handled automatically.
+
+Supported formats are YAML, JSON, dotenv, and INI.
+
+For example, you can store a Kubernetes Secret encrypted with SOPS and reference it directly in your `talconfig.yaml`:
+
+```yaml title="./manifests/db-credentials.yaml (before encryption)"
+apiVersion: v1
+kind: Secret
+metadata:
+  name: db-credentials
+  namespace: default
+stringData:
+  password: my-super-secret-password
+```
+
+Encrypt it with `sops`:
+
+```bash
+sops -e -i ./manifests/db-credentials.yaml
+```
+
+Then reference it in your `talconfig.yaml`:
+
+```yaml title="./talconfig.yaml"
+inlineManifests:
+  - name: db-credentials
+    contents: "@./manifests/db-credentials.yaml"
+```
+
+When running `talhelper genconfig`, the file will be decrypted on the fly and the cleartext manifest will be injected into the generated config.
+
+This also works with `machineFiles`:
+
+```yaml title="./talconfig.yaml"
+nodes:
+  - hostname: worker1
+    machineFiles:
+      - content: "@./secrets/auth.env"
+        permissions: 0o600
+        path: /var/etc/tailscale/auth.env
+        op: create
+```
+
 ## Using Doppler instead of SOPS
 
 If you don't want to use `sops` as your secret management, you can use [Doppler](https://www.doppler.com/) instead (or any other secret managers that can inject environment variables to the shell).
