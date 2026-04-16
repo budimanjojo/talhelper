@@ -458,6 +458,8 @@ github.com/shopspring/decimal v1.4.0 h1:bxl37RwXBklmTi0C79JfXCEBD1cqqHt0bbgBAGFp
 github.com/shopspring/decimal v1.4.0/go.mod h1:gawqmDU56v4yIKSwfBSFip1HdCCXN8/+DMd9qYNcwME=
 github.com/siderolabs/crypto v0.6.4 h1:uMoe/X/mABOv6yOgvKcjmjIMdv6U8JegBXlPKtyjn3g=
 github.com/siderolabs/crypto v0.6.4/go.mod h1:39B7Mdrd8qTfEYOjsWPQOk7gLTWrEI30isAW+YYj9nk=
+github.com/siderolabs/crypto v0.6.5 h1:Elq5tpWP2ApZ4Y+Kg+eIDiiWbmriCPI1mjYIMwvsYkw=
+github.com/siderolabs/crypto v0.6.5/go.mod h1:QjVcrdJQE1sxhjHqieCgwGdlIYq/xCP2DL53Up8nbU4=
 github.com/siderolabs/gen v0.8.6 h1:pE6shuqov3L+5rEcAUJ/kY6iJofimljQw5G95P8a5c4=
 github.com/siderolabs/gen v0.8.6/go.mod h1:J9IbusbES2W6QWjtSHpDV9iPGZHc978h1+KJ4oQRspQ=
 github.com/siderolabs/go-api-signature v0.3.12 h1:i1X+kPh9fzo+lEjtEplZSbtq1p21vKv4FCWJcB/ozvk=
@@ -478,6 +480,8 @@ github.com/siderolabs/talos/pkg/machinery v1.13.0-beta.0 h1:V2Fd2DRgS50vk9Q5Omvp
 github.com/siderolabs/talos/pkg/machinery v1.13.0-beta.0/go.mod h1:SEOEuyZggCr/nI9THHiVds9XjSiPsTrinScqXZih2hY=
 github.com/siderolabs/talos/pkg/machinery v1.13.0-beta.1 h1:y2fbmuXt2pqzfYgjO8gAqgiIsrj73N5lYaMG1JiiWao=
 github.com/siderolabs/talos/pkg/machinery v1.13.0-beta.1/go.mod h1:tE9jKW4epcqK/Oe+icYOqK1isiB9je1AeSaBjb8i8ks=
+github.com/siderolabs/talos/pkg/machinery v1.13.0-rc.0 h1:sM0w/8BwBy6dVOu4XLW8m9xhA2iMmrmME3zpyFDHdwc=
+github.com/siderolabs/talos/pkg/machinery v1.13.0-rc.0/go.mod h1:70Up2PI+g6wxW4rJ8AIlZO0MfQ8gglyfqsyBv0PdnSo=
 github.com/sirupsen/logrus v1.9.4 h1:TsZE7l11zFCLZnZ+teH4Umoq5BhEIfIzfRDZ1Uzql2w=
 github.com/sirupsen/logrus v1.9.4/go.mod h1:ftWc9WdOfJ0a92nsE2jF5u5ZwH8Bv2zdeOC42RjbV2g=
 github.com/spf13/cast v1.10.0 h1:h2x0u2shc1QuLHfxi+cTJvs30+ZAHOGRic8uyGTDWxY=
