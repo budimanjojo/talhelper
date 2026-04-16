@@ -19,7 +19,7 @@ require (
 	github.com/siderolabs/go-pointer v1.0.1
 	github.com/siderolabs/image-factory v1.0.3
 	github.com/siderolabs/net v0.4.0
-	github.com/siderolabs/talos/pkg/machinery v1.13.0-beta.1
+	github.com/siderolabs/talos/pkg/machinery v1.13.0-rc.0
 	github.com/spf13/cobra v1.10.2
 	golang.org/x/mod v0.35.0
 	gopkg.in/yaml.v3 v3.0.1
@@ -151,7 +151,7 @@ require (
 	github.com/ryanuber/go-glob v1.0.0 // indirect
 	github.com/sasha-s/go-deadlock v0.3.5 // indirect
 	github.com/shopspring/decimal v1.4.0 // indirect
-	github.com/siderolabs/crypto v0.6.4 // indirect
+	github.com/siderolabs/crypto v0.6.5 // indirect
 	github.com/siderolabs/gen v0.8.6 // indirect
 	github.com/siderolabs/protoenc v0.2.4 // indirect
 	github.com/sirupsen/logrus v1.9.4 // indirect
