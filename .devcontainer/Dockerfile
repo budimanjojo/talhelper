@@ -21,7 +21,7 @@ FROM ghcr.io/mirceanton/age:${AGE_VERSION} AS age
 ## ================================================================================================
 ## Main image
 ## ================================================================================================
-FROM mcr.microsoft.com/devcontainers/go:2.1-bookworm@sha256:4da2693c134c65e87f73fcebcd4b3c0e8a9b208384fd8c1f84c4414b5cd06c20 AS workspace
+FROM mcr.microsoft.com/devcontainers/go:2.1-bookworm@sha256:80694b9e519d41822772c5e4b2f7903343f7591ca5db064613ec7e53b855dc31 AS workspace
 
 COPY --from=kubectl /bin/kubectl /usr/local/bin/kubectl
 COPY --from=talosctl /talosctl /usr/local/bin/talosctl
