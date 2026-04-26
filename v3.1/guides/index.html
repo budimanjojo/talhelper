@@ -68,6 +68,8 @@
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#configuring-sops-for-talhelper">Configuring SOPS for Talhelper</a>
     </li>
+    <li class="toctree-l2"><a class="reference internal" href="#using-sops-encrypted-files-in-manifests-and-patches">Using SOPS encrypted files in manifests and patches</a>
+    </li>
     <li class="toctree-l2"><a class="reference internal" href="#using-doppler-instead-of-sops">Using Doppler instead of SOPS</a>
     </li>
     <li class="toctree-l2"><a class="reference internal" href="#generating-talosctl-commands-for-bash-scripting">Generating talosctl commands for bash scripting</a>
@@ -350,6 +352,37 @@ To configure <code>talhelper</code> to use <code>sops</code> to encrypt and decr
 <p>Now, if you encrypt your <code>talenv.sops.yaml</code> and <code>talsecret.sops.yaml</code> files with <code>sops</code>, <code>talhelper</code> will be able to decrypt it when generating config files.</p>
 </li>
 </ol>
+<h2 id="using-sops-encrypted-files-in-manifests-and-patches">Using SOPS encrypted files in manifests and patches</h2>
+<p>Beyond <code>talsecret</code> and <code>talenv</code> files, <code>talhelper</code> automatically decrypts SOPS-encrypted files referenced in <code>inlineManifests</code>, <code>machineFiles</code>, <code>patches</code>, and <code>extraManifests</code>.</p>
+<p>The detection is transparent: when a file is loaded, <code>talhelper</code> checks whether it contains SOPS metadata and decrypts it if needed. No special naming convention is required — any file encrypted with <code>sops</code> will be handled automatically.</p>
+<p>Supported formats are YAML, JSON, dotenv, and INI.</p>
+<p>For example, you can store a Kubernetes Secret encrypted with SOPS and reference it directly in your <code>talconfig.yaml</code>:</p>
+<div class="highlight"><span class="filename">./manifests/db-credentials.yaml (before encryption)</span><pre><span></span><code><span class="nt">apiVersion</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">v1</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Secret</span>
+<span class="nt">metadata</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">db-credentials</span>
+<span class="w">  </span><span class="nt">namespace</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">default</span>
+<span class="nt">stringData</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">password</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">my-super-secret-password</span>
+</code></pre></div>
+<p>Encrypt it with <code>sops</code>:</p>
+<div class="highlight"><pre><span></span><code>sops<span class="w"> </span>-e<span class="w"> </span>-i<span class="w"> </span>./manifests/db-credentials.yaml
+</code></pre></div>
+<p>Then reference it in your <code>talconfig.yaml</code>:</p>
+<div class="highlight"><span class="filename">./talconfig.yaml</span><pre><span></span><code><span class="nt">inlineManifests</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">db-credentials</span>
+<span class="w">    </span><span class="nt">contents</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;@./manifests/db-credentials.yaml&quot;</span>
+</code></pre></div>
+<p>When running <code>talhelper genconfig</code>, the file will be decrypted on the fly and the cleartext manifest will be injected into the generated config.</p>
+<p>This also works with <code>machineFiles</code>:</p>
+<div class="highlight"><span class="filename">./talconfig.yaml</span><pre><span></span><code><span class="nt">nodes</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">hostname</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">worker1</span>
+<span class="w">    </span><span class="nt">machineFiles</span><span class="p">:</span>
+<span class="w">      </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">content</span><span class="p">:</span><span class="w"> </span><span class="s">&quot;@./secrets/auth.env&quot;</span>
+<span class="w">        </span><span class="nt">permissions</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">0o600</span>
+<span class="w">        </span><span class="nt">path</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">/var/etc/tailscale/auth.env</span>
+<span class="w">        </span><span class="nt">op</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">create</span>
+</code></pre></div>
 <h2 id="using-doppler-instead-of-sops">Using Doppler instead of SOPS</h2>
 <p>If you don't want to use <code>sops</code> as your secret management, you can use <a href="https://www.doppler.com/">Doppler</a> instead (or any other secret managers that can inject environment variables to the shell).</p>
 <p>Thanks to <a href="https://github.com/truxnell">@truxnell</a> for this genius idea.
