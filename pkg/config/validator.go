@@ -70,6 +70,8 @@ func checkSupportedTalosVersion(c TalhelperConfig, errs *Errors, warns *Warnings
 			"v1.10",
 			"v1.11",
 			"v1.12",
+			"v1.13",
+			"v1.14",
 		}
 		majorMinor := semver.MajorMinor(c.TalosVersion)
 		if !OfficialExtensions.Contains(c.TalosVersion) {
