@@ -882,6 +882,12 @@ func GenerateBridgeConfig(device *v1alpha1.Device) (*network.BridgeConfigV1Alpha
 		}
 	}
 
+	if device.DeviceBridge.BridgeVLAN.FilteringEnabled() {
+		bridgeConfig.BridgeVLAN = network.BridgeVLANConfig{
+			BridgeVLANFiltering: device.DeviceBridge.BridgeVLAN.BridgeVLANFiltering,
+		}
+	}
+
 	if err := addCommonLinkConfig(&bridgeConfig.CommonLinkConfig, device); err != nil {
 		return nil, err
 	}
