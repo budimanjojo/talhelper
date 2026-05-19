@@ -737,6 +737,12 @@ func GenerateVLANConfig(device *v1alpha1.Device, vlan *v1alpha1.Vlan) ([]cinterf
 			}
 		}
 
+		if vlan.VlanVIP != nil {
+			vipConfig := network.NewLayer2VIPConfigV1Alpha1(vlan.VIPConfig().IP())
+			vipConfig.LinkName = vlanInterface
+			docs = append(docs, vipConfig)
+		}
+
 		return docs, nil
 	}
 

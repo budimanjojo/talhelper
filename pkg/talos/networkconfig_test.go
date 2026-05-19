@@ -772,6 +772,8 @@ func TestGenerateVLANConfigBytesMultipleVLANs(t *testing.T) {
         vlans:
           - vlanId: 100
             dhcp: true
+            vip:
+              ip: 1.1.1.1
           - vlanId: 200
             dhcp: true
             dhcpOptions:
@@ -800,9 +802,10 @@ func TestGenerateVLANConfigBytesMultipleVLANs(t *testing.T) {
 	}
 
 	type check struct {
-		kind   string
-		name   string
-		vlanId uint16
+		kind    string
+		name    string
+		vlanId  uint16
+		vipLink string
 	}
 
 	expected := []check{
@@ -814,6 +817,11 @@ func TestGenerateVLANConfigBytesMultipleVLANs(t *testing.T) {
 		{
 			kind: "DHCPv4Config",
 			name: "eth0.100",
+		},
+		{
+			kind:    "Layer2VIPConfig",
+			name:    "1.1.1.1",
+			vipLink: "eth0.100",
 		},
 		{
 			kind:   "VLANConfig",
@@ -853,6 +861,16 @@ func TestGenerateVLANConfigBytesMultipleVLANs(t *testing.T) {
 			}
 			if doc.ParentLinkConfig != "eth0" {
 				t.Errorf("expected result[%d] parent name to be eth0, got %s", k, doc.ParentLinkConfig)
+			}
+		case *network.Layer2VIPConfigV1Alpha1:
+			if doc.MetaKind != expected[k].kind {
+				t.Errorf("expected result[%d] kind to be %s, got %s", k, expected[k].kind, doc.MetaKind)
+			}
+			if doc.MetaName != expected[k].name {
+				t.Errorf("expected result[%d] name to be %s, got %s", k, expected[k].name, doc.MetaName)
+			}
+			if doc.LinkName != expected[k].vipLink {
+				t.Errorf("expected result[%d] vipLink to be %s, got %s", k, expected[k].vipLink, doc.LinkName)
 			}
 		case *network.DHCPv4ConfigV1Alpha1:
 			if doc.MetaKind != expected[k].kind {
