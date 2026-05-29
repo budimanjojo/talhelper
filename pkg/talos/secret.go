@@ -6,7 +6,7 @@ import (
 )
 
 // NewSecretsBundleFromConfig creates secrets bundle using existing config.
-func NewSecretBundleFromCfg(clock secrets.Clock, cfg config.Provider) *secrets.Bundle {
+func NewSecretBundleFromCfg(clock secrets.Clock, cfg config.Provider) (*secrets.Bundle, error) {
 	return secrets.NewBundleFromConfig(clock, cfg)
 }
 

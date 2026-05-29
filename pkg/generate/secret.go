@@ -25,7 +25,10 @@ func GenerateSecret(cfg string) error {
 		if err != nil {
 			return err
 		}
-		s = talos.NewSecretBundleFromCfg(secrets.NewClock(), cfg)
+		s, err = talos.NewSecretBundleFromCfg(secrets.NewClock(), cfg)
+		if err != nil {
+			return err
+		}
 	}
 
 	err = secret.PrintSecretBundle(s)
