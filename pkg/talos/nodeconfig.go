@@ -41,8 +41,9 @@ func GenerateNodeConfig(node *config.Node, input *generate.Input, iFactory *conf
 	}
 
 	// https://github.com/budimanjojo/talhelper/issues/81
-	if input.Options.VersionContract.SecretboxEncryptionSupported() && input.Options.SecretsBundle.Secrets.AESCBCEncryptionSecret != "" {
+	if input.Options.VersionContract.SecretboxEncryptionSupported() && input.Options.SecretsBundle.Secrets.AESCBCEncryptionSecret != "" && !input.Options.VersionContract.MultidocKubernetesConfigSupported() {
 		slog.Debug("encryption with secretbox is supported and AESCBCEncryptionSecret is not empty")
+		//nolint:staticcheck
 		c.RawV1Alpha1().ClusterConfig.ClusterAESCBCEncryptionSecret = input.Options.SecretsBundle.Secrets.AESCBCEncryptionSecret
 	}
 
