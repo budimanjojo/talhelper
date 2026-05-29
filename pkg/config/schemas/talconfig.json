@@ -557,6 +557,9 @@
             "type": "string"
           },
           "type": "array"
+        },
+        "kubeNetworkPoliciesEnabled": {
+          "type": "boolean"
         }
       },
       "additionalProperties": false,
@@ -1235,6 +1238,9 @@
     },
     "Schematic": {
       "properties": {
+        "owner": {
+          "type": "string"
+        },
         "overlay": {
           "$ref": "#/$defs/Overlay"
         },
@@ -1388,6 +1394,7 @@
       "type": "object",
       "required": [
         "clusterName",
+        "kubernetesVersion",
         "endpoint",
         "nodes"
       ]
