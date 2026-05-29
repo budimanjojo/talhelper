@@ -13,6 +13,7 @@ import (
 func TestGenerateNodeConfig(t *testing.T) {
 	data := []byte(`clusterName: test
 talosVersion: v1.5.4
+kubernetesVersion: v1.34.0
 endpoint: https://1.1.1.1:6443
 nodes:
   - hostname: node1
