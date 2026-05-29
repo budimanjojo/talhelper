@@ -1,4 +1,6 @@
 clusterName: test-cluster
+talosVersion: v1.5.4
+kubernetesVersion: v1.27.0
 endpoint: https://192.168.200.10:6443
 additionalMachineCertSans:
   - example.org
