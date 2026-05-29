@@ -68,7 +68,7 @@ func ValidateConfigFromBytes(cfgFile []byte, mode string) error {
 		return err
 	}
 
-	warnings, err := cfg.Validate(m, validation.WithLocal(), validation.WithStrict())
+	warnings, err := cfg.ValidateAsClient(m, validation.WithLocal(), validation.WithStrict())
 	for _, w := range warnings {
 		fmt.Printf("%s\n", w)
 	}
