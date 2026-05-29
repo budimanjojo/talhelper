@@ -12,7 +12,7 @@ import (
 type TalhelperConfig struct {
 	ClusterName                    string                 `yaml:"clusterName" jsonschema:"required,description=Name of the cluster"`
 	TalosVersion                   string                 `yaml:"talosVersion,omitempty" jsonschema:"example=v1.5.4,description=Talos version to perform installation"`
-	KubernetesVersion              string                 `yaml:"kubernetesVersion,omitempty" jsonschema:"example=v1.27.0,description=Kubernetes version to use"`
+	KubernetesVersion              string                 `yaml:"kubernetesVersion" jsonschema:"required,example=v1.27.0,description=Kubernetes version to use"`
 	Endpoint                       string                 `yaml:"endpoint" jsonschema:"required,example=https://192.168.200.10:6443,description=Cluster's controlplane endpoint"`
 	Domain                         string                 `yaml:"domain,omitempty" jsonschema:"example=cluster.local,description=The domain to be used by Kubernetes DNS"`
 	AllowSchedulingOnMasters       bool                   `yaml:"allowSchedulingOnMasters,omitempty" jsonschema:"description=Whether to allow running workload on controlplane nodes"`

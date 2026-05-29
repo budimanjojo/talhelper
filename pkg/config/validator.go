@@ -32,6 +32,15 @@ func checkRequiredCfg(c TalhelperConfig, result *Errors) *Errors {
 		result.Append(e)
 	}
 
+	if c.KubernetesVersion == "" {
+		e := &Error{
+			Kind:  "KubernetesVersionRequired",
+			Field: getFieldYamlTag(c, "KubernetesVersion"),
+		}
+		e.Message = formatError(multierror.Append(fmt.Errorf("%q is required to be not empty", e.Field)))
+		result.Append(e)
+	}
+
 	if c.Endpoint == "" {
 		e := &Error{
 			Kind:  "EndpointRequired",

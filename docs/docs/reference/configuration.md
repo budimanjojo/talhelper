@@ -78,7 +78,7 @@ kubernetesVersion: v1.28.1
 ```
 </details></td>
 <td markdown="1" align="center">`""`</td>
-<td markdown="1" align="center">:negative_squared_cross_mark:</td>
+<td markdown="1" align="center">:white_check_mark:</td>
 </tr>
 
 <tr markdown="1">
