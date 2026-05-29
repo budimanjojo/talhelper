@@ -6,6 +6,7 @@ import (
 
 func TestValidateConfigFromBytes(t *testing.T) {
 	data := []byte(`cluster:
+  secretboxEncryptionSecret: asecret
   controlPlane:
     endpoint: https://1.1.1.1:6443
 machine:
@@ -13,6 +14,7 @@ machine:
 `)
 
 	dataC := []byte(`cluster:
+  secretboxEncryptionSecret: asecret
   controlPlane:
     endpoint: https://1.1.1.1:6443
 machine:
