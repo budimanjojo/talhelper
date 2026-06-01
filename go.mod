@@ -1,6 +1,6 @@
 module github.com/budimanjojo/talhelper/v3
 
-go 1.26.2
+go 1.26.3
 
 require (
 	github.com/Masterminds/sprig/v3 v3.3.0
@@ -17,7 +17,7 @@ require (
 	github.com/kylelemons/godebug v1.1.0
 	github.com/sabhiram/go-gitignore v0.0.0-20210923224102-525f6e181f06
 	github.com/siderolabs/go-pointer v1.0.1
-	github.com/siderolabs/image-factory v1.3.2
+	github.com/siderolabs/image-factory v1.3.3
 	github.com/siderolabs/net v0.4.0
 	github.com/siderolabs/talos/pkg/machinery v1.14.0-alpha.1
 	github.com/spf13/cobra v1.10.2
@@ -51,7 +51,7 @@ require (
 	github.com/GoogleCloudPlatform/opentelemetry-operations-go/exporter/metric v0.56.0 // indirect
 	github.com/GoogleCloudPlatform/opentelemetry-operations-go/internal/resourcemapping v0.56.0 // indirect
 	github.com/Masterminds/goutils v1.1.1 // indirect
-	github.com/Masterminds/semver/v3 v3.4.0 // indirect
+	github.com/Masterminds/semver/v3 v3.5.0 // indirect
 	github.com/ProtonMail/go-crypto v1.4.1 // indirect
 	github.com/antlr4-go/antlr/v4 v4.13.1 // indirect
 	github.com/aws/aws-sdk-go-v2 v1.41.7 // indirect
@@ -129,7 +129,7 @@ require (
 	github.com/mattn/go-isatty v0.0.22 // indirect
 	github.com/mdlayher/ethtool v0.6.0 // indirect
 	github.com/mdlayher/genetlink v1.4.0 // indirect
-	github.com/mdlayher/netlink v1.10.0 // indirect
+	github.com/mdlayher/netlink v1.11.1 // indirect
 	github.com/mdlayher/socket v0.6.0 // indirect
 	github.com/mitchellh/copystructure v1.2.0 // indirect
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
