@@ -10,6 +10,7 @@ require (
 	github.com/fatih/color v1.19.0
 	github.com/getsops/sops/v3 v3.13.1
 	github.com/gookit/validate v1.6.0
+	github.com/gookit/validate/v2 v2.0.1
 	github.com/hashicorp/go-multierror v1.1.1
 	github.com/hexops/gotextdiff v1.0.3
 	github.com/invopop/jsonschema v0.14.0
