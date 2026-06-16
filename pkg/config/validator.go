@@ -12,7 +12,7 @@ import (
 	"github.com/budimanjojo/talhelper/v3/pkg/config/schemas/versiontags"
 	"github.com/budimanjojo/talhelper/v3/pkg/templating"
 	"github.com/distribution/reference"
-	"github.com/gookit/validate"
+	"github.com/gookit/validate/v2"
 	"github.com/hashicorp/go-multierror"
 	"github.com/siderolabs/net"
 	"github.com/siderolabs/talos/pkg/machinery/api/machine"
