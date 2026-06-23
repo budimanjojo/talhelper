@@ -1,6 +1,7 @@
 package talos
 
 import (
+	"bytes"
 	"fmt"
 	"log/slog"
 
@@ -41,7 +42,10 @@ func NewClusterInput(c *config.TalhelperConfig, secretFile string, mode string) 
 			return nil, err
 		}
 
-		err = yaml.Unmarshal(decrypted, &sb)
+		dec := yaml.NewDecoder(bytes.NewReader(decrypted))
+		dec.KnownFields(true)
+
+		err = dec.Decode(&sb)
 		if err != nil {
 			return nil, err
 		}
