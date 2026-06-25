@@ -4,7 +4,7 @@
 		"dockerfile": "Dockerfile"
 	},
 	"features": {
-		"ghcr.io/devcontainers/features/docker-in-docker:3": {}
+		"ghcr.io/devcontainers/features/docker-in-docker:4": {}
 	},
 	"remoteUser": "vscode",
 	"containerUser": "vscode",
