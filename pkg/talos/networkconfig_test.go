@@ -13,6 +13,7 @@ import (
 	"github.com/siderolabs/talos/pkg/machinery/cel/celenv"
 	cinterfaces "github.com/siderolabs/talos/pkg/machinery/config/config"
 	"github.com/siderolabs/talos/pkg/machinery/config/configloader"
+	"github.com/siderolabs/talos/pkg/machinery/config/types/meta"
 	"github.com/siderolabs/talos/pkg/machinery/config/types/network"
 	v1alpha1 "github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1"
 	"github.com/siderolabs/talos/pkg/machinery/nethelpers"
@@ -87,7 +88,7 @@ func TestGenerateNodeRuleConfig(t *testing.T) {
 	expectedRule1Ingress := network.IngressConfig{
 		{
 			Subnet: netip.MustParsePrefix("172.20.0.0/24"),
-			Except: network.Prefix{Prefix: netip.MustParsePrefix("172.20.0.1/32")},
+			Except: meta.Prefix{Prefix: netip.MustParsePrefix("172.20.0.1/32")},
 		},
 	}
 	expectedRule2Name := "etcd-ingress"
