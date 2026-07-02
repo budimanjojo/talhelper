@@ -12,6 +12,7 @@ import (
 	"github.com/siderolabs/talos/pkg/machinery/cel"
 	"github.com/siderolabs/talos/pkg/machinery/cel/celenv"
 	cinterfaces "github.com/siderolabs/talos/pkg/machinery/config/config"
+	"github.com/siderolabs/talos/pkg/machinery/config/types/meta"
 	"github.com/siderolabs/talos/pkg/machinery/config/types/network"
 	"github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1"
 	"github.com/siderolabs/talos/pkg/machinery/nethelpers"
@@ -35,7 +36,7 @@ func GenerateResolverConfig(nameservers []string, disableSearchDomain bool) *net
 
 	ns := []network.NameserverConfig{}
 	for _, n := range nameservers {
-		ns = append(ns, network.NameserverConfig{Address: network.Addr{Addr: netip.MustParseAddr(n)}})
+		ns = append(ns, network.NameserverConfig{Address: meta.Addr{Addr: netip.MustParseAddr(n)}})
 	}
 
 	result.ResolverNameservers = ns
@@ -811,7 +812,7 @@ func GenerateWireguardConfig(device *v1alpha1.Device) (*network.WireguardConfigV
 			if peer.WireguardEndpoint != "" {
 				addrPort, err := netip.ParseAddrPort(peer.WireguardEndpoint)
 				if err == nil {
-					wgPeer.WireguardEndpoint = network.AddrPort{AddrPort: addrPort}
+					wgPeer.WireguardEndpoint = meta.AddrPort{AddrPort: addrPort}
 				}
 			}
 
@@ -823,7 +824,7 @@ func GenerateWireguardConfig(device *v1alpha1.Device) (*network.WireguardConfigV
 				for _, allowedIP := range peer.WireguardAllowedIPs {
 					prefix, err := netip.ParsePrefix(allowedIP)
 					if err == nil {
-						wgPeer.WireguardAllowedIPs = append(wgPeer.WireguardAllowedIPs, network.Prefix{Prefix: prefix})
+						wgPeer.WireguardAllowedIPs = append(wgPeer.WireguardAllowedIPs, meta.Prefix{Prefix: prefix})
 					}
 				}
 			}
@@ -955,7 +956,7 @@ func buildRouteConfig(route interface {
 		// and let Talos infer it from the gateway's address family
 		isDefaultRoute := (prefix.String() == "0.0.0.0/0" || prefix.String() == "::/0")
 		if !isDefaultRoute {
-			routeConfig.RouteDestination = network.Prefix{Prefix: prefix}
+			routeConfig.RouteDestination = meta.Prefix{Prefix: prefix}
 		}
 	}
 
@@ -964,7 +965,7 @@ func buildRouteConfig(route interface {
 		if err != nil {
 			return nil, err
 		}
-		routeConfig.RouteGateway = network.Addr{Addr: gateway}
+		routeConfig.RouteGateway = meta.Addr{Addr: gateway}
 	}
 
 	if route.Source() != "" {
@@ -972,7 +973,7 @@ func buildRouteConfig(route interface {
 		if err != nil {
 			return nil, err
 		}
-		routeConfig.RouteSource = network.Addr{Addr: source}
+		routeConfig.RouteSource = meta.Addr{Addr: source}
 	}
 
 	if route.Metric() > 0 {
