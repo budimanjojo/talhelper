@@ -11,7 +11,7 @@ cluster:
 ---
 apiVersion: v1alpha1
 kind: HostnameConfig
-auto: "off"
+auto: 'off'
 ---
 apiVersion: v1alpha1
 kind: NetworkDefaultActionConfig
