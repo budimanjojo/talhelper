@@ -96,10 +96,6 @@ func parseOptions(c *config.TalhelperConfig, versionContract *tconfig.VersionCon
 		opts = append(opts, generate.WithAllowSchedulingOnControlPlanes(true))
 	}
 
-	if c.CNIConfig != nil {
-		opts = append(opts, generate.WithClusterCNIConfig(c.CNIConfig))
-	}
-
 	if c.Domain != "" {
 		opts = append(opts, generate.WithDNSDomain(c.Domain))
 	}
