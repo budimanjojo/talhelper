@@ -32,7 +32,7 @@ func DecryptYamlWithSops(filePath string) ([]byte, error) {
 		return data, nil
 	}
 
-	var m *sopsFile
+	var m sopsFile
 
 	err = yaml.Unmarshal(data, &m)
 	if err != nil {
