@@ -55,3 +55,18 @@ sops:
 		t.Errorf("got %t %t, want false true", ans1, ans2)
 	}
 }
+
+func TestIsSopsEncryptedCommentOnly(t *testing.T) {
+	// comment-only YAML unmarshals to a nil map; isEncrypted() must not panic
+	var m sopsFile
+	data := `# just a comment`
+
+	err := yaml.Unmarshal([]byte(data), &m)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	if m.isEncrypted() != false {
+		t.Errorf("got true, want false")
+	}
+}
