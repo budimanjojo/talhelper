@@ -16,6 +16,7 @@ hash=$(nix-prefetch-url --quiet --unpack https://github.com/budimanjojo/talhelpe
 SHA256=$(nix hash convert --to sri --hash-algo sha256 "${hash}")
 
 setKV version "${LAST_COMMIT}"
+setKV rev "${LAST_COMMIT}"
 setKV sha256 "${SHA256}"
 setKV vendorHash "" # so that the build will fail and provide the actual hash
 
