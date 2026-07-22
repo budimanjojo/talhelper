@@ -18,6 +18,9 @@ func AddMultiDocs(node *config.Node, mode string, corecfg []byte, vc *tconfig.Ve
 	if err != nil {
 		return nil, err
 	}
+	if extradocs == nil {
+		return corecfg, nil
+	}
 
 	// TODO: A better way is to append them as documents and use upstream API
 	// But the problem is upstream Generate API is generating not just the core config
