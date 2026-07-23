@@ -1,19 +1,19 @@
 {
-    "version": "3.1.14",
+    "version": "3.1.15",
     "architecture": {
         "64bit": {
-            "url": "https://github.com/budimanjojo/talhelper/releases/download/v3.1.14/talhelper_windows_amd64.tar.gz",
+            "url": "https://github.com/budimanjojo/talhelper/releases/download/v3.1.15/talhelper_windows_amd64.tar.gz",
             "bin": [
                 "talhelper.exe"
             ],
-            "hash": "85952d65563fc5cd7b6c652d0949e359f123e283dc9819f9038d395eec900840"
+            "hash": "d5673d98ab979fd5203f7679e05bd0737c1c0f71cb46c7c9da665de81eef5dd7"
         },
         "arm64": {
-            "url": "https://github.com/budimanjojo/talhelper/releases/download/v3.1.14/talhelper_windows_arm64.tar.gz",
+            "url": "https://github.com/budimanjojo/talhelper/releases/download/v3.1.15/talhelper_windows_arm64.tar.gz",
             "bin": [
                 "talhelper.exe"
             ],
-            "hash": "2e9e9676ed35cdc27ee866a089371b7daf3972a3ce232e3af9ba75a463f9480c"
+            "hash": "4ca27db608891a2d65bc097d77b144b0ff45f05ee4552c81359109b212def554"
         }
     },
     "homepage": "https://github.com/budimanjojo/talhelper",
