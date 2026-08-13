@@ -106,7 +106,7 @@ func GenerateConfig(c *config.TalhelperConfig, dryRun bool, outDir, secretFile, 
 
 		if len(node.Patches) != 0 {
 			slog.Debug(fmt.Sprintf("applying node specific patches to %s", node.Hostname))
-			cfg, err = patcher.PatchesPatcher(node.Patches, cfg)
+			cfg, err = patcher.PatchesPatcher(node.Patches, cfg, c)
 			if err != nil {
 				return err
 			}
@@ -114,7 +114,7 @@ func GenerateConfig(c *config.TalhelperConfig, dryRun bool, outDir, secretFile, 
 
 		if len(c.Patches) > 0 {
 			slog.Debug(fmt.Sprintf("applying global patches to %s", node.Hostname))
-			cfg, err = patcher.PatchesPatcher(c.Patches, cfg)
+			cfg, err = patcher.PatchesPatcher(c.Patches, cfg, c)
 			if err != nil {
 				return err
 			}
@@ -122,7 +122,7 @@ func GenerateConfig(c *config.TalhelperConfig, dryRun bool, outDir, secretFile, 
 
 		if len(node.ExtraManifests) > 0 {
 			slog.Debug(fmt.Sprintf("generating extra manifests for %s", node.Hostname))
-			content, err := combineExtraManifests(node.ExtraManifests, cfg)
+			content, err := combineExtraManifests(node.ExtraManifests, cfg, c)
 			if err != nil {
 				return err
 			}
@@ -210,12 +210,13 @@ func getFileContentByte(path string) ([]byte, error) {
 // combineExtraManifests takes list of filepaths, parse go template using data from
 // main config manifest, combines them into a single file in bytes with `---\n` prepended.
 // It also returns an error, if any
-func combineExtraManifests(extraFiles []string, templateData []byte) ([]byte, error) {
+func combineExtraManifests(extraFiles []string, machineConfig []byte, talconfig *config.TalhelperConfig) ([]byte, error) {
 	var result [][]byte
-	dataCfg, err := talos.LoadTalosConfig(templateData)
+	dataCfg, err := talos.LoadTalosConfig(machineConfig)
 	if err != nil {
 		return nil, err
 	}
+	templateData := patcher.TemplateData{Config: dataCfg.RawV1Alpha1(), TalConfig: talconfig}
 
 	for _, file := range extraFiles {
 		content, err := getFileContentByte(strings.TrimPrefix(file, "@"))
@@ -223,7 +224,7 @@ func combineExtraManifests(extraFiles []string, templateData []byte) ([]byte, er
 			return nil, err
 		}
 
-		content, err = templating.RenderTemplate[[]byte](string(content), dataCfg.RawV1Alpha1())
+		content, err = templating.RenderTemplate[[]byte](string(content), templateData)
 		if err != nil {
 			return nil, err
 		}

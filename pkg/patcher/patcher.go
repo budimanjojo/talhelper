@@ -8,13 +8,25 @@ import (
 	"strings"
 	"unicode"
 
+	"github.com/budimanjojo/talhelper/v3/pkg/config"
 	"github.com/budimanjojo/talhelper/v3/pkg/decrypt"
 	"github.com/budimanjojo/talhelper/v3/pkg/substitute"
 	"github.com/budimanjojo/talhelper/v3/pkg/templating"
 	"github.com/siderolabs/talos/pkg/machinery/config/configloader"
 	"github.com/siderolabs/talos/pkg/machinery/config/configpatcher"
+	"github.com/siderolabs/talos/pkg/machinery/config/types/v1alpha1"
 	"gopkg.in/yaml.v3"
 )
+
+// TemplateData is the data passed to templates rendered from external patch
+// and manifest files. It embeds the rendered Talos `*v1alpha1.Config` so
+// existing templates can keep referencing `.MachineConfig`/`.ClusterConfig`
+// via field promotion, and adds `.TalConfig` which exposes the source
+// `talconfig.yaml` (e.g. `.TalConfig.Nodes` to reach every node's IP address).
+type TemplateData struct {
+	*v1alpha1.Config
+	TalConfig *config.TalhelperConfig
+}
 
 // YAMLInlinePatcher applies JSON7396 patches into target and returns it.
 // It also returns an error, if any.
@@ -50,17 +62,18 @@ func YAMLPatcher(patch interface{}, target []byte) ([]byte, error) {
 
 // PatchesPatcher applies JSON6902 or StrategicMergePatch patches into target and
 // returns it. It also returns an error, if any.
-func PatchesPatcher(patches []string, target []byte) ([]byte, error) {
+func PatchesPatcher(patches []string, target []byte, talconfig *config.TalhelperConfig) ([]byte, error) {
 	var (
 		contents    []byte
 		err         error
 		substituted []string
 	)
 
-	templateData, err := configloader.NewFromBytes(target)
+	provider, err := configloader.NewFromBytes(target)
 	if err != nil {
 		return nil, err
 	}
+	templateData := TemplateData{Config: provider.RawV1Alpha1(), TalConfig: talconfig}
 
 	for _, patchString := range patches {
 		if strings.HasPrefix(patchString, "@") {
@@ -89,7 +102,7 @@ func PatchesPatcher(patches []string, target []byte) ([]byte, error) {
 			// templating first before substitution so it doesn't breaks templating with variables
 			// like {{ $var }}. And it will only work for patches in a file too because substitution is
 			// being done in config file first, there's nothing I can do about it
-			p, err := templating.RenderTemplate[[]byte](string(contents), templateData.RawV1Alpha1())
+			p, err := templating.RenderTemplate[[]byte](string(contents), templateData)
 			if err != nil {
 				return nil, err
 			}
@@ -101,7 +114,7 @@ func PatchesPatcher(patches []string, target []byte) ([]byte, error) {
 
 			substituted = append(substituted, string(p))
 		} else {
-			patchString, err = templating.RenderTemplate[string](patchString, templateData.RawV1Alpha1())
+			patchString, err = templating.RenderTemplate[string](patchString, templateData)
 			if err != nil {
 				return nil, err
 			}

@@ -31,6 +31,7 @@ patches:
         match: disk.transport == "sata"
       minSize: 100GiB
   - "@./uservolumeconfig3.yaml"
+  - "@./firewall-patch.yaml"
 nodes:
   - hostname: kmaster1
     extensionServices:
