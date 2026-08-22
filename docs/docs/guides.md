@@ -478,6 +478,43 @@ spec:
 
 A full example is available [here](https://github.com/solidDoWant/infra-mk3/blob/master/cluster/gitops/system-controllers/system-upgrade-controller/plans/talos.yaml).
 
+## Referencing `talconfig.yaml` from templates (`.TalConfig`)
+
+Templates in `patches` and `extraManifests` render against the generated Talos
+machine config, exposed as `.MachineConfig` and `.ClusterConfig`. In addition,
+`.TalConfig` exposes the parsed `talconfig.yaml` itself, so you can reach values
+that don't end up in the machine config,  most notably every node's IP
+address (`.TalConfig.Nodes`, which is not otherwise reachable through
+`.MachineConfig`/`.ClusterConfig`).
+
+For example, to build a Talos ingress firewall rule that allows all cluster
+nodes, using each node's `ipAddress` from `talconfig.yaml`:
+
+```yaml
+# firewall-patch.yaml, referenced from a patches list as "@./firewall-patch.yaml"
+apiVersion: v1alpha1
+kind: NetworkRuleConfig
+name: allow-cluster-nodes
+portSelector:
+  ports:
+    - 6443        # kube-apiserver
+    - 2379-2380   # etcd
+    - 10250       # kubelet
+    - 50000       # apid
+    - 50001       # trustd
+  protocol: tcp
+ingress:
+{{- range .TalConfig.Nodes }}
+{{- range .GetIPAddresses }}
+  - subnet: {{ . }}/32
+{{- end }}
+{{- end }}
+```
+
+`.GetIPAddresses` splits the comma-separated `ipAddress` field into individual
+addresses. A complete example lives in
+[`example/firewall-patch.yaml`](https://github.com/budimanjojo/talhelper/blob/master/example/firewall-patch.yaml).
+
 ## Editing `talconfig.yaml` file
 
 If you're using a text editor with `yaml` LSP support, you can use `talhelper genschema` command to generate a `talconfig.json`.
