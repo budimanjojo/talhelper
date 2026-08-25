@@ -84,6 +84,35 @@ default: default value
 	}
 }
 
+// TestLoadEnvMultiline covers a yaml env file with a multiline block scalar
+// value (e.g. a PEM certificate). godotenv can't parse a yaml block scalar, so
+// LoadEnv falls back to parsing the file as yaml. Before the fallback existed,
+// the godotenv error was swallowed and none of the variables got loaded.
+func TestLoadEnvMultiline(t *testing.T) {
+	file := `env1: value1
+myCA: |
+  -----BEGIN CERTIFICATE-----
+  MIIabc123def456
+  -----END CERTIFICATE-----
+env2: value2
+`
+	expected := map[string]string{
+		"env1": "value1",
+		"env2": "value2",
+		"myCA": "-----BEGIN CERTIFICATE-----\nMIIabc123def456\n-----END CERTIFICATE-----\n",
+	}
+
+	if err := LoadEnv([]byte(file)); err != nil {
+		t.Fatal(err)
+	}
+
+	for k, v := range expected {
+		if result, _ := os.LookupEnv(k); result != v {
+			t.Errorf("%s: got %q, want %q", k, result, v)
+		}
+	}
+}
+
 func TestComplexCommentStrip(t *testing.T) {
 	file := `a1: '123!@# not a comment'
 a2: |

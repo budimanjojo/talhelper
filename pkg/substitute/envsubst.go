@@ -42,12 +42,23 @@ func LoadEnvFromFiles(files []string) error {
 	return nil
 }
 
-// LoadEnv reads yaml data and sets environment variable named
-// by the key. It returns an error, if any.
+// LoadEnv reads env data and sets environment variable named by the key.
+// It first tries to parse the data as `dotenv` (`KEY=value`), and falls back
+// to parsing it as `yaml` (`KEY: value`) when that fails. The `yaml` fallback
+// is what makes multiline values such as PEM certificates work, since
+// `godotenv` can't parse a yaml block scalar (`KEY: |`). It returns an error,
+// if any.
 func LoadEnv(file []byte) error {
 	mFile, err := godotenv.Unmarshal(string(file))
 	if err != nil {
-		return nil
+		// `godotenv` chokes on yaml multiline values (block scalars), so retry
+		// parsing the whole file as yaml before giving up. `map[string]string`
+		// keeps values as-is and avoids yaml type coercion (e.g. `0123`, `1.10`).
+		var yFile map[string]string
+		if yErr := yaml.Unmarshal(file, &yFile); yErr != nil {
+			return fmt.Errorf("failed to parse env as dotenv (%w) or yaml (%s)", err, yErr)
+		}
+		mFile = yFile
 	}
 
 	for k, v := range mFile {

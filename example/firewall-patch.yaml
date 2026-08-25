@@ -1,0 +1,36 @@
+# Talos ingress firewall, built dynamically from the node IP addresses defined
+# in talconfig.yaml. Reference this file from a `patches:` list (global or
+# per-node), e.g.:
+#
+#   patches:
+#     - "@./firewall-patch.yaml"
+#
+# The `.TalConfig` object exposes the parsed talconfig.yaml, so `.TalConfig.Nodes`
+# lets you reach every node. `.GetIPAddresses` splits the comma separated
+# `ipAddress` field into individual addresses.
+#
+# NOTE: `NetworkDefaultActionConfig: ingress: block` drops every ingress packet
+# that isn't explicitly allowed below (including from your workstation). Make
+# sure the allow rule covers the hosts you manage the cluster from before
+# rolling this out.
+apiVersion: v1alpha1
+kind: NetworkDefaultActionConfig
+ingress: block
+---
+apiVersion: v1alpha1
+kind: NetworkRuleConfig
+name: allow-cluster-nodes
+portSelector:
+  ports:
+    - 6443        # kube-apiserver
+    - 2379-2380   # etcd client/peer
+    - 10250       # kubelet
+    - 50000       # apid
+    - 50001       # trustd
+  protocol: tcp
+ingress:
+{{- range .TalConfig.Nodes }}
+{{- range .GetIPAddresses }}
+  - subnet: {{ . }}/32
+{{- end }}
+{{- end }}

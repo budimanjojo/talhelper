@@ -112,7 +112,7 @@ version: v1alpha1
 		t.Fatal(err)
 	}
 
-	result, err := PatchesPatcher(patchList, []byte(file))
+	result, err := PatchesPatcher(patchList, []byte(file), nil)
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -136,7 +136,7 @@ func TestPatchesPatherTemplating(t *testing.T) {
 			t.Fatal(err)
 		}
 
-		result, err := PatchesPatcher([]string{"@./testdata/" + d + "_input.yaml"}, base)
+		result, err := PatchesPatcher([]string{"@./testdata/" + d + "_input.yaml"}, base, nil)
 		if err != nil {
 			t.Fatal(err)
 		}
