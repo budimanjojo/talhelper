@@ -1,3 +1,7 @@
+> [!NOTE]
+> This project is now archived and abandoned.
+> I suggest people who depend on this tool to migrate to other similar tools like [topf](https://github.com/postfinance/topf) or [talstomize](https://github.com/mirceanton/talstomize)
+
 <div align="center">
   <img align="center" width="100" height="100" src="docs/docs/img/logo.svg">
   <h3 align="center">Talhelper</h3>
